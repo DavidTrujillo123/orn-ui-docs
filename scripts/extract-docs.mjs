@@ -1,21 +1,13 @@
 #!/usr/bin/env node
 /**
- * Extractor de documentación para orn-ui-docs.
+ * Genera src/data/components.json y tokens.json.
  *
- * 1. Corre react-docgen-typescript sobre node_modules/orn-ui/src (el paquete
- *    publica su código fuente en `files`, no solo el build) para sacar
- *    tablas de props reales. Lee de node_modules, no de una ruta relativa al
- *    repo hermano: así el extractor funciona igual con `file:` link local o
- *    con la versión publicada en npm — no le importa cómo se resolvió la
- *    dependencia.
- * 2. Lee demos/*.demo.tsx (propios de este repo, tipados contra el mismo
- *    orn-ui vía tsconfig.demos.json) y extrae el bloque entre
- *    `// #region demo` y `// #endregion demo` como snippet: el snippet que
- *    se muestra es código que además se typecheckea en el build
- *    (`pnpm run typecheck:demos`), no prosa desconectada del código real.
- * 3. Exporta los tokens numéricos a tokens.json para la página de tokens.
+ * Props: react-docgen-typescript sobre node_modules/orn-ui/src. Se lee de
+ * node_modules y no del repo hermano para que funcione igual con `file:`
+ * local o con el paquete publicado.
  *
- * Salida: src/data/components.json, src/data/tokens.json
+ * Snippets: el bloque entre `// #region demo` y `// #endregion demo` de
+ * cada demos/*.demo.tsx, que además se typecheckea en el build.
  */
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -36,14 +28,9 @@ const CATEGORIES = {
   organisms: 'Organism',
 };
 
-// Qué exports PRIMARIOS del barrel de orn-ui tienen página propia en el
-// sitio, y en qué orden. category/file ya NO se duplican a mano acá: se
-// leen de registry/manifest.json (generado por orn-ui desde sus propios
-// barrels, ver packages/ui/scripts/lib/components.mjs) — así esta lista no
-// puede desincronizarse de qué archivo respalda a qué componente. Lo único
-// que sigue siendo una decisión editorial de este repo es CUÁLES exports
-// entran (p.ej. AlertProvider/ToastProvider no tienen demo propio, se
-// documentan a través de Alert/Toast) y las excepciones de demo compartido.
+// Qué exports tienen página propia y en qué orden. category/file salen de
+// registry/manifest.json; acá solo se decide CUÁLES entran (AlertProvider y
+// ToastProvider, por ejemplo, se documentan dentro de Alert/Toast).
 const DOC_PAGES = [
   'Title', 'Button', 'IconButton', 'Input', 'Checkbox', 'Badge', 'Card', 'Divider',
   'Avatar', 'Image', 'Spinner', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
@@ -52,19 +39,14 @@ const DOC_PAGES = [
   'DatePicker', 'DateField', 'Wizard',
 ];
 
-// DateField y DatePicker son archivos de FUENTE distintos pero comparten un
-// solo demo (demos/DatePicker.demo.tsx) con variants para ambos, filtradas
-// por tag JSX en filterVariantsForComponent(). Esto es una decisión de
-// contenido de este repo, no algo que el registry de orn-ui pueda derivar.
+// Archivos fuente distintos que comparten un mismo demo. Las variantes se
+// separan por tag JSX en filterVariantsForComponent().
 const DEMO_FILE_OVERRIDES = { DateField: 'DatePicker' };
 
 /**
- * Reconstruye la forma [name, category, file, demoFileOverride?] que el
- * resto del script espera, a partir de registry/manifest.json + DOC_PAGES.
- * Expande además los "siblings" PascalCase de un mismo archivo (Title ->
- * Subtitle/Body/Caption, las 4 variantes de Text.tsx) como páginas propias;
- * siblings que son hooks o constantes (useAlert, DEFAULT_MONTH_NAMES, ...)
- * se descartan — no son "componentes" documentables.
+ * [name, category, file, demoFileOverride?] a partir del manifest y
+ * DOC_PAGES. Expande los siblings PascalCase de un mismo archivo (Text.tsx
+ * -> Title/Subtitle/Body/Caption) y descarta hooks y constantes.
  */
 function buildComponentList() {
   const manifestPath = path.join(REGISTRY_DIR, 'manifest.json');
@@ -99,8 +81,7 @@ function buildComponentList() {
 
 const COMPONENTS = buildComponentList();
 
-/** registry/<slug>.json ya calculado por orn-ui: deps + tamaño del cierre
- * transitivo, para la sección "Installation" de cada página de componente. */
+/** Deps y tamaño del cierre transitivo, para la sección "Installation". */
 function loadRegistryEntry(slug) {
   const entryPath = path.join(REGISTRY_DIR, `${slug}.json`);
   if (!fs.existsSync(entryPath)) return null;
@@ -114,25 +95,17 @@ function loadRegistryEntry(slug) {
 const parserOptions = {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
-  // Mantiene solo props declaradas en orn-ui/src (nuestras interfaces),
-  // descarta las heredadas de ViewProps/TextProps/etc de React Native.
-  // orn-ui vive DENTRO de node_modules (paquete instalado vía file: link),
-  // así que filtrar por "no node_modules" —como hacen la mayoría de los
-  // ejemplos de react-docgen-typescript— excluiría todo, no solo lo ajeno.
-  // `parent.fileName` viene relativo (a veces a cwd, a veces a su padre),
-  // así que se compara por substring en vez de path absoluto.
+  // Solo props propias, sin las heredadas de ViewProps/TextProps. No sirve
+  // el filtro habitual por "no node_modules": orn-ui vive dentro de
+  // node_modules y quedaría excluido también. Se compara por substring
+  // porque `parent.fileName` llega como ruta relativa.
   propFilter: (prop) => !prop.parent || prop.parent.fileName.includes('orn-ui/src/'),
 };
 
 /**
- * Fallback: lee la interfaz `<Componente>Props` directamente del AST de
- * TypeScript.
- *
- * react-docgen-typescript detecta componentes por heurística y en algún
- * archivo devuelve cero props aunque la interfaz esté ahí (le pasa con
- * DatePicker). Antes que dejar una tabla vacía en la doc —o peor, escribirla
- * a mano y que se desincronice— se lee la interfaz real. Es sintáctico (sin
- * type checker), suficiente para nombre, opcionalidad, tipo y JSDoc.
+ * Fallback por AST cuando react-docgen-typescript devuelve cero props pese
+ * a existir la interfaz (le pasa con DatePicker). Es puramente sintáctico:
+ * alcanza para nombre, opcionalidad, tipo y JSDoc.
  */
 function extractPropsFromInterface(filePath, componentName) {
   const source = ts.createSourceFile(
@@ -200,10 +173,8 @@ function dedent(text) {
 }
 
 /**
- * Recorre `source` desde `start` (que debe apuntar a un carácter de apertura)
- * y devuelve el índice del cierre balanceado. Ignora paréntesis/llaves que
- * aparezcan dentro de strings, template literals o comentarios: un
- * `'}'` dentro de un texto no debe cerrar el objeto.
+ * Índice del cierre balanceado para el delimitador abierto en `start`.
+ * Ignora los que aparecen dentro de strings, templates o comentarios.
  */
 function matchDelimiter(source, start) {
   const OPEN = { '(': ')', '{': '}', '[': ']' };
@@ -313,13 +284,6 @@ function findTopLevelEnd(source, start) {
 }
 
 /**
- * Extrae una entrada de código por VARIANTE, no un único snippet por
- * componente. Los demos declaran `const variants: VariantDef[] = [{ label,
- * content }]`, así que cada objeto del array es un ejemplo autónomo con su
- * propio rótulo — que es exactamente lo que la página del componente quiere
- * mostrar al lado de cada bloque de código.
- */
-/**
  * Cuando un demo file es compartido entre varios componentes (`demoFileOverride`,
  * p.ej. Text.tsx → Title/Subtitle/Body/Caption, o DatePicker.tsx → DatePicker/
  * DateField), el array `variants` trae ejemplos de TODOS ellos. Sin filtrar,
@@ -364,9 +328,7 @@ function extractVariants(componentName, demoFileOverride) {
     const labelMatch = obj.match(/label:\s*(['"`])([\s\S]*?)\1/);
     const contentIndex = obj.indexOf('content:');
     if (labelMatch && contentIndex !== -1) {
-      // El valor de `content` puede venir entre paréntesis (JSX multilínea)
-      // o suelto (JSX de una línea); en el segundo caso termina en la coma
-      // de nivel superior del objeto, o en su cierre.
+      // `content` puede venir entre paréntesis (JSX multilínea) o suelto.
       const after = obj.slice(contentIndex + 'content:'.length);
       const firstNonSpace = after.search(/\S/);
       const open = contentIndex + 'content:'.length + firstNonSpace;
@@ -384,11 +346,8 @@ function extractVariants(componentName, demoFileOverride) {
   return {
     snippet,
     variants: filterVariantsForComponent(variants, componentName),
-    // Lista SIN filtrar (todas las variantes del demo file compartido, no
-    // solo las del propio componentName) — la usan las páginas de grupo
-    // (p.ej. /typography) que muestran los siblings de un mismo archivo
-    // fuente juntos, en vez de repetirla filtrada por cada página
-    // individual. Ver buildComponents().
+    // Sin filtrar por componente: la usan las páginas de grupo (/typography)
+    // para mostrar juntos todos los siblings del archivo.
     groupVariants: variants,
   };
 }
@@ -409,10 +368,7 @@ function buildComponents() {
       groupVariants,
       mediaSlug: slug,
       registry: loadRegistryEntry(slug),
-      // Archivo fuente sin extensión (p.ej. "Text" para Title/Subtitle/Body/
-      // Caption). Permite agrupar en la grilla de home los "siblings" que
-      // Astro expande como páginas propias pero son, en los hechos, un solo
-      // componente con variantes de texto — ver HomeContent.astro.
+      // Archivo fuente sin extensión. Permite agrupar siblings en la nav.
       sourceFile: path.basename(file, path.extname(file)),
     });
   }

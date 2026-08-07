@@ -1,9 +1,6 @@
-// Buscador global (Cmd/Ctrl+K). Todo por delegación de eventos en
-// `document` — con View Transitions activas, el header y el botón que
-// abre el modal se re-renderizan en cada navegación (no persisten), pero
-// `document` sí, así que delegar evita tener que re-bindear nada en
-// 'astro:page-load'. El índice se fetchea una sola vez y se cachea en
-// memoria — cero requests por tecla.
+// Buscador global (Cmd/Ctrl+K). Eventos delegados en `document` para
+// sobrevivir a las View Transitions sin re-bindear. El índice se descarga
+// una sola vez y queda cacheado en memoria.
 (function () {
   var indexPromise = null;
   function getIndex() {
@@ -49,10 +46,8 @@
   }
 
   function hrefFor(slug) {
-    // Trailing slash SIEMPRE — el resto del sitio (Sidebar, nav, home
-    // grid) linkea con "/components/button/", no "/components/button".
-    // Sin esto, comparar contra location.pathname para marcar el item
-    // activo del sidebar fallaba después de navegar desde acá.
+    // Trailing slash obligatorio: el resto del sitio enlaza así, y sin él
+    // el sidebar no reconoce la página como activa tras navegar desde aquí.
     var esPrefix = document.documentElement.lang === 'es' ? '/es' : '';
     return esPrefix + '/' + slug + '/';
   }
@@ -146,9 +141,7 @@
     if (e.key === 'Enter') { e.preventDefault(); go(activeIndex); }
   });
 
-  // Si se navega (view transitions) con el modal abierto, ciérralo — el
-  // resultado clickeado ya dispara la navegación por su cuenta; esto
-  // cubre el caso de Cmd/Ctrl+click a otra ruta mientras seguía abierto.
+  // Cierra el modal si se navega con él abierto.
   document.addEventListener('astro:before-preparation', function () {
     if (isOpen()) close();
   });

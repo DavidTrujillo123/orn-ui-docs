@@ -10,15 +10,11 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Los 4 miembros viven en el mismo archivo fuente (Text.tsx) — se agrupan
-// acá por sourceFile en vez de hardcodear los 4 nombres, mismo criterio
-// que HomeContent.astro usa para armar el tile "Typography".
+// Se agrupan por sourceFile en vez de hardcodear los 4 nombres.
 const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
 const members = all.filter((c: any) => c.sourceFile === 'Text');
 const primary = members.find((m: any) => m.registry) ?? members[0];
-// groupVariants es la lista SIN filtrar del demo file compartido — las 6
-// variantes reales (Title, Subtitle, Body, Caption, align="center",
-// custom color), no una reconstruida a mano.
+// groupVariants: las variantes del demo compartido, sin filtrar por componente.
 const allVariants: { label: string; code: string }[] = primary?.groupVariants ?? [];
 
 const usageKeys: Record<string, string> = {
@@ -28,16 +24,13 @@ const usageKeys: Record<string, string> = {
   Caption: 'typography.caption.usage',
 };
 
-// El "ejemplo combinado": los 4 se usan juntos, apilados, tal como se
-// usarían en una pantalla real — es exactamente la primera variante de
-// cada uno, ya extraída del demo compartido (sin reescribirla a mano).
+// Los 4 apilados, como se usarían en una pantalla real. Sale del demo
+// real, no está escrito a mano.
 const combinedExample = members
   .map((m: any) => allVariants.find((v) => v.label === m.name)?.code)
   .filter(Boolean)
   .join('\n');
 
-// Mismo orden que el sidebar — Typography es el primer item (Atoms),
-// "Siguiente" apunta al que sigue.
 const flatList = getFlatNavList(components, lang, t);
 const ownHref = getRelativeLocaleUrl(lang, '/typography');
 const ownIndex = flatList.findIndex((item) => item.href === ownHref);

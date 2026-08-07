@@ -1,15 +1,6 @@
-// Copiar-al-portapapeles + toast de confirmación. Vanilla, sin build step,
-// se sirve tal cual desde public/. Progressive enhancement puro: sin esto
-// el código sigue siendo seleccionable a mano y el botón "Copy page"
-// simplemente no aparece — nada se rompe.
-//
-// Con View Transitions (astro:transitions) la navegación es client-side:
-// el DOM de la página se reemplaza pero `document` sigue siendo el mismo,
-// así que el click de copiar se delega en `document` (sobrevive a
-// cualquier navegación sin re-bindear nada). Lo único que SÍ hay que
-// rehacer por página es inyectar el botón de copiar en cada bloque de
-// código nuevo — eso corre en 'astro:page-load', que dispara tanto en la
-// carga inicial como en cada transición.
+// Copiar al portapapeles + toast. Los clicks se delegan en `document`
+// porque las View Transitions reemplazan el DOM de la página en cada
+// navegación; solo la inyección de botones se rehace en 'astro:page-load'.
 (function () {
   var toastRoot = null;
 

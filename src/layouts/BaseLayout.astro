@@ -9,11 +9,11 @@ interface Props {
   title: string;
   description?: string;
   lang?: Lang;
-  /** Ruta sin prefijo de idioma (p.ej. "/tokens", "/components/button") usada para el switcher EN/ES y las hreflang alternates — ambas apuntan a la MISMA página en el otro idioma. */
+  /** Ruta sin prefijo de idioma. Alimenta el switcher EN/ES y las hreflang. */
   path?: string;
-  /** Ruta absoluta a la versión .md de esta página (p.ej. "/components/button.md"), si existe. Se expone como <link rel="alternate" type="text/markdown"> — crawlers de LLMs (y humanos) la usan para pedir la página en texto plano en vez de HTML. */
+  /** Versión .md de esta página, si existe. Se expone como rel="alternate". */
   markdownUrl?: string;
-  /** JSON-LD a inyectar en <head>, ya armado por la página (TechArticle, WebSite, etc). */
+  /** JSON-LD ya armado por la página. */
   jsonLd?: Record<string, unknown>;
 }
 const {
@@ -66,14 +66,8 @@ const hasSidebar = Astro.slots.has('sidebar');
 
     <ClientRouter />
 
-    <!-- Aplica el theme guardado ANTES del primer paint — sin esto hay un
-         flash del tema equivocado (FOUC) cada vez que el guardado difiere
-         del prefers-color-scheme del sistema. También sincroniza
-         <meta name="theme-color"> — con override manual, la variante
-         media="(prefers-color-scheme)" no reacciona, solo el sistema.
-         Corre en 'astro:page-load' (no DOMContentLoaded): con View
-         Transitions la navegación es client-side, DOMContentLoaded no
-         vuelve a disparar en cada página pero astro:page-load sí. -->
+    <!-- Aplica el theme guardado antes del primer paint para evitar el
+         flash de tema equivocado, y mantiene <meta theme-color> en sync. -->
     <script is:inline>
       (function () {
         var KEY = 'orn-ui-theme';
@@ -190,12 +184,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     <script src="/copy.js" defer></script>
     <script src="/search.js" defer></script>
     <script is:inline>
-      // El sidebar se renderiza como <details open> siempre: en desktop
-      // tiene que estar abierto sí o sí (el summary está oculto, así que
-      // cerrado quedaría invisible y sin forma de reabrirlo), y sin JS
-      // conviene que quede abierto también en mobile antes que perderlo.
-      // Este script solo lo COLAPSA en viewport chico, y lo reabre al
-      // volver a desktop.
+      // El sidebar se sirve como <details open> para que sea visible sin
+      // JS; esto solo lo colapsa en viewport chico.
       (function () {
         var mq = window.matchMedia('(max-width: 900px)');
         function sync(e) {
@@ -295,11 +285,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
-    /* Red de seguridad: ningún hijo desbordado debe poder generar scroll
-       horizontal de página. Los bloques que SÍ necesitan scroll lateral
-       (pre, tablas de props) lo tienen en su propio contenedor.
-       `clip` y no `hidden`: `hidden` crea un contenedor de scroll y
-       rompería el `position: sticky` del topbar y del sidebar. */
+    /* `clip` y no `hidden`: `hidden` crea un contenedor de scroll y
+       rompería el position:sticky del topbar y del sidebar. */
     overflow-x: clip;
   }
 
@@ -422,9 +409,8 @@ const hasSidebar = Astro.slots.has('sidebar');
   @media (max-width: 720px) {
     .search-trigger-label { display: none; }
     .search-kbd { display: none; }
-    /* Header compacto en mobile. Los links de texto SIGUEN visibles
-       (envuelven en 2 filas): la home no tiene sidebar, así que
-       esconderlos dejaría esa página sin navegación alguna. */
+    /* Los links de texto se mantienen visibles: la home no tiene sidebar
+       y esconderlos la dejaría sin navegación. */
     .topbar {
       padding: 10px 16px;
       gap: 10px;
@@ -502,20 +488,15 @@ const hasSidebar = Astro.slots.has('sidebar');
     overscroll-behavior: contain;
     padding: 32px 4px 40px 0;
   }
-  /* Desktop: el <details> se ve como el sidebar de siempre — sin flecha
-     ni marco propio (el summary no se muestra) y siempre abierto.
-     OJO: un <details> sin `open` esconde su contenido desde el shadow
-     DOM del navegador, NO con `display` en los hijos — por eso el
-     markup lleva `open` fijo y es un script el que lo cierra en mobile,
-     en vez de intentar revertirlo por CSS (no se puede). */
+  /* Un <details> sin `open` esconde su contenido desde el shadow DOM del
+     navegador, no con `display` en los hijos: por eso el markup lleva
+     `open` fijo y lo colapsa un script, no CSS. */
   .sidebar-summary { display: none; }
 
   @media (max-width: 900px) {
-    /* minmax(0, 1fr), no "1fr" solo: un track 1fr sin mínimo explícito
-       se estira hasta el min-content de sus hijos — un <pre> con una
-       línea de código larga empujaba todo el grid (y con él la página
-       entera) más ancho que el viewport. Esto era el bug real detrás de
-       "el responsive no funciona". */
+    /* minmax(0, 1fr) y no "1fr": un track sin mínimo explícito se estira
+       hasta el min-content de sus hijos, y un <pre> largo desbordaba la
+       página entera. */
     .page-with-sidebar { grid-template-columns: minmax(0, 1fr); }
     .sidebar-col {
       position: static;
@@ -523,10 +504,6 @@ const hasSidebar = Astro.slots.has('sidebar');
       overflow: visible;
       padding: 20px 0 0;
     }
-    /* En mobile no hay espacio para un sidebar sticky — se colapsa en un
-       acordeón nativo (<details>) arriba del contenido: sigue habiendo
-       forma de saltar a "el componente de al lado" sin depender solo del
-       buscador. */
     .sidebar-disclosure {
       border: 1px solid var(--border);
       border-radius: var(--radius);
@@ -582,9 +559,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     border: 1px solid var(--border);
   }
 
-  /* Sincroniza los bloques shiki (temas duales light/dark inline vía CSS
-     vars) con el toggle manual en vez de solo prefers-color-scheme —
-     cada <Code> se renderiza con defaultColor={false}. */
+  /* Sincroniza los bloques shiki con el toggle manual, no solo con
+     prefers-color-scheme. Requiere defaultColor={false} en cada <Code>. */
   html[data-theme='dark'] .astro-code,
   html[data-theme='dark'] .astro-code span {
     color: var(--shiki-dark) !important;
@@ -665,9 +641,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     justify-content: center;
     padding: 12vh 16px 16px;
   }
-  /* El selector por id gana en especificidad al [hidden] del navegador
-     (1,0,0 vs 0,1,0) — sin este override el atributo hidden no hace nada
-     y el modal queda flex-displayed siempre, sin importar open()/close(). */
+  /* El selector por id le gana al [hidden] del navegador; sin este
+     override el atributo hidden no haría nada. */
   #search-modal:not([hidden]) {
     display: flex;
   }

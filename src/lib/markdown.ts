@@ -1,10 +1,5 @@
-// Convierte un componente de src/data/components.json a Markdown plano:
-// mismo contenido que ComponentContent.astro (install, variantes, props),
-// una sola fuente para el botón "Copy page as Markdown" (cliente, vía
-// data-md) y para el endpoint estático /components/<slug>.md que
-// consumen crawlers/LLMs. `t` es el mismo useTranslations(lang) que ya
-// usa la página — así los headers salen en el idioma correcto sin
-// duplicar el diccionario acá.
+// Componente -> Markdown. Fuente única del botón "Copy page" y de los
+// endpoints .md. Recibe `t` para que los encabezados salgan traducidos.
 type T = (key: string, ...args: any[]) => string;
 
 function escCell(s: unknown): string {
@@ -77,12 +72,8 @@ const TYPOGRAPHY_USAGE_EN: Record<string, string> = {
 };
 
 /**
- * Title/Subtitle/Body/Caption salen del mismo archivo (Text.tsx), tienen
- * las mismas props (TypographyProps) y se instalan con un solo comando —
- * por eso NO tienen `.md` propio cada uno (ver lib/groupedPages.ts), esto
- * los documenta juntos: un ejemplo combinado (los 4 a la vez, que es como
- * se usan en la práctica) y una nota de que instalar el archivo no
- * obliga a renderizar los 4 — cada uno se importa y se usa por separado.
+ * Title/Subtitle/Body/Caption no tienen `.md` propio (ver groupedPages.ts):
+ * comparten archivo, props e instalación, así que se documentan juntos.
  */
 export function buildTypographyMarkdown(members: any[]): string {
   const primary = members.find((m) => m.registry) ?? members[0];
@@ -170,9 +161,7 @@ const UI_PROVIDER_PROPS_EN: Array<[string, string, string, string]> = [
   ['allowFontScaling?', 'boolean', 'false', 'Off by default, for parity across the library.'],
 ];
 
-// Guía de setup en Markdown — misma información que
-// GettingStartedContent.astro, para el endpoint /getting-started.md que
-// listan llms.txt y el link de advertencia en cada .md de componente.
+// Versión Markdown de GettingStartedContent.astro.
 export function buildGettingStartedMarkdown(): string {
   const lines: string[] = [
     '# Getting Started — orn-ui',

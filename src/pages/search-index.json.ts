@@ -2,20 +2,13 @@ import type { APIRoute } from 'astro';
 import components from '../data/components.json';
 import { GROUP_PAGES } from '../lib/groupedPages';
 
-// Label mostrado en resultados de búsqueda para un grupo (no un i18n key:
-// el índice es un solo archivo compartido por ambos idiomas — la UI de
-// búsqueda es English-first, como el resto de nombres de componentes).
+// Literal, no clave i18n: el índice es un solo archivo para ambos idiomas.
 const GROUP_DISPLAY_NAME: Record<string, string> = { Text: 'Typography' };
 
 /**
- * Índice para el buscador global (Cmd/Ctrl+K). Un solo archivo, servido
- * estático, el cliente lo fetchea una vez y filtra en memoria — nada de
- * pegarle a un endpoint por tecla. `haystack` es lo que se matchea:
- * nombre del componente + el/los tag(s) JSX que renderiza cada variante
- * (p.ej. buscar "TextInput" encuentra Input, aunque el componente se
- * llame distinto al primitivo de RN que usa por debajo) + nombres de
- * props — "desde el tag hasta el nombre", no un simple substring del
- * nombre.
+ * Índice del buscador global. El cliente lo descarga una vez y filtra en
+ * memoria. `haystack` incluye los tags JSX de cada variante además del
+ * nombre, para que buscar "TextInput" encuentre Input.
  */
 export const GET: APIRoute = () => {
   const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
@@ -32,8 +25,6 @@ export const GET: APIRoute = () => {
     const displayName = groupKey ? (GROUP_DISPLAY_NAME[groupKey] ?? groupKey) : c.name;
     const slug = groupKey ? GROUP_PAGES[groupKey].replace(/^\//, '') : `components/${c.slug}`;
 
-    // Tags JSX usados: de las variantes propias + (si es un grupo) de
-    // TODAS las variantes sin filtrar del archivo compartido.
     const codeSources: string[] = groupKey ? c.groupVariants?.map((v: any) => v.code) ?? [] : c.variants?.map((v: any) => v.code) ?? [];
     const tags = new Set<string>();
     for (const code of codeSources) {
@@ -50,8 +41,6 @@ export const GET: APIRoute = () => {
     });
   }
 
-  // Getting Started y Tokens también son "cosas que se buscan" aunque no
-  // sean componentes — se listan a mano, son 2 páginas fijas.
   entries.push(
     { name: 'Getting Started', category: 'Guide', slug: 'getting-started', haystack: 'getting started install uiprovider setup safeareauiprovider' },
     { name: 'Tokens', category: 'Guide', slug: 'tokens', haystack: 'tokens spacing radius font size duration' }

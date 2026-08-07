@@ -9,10 +9,7 @@ export function getStaticPaths() {
   return all.filter((c) => !isMergedIntoGroupPage(c)).map((c) => ({ params: { slug: c.slug }, props: { component: c } }));
 }
 
-// Versión Markdown cruda de cada página de componente, en /components/<slug>.md.
-// Mismo contenido que la página HTML (ver ComponentContent.astro +
-// lib/markdown.ts) — pensado para que un LLM o un crawler la pida directo
-// sin tener que parsear HTML.
+// Misma página en Markdown, para crawlers y LLMs que no quieran parsear HTML.
 export const GET: APIRoute = ({ props }) => {
   const t = useTranslations('en');
   const markdown = buildComponentMarkdown(props.component, t);

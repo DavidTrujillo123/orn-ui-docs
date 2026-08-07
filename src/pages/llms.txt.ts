@@ -3,10 +3,7 @@ import components from '../data/components.json';
 import { getEntry } from 'astro:content';
 import { isMergedIntoGroupPage } from '../lib/groupedPages';
 
-// Convención llms.txt (llmstxt.org): un índice en Markdown, en la raíz,
-// pensado para que un LLM entienda de un vistazo qué es el sitio y a
-// dónde ir a buscar el detalle — la versión "robots.txt" para agentes de
-// lenguaje en vez de crawlers tradicionales.
+// Índice del sitio en Markdown para agentes de lenguaje (llmstxt.org).
 export const GET: APIRoute = async () => {
   const site = await getEntry('site', 'en');
   const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];

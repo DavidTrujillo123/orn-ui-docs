@@ -8,8 +8,6 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Sin el trailing slash / query — Astro.url.pathname siempre trae slash
-// final en output estático, así que comparar tal cual alcanza.
 const currentPath = Astro.url.pathname;
 
 const groups: [string, string][] = [
@@ -53,13 +51,9 @@ function isActive(href: string) {
 </nav>
 
 <script is:inline>
-  // El <aside> persiste entre navegaciones (transition:persist="sidebar")
-  // para no perder el scroll al entrar a un componente — pero eso
-  // significa que su HTML ya NO se re-renderiza por página, así que el
-  // aria-current calculado en build queda congelado en el de la primera
-  // carga. Se recalcula acá contra location.pathname en cada navegación
-  // (normalizando el trailing slash — los links de la búsqueda global
-  // podían no traerlo).
+  // El <aside> persiste entre navegaciones para conservar el scroll, así
+  // que su HTML no se re-renderiza y el aria-current del build queda
+  // congelado. Hay que recalcularlo en cada navegación.
   (function () {
     function syncActiveLink() {
       var current = window.location.pathname.replace(/\/$/, '') || '/';

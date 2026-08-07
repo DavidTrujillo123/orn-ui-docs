@@ -13,9 +13,7 @@ const { lang, component, markdownUrl } = Astro.props;
 const t = useTranslations(lang);
 const markdown = buildComponentMarkdown(component, t);
 
-// Mismo orden que el sidebar (Atoms → Molecules → Organisms) — link
-// "Siguiente" al pie de la página. Da la vuelta al principio después del
-// último item, así siempre hay algo para seguir mirando.
+// Orden del sidebar; da la vuelta al llegar a los extremos.
 const flatList = getFlatNavList(components, lang, t);
 const ownHref = getRelativeLocaleUrl(lang, `/components/${component.slug}`);
 const ownIndex = flatList.findIndex((item) => item.href === ownHref);

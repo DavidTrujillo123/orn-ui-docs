@@ -4,13 +4,9 @@ import { buildComponentMarkdown, buildGettingStartedMarkdown, buildTypographyMar
 import { useTranslations } from '../i18n/ui';
 import { isMergedIntoGroupPage } from '../lib/groupedPages';
 
-// Todas las páginas de componentes concatenadas en un solo Markdown — el
-// "llms-full.txt" que acompaña a llms.txt en la convención llmstxt.org,
-// para que un agente pueda bajar el catálogo completo en una sola
-// request en vez de 35. Getting Started va PRIMERO a propósito: es la
-// única fuente que menciona que todo lo de abajo necesita un
-// <UIProvider> ancestor — un agente que lea esto de punta a punta la ve
-// antes de llegar a cualquier snippet de componente.
+// Catálogo completo en un solo archivo. Getting Started va primero a
+// propósito: es lo único que menciona el <UIProvider> obligatorio, y así
+// se lee antes que cualquier snippet de componente.
 export const GET: APIRoute = () => {
   const t = useTranslations('en');
   const all = [

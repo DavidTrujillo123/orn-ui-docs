@@ -10,13 +10,9 @@ export interface NavCard {
 }
 
 /**
- * Varios componentes pueden salir del mismo archivo fuente (Title/Subtitle/
- * Body/Caption son las 4 variantes de Text.tsx) — cada uno tiene su propia
- * entrada en components.json, pero en la nav (home grid, sidebar) son un
- * solo item, no cuatro casi idénticos. Se agrupan por `sourceFile`
- * consecutivo (ya vienen así ordenados desde extract-docs.mjs: primario
- * primero, siblings después). Compartido entre HomeContent.astro y
- * Sidebar.astro — antes vivía duplicado en cada uno.
+ * Colapsa a un solo item los componentes que comparten archivo fuente
+ * (Text.tsx → Title/Subtitle/Body/Caption). Depende de que vengan
+ * ordenados con el primario primero, como los emite extract-docs.mjs.
  */
 export function groupCards(list: any[], lang: Lang, t: (key: any) => string): NavCard[] {
   const groups: { primary: any; members: any[] }[] = [];
@@ -41,12 +37,7 @@ export function groupCards(list: any[], lang: Lang, t: (key: any) => string): Na
   });
 }
 
-/**
- * Mismo orden que ve el sidebar (Atoms → Molecules → Organisms, cada
- * grupo colapsado a un item), aplanado en una sola lista — para el link
- * "Siguiente" al pie de cada página de item. Único punto de verdad: si
- * el orden del sidebar cambia, "Siguiente" lo sigue automáticamente.
- */
+/** Mismo orden del sidebar, aplanado — lo usan los links Anterior/Siguiente. */
 export function getFlatNavList(components: any, lang: Lang, t: (key: any) => string): NavCard[] {
   return (['atoms', 'molecules', 'organisms'] as const).flatMap((cat) => groupCards(components[cat], lang, t));
 }

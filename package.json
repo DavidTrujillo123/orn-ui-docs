@@ -1,0 +1,26 @@
+{
+  "name": "orn-ui-docs",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "extract": "node scripts/extract-docs.mjs",
+    "sync:registry": "node scripts/sync-registry.mjs",
+    "typecheck:demos": "tsc --noEmit -p tsconfig.demos.json",
+    "dev": "pnpm run sync:registry && pnpm run extract && astro dev",
+    "build": "pnpm run typecheck:demos && pnpm run sync:registry && pnpm run extract && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "astro": "^7.1.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@types/react": "~19.2.14",
+    "orn-ui": "file:../only-react-native-components/packages/ui",
+    "react": "19.2.3",
+    "react-docgen-typescript": "^2.4.0",
+    "react-native": "0.86.2",
+    "typescript": "~5.9.3"
+  }
+}

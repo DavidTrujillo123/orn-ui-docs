@@ -1,0 +1,74 @@
+---
+import tokens from '../data/tokens.json';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const tk = tokens as any;
+---
+
+<h1>{t('tokens.title')}</h1>
+<p class="lede">
+  {t('tokens.lede.pre')} <code>packages/ui/src/theme/tokens.ts</code> {t('tokens.lede.post')}
+</p>
+
+<h2>{t('tokens.spacing')}</h2>
+<div class="swatches">
+  {Object.entries(tk.spacing ?? {}).map(([k, v]) => (
+    <div class="swatch">
+      <div class="box" style={`width:${v}px;height:${v}px`}></div>
+      <code>{k}</code>
+      <span>{v}px</span>
+    </div>
+  ))}
+</div>
+
+<h2>{t('tokens.radius')}</h2>
+<div class="swatches">
+  {Object.entries(tk.radius ?? {}).map(([k, v]) => (
+    <div class="swatch">
+      <div class="box radius" style={`border-radius:${v}px`}></div>
+      <code>{k}</code>
+      <span>{v}px</span>
+    </div>
+  ))}
+</div>
+
+<h2>{t('tokens.fontSize')}</h2>
+<div class="swatches">
+  {Object.entries(tk.fontSize ?? {}).map(([k, v]) => (
+    <div class="swatch text">
+      <span style={`font-size:${v}px`}>Ag</span>
+      <code>{k}</code>
+      <span>{v}px</span>
+    </div>
+  ))}
+</div>
+
+<h2>{t('tokens.duration')}</h2>
+<div class="swatches">
+  {Object.entries(tk.duration ?? {}).map(([k, v]) => (
+    <div class="swatch text">
+      <code>{k}</code>
+      <span>{v}ms</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .lede { color: var(--text-light); max-width: 640px; line-height: 1.6; margin-bottom: 32px; }
+  h1 { font-size: 32px; margin-bottom: 8px; }
+  h2 { font-size: 18px; margin: 32px 0 16px; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 16px; }
+  .swatch {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 16px; border: 1px solid var(--border); border-radius: var(--radius);
+    min-width: 88px; background: var(--surface);
+  }
+  .swatch code { font-size: 12px; color: var(--text-light); }
+  .swatch span { font-size: 11px; color: var(--text-light); }
+  .box { background: var(--primary); }
+  .box.radius { width: 40px; height: 40px; }
+  .text span:first-child { color: var(--text); }
+</style>

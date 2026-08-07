@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TypographyContent from '../components/TypographyContent.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('en');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Typography — orn-ui',
+  description: t('typography.description'),
+  about: 'Atom',
+  inLanguage: 'en',
+  isPartOf: { '@type': 'WebSite', name: 'orn-ui', url: 'https://orn-ui.dev' },
+};
+---
+
+<BaseLayout title={t('typography.name')} description={t('typography.description')} lang="en" path="/typography" jsonLd={jsonLd}>
+  <Sidebar slot="sidebar" lang="en" />
+  <TypographyContent lang="en" />
+</BaseLayout>

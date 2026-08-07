@@ -1,0 +1,106 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import components from '../data/components.json';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { groupCards } from '../lib/navGroups';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Sin el trailing slash / query — Astro.url.pathname siempre trae slash
+// final en output estático, así que comparar tal cual alcanza.
+const currentPath = Astro.url.pathname;
+
+const groups: [string, string][] = [
+  ['atoms', t('group.atoms')],
+  ['molecules', t('group.molecules')],
+  ['organisms', t('group.organisms')],
+];
+
+const docsLinks = [
+  { label: t('nav.gettingStarted'), href: getRelativeLocaleUrl(lang, '/getting-started') },
+  { label: t('tokens.title'), href: getRelativeLocaleUrl(lang, '/tokens') },
+];
+
+function isActive(href: string) {
+  return currentPath === href || currentPath === `${href}/`;
+}
+---
+
+<nav class="sidebar" aria-label="Docs">
+  <ul class="sidebar-group">
+    {docsLinks.map((l) => (
+      <li>
+        <a href={l.href} aria-current={isActive(l.href) ? 'page' : undefined}>{l.label}</a>
+      </li>
+    ))}
+  </ul>
+
+  <p class="sidebar-heading">{t('sidebar.componentsTitle')}</p>
+  {groups.map(([key, label]) => (
+    <div class="sidebar-section">
+      <p class="sidebar-subheading">{label}</p>
+      <ul class="sidebar-group">
+        {groupCards((components as any)[key], lang, t).map((c) => (
+          <li>
+            <a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</nav>
+
+<script is:inline>
+  // El <aside> persiste entre navegaciones (transition:persist="sidebar")
+  // para no perder el scroll al entrar a un componente — pero eso
+  // significa que su HTML ya NO se re-renderiza por página, así que el
+  // aria-current calculado en build queda congelado en el de la primera
+  // carga. Se recalcula acá contra location.pathname en cada navegación
+  // (normalizando el trailing slash — los links de la búsqueda global
+  // podían no traerlo).
+  (function () {
+    function syncActiveLink() {
+      var current = window.location.pathname.replace(/\/$/, '') || '/';
+      document.querySelectorAll('.sidebar a[href]').forEach(function (a) {
+        var href = a.getAttribute('href').replace(/\/$/, '') || '/';
+        if (href === current) a.setAttribute('aria-current', 'page');
+        else a.removeAttribute('aria-current');
+      });
+    }
+    syncActiveLink();
+    document.addEventListener('astro:page-load', syncActiveLink);
+  })();
+</script>
+
+<style>
+  .sidebar {
+    font-size: 13px;
+  }
+  .sidebar-heading {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-light); margin: 20px 0 8px;
+  }
+  .sidebar-subheading {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-light); margin: 16px 0 6px;
+  }
+  .sidebar-group { list-style: none; margin: 0; padding: 0; }
+  .sidebar-section:first-of-type .sidebar-subheading { margin-top: 4px; }
+  .sidebar-group li a {
+    display: block;
+    padding: 6px 10px;
+    margin: 1px 0;
+    border-radius: 6px;
+    color: var(--text-light);
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .sidebar-group li a:hover { color: var(--text); background: var(--surface-hover); }
+  .sidebar-group li a[aria-current='page'] {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, transparent);
+    font-weight: 600;
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+interface Props { href: string; label: string; eyebrow: string; direction?: 'prev' | 'next' }
+const { href, label, eyebrow, direction = 'next' } = Astro.props;
+---
+
+<a class={`pager-link pager-${direction}`} href={href}>
+  {direction === 'prev' && (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  )}
+  <span class="pager-text">
+    <span class="pager-eyebrow">{eyebrow}</span>
+    <span class="pager-name">{label}</span>
+  </span>
+  {direction === 'next' && (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+  )}
+</a>
+
+<style>
+  .pager-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    flex: 1;
+    min-width: 0;
+  }
+  .pager-link:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow);
+  }
+  .pager-next { justify-content: flex-end; text-align: right; }
+  .pager-prev { justify-content: flex-start; text-align: left; }
+  .pager-next:hover svg { transform: translateX(2px); }
+  .pager-prev:hover svg { transform: translateX(-2px); }
+  .pager-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .pager-eyebrow {
+    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-light);
+  }
+  .pager-name {
+    font-size: 16px; font-weight: 600;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pager-link svg { flex-shrink: 0; color: var(--primary); transition: transform 0.15s; }
+</style>

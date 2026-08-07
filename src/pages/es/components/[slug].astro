@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import ComponentContent from '../../../components/ComponentContent.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import components from '../../../data/components.json';
+import { useTranslations } from '../../../i18n/ui';
+import { isMergedIntoGroupPage } from '../../../lib/groupedPages';
+
+export function getStaticPaths() {
+  const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
+  return all.filter((c) => !isMergedIntoGroupPage(c)).map((c) => ({ params: { slug: c.slug }, props: { component: c } }));
+}
+
+const { component } = Astro.props as { component: any };
+const t = useTranslations('es');
+const description = `${component.name} — ${t('component.descriptionSuffix', component.category)}`;
+const markdownUrl = `/es/components/${component.slug}.md`;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: `${component.name} — orn-ui`,
+  description,
+  about: component.category,
+  inLanguage: 'es',
+  isPartOf: { '@type': 'WebSite', name: 'orn-ui', url: 'https://orn-ui.dev' },
+};
+---
+
+<BaseLayout
+  title={component.name}
+  description={description}
+  lang="es"
+  path={`/components/${component.slug}`}
+  markdownUrl={markdownUrl}
+  jsonLd={jsonLd}
+>
+  <Sidebar slot="sidebar" lang="es" />
+  <ComponentContent lang="es" component={component} markdownUrl={markdownUrl} />
+</BaseLayout>

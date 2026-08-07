@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TokensContent from '../components/TokensContent.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('en');
+---
+
+<BaseLayout title={t('tokens.title')} description={t('tokens.description')} lang="en" path="/tokens">
+  <Sidebar slot="sidebar" lang="en" />
+  <TokensContent lang="en" />
+</BaseLayout>

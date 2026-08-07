@@ -1,0 +1,10 @@
+{
+  "tabTitle": "Componentes de React Native, hechos bien",
+  "heroH1": "Componentes de React Native, rápidos y tree-shakeable.",
+  "ledePrefix": "componentes entre átomos, moléculas y organismos. Sin dependencias en tiempo de ejecución — solo",
+  "ledeSuffix": "como peers. Sin config de babel, sin config de metro, sin pods.",
+  "installOr": "o",
+  "installHint": "Instalá toda la librería, o solo los componentes que necesitás — la segunda opción no agrega dependencia npm.",
+  "badges": ["Cero dependencias", "TypeScript", "Claro y oscuro"],
+  "footer": "orn-ui — licencia MIT. Sin dependencias en tiempo de ejecución."
+}

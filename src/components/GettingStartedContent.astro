@@ -1,0 +1,194 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Code } from 'astro:components';
+import { useTranslations, type Lang } from '../i18n/ui';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const appSnippet = `import { UIProvider } from 'orn-ui';
+
+export default function App() {
+  return (
+    <UIProvider>
+      {/* your navigator / screens go here */}
+    </UIProvider>
+  );
+}`;
+
+const safeAreaSnippet = `import { SafeAreaUIProvider } from 'orn-ui/safe-area';
+
+export default function App() {
+  return (
+    <SafeAreaUIProvider>
+      {/* your navigator / screens go here */}
+    </SafeAreaUIProvider>
+  );
+}`;
+
+const safeAreaProps = [
+  { name: 'insets', type: 'EdgeInsets', required: false, default: 'measured via useSafeAreaInsets()', description: { en: 'Explicit override — wins over the measured value. Useful for tests, Storybook, or a screen that does not fill the window.', es: 'Override explícito — gana sobre el valor medido. Útil para tests, Storybook, o una pantalla que no ocupa la ventana entera.' } },
+  { name: 'mountSafeAreaProvider', type: 'boolean', required: false, default: 'true', description: { en: 'Also mount <SafeAreaProvider>. Set false if your app already has one above.', es: 'También monta <SafeAreaProvider>. Ponelo en false si tu app ya tiene uno arriba.' } },
+];
+
+const uiProviderProps = [
+  { name: 'children', type: 'React.ReactNode', required: true, default: '—', description: { en: 'Your app — mounted once, above the navigator.', es: 'Tu app — montado una sola vez, arriba del navigator.' } },
+  { name: 'theme', type: 'ThemePair', required: false, default: 'defaultTheme', description: { en: 'Light/dark pair. Build one with createTheme().', es: 'Par light/dark. Se crea con createTheme().' } },
+  { name: 'defaultMode', type: "'system' | 'light' | 'dark'", required: false, default: "'system'", description: { en: 'Initial mode, uncontrolled.', es: 'Modo inicial, no controlado.' } },
+  { name: 'mode', type: "'system' | 'light' | 'dark'", required: false, default: '—', description: { en: 'Controlled mode — pass with onModeChange to manage it yourself.', es: 'Modo controlado — pasalo junto a onModeChange para manejarlo vos.' } },
+  { name: 'onModeChange', type: '(mode: ThemeMode) => void', required: false, default: '—', description: { en: 'Called on toggle when mode is controlled.', es: 'Se llama al togglear, cuando mode es controlado.' } },
+  { name: 'icons', type: 'IconRenderer', required: false, default: 'renderDefaultIcon', description: { en: 'Icon renderer. Defaults to the zero-dep glyphs bundled with orn-ui.', es: 'Renderer de íconos. Por defecto usa los glifos zero-dep incluidos.' } },
+  { name: 'insets', type: 'EdgeInsets', required: false, default: 'zeroInsets', description: { en: 'Safe-area insets, typically from useSafeAreaInsets().', es: 'Insets de safe area, típicamente de useSafeAreaInsets().' } },
+  { name: 'labels', type: 'Partial<Labels>', required: false, default: 'defaultLabels', description: { en: 'Override any built-in string (Close, Cancel, Search…).', es: 'Sobreescribe cualquier string interno (Close, Cancel, Search…).' } },
+  { name: 'allowFontScaling', type: 'boolean', required: false, default: 'false', description: { en: 'Off by default, for parity across the library.', es: 'Apagado por defecto, para paridad en toda la librería.' } },
+];
+---
+
+<a class="back" href={`${getRelativeLocaleUrl(lang, '/')}#components`}>{t('component.back')}</a>
+<h1>{t('gs.h1')}</h1>
+<p class="lede">{t('gs.lede')}</p>
+
+<section class="step">
+  <h2>{t('gs.step1.title')}</h2>
+  <p>{t('gs.step1.body')}</p>
+  <div class="install-pair">
+    <pre><code>pnpm add orn-ui</code></pre>
+    <span class="install-or">/</span>
+    <pre><code>npx orn-ui add button</code></pre>
+  </div>
+</section>
+
+<section class="step">
+  <h2>{t('gs.step2.title')}</h2>
+  <p>{t('gs.step2.body')}</p>
+  <Code code={appSnippet} lang="tsx" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+  <div class="warning">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    <p>{t('gs.step2.warning')}</p>
+  </div>
+
+  <h3>{t('gs.props.title')}</h3>
+  <div class="props-table">
+    <table>
+      <thead>
+        <tr>
+          <th>{t('props.name')}</th>
+          <th>{t('props.type')}</th>
+          <th>{t('props.default')}</th>
+          <th>{t('props.description')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {uiProviderProps.map((p) => (
+          <tr>
+            <td><code>{p.name}{p.required ? '' : '?'}</code></td>
+            <td><code>{p.type}</code></td>
+            <td>{p.default}</td>
+            <td>{p.description[lang]}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="safe-area">
+    <h3 class="safe-area-title">{t('gs.safeArea.title')}</h3>
+    <p>{t('gs.safeArea.body')}</p>
+    <p>{t('gs.safeArea.subpath')}</p>
+    <p class="install-label">{t('gs.safeArea.install')}</p>
+    <pre><code>pnpm add react-native-safe-area-context</code></pre>
+    <Code code={safeAreaSnippet} lang="tsx" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+    <div class="warning warning-note">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+      <p>{t('gs.safeArea.nestedNote')}</p>
+    </div>
+
+    <h3>{t('gs.safeArea.propsTitle')}</h3>
+    <p class="props-note">{t('gs.safeArea.propsNote')}</p>
+    <div class="props-table">
+      <table>
+        <thead>
+          <tr>
+            <th>{t('props.name')}</th>
+            <th>{t('props.type')}</th>
+            <th>{t('props.default')}</th>
+            <th>{t('props.description')}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {safeAreaProps.map((p) => (
+            <tr>
+              <td><code>{p.name}{p.required ? '' : '?'}</code></td>
+              <td><code>{p.type}</code></td>
+              <td>{p.default}</td>
+              <td>{p.description[lang]}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="step">
+  <h2>{t('gs.step3.title')}</h2>
+  <p>{t('gs.step3.body')}</p>
+  <a class="cta" href={`${getRelativeLocaleUrl(lang, '/')}#components`}>{t('gs.cta')} →</a>
+</section>
+
+<style>
+  .back { font-size: 13px; color: var(--text-light); text-decoration: none; }
+  .back:hover { color: var(--primary); }
+  h1 { margin: 16px 0 8px; font-size: 32px; }
+  .lede { color: var(--text-light); font-size: 16px; max-width: 640px; line-height: 1.6; margin-bottom: 40px; }
+  .step { margin-bottom: 40px; }
+  .step h2 { font-size: 20px; margin: 0 0 8px; }
+  .step h3 { font-size: 14px; margin: 24px 0 12px; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.05em; }
+  .step p { line-height: 1.6; color: var(--text-light); max-width: 680px; }
+  .install-pair { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .install-pair pre { margin: 0; background: var(--code-bg); }
+  .install-or { font-size: 13px; color: var(--text-light); }
+
+  .warning {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: color-mix(in srgb, #f59e0b 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, #f59e0b 40%, var(--border));
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 12px;
+  }
+  .warning svg { flex-shrink: 0; margin-top: 2px; color: #f59e0b; }
+  .warning p { margin: 0; color: var(--text); font-size: 14px; }
+
+  .safe-area {
+    margin-top: 28px; padding: 20px 20px 4px;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .safe-area-title { margin-top: 0 !important; color: var(--primary) !important; }
+  .safe-area :global(pre) { margin: 8px 0 12px; }
+  .safe-area .install-label {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-light); margin: 16px 0 0;
+  }
+  .warning-note {
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+    border-color: color-mix(in srgb, var(--primary) 35%, var(--border));
+  }
+  .warning-note svg { color: var(--primary); }
+  .props-note { font-size: 13px; color: var(--text-light); margin: -4px 0 12px; }
+
+  .props-table { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-light); font-weight: 600; background: var(--code-bg); }
+  tr:last-child td { border-bottom: none; }
+
+  .cta {
+    display: inline-block; margin-top: 8px; font-weight: 600; font-size: 14px;
+    color: var(--primary); text-decoration: none;
+  }
+  .cta:hover { color: var(--primary-hover); }
+</style>

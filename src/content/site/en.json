@@ -1,0 +1,10 @@
+{
+  "tabTitle": "React Native components, done right",
+  "heroH1": "Fast, tree-shakeable React Native components.",
+  "ledePrefix": "components across atoms, molecules and organisms. Zero runtime dependencies — only",
+  "ledeSuffix": "as peers. No babel config, no metro config, no pods.",
+  "installOr": "or",
+  "installHint": "Install the whole library, or just the components you need — no npm dependency required for the second option.",
+  "badges": ["Zero dependencies", "TypeScript", "Light & dark"],
+  "footer": "orn-ui — MIT licensed. Zero runtime dependencies."
+}

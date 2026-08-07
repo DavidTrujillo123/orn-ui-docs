@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import GettingStartedContent from '../components/GettingStartedContent.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { useTranslations } from '../i18n/ui';
+
+const t = useTranslations('en');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: 'Getting Started — orn-ui',
+  description: t('gs.description'),
+  inLanguage: 'en',
+  isPartOf: { '@type': 'WebSite', name: 'orn-ui', url: 'https://orn-ui.dev' },
+};
+---
+
+<BaseLayout title={t('gs.title')} description={t('gs.description')} lang="en" path="/getting-started" markdownUrl="/getting-started.md" jsonLd={jsonLd}>
+  <Sidebar slot="sidebar" lang="en" />
+  <GettingStartedContent lang="en" />
+</BaseLayout>

@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomeContent from '../../components/HomeContent.astro';
+import { getEntry } from 'astro:content';
+
+const site = await getEntry('site', 'es');
+const description = 'orn-ui — una librería de componentes rápida y atomic-design para React Native. Sin dependencias en tiempo de ejecución.';
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareSourceCode',
+  name: 'orn-ui',
+  description,
+  programmingLanguage: 'TypeScript',
+  runtimePlatform: 'React Native',
+  codeRepository: 'https://github.com/',
+  url: 'https://orn-ui.dev/es/',
+  inLanguage: 'es',
+};
+---
+
+<BaseLayout title={site!.data.tabTitle} description={description} lang="es" path="/" jsonLd={jsonLd}>
+  <HomeContent lang="es" />
+</BaseLayout>

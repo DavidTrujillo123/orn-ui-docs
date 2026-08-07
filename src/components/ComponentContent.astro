@@ -1,0 +1,218 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Code } from 'astro:components';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { buildComponentMarkdown } from '../lib/markdown';
+import { GROUP_SLUG_REDIRECTS } from '../lib/groupedPages';
+import { getFlatNavList } from '../lib/navGroups';
+import NextItemLink from './NextItemLink.astro';
+import components from '../data/components.json';
+
+interface Props { lang: Lang; component: any; markdownUrl: string }
+const { lang, component, markdownUrl } = Astro.props;
+const t = useTranslations(lang);
+const markdown = buildComponentMarkdown(component, t);
+
+// Mismo orden que el sidebar (Atoms → Molecules → Organisms) — link
+// "Siguiente" al pie de la página. Da la vuelta al principio después del
+// último item, así siempre hay algo para seguir mirando.
+const flatList = getFlatNavList(components, lang, t);
+const ownHref = getRelativeLocaleUrl(lang, `/components/${component.slug}`);
+const ownIndex = flatList.findIndex((item) => item.href === ownHref);
+const nextItem = ownIndex !== -1 ? flatList[(ownIndex + 1) % flatList.length] : null;
+const prevItem = ownIndex !== -1 ? flatList[(ownIndex - 1 + flatList.length) % flatList.length] : null;
+---
+
+<div class="page-actions">
+  <a class="back" href={`${getRelativeLocaleUrl(lang, '/')}#components`}>{t('component.back')}</a>
+  <div class="md-actions">
+    <a class="md-link" href={markdownUrl}>{t('md.viewButton')}</a>
+    <button type="button" class="md-copy-btn" data-copy-md data-md={markdown}>
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+      {t('md.copyButton')}
+    </button>
+  </div>
+</div>
+<div class="header">
+  <span class="kicker">{component.category}</span>
+  <h1>{component.name}</h1>
+</div>
+
+<a class="provider-note" href={getRelativeLocaleUrl(lang, '/getting-started')}>
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+  <span><strong>{t('gs.requiresProvider')}</strong> — {t('gs.linkText')} →</span>
+</a>
+
+<div class="media-frame">
+  <img
+    src={`/media/${component.mediaSlug}.gif`}
+    alt={`${component.name} demo`}
+    onerror="this.closest('.media-frame').classList.add('media-missing')"
+  />
+  <div class="media-placeholder">{t('component.mediaMissing')}</div>
+</div>
+
+{component.registry && (
+  <section class="install">
+    <h2>{t('install.title')}</h2>
+    <div class="install-option">
+      <p class="install-label">{t('install.cli')}</p>
+      <Code code={`npx orn-ui add ${component.slug}`} lang="bash" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+    </div>
+    <div class="install-option">
+      <p class="install-label">{t('install.package')}</p>
+      <Code
+        code={`pnpm add orn-ui\nimport { ${component.name} } from 'orn-ui/${component.slug}';`}
+        lang="tsx"
+        themes={{ light: 'github-light', dark: 'github-dark' }}
+        defaultColor={false}
+      />
+    </div>
+    {component.registry.registryDependencies.length > 0 && (
+      <div class="install-deps">
+        <span class="install-label">{t('install.dependsOn')}</span>
+        {component.registry.registryDependencies.map((dep: string) => {
+          if (dep === 'core') return <span class="dep-chip dep-chip-core">{t('install.core')}</span>;
+          const redirect = GROUP_SLUG_REDIRECTS[dep];
+          if (redirect) return <a class="dep-chip" href={getRelativeLocaleUrl(lang, redirect.href)}>{redirect.label}</a>;
+          return <a class="dep-chip" href={getRelativeLocaleUrl(lang, `/components/${dep}`)}>{dep}</a>;
+        })}
+      </div>
+    )}
+  </section>
+)}
+
+{component.variants?.length > 0 && (
+  <section class="variants">
+    <h2>{t('component.variants')}</h2>
+    {component.variants.map((v: any) => (
+      <div class="variant">
+        <h3>{v.label}</h3>
+        <Code code={v.code} lang="tsx" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+      </div>
+    ))}
+  </section>
+)}
+
+{component.snippet && (
+  <details class="full-source">
+    <summary>{t('component.fullSource')}</summary>
+    <Code code={component.snippet} lang="tsx" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+  </details>
+)}
+
+<h2>{t('component.props')}</h2>
+{component.props.length > 0 ? (
+  <div class="props-table">
+    <table>
+      <thead>
+        <tr>
+          <th>{t('props.name')}</th>
+          <th>{t('props.type')}</th>
+          <th>{t('props.default')}</th>
+          <th>{t('props.description')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {component.props.map((p: any) => (
+          <tr>
+            <td><code>{p.name}{p.required ? '' : '?'}</code></td>
+            <td><code>{p.type}</code></td>
+            <td>{p.defaultValue ?? '—'}</td>
+            <td>{p.description || '—'}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+) : (
+  <p>{t('component.noProps')}</p>
+)}
+
+{(prevItem || nextItem) && (
+  <div class="pager-row">
+    {prevItem && <NextItemLink direction="prev" href={prevItem.href} label={prevItem.label} eyebrow={t('nav.prev')} />}
+    {nextItem && <NextItemLink direction="next" href={nextItem.href} label={nextItem.label} eyebrow={t('nav.next')} />}
+  </div>
+)}
+
+<style>
+  .pager-row { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+  @media (max-width: 480px) { .pager-row { flex-direction: column; } }
+  .page-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .back { font-size: 13px; color: var(--text-light); text-decoration: none; }
+  .back:hover { color: var(--primary); }
+  .md-actions { display: flex; align-items: center; gap: 8px; }
+  .md-link {
+    font-size: 12px; color: var(--text-light); text-decoration: none;
+    padding: 6px 10px; border-radius: 999px; border: 1px solid var(--border);
+  }
+  .md-link:hover { color: var(--primary); border-color: var(--primary); }
+  .md-copy-btn {
+    display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600;
+    color: var(--text-light); background: var(--surface); border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 12px; cursor: pointer; transition: color 0.15s, border-color 0.15s;
+  }
+  .md-copy-btn:hover { color: var(--primary); border-color: var(--primary); }
+  .md-copy-btn.copied { color: #16a34a; border-color: #16a34a; }
+  .header { margin: 16px 0 20px; }
+  .provider-note {
+    display: flex; align-items: center; gap: 8px;
+    background: color-mix(in srgb, #f59e0b 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, #f59e0b 40%, var(--border));
+    color: var(--text);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    text-decoration: none;
+  }
+  .provider-note svg { flex-shrink: 0; color: #f59e0b; }
+  .provider-note:hover { border-color: #f59e0b; }
+  .kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); }
+  h1 { margin: 4px 0 0; font-size: 32px; }
+  .media-frame {
+    position: relative; border-radius: var(--radius); border: 1px solid var(--border);
+    background: var(--code-bg); overflow: hidden; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: center; min-height: 160px;
+  }
+  .media-frame img { max-width: 100%; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+  .media-placeholder { display: none; padding: 32px; color: var(--text-light); font-size: 13px; text-align: center; }
+  .media-frame.media-missing img { display: none; }
+  .media-frame.media-missing .media-placeholder { display: block; }
+  .install { margin-bottom: 32px; }
+  .install-option { margin-bottom: 14px; }
+  .install-option :global(pre) { margin: 4px 0 0; }
+  .install-label {
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-light); margin: 0;
+  }
+  .install-deps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .dep-chip {
+    font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
+    background: var(--code-bg); color: var(--text); border: 1px solid var(--border);
+    text-decoration: none;
+  }
+  a.dep-chip:hover { border-color: var(--primary); color: var(--primary); }
+  .dep-chip-core { color: var(--text-light); font-style: italic; }
+  .variants { margin-bottom: 32px; }
+  .variants h2 { margin-bottom: 16px; }
+  .variant { margin-bottom: 24px; }
+  .variant h3 {
+    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-light); margin: 0 0 8px;
+  }
+  .variant :global(pre) { margin: 0; }
+  .full-source { margin-bottom: 32px; }
+  .full-source summary {
+    cursor: pointer; font-size: 14px; color: var(--text-light); padding: 8px 0; user-select: none;
+  }
+  .full-source summary:hover { color: var(--primary); }
+  .full-source :global(pre) { margin-top: 8px; }
+  h2 { font-size: 20px; margin: 32px 0 12px; }
+  .props-table { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-light); font-weight: 600; background: var(--code-bg); }
+  tr:last-child td { border-bottom: none; }
+</style>

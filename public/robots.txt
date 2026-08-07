@@ -1,0 +1,35 @@
+User-agent: *
+Allow: /
+
+# Crawlers de LLMs — permitidos explícitamente (allow-all de arriba ya los
+# cubre, esto lo deja inequívoco para quien lea el archivo a mano).
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://orn-ui.dev/sitemap-index.xml
+
+# Índice pensado para LLMs (convención llmstxt.org): qué es el sitio y
+# dónde está cada página en Markdown plano.
+# https://orn-ui.dev/llms.txt
+# https://orn-ui.dev/llms-full.txt

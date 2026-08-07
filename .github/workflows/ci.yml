@@ -1,0 +1,45 @@
+name: CI
+
+# NOTE: this repo depends on orn-ui via a `file:../only-react-native-components/packages/ui`
+# link (see README). Neither repo has a GitHub remote configured yet, so the
+# checkout step below for the sibling repo is a placeholder — fill in
+# `repository: <owner>/only-react-native-components` once both repos are
+# pushed, or switch package.json's `orn-ui` dependency to a published npm
+# version and delete the second checkout step entirely.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout orn-ui-docs
+        uses: actions/checkout@v4
+
+      # TODO: set `repository:` once only-react-native-components has a remote.
+      - name: Checkout orn-ui (sibling repo, for the file: dependency)
+        uses: actions/checkout@v4
+        with:
+          repository: TODO/only-react-native-components
+          path: only-react-native-components
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck demo snippets
+        run: pnpm run typecheck:demos
+
+      - name: Build (extract docs + astro build)
+        run: pnpm run build

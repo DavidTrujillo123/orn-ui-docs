@@ -9,36 +9,45 @@ const STEPS = [
   { label: 'Confirm' },
 ];
 
+const LONG_STEPS = [
+  { label: 'Payment Confirmed', description: 'Verified' },
+  { label: 'Warehouse', description: 'Packed' },
+  { label: 'On The Road', description: 'Out for delivery' },
+  { label: 'Delivered', description: 'Delivered to destination' },
+];
+
 export function StepsDemo() {
   const [current, setCurrent] = useState(1);
   // #region demo
   const variants: VariantDef[] = [
     {
-      label: 'horizontal + check (defaults)',
+      label: 'A checkout in progress — on the Payment step',
       content: <Steps steps={STEPS} current={1} />,
     },
     {
-      label: 'horizontal + number on completed',
+      label: 'completedIndicator="number" — the step count instead of a check',
       content: <Steps steps={STEPS} current={2} completedIndicator="number" />,
     },
     {
-      label: 'vertical + check',
+      label: 'orientation="vertical" — reads better with long descriptions',
       content: <Steps steps={STEPS} current={1} orientation="vertical" />,
     },
     {
-      label: 'vertical + number',
-      content: <Steps steps={STEPS} current={2} orientation="vertical" completedIndicator="number" />,
-    },
-    {
-      label: 'first step (nothing completed yet)',
+      label: 'Before you start — nothing completed yet',
       content: <Steps steps={STEPS} current={0} />,
     },
     {
-      label: 'all completed',
+      label: 'All done — every step completed',
       content: <Steps steps={STEPS} current={3} />,
     },
     {
-      label: 'interactive — onStepPress',
+      // Cada paso tiene ancho mínimo: la fila scrollea antes que apretar las
+      // columnas y dejar que RN parta las etiquetas a la mitad.
+      label: 'Long labels — the row scrolls instead of breaking words',
+      content: <Steps steps={LONG_STEPS} current={3} />,
+    },
+    {
+      label: 'onStepPress — let people jump back and fix a step',
       content: (
         <View style={{ gap: 16 }}>
           <Steps steps={STEPS} current={current} onStepPress={setCurrent} />

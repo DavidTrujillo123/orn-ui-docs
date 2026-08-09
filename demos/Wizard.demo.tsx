@@ -58,7 +58,7 @@ export function WizardDemo() {
   // #region demo
   const variants: VariantDef[] = [
     {
-      label: 'Basic — three steps, uncontrolled',
+      label: 'A simple 3-step flow — Wizard tracks the current step itself',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} onFinish={() => {}} />
@@ -66,7 +66,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'Vertical indicator',
+      label: 'orientation="vertical" — the step list runs down the side',
       content: (
         <View style={{ height: 380 }}>
           <Wizard steps={SIMPLE} orientation="vertical" onFinish={() => {}} />
@@ -74,7 +74,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'Numbers instead of checks',
+      label: 'completedIndicator="number" — count instead of a check',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} completedIndicator="number" onFinish={() => {}} />
@@ -82,7 +82,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'Per-step validation (canGoNext)',
+      label: 'A real signup — Next stays disabled until the step is valid',
       content: (
         <View style={{ height: 340 }}>
           <Wizard steps={validated} nextLabel="Continue" finishLabel="Create account" onFinish={() => {}} />
@@ -90,7 +90,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'Custom labels',
+      label: 'Custom labels — rename Back / Next / Finish',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} backLabel="Previous" nextLabel="Continue" finishLabel="Done" onFinish={() => {}} />

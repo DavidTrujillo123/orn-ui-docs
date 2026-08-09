@@ -16,7 +16,7 @@ export function SegmentedControlDemo() {
   // #region demo
   const variants: VariantDef[] = [
     {
-      label: 'three options',
+      label: 'Switch the range of a chart — three options',
       content: (
         <View style={{ gap: 12 }}>
           <SegmentedControl options={RANGES} value={range} onChange={setRange} />
@@ -25,7 +25,7 @@ export function SegmentedControlDemo() {
       ),
     },
     {
-      label: 'two options',
+      label: 'Two options — reads like an on/off switch',
       content: (
         <SegmentedControl
           options={[
@@ -38,7 +38,7 @@ export function SegmentedControlDemo() {
       ),
     },
     {
-      label: 'one option disabled',
+      label: 'One option disabled — e.g. a plan not available yet',
       content: (
         <SegmentedControl
           options={[...RANGES.slice(0, 2), { value: 'month', label: 'Month', disabled: true }]}
@@ -48,7 +48,7 @@ export function SegmentedControlDemo() {
       ),
     },
     {
-      label: 'disabled',
+      label: 'The whole control disabled — while its data loads',
       content: <SegmentedControl options={RANGES} value={range} onChange={setRange} disabled />,
     },
   ];

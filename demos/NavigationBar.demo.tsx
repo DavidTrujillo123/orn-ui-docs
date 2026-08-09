@@ -40,19 +40,19 @@ export function NavigationBarDemo() {
   // #region demo
   const variants: VariantDef[] = [
     {
-      label: 'with the tab content',
+      label: 'A real tab bar — tap an item, the screen above it changes',
       content: <TabbedScreen />,
     },
     {
-      label: 'default — labels + badge',
+      label: 'Default — icon, label and a badge for unread alerts',
       content: <ControlledBar />,
     },
     {
-      label: 'showLabels={false} — icons only',
+      label: 'showLabels={false} — icons only, for a denser bar',
       content: <ControlledBar showLabels={false} />,
     },
     {
-      label: 'position="top"',
+      label: 'position="top" — a top tab bar instead of bottom',
       content: <ControlledBar position="top" />,
     },
   ];

@@ -11,7 +11,7 @@ export function getStaticPaths() {
 
 export const GET: APIRoute = ({ props }) => {
   const t = useTranslations('es');
-  const markdown = buildComponentMarkdown(props.component, t);
+  const markdown = buildComponentMarkdown(props.component, t, 'es');
   return new Response(markdown, {
     headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
   });

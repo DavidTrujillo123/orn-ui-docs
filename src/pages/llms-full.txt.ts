@@ -17,7 +17,7 @@ export const GET: APIRoute = () => {
   const typographyMembers = all.filter((c: any) => c.sourceFile === 'Text');
   const body = all
     .filter((c: any) => !isMergedIntoGroupPage(c))
-    .map((c: any) => buildComponentMarkdown(c, t))
+    .map((c: any) => buildComponentMarkdown(c, t, 'en'))
     .join('\n\n---\n\n');
   const full = [buildGettingStartedMarkdown(), buildTypographyMarkdown(typographyMembers), body].join('\n\n---\n\n');
   return new Response(`# orn-ui — full reference\n\n${full}`, {

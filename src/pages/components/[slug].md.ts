@@ -12,7 +12,7 @@ export function getStaticPaths() {
 // Misma página en Markdown, para crawlers y LLMs que no quieran parsear HTML.
 export const GET: APIRoute = ({ props }) => {
   const t = useTranslations('en');
-  const markdown = buildComponentMarkdown(props.component, t);
+  const markdown = buildComponentMarkdown(props.component, t, 'en');
   return new Response(markdown, {
     headers: { 'Content-Type': 'text/markdown; charset=utf-8' },
   });

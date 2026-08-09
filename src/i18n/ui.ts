@@ -1,7 +1,10 @@
-// Diccionario de textos de interfaz. Solo cadenas estáticas del sitio —
-// nombres de componentes, snippets y descripciones de props vienen de
-// orn-ui/src (JSDoc en inglés) y no se traducen: traducirlas a mano las
-// desincronizaría del código fuente real.
+// Carga de traducciones. Los textos viven en en.json y es.json; este archivo
+// solo los tipa y resuelve. Nombres de componentes, snippets y descripciones
+// de props vienen de orn-ui/src (JSDoc en inglés) y no se traducen:
+// traducirlas a mano las desincronizaría del código fuente real.
+import en from './en.json';
+import es from './es.json';
+
 export const LANGUAGES = ['en', 'es'] as const;
 export type Lang = (typeof LANGUAGES)[number];
 export const DEFAULT_LANG: Lang = 'en';
@@ -11,194 +14,61 @@ export const LANGUAGE_LABELS: Record<Lang, string> = {
   es: 'ES',
 };
 
-const dict = {
-  en: {
-    'nav.gettingStarted': 'Getting Started',
-    'nav.components': 'Components',
-    'nav.tokens': 'Tokens',
-    'nav.github': 'GitHub',
-    'nav.npm': 'npm',
-    'home.search.placeholder': 'Filter components…',
-    'home.search.empty': 'No components match your filter.',
+export interface UsageEntry {
+  term: string;
+  desc: string;
+}
 
-    'search.button': 'Search',
-    'search.placeholder': 'Search components, tags, props…',
-    'search.empty': 'No matches.',
-    'search.hint': 'Search by component name or the JSX tag it renders, e.g. "Pressable" or "TextInput".',
-    'search.shortcutHint': 'to search',
-    'search.close': 'Close search',
-    'theme.toggle': 'Toggle dark mode',
+interface Translations {
+  ui: Record<string, string>;
+  // Guía de uso por componente, indexada por slug. Los componentes sin entrada
+  // simplemente no muestran la sección "Uso".
+  componentUsage: Record<string, UsageEntry[]>;
+  // Descripciones de props traducidas, indexadas por "Componente.prop". El
+  // JSDoc de orn-ui está escrito en español, así que la versión en inglés vive
+  // aquí; sin entrada se muestra el texto original de la fuente.
+  propDescriptions: Record<string, string>;
+  // Igual que propDescriptions, para los pocos @default escritos en prosa
+  // ("un placeholder gris") en vez de con un valor literal.
+  propDefaults: Record<string, string>;
+}
 
-    'sidebar.docs': 'Guides',
-    'sidebar.componentsTitle': 'Components',
-    'sidebar.toggle': 'Browse pages',
-    'nav.next': 'Next',
-    'nav.prev': 'Previous',
-    'group.atoms': 'Atoms',
-    'group.molecules': 'Molecules',
-    'group.organisms': 'Organisms',
-    'tokens.title': 'Tokens',
-    'tokens.description': 'Spacing, radius, font size and duration scales used across orn-ui.',
-    'tokens.lede.pre': 'Every component reads from these scales instead of magic numbers. Values below are generated from',
-    'tokens.lede.post': 'at build time — this page can’t drift from the source.',
-    'tokens.spacing': 'Spacing',
-    'tokens.radius': 'Radius',
-    'tokens.fontSize': 'Font size',
-    'tokens.duration': 'Duration',
-    'component.back': '← All components',
-    'component.mediaMissing': 'GIF not recorded yet — see MEDIA.md',
-    'install.title': 'Installation',
-    'install.cli': 'Install just this component (copies the source into your project, no npm dependency)',
-    'install.package': 'Or install the whole package and import it',
-    'install.dependsOn': 'Depends on:',
-    'install.core': 'core (theme + icons)',
-    'component.variants': 'Variants',
-    'component.fullSource': 'Full demo source',
-    'component.props': 'Props',
-    'component.noProps': 'No props extracted for this component.',
-    'component.descriptionSuffix': (category: string) => `orn-ui ${category.toLowerCase()}.`,
-    'props.name': 'Name',
-    'props.type': 'Type',
-    'props.default': 'Default',
-    'props.description': 'Description',
-    'toast.copiedCode': 'Copied to clipboard',
-    'toast.copiedMd': 'Page copied as Markdown',
-    'md.copyButton': 'Copy page',
-    'md.viewButton': 'View as Markdown',
+const translations: Record<Lang, Translations> = { en, es };
 
-    'gs.title': 'Getting Started',
-    'gs.description': 'How to install orn-ui and wrap your app in <UIProvider> — required before any component renders.',
-    'gs.h1': 'Getting Started',
-    'gs.lede': 'Three steps: install, wrap your app in UIProvider, then import components. Skipping step 2 is the single most common way to break orn-ui — every hook and every component reads theme, icons and labels from it.',
-    'gs.step1.title': '1. Install',
-    'gs.step1.body': 'Either the whole package, or just the components you need via the CLI (no npm dependency for the second option — see each component page for its own command).',
-    'gs.step2.title': '2. Wrap your app in UIProvider',
-    'gs.step2.body': 'UIProvider is the single entry point of the library. It resolves the active theme (system or manual override) and injects icons, safe-area insets and default labels to the whole tree. Mount it once, above your navigator — root of App.tsx is the usual place.',
-    'gs.step2.warning': 'Every orn-ui component and hook (useColors, useTheme, Button, Input, all of them) throws "this hook must be used within a <UIProvider>" if rendered outside one. There is no fallback and no silent default — it fails loudly at runtime, not at build time.',
-    'gs.step3.title': '3. Use components',
-    'gs.step3.body': 'Now every component page on this site works as shown — copy a variant snippet, it renders. See the component list below.',
-    'gs.props.title': 'UIProvider props',
-    'gs.cta': 'Browse components',
-    'gs.requiresProvider': 'Requires <UIProvider>',
-    'gs.requiresProviderNote': 'This component (like every orn-ui component) must render inside a <UIProvider> ancestor, or it throws at runtime.',
-    'gs.linkText': 'Getting Started',
+export type UIKey = keyof typeof en.ui;
 
-    'gs.safeArea.title': 'Recommended: SafeAreaUIProvider',
-    'gs.safeArea.body': 'UIProvider defaults insets to {top:0,bottom:0,left:0,right:0} — harmless until you open a full-screen Modal (slides under the notch) or a BottomSheet (sits flush against the gesture bar). SafeAreaUIProvider is UIProvider with useSafeAreaInsets() already wired in — use it instead of UIProvider and this is handled.',
-    'gs.safeArea.subpath': 'It lives in its own subpath (orn-ui/safe-area), on purpose: it is the only file in the library that imports a third-party package (react-native-safe-area-context). Nothing in the main orn-ui entry point references it, so a plain import { Button } from \'orn-ui\' never pulls it in — the rest of the library stays zero-dependency.',
-    'gs.safeArea.install': 'Needs react-native-safe-area-context as a peer (optional — only required if you use this import):',
-    'gs.safeArea.nestedNote': 'Already mounting a <SafeAreaProvider> higher up (some React Navigation templates do)? Pass mountSafeAreaProvider={false} — a nested provider measures its own View\'s frame, not the window\'s, so insets read zero from inside it.',
-    'gs.safeArea.propsTitle': 'SafeAreaUIProviderProps',
-    'gs.safeArea.propsNote': 'Plus every UIProvider prop above except insets (still accepted, but optional — it overrides the measured value instead of being required).',
-
-    'typography.name': 'Typography',
-    'typography.description': 'Title, Subtitle, Body and Caption — the 4 text styles of orn-ui, one shared install.',
-    'typography.lede': 'Four text styles, one file, one install. Title, Subtitle, Body and Caption all come from the same Text.tsx and ship together — installing one gets you all four.',
-    'typography.usage': 'Usage',
-    'typography.combined': 'Example — used together',
-    'typography.cherryPick': 'Installing copies the whole file, but you only import and render what you actually use — you do not need all four.',
-    'typography.sharedProps': 'Same props for Title, Subtitle, Body and Caption — all four share the same TypographyProps.',
-    'typography.title.usage': 'Page and section headings — the largest, boldest style. One or two per screen, not more.',
-    'typography.subtitle.usage': 'Secondary heading, right below a Title, or standalone for a lighter section header.',
-    'typography.body.usage': 'The default paragraph style — most of the text on a screen should be Body.',
-    'typography.caption.usage': 'Small print: secondary hints, metadata, timestamps, helper text under a field.',
-  },
-  es: {
-    'nav.gettingStarted': 'Primeros pasos',
-    'nav.components': 'Componentes',
-    'nav.tokens': 'Tokens',
-    'nav.github': 'GitHub',
-    'nav.npm': 'npm',
-    'home.search.placeholder': 'Filtrar componentes…',
-    'home.search.empty': 'Ningún componente coincide con el filtro.',
-
-    'search.button': 'Buscar',
-    'search.placeholder': 'Buscar componentes, tags, props…',
-    'search.empty': 'Sin resultados.',
-    'search.hint': 'Busca por nombre de componente o por el tag JSX que renderiza, por ejemplo "Pressable" o "TextInput".',
-    'search.shortcutHint': 'para buscar',
-    'search.close': 'Cerrar búsqueda',
-    'theme.toggle': 'Cambiar tema claro/oscuro',
-
-    'sidebar.docs': 'Guías',
-    'sidebar.componentsTitle': 'Componentes',
-    'sidebar.toggle': 'Explorar páginas',
-    'nav.next': 'Siguiente',
-    'nav.prev': 'Anterior',
-    'group.atoms': 'Átomos',
-    'group.molecules': 'Moléculas',
-    'group.organisms': 'Organismos',
-    'tokens.title': 'Tokens',
-    'tokens.description': 'Escalas de espaciado, radio, tamaño de fuente y duración usadas en orn-ui.',
-    'tokens.lede.pre': 'Cada componente lee de estas escalas en vez de números mágicos. Los valores de abajo se generan desde',
-    'tokens.lede.post': 'en build time — esta página no puede desincronizarse de la fuente.',
-    'tokens.spacing': 'Espaciado',
-    'tokens.radius': 'Radio',
-    'tokens.fontSize': 'Tamaño de fuente',
-    'tokens.duration': 'Duración',
-    'component.back': '← Todos los componentes',
-    'component.mediaMissing': 'GIF aún no grabado — ver MEDIA.md',
-    'install.title': 'Instalación',
-    'install.cli': 'Instala solo este componente (copia el código fuente a tu proyecto, sin dependencia npm)',
-    'install.package': 'O instala el paquete completo e impórtalo',
-    'install.dependsOn': 'Depende de:',
-    'install.core': 'core (theme + icons)',
-    'component.variants': 'Variantes',
-    'component.fullSource': 'Código completo del demo',
-    'component.props': 'Props',
-    'component.noProps': 'No se extrajeron props para este componente.',
-    'component.descriptionSuffix': (category: string) => `${category.toLowerCase()} de orn-ui.`,
-    'props.name': 'Nombre',
-    'props.type': 'Tipo',
-    'props.default': 'Default',
-    'props.description': 'Descripción',
-    'toast.copiedCode': 'Copiado al portapapeles',
-    'toast.copiedMd': 'Página copiada como Markdown',
-    'md.copyButton': 'Copiar página',
-    'md.viewButton': 'Ver como Markdown',
-
-    'gs.title': 'Primeros pasos',
-    'gs.description': 'Cómo instalar orn-ui y envolver tu app en <UIProvider> — obligatorio antes de que cualquier componente renderice.',
-    'gs.h1': 'Primeros pasos',
-    'gs.lede': 'Tres pasos: instalar, envolver tu app en UIProvider y después importar componentes. Omitir el paso 2 es la forma más común de romper orn-ui — cada hook y cada componente lee el theme, los íconos y los labels desde ahí.',
-    'gs.step1.title': '1. Instalación',
-    'gs.step1.body': 'El paquete completo, o solo los componentes que necesites mediante el CLI (la segunda opción no agrega dependencia npm — consulta el comando específico en cada página de componente).',
-    'gs.step2.title': '2. Envuelve tu app en UIProvider',
-    'gs.step2.body': 'UIProvider es el único punto de entrada de la librería. Resuelve el theme activo (del sistema o por override manual) e inyecta íconos, insets de safe area y labels por defecto a todo el árbol. Móntalo una sola vez, por encima de tu navigator — la raíz de App.tsx es el lugar habitual.',
-    'gs.step2.warning': 'Todo componente y hook de orn-ui (useColors, useTheme, Button, Input, todos) lanza "this hook must be used within a <UIProvider>" si se renderiza fuera de uno. No hay fallback ni valor por defecto silencioso — falla de forma explícita en runtime, no en build.',
-    'gs.step3.title': '3. Usa los componentes',
-    'gs.step3.body': 'A partir de aquí, cada página de componente de este sitio funciona tal como se muestra: copias un snippet de variante y renderiza. Consulta la lista de componentes más abajo.',
-    'gs.props.title': 'Props de UIProvider',
-    'gs.cta': 'Ver componentes',
-    'gs.requiresProvider': 'Requiere <UIProvider>',
-    'gs.requiresProviderNote': 'Este componente (como todos los de orn-ui) debe renderizarse dentro de un ancestro <UIProvider>, o lanza un error en runtime.',
-    'gs.linkText': 'Primeros pasos',
-
-    'gs.safeArea.title': 'Recomendado: SafeAreaUIProvider',
-    'gs.safeArea.body': 'UIProvider deja los insets en {top:0,bottom:0,left:0,right:0} por defecto — inofensivo hasta que abres un Modal fullScreen (se mete debajo del notch) o un BottomSheet (queda pegado a la barra de gestos). SafeAreaUIProvider es UIProvider con useSafeAreaInsets() ya conectado — úsalo en lugar de UIProvider y este problema queda resuelto.',
-    'gs.safeArea.subpath': 'Vive en su propio subpath (orn-ui/safe-area) a propósito: es el único archivo de la librería que importa un paquete de terceros (react-native-safe-area-context). Nada del entry principal de orn-ui lo referencia, así que un import { Button } from \'orn-ui\' normal nunca lo resuelve — el resto de la librería sigue sin dependencias.',
-    'gs.safeArea.install': 'Necesita react-native-safe-area-context como peer (opcional — solo hace falta si usas este import):',
-    'gs.safeArea.nestedNote': '¿Tu app ya monta un <SafeAreaProvider> más arriba (algunas plantillas de React Navigation lo hacen)? Pasa mountSafeAreaProvider={false} — un provider anidado mide el frame de su propia View, no el de la ventana, así que dentro de él los insets dan cero.',
-    'gs.safeArea.propsTitle': 'SafeAreaUIProviderProps',
-    'gs.safeArea.propsNote': 'Además de todas las props de UIProvider indicadas arriba, excepto insets (se sigue aceptando, pero es opcional — sobrescribe el valor medido en lugar de ser obligatoria).',
-
-    'typography.name': 'Tipografía',
-    'typography.description': 'Title, Subtitle, Body y Caption — los 4 estilos de texto de orn-ui, una sola instalación.',
-    'typography.lede': 'Cuatro estilos de texto, un archivo, una instalación. Title, Subtitle, Body y Caption salen todos del mismo Text.tsx y se instalan juntos — al instalar uno obtienes los cuatro.',
-    'typography.usage': 'Uso',
-    'typography.combined': 'Ejemplo — usados juntos',
-    'typography.cherryPick': 'La instalación copia el archivo completo, pero solo importas y renderizas lo que realmente usas — no necesitas los cuatro.',
-    'typography.sharedProps': 'Las mismas props para Title, Subtitle, Body y Caption — los cuatro comparten TypographyProps.',
-    'typography.title.usage': 'Títulos de página y de sección — el estilo más grande y con más peso. Uno o dos por pantalla, no más.',
-    'typography.subtitle.usage': 'Subtítulo, justo debajo de un Title, o por sí solo como encabezado de sección más ligero.',
-    'typography.body.usage': 'El estilo de párrafo por defecto — la mayor parte del texto de una pantalla debería ser Body.',
-    'typography.caption.usage': 'Texto pequeño: notas secundarias, metadatos, marcas de tiempo o texto de ayuda debajo de un campo.',
-  },
-} satisfies Record<Lang, Record<string, string | ((...args: any[]) => string)>>;
+// Las cadenas con partes variables usan marcadores {nombre}; el orden de los
+// argumentos es el orden en que aparecen los marcadores en la cadena en inglés.
+function interpolate(template: string, args: unknown[]): string {
+  let i = 0;
+  return template.replace(/\{(\w+)\}/g, () => String(args[i++] ?? ''));
+}
 
 export function useTranslations(lang: Lang) {
-  return function t(key: keyof (typeof dict)['en'], ...args: any[]) {
-    const entry = (dict[lang] as any)[key] ?? (dict[DEFAULT_LANG] as any)[key];
-    return typeof entry === 'function' ? entry(...args) : entry;
+  return function t(key: UIKey, ...args: unknown[]): string {
+    const entry = translations[lang].ui[key] ?? translations[DEFAULT_LANG].ui[key] ?? key;
+    return args.length > 0 ? interpolate(entry, args) : entry;
   };
+}
+
+export function getPropDescription(
+  lang: Lang,
+  componentName: string,
+  propName: string,
+  fallback?: string
+): string {
+  return translations[lang].propDescriptions[`${componentName}.${propName}`] ?? fallback ?? '';
+}
+
+export function getPropDefault(
+  lang: Lang,
+  componentName: string,
+  propName: string,
+  fallback?: string | null
+): string | null {
+  return translations[lang].propDefaults[`${componentName}.${propName}`] ?? fallback ?? null;
+}
+
+export function getComponentUsage(lang: Lang, slug: string): UsageEntry[] {
+  return translations[lang].componentUsage[slug] ?? translations[DEFAULT_LANG].componentUsage[slug] ?? [];
 }

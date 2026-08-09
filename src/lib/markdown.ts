@@ -1,12 +1,14 @@
 // Componente -> Markdown. Fuente única del botón "Copy page" y de los
 // endpoints .md. Recibe `t` para que los encabezados salgan traducidos.
+import { getPropDescription, getPropDefault, DEFAULT_LANG, type Lang } from '../i18n/ui';
+
 type T = (key: string, ...args: any[]) => string;
 
 function escCell(s: unknown): string {
   return String(s ?? '').replace(/\|/g, '\\|').replace(/\r?\n/g, ' ');
 }
 
-export function buildComponentMarkdown(component: any, t: T): string {
+export function buildComponentMarkdown(component: any, t: T, lang: Lang = DEFAULT_LANG): string {
   const lines: string[] = [];
   lines.push(`# ${component.name}`, '', `> ${component.category} — orn-ui`, '');
   lines.push(
@@ -52,8 +54,10 @@ export function buildComponentMarkdown(component: any, t: T): string {
     );
     for (const p of component.props) {
       const name = p.name + (p.required ? '' : '?');
+      const desc = getPropDescription(lang, component.name, p.name, p.description);
+      const def = getPropDefault(lang, component.name, p.name, p.defaultValue);
       lines.push(
-        `| \`${escCell(name)}\` | \`${escCell(p.type)}\` | ${escCell(p.defaultValue ?? '—')} | ${escCell(p.description || '—')} |`
+        `| \`${escCell(name)}\` | \`${escCell(p.type)}\` | ${escCell(def ?? '—')} | ${escCell(desc || '—')} |`
       );
     }
   } else {

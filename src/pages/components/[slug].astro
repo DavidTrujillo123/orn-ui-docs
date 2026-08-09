@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { component } = Astro.props as { component: any };
 const t = useTranslations('en');
-const description = `${component.name} — ${t('component.descriptionSuffix', component.category)}`;
+const description = `${component.name} — ${t('component.descriptionSuffix', component.category.toLowerCase())}`;
 const markdownUrl = `/components/${component.slug}.md`;
 
 const jsonLd = {

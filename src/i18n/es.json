@@ -1,0 +1,623 @@
+{
+  "ui": {
+    "nav.gettingStarted": "Primeros pasos",
+    "nav.components": "Componentes",
+    "nav.tokens": "Tokens",
+    "nav.github": "GitHub",
+    "nav.npm": "npm",
+    "home.search.placeholder": "Filtrar componentes…",
+    "home.search.empty": "Ningún componente coincide con el filtro.",
+    "search.button": "Buscar",
+    "search.placeholder": "Buscar componentes, tags, props…",
+    "search.empty": "Sin resultados.",
+    "search.hint": "Busca por nombre de componente o por el tag JSX que renderiza, por ejemplo \"Pressable\" o \"TextInput\".",
+    "search.shortcutHint": "para buscar",
+    "search.close": "Cerrar búsqueda",
+    "theme.toggle": "Cambiar tema claro/oscuro",
+    "sidebar.docs": "Guías",
+    "sidebar.componentsTitle": "Componentes",
+    "sidebar.toggle": "Explorar páginas",
+    "nav.next": "Siguiente",
+    "nav.prev": "Anterior",
+    "group.atoms": "Átomos",
+    "group.molecules": "Moléculas",
+    "group.organisms": "Organismos",
+    "tokens.title": "Tokens",
+    "tokens.description": "Escalas de espaciado, radio, tamaño de fuente y duración usadas en orn-ui.",
+    "tokens.lede.pre": "Cada componente lee de estas escalas en vez de números mágicos. Los valores de abajo se generan desde",
+    "tokens.lede.post": "en build time — esta página no puede desincronizarse de la fuente.",
+    "tokens.spacing": "Espaciado",
+    "tokens.radius": "Radio",
+    "tokens.fontSize": "Tamaño de fuente",
+    "tokens.duration": "Duración",
+    "component.back": "← Todos los componentes",
+    "component.mediaMissing": "GIF aún no grabado — ver MEDIA.md",
+    "install.title": "Instalación",
+    "install.cli": "Instala solo este componente (copia el código fuente a tu proyecto, sin dependencia npm)",
+    "install.package": "O instala el paquete completo e impórtalo",
+    "install.dependsOn": "Depende de:",
+    "install.core": "core (theme + icons)",
+    "component.variants": "Variantes",
+    "component.fullSource": "Código completo del demo",
+    "component.props": "Props",
+    "component.noProps": "No se extrajeron props para este componente.",
+    "component.descriptionSuffix": "{category} de orn-ui.",
+    "props.name": "Nombre",
+    "props.type": "Tipo",
+    "props.default": "Por defecto",
+    "props.description": "Descripción",
+    "toast.copiedCode": "Copiado al portapapeles",
+    "toast.copiedMd": "Página copiada como Markdown",
+    "md.copyButton": "Copiar página",
+    "md.viewButton": "Ver como Markdown",
+    "gs.title": "Primeros pasos",
+    "gs.description": "Cómo instalar orn-ui y envolver tu app en <UIProvider> — obligatorio antes de que cualquier componente renderice.",
+    "gs.h1": "Primeros pasos",
+    "gs.lede": "Tres pasos: instalar, envolver tu app en UIProvider y después importar componentes. Omitir el paso 2 es la forma más común de romper orn-ui — cada hook y cada componente lee el theme, los íconos y los labels desde ahí.",
+    "gs.step1.title": "1. Instalación",
+    "gs.step1.body": "El paquete completo, o solo los componentes que necesites mediante el CLI (la segunda opción no agrega dependencia npm — consulta el comando específico en cada página de componente).",
+    "gs.step2.title": "2. Envuelve tu app en UIProvider",
+    "gs.step2.body": "UIProvider es el único punto de entrada de la librería. Resuelve el theme activo (del sistema o por override manual) e inyecta íconos, insets de safe area y labels por defecto a todo el árbol. Móntalo una sola vez, por encima de tu navigator — la raíz de App.tsx es el lugar habitual.",
+    "gs.step2.warning": "Todo componente y hook de orn-ui (useColors, useTheme, Button, Input, todos) lanza \"this hook must be used within a <UIProvider>\" si se renderiza fuera de uno. No hay fallback ni valor por defecto silencioso — falla de forma explícita en runtime, no en build.",
+    "gs.step3.title": "3. Usa los componentes",
+    "gs.step3.body": "A partir de aquí, cada página de componente de este sitio funciona tal como se muestra: copias un snippet de variante y renderiza. Consulta la lista de componentes más abajo.",
+    "gs.props.title": "Props de UIProvider",
+    "gs.cta": "Ver componentes",
+    "gs.requiresProvider": "Requiere <UIProvider>",
+    "gs.requiresProviderNote": "Este componente (como todos los de orn-ui) debe renderizarse dentro de un ancestro <UIProvider>, o lanza un error en runtime.",
+    "gs.linkText": "Primeros pasos",
+    "gs.safeArea.title": "Recomendado: SafeAreaUIProvider",
+    "gs.safeArea.body": "UIProvider deja los insets en {top:0,bottom:0,left:0,right:0} por defecto — inofensivo hasta que abres un Modal fullScreen (se mete debajo del notch) o un BottomSheet (queda pegado a la barra de gestos). SafeAreaUIProvider es UIProvider con useSafeAreaInsets() ya conectado — úsalo en lugar de UIProvider y este problema queda resuelto.",
+    "gs.safeArea.subpath": "Vive en su propio subpath (orn-ui/safe-area) a propósito: es el único archivo de la librería que importa un paquete de terceros (react-native-safe-area-context). Nada del entry principal de orn-ui lo referencia, así que un import { Button } from 'orn-ui' normal nunca lo resuelve — el resto de la librería sigue sin dependencias.",
+    "gs.safeArea.install": "Necesita react-native-safe-area-context como peer (opcional — solo hace falta si usas este import):",
+    "gs.safeArea.nestedNote": "¿Tu app ya monta un <SafeAreaProvider> más arriba (algunas plantillas de React Navigation lo hacen)? Pasa mountSafeAreaProvider={false} — un provider anidado mide el frame de su propia View, no el de la ventana, así que dentro de él los insets dan cero.",
+    "gs.safeArea.propsTitle": "SafeAreaUIProviderProps",
+    "gs.safeArea.propsNote": "Además de todas las props de UIProvider indicadas arriba, excepto insets (se sigue aceptando, pero es opcional — sobrescribe el valor medido en lugar de ser obligatoria).",
+    "typography.name": "Tipografía",
+    "typography.description": "Title, Subtitle, Body y Caption — los 4 estilos de texto de orn-ui, una sola instalación.",
+    "typography.lede": "Cuatro estilos de texto, un archivo, una instalación. Title, Subtitle, Body y Caption salen todos del mismo Text.tsx y se instalan juntos — al instalar uno obtienes los cuatro.",
+    "typography.usage": "Uso",
+    "typography.combined": "Ejemplo — usados juntos",
+    "typography.cherryPick": "La instalación copia el archivo completo, pero solo importas y renderizas lo que realmente usas — no necesitas los cuatro.",
+    "typography.sharedProps": "Las mismas props para Title, Subtitle, Body y Caption — los cuatro comparten TypographyProps.",
+    "typography.title.usage": "Títulos de página y de sección — el estilo más grande y con más peso. Uno o dos por pantalla, no más.",
+    "typography.subtitle.usage": "Subtítulo, justo debajo de un Title, o por sí solo como encabezado de sección más ligero.",
+    "typography.body.usage": "El estilo de párrafo por defecto — la mayor parte del texto de una pantalla debería ser Body.",
+    "typography.caption.usage": "Texto pequeño: notas secundarias, metadatos, marcas de tiempo o texto de ayuda debajo de un campo.",
+    "component.usage": "Uso"
+  },
+  "componentUsage": {
+    "alert": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Interrumpir para confirmar o informar algo que no puede esperar. Para el resto alcanza un Toast."
+      },
+      {
+        "term": "type",
+        "desc": "`question` para confirmaciones; `success`, `error`, `warning` e `info` para informar."
+      },
+      {
+        "term": "buttons",
+        "desc": "Más allá de confirmar/cancelar: una lista con etiquetas y handlers propios."
+      },
+      {
+        "term": "inline",
+        "desc": "Lo renderiza dentro del layout en vez de sobre la pantalla — para documentación y demos."
+      }
+    ],
+    "avatar": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Representar a una persona o entidad: cabeceras de perfil, filas de lista, hilos de comentarios."
+      },
+      {
+        "term": "size",
+        "desc": "Un número en puntos (44 por defecto). Conviene un solo tamaño por contexto."
+      },
+      {
+        "term": "backgroundColor",
+        "desc": "Override del círculo; sirve para codificar por color según el tipo de entidad."
+      }
+    ],
+    "avatar-header": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "La cabecera de un perfil o una pantalla de detalle: avatar, título y una línea de apoyo."
+      },
+      {
+        "term": "iconName / initials",
+        "desc": "Las iniciales cuando hay un nombre; el ícono cuando no lo hay."
+      }
+    ],
+    "badge": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Un estado corto, de solo lectura, pegado a otra cosa. Nunca maneja un press."
+      },
+      {
+        "term": "variant",
+        "desc": "Semántica, no decorativa: `success`, `error`, `warning`, `info`, `neutral` (el default)."
+      },
+      {
+        "term": "backgroundColor / textColor",
+        "desc": "Override manual, para estados propios del producto que las cinco variantes no cubren."
+      }
+    ],
+    "bottom-sheet": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Acciones o contenido secundario sobre la pantalla actual, sin salir de ella."
+      },
+      {
+        "term": "visible / onClose",
+        "desc": "Controlado: cierra con el fondo y con el gesto, siempre a través de `onClose`."
+      }
+    ],
+    "button": [
+      {
+        "term": "primary",
+        "desc": "La acción principal de una pantalla — una por vista. Enviar, confirmar, continuar."
+      },
+      {
+        "term": "secondary",
+        "desc": "Una acción de apoyo junto a la principal, cuando ambas importan."
+      },
+      {
+        "term": "outline / ghost",
+        "desc": "Acciones de baja jerarquía: cancelar, descartar o acciones repetidas en una lista."
+      },
+      {
+        "term": "link",
+        "desc": "Se lee como texto, no como control — navegación dentro de un párrafo o un pie."
+      },
+      {
+        "term": "destructive",
+        "desc": "Borrados o acciones sin retorno. Acompañarla siempre con una confirmación."
+      },
+      {
+        "term": "size",
+        "desc": "`md` por defecto. `lg` para una llamada a la acción de ancho completo, `sm` dentro de filas o tarjetas densas."
+      },
+      {
+        "term": "loading / disabled",
+        "desc": "Usar `loading` mientras corre una acción asíncrona y `disabled` cuando la acción todavía no está disponible."
+      }
+    ],
+    "card": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Agrupar contenido relacionado en una superficie: un resumen, un ítem de lista con varias líneas, un bloque de formulario."
+      },
+      {
+        "term": "composición",
+        "desc": "Aporta padding, radio y elevación, nada más — el contenido de adentro es libre."
+      },
+      {
+        "term": "style",
+        "desc": "Los ajustes de espaciado o ancho van acá, no en un View que envuelva la Card."
+      }
+    ],
+    "checkbox": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una decisión binaria que se sostiene sola: aceptar términos, recordar sesión, activar un filtro."
+      },
+      {
+        "term": "value / onValueChange",
+        "desc": "Siempre controlado — el estado vive en el padre."
+      },
+      {
+        "term": "label",
+        "desc": "Es tocable junto con la caja. Se omite solo cuando un texto cercano ya la nombra."
+      },
+      {
+        "term": "color",
+        "desc": "Override del acento en estado marcado; por defecto sigue el primary del theme."
+      }
+    ],
+    "date-field": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una fecha dentro de un formulario: se lee como un Input y abre el calendario en un modal."
+      },
+      {
+        "term": "format",
+        "desc": "Cómo se lee la fecha elegida en el campo. Conviene alinearlo con el locale."
+      },
+      {
+        "term": "required / error",
+        "desc": "Mismo patrón que Input y Select."
+      },
+      {
+        "term": "modalTitle / clearLabel",
+        "desc": "Los textos del modal, para cuando la app no está en inglés."
+      }
+    ],
+    "date-picker": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Un calendario inline. Para elegir una fecha desde un formulario, DateField envuelve a este en un campo."
+      },
+      {
+        "term": "mode",
+        "desc": "`single` elige una fecha; `range` elige un intervalo con dos toques."
+      },
+      {
+        "term": "minDate / maxDate",
+        "desc": "Acotan la selección en vez de validar después."
+      },
+      {
+        "term": "monthNames / weekdayNames",
+        "desc": "Localización: el componente no trae traducciones propias."
+      },
+      {
+        "term": "firstDayOfWeek",
+        "desc": "`0` domingo, `1` lunes — una decisión regional, no estética."
+      }
+    ],
+    "divider": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Separar secciones de una lista o un formulario cuando el espacio en blanco no alcanza."
+      },
+      {
+        "term": "style",
+        "desc": "El margen se ajusta acá. Dos divisores seguidos, o uno justo después de un título de sección, suelen sobrar."
+      }
+    ],
+    "empty-state": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una lista o una búsqueda que no devolvió nada. No para errores — eso es Alert o un estado con reintento."
+      },
+      {
+        "term": "title / description",
+        "desc": "El título nombra lo que falta; la descripción dice qué hacer al respecto."
+      },
+      {
+        "term": "iconName / icon",
+        "desc": "`search` por defecto. Se cambia para que el ícono coincida con lo que está vacío."
+      }
+    ],
+    "fab": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "La acción principal única de una pantalla, flotando sobre el contenido. Uno por pantalla."
+      },
+      {
+        "term": "bottom / right",
+        "desc": "Desplazamientos en puntos. Conviene subir `bottom` cuando hay un tab bar o un footer debajo."
+      },
+      {
+        "term": "accessibilityLabel",
+        "desc": "Obligatoria: el botón es solo un ícono."
+      }
+    ],
+    "form-actions": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "La barra de acciones al pie de un formulario o un modal — mantiene el orden y el espaciado parejos."
+      },
+      {
+        "term": "primaryLabel",
+        "desc": "Si se omite, solo se renderiza el botón secundario (un pie con Cancelar únicamente)."
+      },
+      {
+        "term": "primaryLoading / primaryDisabled",
+        "desc": "`primaryLoading` mientras corre el envío, `primaryDisabled` mientras el formulario no es válido."
+      }
+    ],
+    "icon-button": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una acción sin espacio para etiqueta — cabeceras de modal, filas de lista, barras de herramientas. Si la etiqueta entra, va Button."
+      },
+      {
+        "term": "iconName / icon",
+        "desc": "`iconName` toma un ícono del set incluido; `icon` acepta cualquier nodo cuando el set no alcanza."
+      },
+      {
+        "term": "size",
+        "desc": "Un número en puntos (24 por defecto). Conviene mantenerlo parejo dentro de una fila o cabecera."
+      },
+      {
+        "term": "accessibilityLabel",
+        "desc": "Obligatoria, y con razón: no hay texto visible, así que es lo único que anuncia un lector de pantalla."
+      }
+    ],
+    "image": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Imágenes remotas que necesitan estado de carga y de error — o sea, casi todas."
+      },
+      {
+        "term": "radius",
+        "desc": "Mismo patrón que Avatar/Card. Se define acá, no con un wrapper con overflow."
+      },
+      {
+        "term": "loading / fallback",
+        "desc": "Qué mostrar mientras carga y si falla. Ambas aceptan un nodo, así que un skeleton con forma de imagen entra bien."
+      },
+      {
+        "term": "priority",
+        "desc": "`high` hace prefetch al montar — para la imagen principal de una pantalla, no para cada ítem de una lista."
+      }
+    ],
+    "info-row": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Filas de detalle de solo lectura con ícono: datos de contacto, metadatos de una orden."
+      },
+      {
+        "term": "placeholder",
+        "desc": "Obligatoria, porque el valor ausente es el caso común — deja el hueco explícito en vez de un espacio vacío."
+      }
+    ],
+    "input": [
+      {
+        "term": "label / required",
+        "desc": "`required` solo pinta el asterisco — la validación queda del lado de quien lo usa."
+      },
+      {
+        "term": "error",
+        "desc": "Pasar un string cambia el campo a estado de error y muestra el mensaje debajo."
+      },
+      {
+        "term": "isPassword",
+        "desc": "Agrega el toggle de mostrar/ocultar. No conviene combinarlo con un ícono derecho propio."
+      },
+      {
+        "term": "rightIconName / onRightIconPress",
+        "desc": "Los patrones de limpiar, buscar o cambiar unidad: un ícono a elección con su handler."
+      },
+      {
+        "term": "isLoading",
+        "desc": "Para campos que resuelven algo asíncrono (una búsqueda por código, una validación remota)."
+      }
+    ],
+    "key-value-row": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Pares de solo lectura apilados en columna: totales, detalle de una orden, un resumen antes de confirmar."
+      },
+      {
+        "term": "value",
+        "desc": "Acepta un nodo, no solo un string — un Badge o un monto en negrita funcionan."
+      },
+      {
+        "term": "labelStyle / valueStyle",
+        "desc": "Destacar la última fila de un total sin armar un componente aparte."
+      }
+    ],
+    "list": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Cualquier lista de datos: resuelve carga, vacío y paginado para que cada pantalla no los reinvente."
+      },
+      {
+        "term": "isLoading / isReady",
+        "desc": "`isLoading` es la carga de los datos; `isReady` es todo lo que la pantalla necesita antes de renderizar algo."
+      },
+      {
+        "term": "emptyTitle / emptyDescription",
+        "desc": "Alimentan el EmptyState que muestra cuando no hay nada."
+      },
+      {
+        "term": "onEndReached / isLoadingMore",
+        "desc": "Paginado: el callback carga, la bandera muestra el spinner del pie."
+      },
+      {
+        "term": "ListComponent",
+        "desc": "`FlatList` por defecto; se cambia por FlashList sin tocar el resto."
+      }
+    ],
+    "modal": [
+      {
+        "term": "variant",
+        "desc": "`full` y `fullScreen` para una tarea completa; `overlay` para una confirmación corta; `bottomSheet` para acciones sobre el contexto actual."
+      },
+      {
+        "term": "onClose",
+        "desc": "También se dispara con el fondo y con la X de la cabecera — conviene que sea idempotente."
+      },
+      {
+        "term": "footer",
+        "desc": "Donde va FormActions: queda fijo mientras el contenido scrollea."
+      },
+      {
+        "term": "scrollable",
+        "desc": "Activo por defecto. Se apaga cuando el contenido ya trae su propia lista."
+      }
+    ],
+    "option-card": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Elegir entre pocas opciones, cada una con un ícono — un método de pago, un tipo de envío."
+      },
+      {
+        "term": "layout",
+        "desc": "`horizontal` para una lista apilada; `vertical` para una grilla de dos o tres columnas."
+      },
+      {
+        "term": "isSelected / onPress",
+        "desc": "Selección controlada: el padre decide cuál está activa."
+      }
+    ],
+    "pressable-scale": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Dar feedback de presión a algo que no es un Button: una card, un tile, una fila."
+      },
+      {
+        "term": "scaleTo",
+        "desc": "`0.96` por defecto — se nota sin distraer. Los valores más bajos van mejor en targets chicos."
+      },
+      {
+        "term": "children",
+        "desc": "También acepta una render prop que recibe si está presionado, para cambiar el contenido mientras se mantiene."
+      }
+    ],
+    "screen": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "La raíz de toda pantalla: aplica safe area, scroll y manejo de teclado en un solo lugar."
+      },
+      {
+        "term": "edges",
+        "desc": "`['top','bottom']` por defecto. Se saca `bottom` cuando un tab bar ya lo cubre."
+      },
+      {
+        "term": "scrollable",
+        "desc": "En `false` cuando el contenido es una lista — anidar una lista dentro de un scroll rompe la virtualización."
+      },
+      {
+        "term": "keyboardAvoiding",
+        "desc": "En `false` cuando el contenido ya maneja el teclado (List, SearchList, Wizard): las dos compensaciones se suman."
+      }
+    ],
+    "search-list": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una lista cuya entrada principal es un campo de búsqueda. Si no, List."
+      },
+      {
+        "term": "searchValue / onSearchChange",
+        "desc": "Controlado: el debounce y la query viven en la pantalla, no en el componente."
+      },
+      {
+        "term": "loadingMode",
+        "desc": "`replace` cambia la lista por un spinner; `overlay` mantiene el layout, lo que evita el salto mientras se escribe."
+      },
+      {
+        "term": "onScanPress",
+        "desc": "Agrega la acción de escanear al lado del campo — para códigos, QR, barras."
+      },
+      {
+        "term": "hasMore / onLoadMore",
+        "desc": "Paginado con final explícito, así el pie avisa cuando ya no queda nada."
+      }
+    ],
+    "select": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Elegir una opción de una lista cerrada. Para dos o tres opciones con ícono, OptionCard se lee mejor."
+      },
+      {
+        "term": "options / selectedValue",
+        "desc": "Controlado y genérico: el valor conserva su tipo, no se fuerza a string."
+      },
+      {
+        "term": "error / required",
+        "desc": "Mismo patrón que Input, así un formulario que mezcla ambos queda consistente."
+      },
+      {
+        "term": "isLoading",
+        "desc": "Para opciones que llegan de la red."
+      }
+    ],
+    "spinner": [
+      {
+        "term": "variant",
+        "desc": "`native` es el indicador del sistema y el default correcto. `dots` y `ring` se ven iguales en iOS y Android cuando eso importa."
+      },
+      {
+        "term": "fullscreen",
+        "desc": "`true` ocupa toda el área; en `false` queda un spinner inline dentro de una fila o una card."
+      },
+      {
+        "term": "text",
+        "desc": "Una línea corta debajo del indicador. Va cuando la espera es larga y conviene explicarla."
+      },
+      {
+        "term": "indicator",
+        "desc": "Un nodo propio, cuando la marca pide algo que las tres variantes no cubren."
+      }
+    ],
+    "stepper": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Cantidades numéricas chicas que se ajustan a mano: unidades, porciones, ítems."
+      },
+      {
+        "term": "value / onChangeText",
+        "desc": "El valor es un string: el campo sigue siendo editable y el estado vacío no se convierte en NaN."
+      },
+      {
+        "term": "size",
+        "desc": "`md` por defecto, `sm` dentro de filas densas como la línea de un carrito."
+      }
+    ],
+    "steps": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Mostrar el avance dentro de una secuencia conocida. Solo muestra estado — el que navega es Wizard."
+      },
+      {
+        "term": "orientation",
+        "desc": "`horizontal` para tres o cuatro pasos cortos; `vertical` cuando las etiquetas son largas."
+      },
+      {
+        "term": "completedIndicator",
+        "desc": "Un check por defecto; `number` cuando la gente se refiere al paso por su número."
+      },
+      {
+        "term": "onStepPress",
+        "desc": "Hace tocable cada paso. Conviene conectarlo solo si volver atrás está realmente permitido."
+      }
+    ],
+    "theme-toggle": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Dejar elegir entre claro, oscuro o sistema — normalmente en ajustes."
+      },
+      {
+        "term": "labels",
+        "desc": "Reemplaza los tres textos incluidos cuando el producto los nombra distinto."
+      }
+    ],
+    "toast": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Confirmar algo que ya pasó, sin interrumpir. Si hace falta una decisión, es un Alert."
+      },
+      {
+        "term": "variant",
+        "desc": "`success`, `error`, `warning`, `info` — la misma semántica que Badge y Alert."
+      },
+      {
+        "term": "onPress",
+        "desc": "Lo hace tocable: normalmente para abrir aquello de lo que habla. También lo cierra."
+      },
+      {
+        "term": "hideCloseButton",
+        "desc": "Oculta la X. Igual se auto-descarta por tiempo."
+      }
+    ],
+    "wizard": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Un flujo de varios pasos con navegación. Para solo mostrar el avance, alcanza Steps."
+      },
+      {
+        "term": "current / onStepChange",
+        "desc": "Opcionales: sin ellos el Wizard maneja su propio estado, que cubre la mayoría de los flujos."
+      },
+      {
+        "term": "canGoNext",
+        "desc": "Validación por paso — el paso declara si deja avanzar."
+      },
+      {
+        "term": "allowStepNavigation",
+        "desc": "Permite volver a un paso completado desde el indicador."
+      },
+      {
+        "term": "scrollableContent",
+        "desc": "En `false` solo si un paso renderiza su propia lista virtualizada."
+      }
+    ]
+  },
+  "propDescriptions": {
+    "PressableScale.children": "Los children, o una render prop que recibe un booleano indicando si el componente está presionado."
+  },
+  "propDefaults": {}
+}

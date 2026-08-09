@@ -1,0 +1,662 @@
+{
+  "ui": {
+    "nav.gettingStarted": "Getting Started",
+    "nav.components": "Components",
+    "nav.tokens": "Tokens",
+    "nav.github": "GitHub",
+    "nav.npm": "npm",
+    "home.search.placeholder": "Filter components…",
+    "home.search.empty": "No components match your filter.",
+    "search.button": "Search",
+    "search.placeholder": "Search components, tags, props…",
+    "search.empty": "No matches.",
+    "search.hint": "Search by component name or the JSX tag it renders, e.g. \"Pressable\" or \"TextInput\".",
+    "search.shortcutHint": "to search",
+    "search.close": "Close search",
+    "theme.toggle": "Toggle dark mode",
+    "sidebar.docs": "Guides",
+    "sidebar.componentsTitle": "Components",
+    "sidebar.toggle": "Browse pages",
+    "nav.next": "Next",
+    "nav.prev": "Previous",
+    "group.atoms": "Atoms",
+    "group.molecules": "Molecules",
+    "group.organisms": "Organisms",
+    "tokens.title": "Tokens",
+    "tokens.description": "Spacing, radius, font size and duration scales used across orn-ui.",
+    "tokens.lede.pre": "Every component reads from these scales instead of magic numbers. Values below are generated from",
+    "tokens.lede.post": "at build time — this page can’t drift from the source.",
+    "tokens.spacing": "Spacing",
+    "tokens.radius": "Radius",
+    "tokens.fontSize": "Font size",
+    "tokens.duration": "Duration",
+    "component.back": "← All components",
+    "component.mediaMissing": "GIF not recorded yet — see MEDIA.md",
+    "install.title": "Installation",
+    "install.cli": "Install just this component (copies the source into your project, no npm dependency)",
+    "install.package": "Or install the whole package and import it",
+    "install.dependsOn": "Depends on:",
+    "install.core": "core (theme + icons)",
+    "component.variants": "Variants",
+    "component.fullSource": "Full demo source",
+    "component.props": "Props",
+    "component.noProps": "No props extracted for this component.",
+    "component.descriptionSuffix": "orn-ui {category}.",
+    "props.name": "Name",
+    "props.type": "Type",
+    "props.default": "Default",
+    "props.description": "Description",
+    "toast.copiedCode": "Copied to clipboard",
+    "toast.copiedMd": "Page copied as Markdown",
+    "md.copyButton": "Copy page",
+    "md.viewButton": "View as Markdown",
+    "gs.title": "Getting Started",
+    "gs.description": "How to install orn-ui and wrap your app in <UIProvider> — required before any component renders.",
+    "gs.h1": "Getting Started",
+    "gs.lede": "Three steps: install, wrap your app in UIProvider, then import components. Skipping step 2 is the single most common way to break orn-ui — every hook and every component reads theme, icons and labels from it.",
+    "gs.step1.title": "1. Install",
+    "gs.step1.body": "Either the whole package, or just the components you need via the CLI (no npm dependency for the second option — see each component page for its own command).",
+    "gs.step2.title": "2. Wrap your app in UIProvider",
+    "gs.step2.body": "UIProvider is the single entry point of the library. It resolves the active theme (system or manual override) and injects icons, safe-area insets and default labels to the whole tree. Mount it once, above your navigator — root of App.tsx is the usual place.",
+    "gs.step2.warning": "Every orn-ui component and hook (useColors, useTheme, Button, Input, all of them) throws \"this hook must be used within a <UIProvider>\" if rendered outside one. There is no fallback and no silent default — it fails loudly at runtime, not at build time.",
+    "gs.step3.title": "3. Use components",
+    "gs.step3.body": "Now every component page on this site works as shown — copy a variant snippet, it renders. See the component list below.",
+    "gs.props.title": "UIProvider props",
+    "gs.cta": "Browse components",
+    "gs.requiresProvider": "Requires <UIProvider>",
+    "gs.requiresProviderNote": "This component (like every orn-ui component) must render inside a <UIProvider> ancestor, or it throws at runtime.",
+    "gs.linkText": "Getting Started",
+    "gs.safeArea.title": "Recommended: SafeAreaUIProvider",
+    "gs.safeArea.body": "UIProvider defaults insets to {top:0,bottom:0,left:0,right:0} — harmless until you open a full-screen Modal (slides under the notch) or a BottomSheet (sits flush against the gesture bar). SafeAreaUIProvider is UIProvider with useSafeAreaInsets() already wired in — use it instead of UIProvider and this is handled.",
+    "gs.safeArea.subpath": "It lives in its own subpath (orn-ui/safe-area), on purpose: it is the only file in the library that imports a third-party package (react-native-safe-area-context). Nothing in the main orn-ui entry point references it, so a plain import { Button } from 'orn-ui' never pulls it in — the rest of the library stays zero-dependency.",
+    "gs.safeArea.install": "Needs react-native-safe-area-context as a peer (optional — only required if you use this import):",
+    "gs.safeArea.nestedNote": "Already mounting a <SafeAreaProvider> higher up (some React Navigation templates do)? Pass mountSafeAreaProvider={false} — a nested provider measures its own View's frame, not the window's, so insets read zero from inside it.",
+    "gs.safeArea.propsTitle": "SafeAreaUIProviderProps",
+    "gs.safeArea.propsNote": "Plus every UIProvider prop above except insets (still accepted, but optional — it overrides the measured value instead of being required).",
+    "typography.name": "Typography",
+    "typography.description": "Title, Subtitle, Body and Caption — the 4 text styles of orn-ui, one shared install.",
+    "typography.lede": "Four text styles, one file, one install. Title, Subtitle, Body and Caption all come from the same Text.tsx and ship together — installing one gets you all four.",
+    "typography.usage": "Usage",
+    "typography.combined": "Example — used together",
+    "typography.cherryPick": "Installing copies the whole file, but you only import and render what you actually use — you do not need all four.",
+    "typography.sharedProps": "Same props for Title, Subtitle, Body and Caption — all four share the same TypographyProps.",
+    "typography.title.usage": "Page and section headings — the largest, boldest style. One or two per screen, not more.",
+    "typography.subtitle.usage": "Secondary heading, right below a Title, or standalone for a lighter section header.",
+    "typography.body.usage": "The default paragraph style — most of the text on a screen should be Body.",
+    "typography.caption.usage": "Small print: secondary hints, metadata, timestamps, helper text under a field.",
+    "component.usage": "Usage"
+  },
+  "componentUsage": {
+    "alert": [
+      {
+        "term": "when to use",
+        "desc": "Interrupting to confirm or report something that cannot wait. A Toast is enough for the rest."
+      },
+      {
+        "term": "type",
+        "desc": "`question` for confirmations; `success`, `error`, `warning` and `info` to report."
+      },
+      {
+        "term": "buttons",
+        "desc": "Beyond confirm/cancel: a list with its own labels and handlers."
+      },
+      {
+        "term": "inline",
+        "desc": "Renders it inside the layout instead of over the screen — for docs and demos."
+      }
+    ],
+    "avatar": [
+      {
+        "term": "when to use",
+        "desc": "Representing a person or entity: profile headers, list rows, comment threads."
+      },
+      {
+        "term": "size",
+        "desc": "A number in points (44 by default). Keep one size per context."
+      },
+      {
+        "term": "backgroundColor",
+        "desc": "Override for the circle; useful to color-code by entity type."
+      }
+    ],
+    "avatar-header": [
+      {
+        "term": "when to use",
+        "desc": "The header of a profile or a detail screen: avatar, title and one supporting line."
+      },
+      {
+        "term": "iconName / initials",
+        "desc": "Initials when there is a name; the icon when there is not."
+      }
+    ],
+    "badge": [
+      {
+        "term": "when to use",
+        "desc": "A short read-only status attached to something else. It never handles a press."
+      },
+      {
+        "term": "variant",
+        "desc": "Semantic, not decorative: `success`, `error`, `warning`, `info`, `neutral` (the default)."
+      },
+      {
+        "term": "backgroundColor / textColor",
+        "desc": "Manual override, for statuses your product defines and the five variants do not cover."
+      }
+    ],
+    "bottom-sheet": [
+      {
+        "term": "when to use",
+        "desc": "Actions or secondary content over the current screen, without leaving it."
+      },
+      {
+        "term": "visible / onClose",
+        "desc": "Controlled: it closes on the backdrop and on gesture, always through `onClose`."
+      }
+    ],
+    "button": [
+      {
+        "term": "primary",
+        "desc": "The main action of a screen — one per view. Submit, confirm, continue."
+      },
+      {
+        "term": "secondary",
+        "desc": "A supporting action next to a primary one, when both matter."
+      },
+      {
+        "term": "outline / ghost",
+        "desc": "Low-emphasis actions: cancel, dismiss, or repeated actions in a list."
+      },
+      {
+        "term": "link",
+        "desc": "Reads as text, not as a control — inline navigation inside a paragraph or footer."
+      },
+      {
+        "term": "destructive",
+        "desc": "Deletes or actions that cannot be undone. Pair it with a confirmation."
+      },
+      {
+        "term": "size",
+        "desc": "`md` by default. `lg` for a full-width call to action, `sm` inside dense rows or cards."
+      },
+      {
+        "term": "loading / disabled",
+        "desc": "Use `loading` while an async action runs, `disabled` when the action is not available yet."
+      }
+    ],
+    "card": [
+      {
+        "term": "when to use",
+        "desc": "Grouping related content into a surface: a summary, a list item with several lines, a form block."
+      },
+      {
+        "term": "composition",
+        "desc": "It brings padding, radius and elevation, nothing else — the content inside is entirely yours."
+      },
+      {
+        "term": "style",
+        "desc": "Adjust spacing or width here rather than wrapping the Card in another View."
+      }
+    ],
+    "checkbox": [
+      {
+        "term": "when to use",
+        "desc": "A binary choice that stands on its own: accept terms, remember me, toggle a filter."
+      },
+      {
+        "term": "value / onValueChange",
+        "desc": "Always controlled — the parent owns the state."
+      },
+      {
+        "term": "label",
+        "desc": "Tappable along with the box. Skip it only when a nearby text already labels it."
+      },
+      {
+        "term": "color",
+        "desc": "Accent override for the checked state; by default it follows the theme primary."
+      }
+    ],
+    "date-field": [
+      {
+        "term": "when to use",
+        "desc": "A date inside a form: it reads like an Input and opens the calendar in a modal."
+      },
+      {
+        "term": "format",
+        "desc": "How the chosen date reads in the field. Match your locale."
+      },
+      {
+        "term": "required / error",
+        "desc": "Same pattern as Input and Select."
+      },
+      {
+        "term": "modalTitle / clearLabel",
+        "desc": "The strings of the modal, for when the app is not in English."
+      }
+    ],
+    "date-picker": [
+      {
+        "term": "when to use",
+        "desc": "An inline calendar. To pick a date from a form, DateField wraps this one in a field."
+      },
+      {
+        "term": "mode",
+        "desc": "`single` picks one date; `range` picks an interval with two taps."
+      },
+      {
+        "term": "minDate / maxDate",
+        "desc": "Bound the selection instead of validating afterwards."
+      },
+      {
+        "term": "monthNames / weekdayNames",
+        "desc": "Localization: the component ships no translations of its own."
+      },
+      {
+        "term": "firstDayOfWeek",
+        "desc": "`0` Sunday, `1` Monday — a regional decision, not a stylistic one."
+      }
+    ],
+    "divider": [
+      {
+        "term": "when to use",
+        "desc": "Separating sections of a list or a form when whitespace alone is not enough."
+      },
+      {
+        "term": "style",
+        "desc": "Change the margin here. Two dividers in a row, or one right after a section title, are usually noise."
+      }
+    ],
+    "empty-state": [
+      {
+        "term": "when to use",
+        "desc": "A list or a search that returned nothing. Not for errors — those are Alert or a retry state."
+      },
+      {
+        "term": "title / description",
+        "desc": "The title names what is missing; the description says what to do about it."
+      },
+      {
+        "term": "iconName / icon",
+        "desc": "`search` by default. Change it so the icon matches what is empty."
+      }
+    ],
+    "fab": [
+      {
+        "term": "when to use",
+        "desc": "The single primary action of a screen, floating above the content. One per screen."
+      },
+      {
+        "term": "bottom / right",
+        "desc": "Offsets in points. Raise `bottom` when a tab bar or a footer sits underneath."
+      },
+      {
+        "term": "accessibilityLabel",
+        "desc": "Required: the button is only an icon."
+      }
+    ],
+    "form-actions": [
+      {
+        "term": "when to use",
+        "desc": "The action bar at the bottom of a form or a modal — keeps the order and spacing consistent."
+      },
+      {
+        "term": "primaryLabel",
+        "desc": "If omitted, only the secondary button renders (a Cancel-only footer)."
+      },
+      {
+        "term": "primaryLoading / primaryDisabled",
+        "desc": "`primaryLoading` while the submit runs, `primaryDisabled` while the form is invalid."
+      }
+    ],
+    "icon-button": [
+      {
+        "term": "when to use",
+        "desc": "An action with no room for a label — modal headers, list rows, toolbars. If the label fits, use Button."
+      },
+      {
+        "term": "iconName / icon",
+        "desc": "`iconName` picks a bundled glyph; `icon` takes any node when the set falls short."
+      },
+      {
+        "term": "size",
+        "desc": "A number in points (24 by default). Keep it consistent within a row or header."
+      },
+      {
+        "term": "accessibilityLabel",
+        "desc": "Required, and for good reason: there is no visible text, so it is the only thing a screen reader announces."
+      }
+    ],
+    "image": [
+      {
+        "term": "when to use",
+        "desc": "Remote images that need a loading and an error state — which is most of them."
+      },
+      {
+        "term": "radius",
+        "desc": "Same pattern as Avatar/Card. Set it here, not with an overflow wrapper."
+      },
+      {
+        "term": "loading / fallback",
+        "desc": "What to show while it loads and if it fails. Both accept a node, so an image-shaped skeleton is fine."
+      },
+      {
+        "term": "priority",
+        "desc": "`high` prefetches on mount — for the above-the-fold image of a screen, not for every item in a list."
+      }
+    ],
+    "info-row": [
+      {
+        "term": "when to use",
+        "desc": "Read-only detail rows with an icon: contact data, order metadata."
+      },
+      {
+        "term": "placeholder",
+        "desc": "Required, because a missing value is the common case — it makes the gap explicit instead of leaving a blank."
+      }
+    ],
+    "input": [
+      {
+        "term": "label / required",
+        "desc": "`required` only paints the asterisk — validation stays with you."
+      },
+      {
+        "term": "error",
+        "desc": "Passing a string switches the field to its error state and shows the message below it."
+      },
+      {
+        "term": "isPassword",
+        "desc": "Adds the show/hide toggle. Do not combine it with a right icon of your own."
+      },
+      {
+        "term": "rightIconName / onRightIconPress",
+        "desc": "The clearable, search or unit-toggle patterns: an icon of your choice plus its handler."
+      },
+      {
+        "term": "isLoading",
+        "desc": "For fields that resolve something async (a lookup by code, a remote validation)."
+      }
+    ],
+    "key-value-row": [
+      {
+        "term": "when to use",
+        "desc": "Read-only pairs stacked in a column: totals, order details, a summary before confirming."
+      },
+      {
+        "term": "value",
+        "desc": "Takes a node, not only a string — a Badge or a bold amount works."
+      },
+      {
+        "term": "labelStyle / valueStyle",
+        "desc": "Emphasize the last row of a total without building a separate component."
+      }
+    ],
+    "list": [
+      {
+        "term": "when to use",
+        "desc": "Any data list: it bundles loading, empty and pagination so each screen does not reinvent them."
+      },
+      {
+        "term": "isLoading / isReady",
+        "desc": "`isLoading` is the data fetch; `isReady` is everything the screen needs before rendering at all."
+      },
+      {
+        "term": "emptyTitle / emptyDescription",
+        "desc": "Feed the EmptyState it renders when there is nothing to show."
+      },
+      {
+        "term": "onEndReached / isLoadingMore",
+        "desc": "Pagination: the callback loads, the flag shows the footer spinner."
+      },
+      {
+        "term": "ListComponent",
+        "desc": "`FlatList` by default; swap in FlashList without touching the rest."
+      }
+    ],
+    "modal": [
+      {
+        "term": "variant",
+        "desc": "`full` and `fullScreen` for a whole task; `overlay` for a short confirmation; `bottomSheet` for actions on the current context."
+      },
+      {
+        "term": "onClose",
+        "desc": "Also fires on the backdrop and the header X — keep it idempotent."
+      },
+      {
+        "term": "footer",
+        "desc": "Where FormActions goes: it stays fixed while the content scrolls."
+      },
+      {
+        "term": "scrollable",
+        "desc": "On by default. Turn it off when the content brings its own list."
+      }
+    ],
+    "option-card": [
+      {
+        "term": "when to use",
+        "desc": "Choosing between a few options, each with an icon — a payment method, a shipping type."
+      },
+      {
+        "term": "layout",
+        "desc": "`horizontal` for a stacked list; `vertical` for a grid of two or three columns."
+      },
+      {
+        "term": "isSelected / onPress",
+        "desc": "Controlled selection: the parent decides which one is on."
+      }
+    ],
+    "pressable-scale": [
+      {
+        "term": "when to use",
+        "desc": "Giving press feedback to something that is not a Button: a card, a tile, a row."
+      },
+      {
+        "term": "scaleTo",
+        "desc": "`0.96` by default — noticeable without being distracting. Lower values suit small targets."
+      },
+      {
+        "term": "children",
+        "desc": "Also accepts a render prop that receives whether it is pressed, to restyle the content while held."
+      }
+    ],
+    "screen": [
+      {
+        "term": "when to use",
+        "desc": "The root of every screen: it applies safe area, scroll and keyboard handling in one place."
+      },
+      {
+        "term": "edges",
+        "desc": "`['top','bottom']` by default. Drop `bottom` when a tab bar already covers it."
+      },
+      {
+        "term": "scrollable",
+        "desc": "Off when the content is a list — nesting a list inside a scroll breaks virtualization."
+      },
+      {
+        "term": "keyboardAvoiding",
+        "desc": "Off when the content already handles the keyboard (List, SearchList, Wizard): the two offsets add up."
+      }
+    ],
+    "search-list": [
+      {
+        "term": "when to use",
+        "desc": "A list whose main entry point is a search field. Otherwise, List."
+      },
+      {
+        "term": "searchValue / onSearchChange",
+        "desc": "Controlled: debounce and query live in your screen, not in the component."
+      },
+      {
+        "term": "loadingMode",
+        "desc": "`replace` swaps the list for a spinner; `overlay` keeps the layout, which avoids the jump while typing."
+      },
+      {
+        "term": "onScanPress",
+        "desc": "Adds the scan action next to the field — for codes, QR, barcodes."
+      },
+      {
+        "term": "hasMore / onLoadMore",
+        "desc": "Pagination with an explicit end, so the footer says when there is nothing left."
+      }
+    ],
+    "select": [
+      {
+        "term": "when to use",
+        "desc": "Picking one option from a closed list. For two or three options with an icon, OptionCard reads better."
+      },
+      {
+        "term": "options / selectedValue",
+        "desc": "Controlled and generic: the value keeps its type, it is not forced into a string."
+      },
+      {
+        "term": "error / required",
+        "desc": "Same pattern as Input, so a form mixing both stays consistent."
+      },
+      {
+        "term": "isLoading",
+        "desc": "For options that arrive from the network."
+      }
+    ],
+    "spinner": [
+      {
+        "term": "variant",
+        "desc": "`native` is the system indicator and the right default. `dots` and `ring` look identical on iOS and Android when that matters."
+      },
+      {
+        "term": "fullscreen",
+        "desc": "`true` takes the whole area; set it to `false` for an inline spinner inside a row or a card."
+      },
+      {
+        "term": "text",
+        "desc": "A short line under the indicator. Use it when the wait is long enough to need explaining."
+      },
+      {
+        "term": "indicator",
+        "desc": "Your own node, when the brand asks for something the three variants do not cover."
+      }
+    ],
+    "stepper": [
+      {
+        "term": "when to use",
+        "desc": "Small numeric amounts adjusted by hand: quantities, units, servings."
+      },
+      {
+        "term": "value / onChangeText",
+        "desc": "The value is a string: the field stays editable and empty states do not turn into NaN."
+      },
+      {
+        "term": "size",
+        "desc": "`md` by default, `sm` inside dense rows such as a cart line."
+      }
+    ],
+    "steps": [
+      {
+        "term": "when to use",
+        "desc": "Showing progress through a known sequence. It only displays state — Wizard is the one that navigates."
+      },
+      {
+        "term": "orientation",
+        "desc": "`horizontal` for three or four short steps; `vertical` when the labels are long."
+      },
+      {
+        "term": "completedIndicator",
+        "desc": "A check by default; `number` when the step number is what people refer to."
+      },
+      {
+        "term": "onStepPress",
+        "desc": "Makes each step tappable. Only wire it if going back is actually allowed."
+      }
+    ],
+    "theme-toggle": [
+      {
+        "term": "when to use",
+        "desc": "Letting the user pick light, dark or system — usually in settings."
+      },
+      {
+        "term": "labels",
+        "desc": "Override the three built-in strings when your product words them differently."
+      }
+    ],
+    "toast": [
+      {
+        "term": "when to use",
+        "desc": "Confirming something that already happened, without interrupting. If a decision is needed, it is an Alert."
+      },
+      {
+        "term": "variant",
+        "desc": "`success`, `error`, `warning`, `info` — the same semantics as Badge and Alert."
+      },
+      {
+        "term": "onPress",
+        "desc": "Makes it tappable: usually to open what it is talking about. It also dismisses."
+      },
+      {
+        "term": "hideCloseButton",
+        "desc": "Hides the X. It still auto-dismisses on a timer."
+      }
+    ],
+    "wizard": [
+      {
+        "term": "when to use",
+        "desc": "A multi-step flow with navigation. To only show progress, Steps is enough."
+      },
+      {
+        "term": "current / onStepChange",
+        "desc": "Optional: without them the Wizard keeps its own state, which covers most flows."
+      },
+      {
+        "term": "canGoNext",
+        "desc": "Per-step validation — the step declares whether it lets you move on."
+      },
+      {
+        "term": "allowStepNavigation",
+        "desc": "Lets people jump back to a completed step from the indicator."
+      },
+      {
+        "term": "scrollableContent",
+        "desc": "Off only if a step renders its own virtualized list."
+      }
+    ]
+  },
+  "propDescriptions": {
+    "AvatarHeader.iconName": "Icon shown inside the circle. If omitted, `initials` are used.",
+    "AvatarHeader.initials": "Short text (e.g. 2 letters) shown when `iconName` is not passed.",
+    "Badge.backgroundColor": "Manual override, wins over `variant`.",
+    "DateField.firstDayOfWeek": "0 = Sunday, 1 = Monday.",
+    "DateField.format": "Formats the date shown in the field.",
+    "DateField.modalTitle": "Title of the calendar modal.",
+    "DatePicker.defaultMonth": "Month shown on open when there is no `value`.",
+    "DatePicker.firstDayOfWeek": "0 = Sunday, 1 = Monday.",
+    "DatePicker.mode": "'single' picks one date; 'range' picks an interval with two taps.",
+    "DatePicker.onChange": "Called in mode=\"single\".",
+    "DatePicker.onRangeChange": "Called in mode=\"range\", both when setting the start and when closing the range.",
+    "DatePicker.range": "Range picked in mode=\"range\".",
+    "DatePicker.value": "Date picked in mode=\"single\".",
+    "FormActions.primaryLabel": "If omitted, only the secondary button is shown.",
+    "Image.fallback": "What to show if loading fails.",
+    "Image.loading": "What to show while loading. `false` shows nothing.",
+    "Image.priority": "'high' fires Image.prefetch() on mount, before <Image> starts its own\nloading cycle — meant for the above-the-fold image of a screen (the first\none the user sees). Free if it is already cached.",
+    "Image.radius": "Corner radius, same pattern as Avatar/Card.",
+    "Input.required": "Shows an asterisk next to the label. Purely visual — it does not validate anything.",
+    "List.ListComponent": "List component to use (FlashList, etc).",
+    "List.isReady": "Controlled by the consumer: while false, a full-screen spinner is shown.",
+    "OptionCard.layout": "'vertical': icon on top, text centered below. 'horizontal': icon and text in a row.",
+    "PressableScale.scaleTo": "Target scale while pressed.",
+    "Screen.edges": "Which safe area insets to apply.",
+    "Screen.keyboardAvoiding": "Offsets the keyboard with a KeyboardAvoidingView. Set it to false when the\ncontent already brings its own scroller that handles the keyboard (Wizard,\nList, SearchList): both offsets add up and the focused field ends up pushed\noff screen.",
+    "SearchList.header": "Optional chrome above the search field (e.g. back button + title).",
+    "SearchList.loadingMode": "'replace' swaps the whole list for a spinner; 'overlay' shows it on top, keeping the layout.",
+    "Spinner.indicator": "Fully custom indicator. Wins over `variant`.",
+    "Spinner.variant": "'native' uses the system ActivityIndicator; 'dots' and 'ring' are custom\nindicators, identical on iOS and Android.",
+    "Steps.completedIndicator": "What the circle of a completed step shows: a check, or its number.",
+    "Steps.current": "Index of the current step (0-based). Earlier ones are marked 'completed'.",
+    "Steps.onStepPress": "If passed, every step becomes tappable and reports its index.",
+    "Toast.hideCloseButton": "Hides the close X. The toast still auto-dismisses on a timer.",
+    "Toast.onPress": "Fires when the toast is tapped (on top of dismissing it).",
+    "Wizard.allowStepNavigation": "Allows going back to an already completed step by tapping it in the indicator.",
+    "Wizard.current": "Current step (controlled). If omitted, the Wizard keeps its own state.",
+    "Wizard.scrollableContent": "The step content scrolls when it does not fit. Set it to false only if a step\nrenders its own virtualized list (nesting a VirtualizedList inside a\nScrollView breaks virtualization)."
+  },
+  "propDefaults": {
+    "DateField.format": "\"D de Month de YYYY\" in English",
+    "Image.fallback": "a plain grey placeholder, no content"
+  }
+}

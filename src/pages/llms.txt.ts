@@ -24,17 +24,17 @@ export const GET: APIRoute = async () => {
     '',
     '## Docs',
     '',
-    '- [Getting Started](https://orn-ui.dev/getting-started.md): install + required <UIProvider> setup — read this before using any component below.',
-    '- [Typography](https://orn-ui.dev/typography.md): Title, Subtitle, Body, Caption — one shared install, used together in one example.',
-    '- [Tokens](https://orn-ui.dev/tokens): spacing, radius, font size and duration scales.',
-    '- [Full reference](https://orn-ui.dev/llms-full.txt): every page below, concatenated into one file.',
-    '- [Español](https://orn-ui.dev/es/): same site and same component pages, Spanish UI labels.',
+    '- [Getting Started](https://orn-ui-docs.vercel.app/getting-started.md): install + required <UIProvider> setup — read this before using any component below.',
+    '- [Typography](https://orn-ui-docs.vercel.app/typography.md): Title, Subtitle, Body, Caption — one shared install, used together in one example.',
+    '- [Tokens](https://orn-ui-docs.vercel.app/tokens): spacing, radius, font size and duration scales.',
+    '- [Full reference](https://orn-ui-docs.vercel.app/llms-full.txt): every page below, concatenated into one file.',
+    '- [Español](https://orn-ui-docs.vercel.app/es/): same site and same component pages, Spanish UI labels.',
     '',
     '## Components',
     '',
     ...all
       .filter((c: any) => !isMergedIntoGroupPage(c))
-      .map((c: any) => `- [${c.name}](https://orn-ui.dev/components/${c.slug}.md): ${c.category} — orn-ui`),
+      .map((c: any) => `- [${c.name}](https://orn-ui-docs.vercel.app/components/${c.slug}.md): ${c.category} — orn-ui`),
     '',
   ];
 

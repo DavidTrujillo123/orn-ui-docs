@@ -12,7 +12,7 @@ export function buildComponentMarkdown(component: any, t: T, lang: Lang = DEFAUL
   const lines: string[] = [];
   lines.push(`# ${component.name}`, '', `> ${component.category} — orn-ui`, '');
   lines.push(
-    `> ⚠️ ${t('gs.requiresProvider')}: ${t('gs.requiresProviderNote')} See https://orn-ui.dev/getting-started.md`,
+    `> ⚠️ ${t('gs.requiresProvider')}: ${t('gs.requiresProviderNote')} See https://orn-ui-docs.vercel.app/getting-started.md`,
     ''
   );
 
@@ -91,7 +91,7 @@ export function buildTypographyMarkdown(members: any[]): string {
     'the ones you need.',
     '',
     '> ⚠️ Requires <UIProvider>: like every orn-ui component, these must',
-    '> render inside a <UIProvider> ancestor. See https://orn-ui.dev/getting-started.md',
+    '> render inside a <UIProvider> ancestor. See https://orn-ui-docs.vercel.app/getting-started.md',
     '',
     '## Installation',
     '',
@@ -255,7 +255,7 @@ export function buildGettingStartedMarkdown(): string {
     '## 3. Use components',
     '',
     'Every component page works as shown from here — copy a variant snippet,',
-    'it renders. Full catalog: https://orn-ui.dev/llms.txt',
+    'it renders. Full catalog: https://orn-ui-docs.vercel.app/llms.txt',
     '',
   ];
   return lines.join('\n');

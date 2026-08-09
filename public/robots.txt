@@ -27,9 +27,9 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://orn-ui.dev/sitemap-index.xml
+Sitemap: https://orn-ui-docs.vercel.app/sitemap-index.xml
 
 # Índice pensado para LLMs (convención llmstxt.org): qué es el sitio y
 # dónde está cada página en Markdown plano.
-# https://orn-ui.dev/llms.txt
-# https://orn-ui.dev/llms-full.txt
+# https://orn-ui-docs.vercel.app/llms.txt
+# https://orn-ui-docs.vercel.app/llms-full.txt

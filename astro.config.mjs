@@ -10,7 +10,7 @@ import sitemap from '@astrojs/sitemap';
 // puro, la página funciona igual con JS desactivado.
 export default defineConfig({
   output: 'static',
-  site: 'https://orn-ui.dev',
+  site: 'https://orn-ui-docs.vercel.app',
   i18n: {
     locales: ['en', 'es'],
     defaultLocale: 'en',

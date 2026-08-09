@@ -103,6 +103,10 @@
       {
         "term": "inline",
         "desc": "Lo renderiza dentro del layout en vez de sobre la pantalla — para documentación y demos."
+      },
+      {
+        "term": "showAlert / showConfirm",
+        "desc": "Imperativo, desde afuera del árbol de componentes — un módulo de negocio, un interceptor. Necesita un `AlertProvider` montado una vez cerca de la raíz. `showConfirm` resuelve `true`/`false`."
       }
     ],
     "avatar": [
@@ -151,6 +155,14 @@
       {
         "term": "visible / onClose",
         "desc": "Controlado: cierra con el fondo y con el gesto, siempre a través de `onClose`."
+      },
+      {
+        "term": "title / footer",
+        "desc": "Con título aparece el header, con su botón de cerrar. `footerPlacement` decide dónde vive el footer: fijo, al final del scroll, u oculto mientras el teclado está abierto."
+      },
+      {
+        "term": "draggable / maxHeight",
+        "desc": "`draggable={false}` para una hoja que sólo cierra por botón o fondo. `maxHeight` como fracción 0-1 de la pantalla, o en píxeles."
       }
     ],
     "button": [
@@ -429,6 +441,24 @@
         "desc": "Activo por defecto. Se apaga cuando el contenido ya trae su propia lista."
       }
     ],
+    "navigation-bar": [
+      {
+        "term": "cuándo usarla",
+        "desc": "Las secciones de nivel superior de la app, siempre visibles. Para un flujo por pasos dentro de una pantalla, Steps."
+      },
+      {
+        "term": "items",
+        "desc": "Cada ítem: `key`, `label`, `iconName`, `badge` opcional."
+      },
+      {
+        "term": "activeKey / onChange",
+        "desc": "Controlado: el tab activo vive en tu navegador, no en la barra."
+      },
+      {
+        "term": "position",
+        "desc": "`bottom` por defecto; `top` para una barra tipo segmento debajo de un header."
+      }
+    ],
     "option-card": [
       {
         "term": "cuándo usarlo",
@@ -497,6 +527,20 @@
         "desc": "Paginado con final explícito, así el pie avisa cuando ya no queda nada."
       }
     ],
+    "segmented-control": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Pocas opciones, todas visibles a la vez, siempre una seleccionada — un switch de vista o rango. Para una lista más larga u opcional, Select."
+      },
+      {
+        "term": "options / value / onChange",
+        "desc": "Controlado y genérico, mismo patrón que Select — el valor conserva su tipo."
+      },
+      {
+        "term": "disabled",
+        "desc": "Por opción o para todo el control."
+      }
+    ],
     "select": [
       {
         "term": "cuándo usarlo",
@@ -513,6 +557,24 @@
       {
         "term": "isLoading",
         "desc": "Para opciones que llegan de la red."
+      }
+    ],
+    "skeleton": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Un placeholder que reserva el espacio exacto de un contenido que todavía carga. Para un spinner sin esa forma, Spinner."
+      },
+      {
+        "term": "variant",
+        "desc": "`rect` (default), `text` (alto de línea, respeta `lines`), `circle` (para un avatar)."
+      },
+      {
+        "term": "lines / lastLineWidth",
+        "desc": "Sólo para `variant=\"text\"`: un párrafo apilado cuya última línea es más corta, para que no se lea como un bloque sólido."
+      },
+      {
+        "term": "animated",
+        "desc": "Ponelo en false para respetar reduced motion o ahorrar ciclos en una lista larga."
       }
     ],
     "spinner": [
@@ -591,6 +653,32 @@
       {
         "term": "hideCloseButton",
         "desc": "Oculta la X. Igual se auto-descarta por tiempo."
+      },
+      {
+        "term": "showToast",
+        "desc": "Imperativo, desde afuera del árbol de componentes — un módulo de negocio, un interceptor. Necesita un `ToastProvider` montado una vez cerca de la raíz. Devuelve el id para `hideToast(id)`."
+      }
+    ],
+    "transition": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Montar/desmontar un nodo con animación en el hilo nativo en vez de un corte seco. Modal, BottomSheet y Toast ya lo usan internamente."
+      },
+      {
+        "term": "visible",
+        "desc": "Entra en `true`, sale (desmonta, `onExited`) en `false`."
+      },
+      {
+        "term": "preset",
+        "desc": "Uno o un array — `['fade', 'slide-up']` combina opacidad y un slide. `pop` es un spring por defecto."
+      },
+      {
+        "term": "delay",
+        "desc": "Un índice por ítem escalona una lista — sin necesitar otra librería."
+      },
+      {
+        "term": "value",
+        "desc": "Le pasa el progreso (0→1) a un driver externo, p.ej. un PanResponder, en vez de un timing/spring."
       }
     ],
     "wizard": [

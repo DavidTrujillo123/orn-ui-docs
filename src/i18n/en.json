@@ -103,6 +103,10 @@
       {
         "term": "inline",
         "desc": "Renders it inside the layout instead of over the screen — for docs and demos."
+      },
+      {
+        "term": "showAlert / showConfirm",
+        "desc": "Imperative, from outside the component tree — a service module, an interceptor. Needs an `AlertProvider` mounted once near the root. `showConfirm` resolves `true`/`false`."
       }
     ],
     "avatar": [
@@ -151,6 +155,14 @@
       {
         "term": "visible / onClose",
         "desc": "Controlled: it closes on the backdrop and on gesture, always through `onClose`."
+      },
+      {
+        "term": "title / footer",
+        "desc": "With a title the header appears with its close button. `footerPlacement` decides where the footer lives: fixed, at the end of the scroll, or hidden while the keyboard is up."
+      },
+      {
+        "term": "draggable / maxHeight",
+        "desc": "`draggable={false}` for a sheet that only closes by button or backdrop. `maxHeight` as a 0-1 fraction of the screen, or in pixels."
       }
     ],
     "button": [
@@ -429,6 +441,24 @@
         "desc": "On by default. Turn it off when the content brings its own list."
       }
     ],
+    "navigation-bar": [
+      {
+        "term": "when to use",
+        "desc": "The app's top-level sections, always visible. For a step flow inside one screen, Steps."
+      },
+      {
+        "term": "items",
+        "desc": "Each entry: `key`, `label`, `iconName`, optional `badge`."
+      },
+      {
+        "term": "activeKey / onChange",
+        "desc": "Controlled: the active tab lives in your navigator, not in the bar."
+      },
+      {
+        "term": "position",
+        "desc": "`bottom` by default; `top` for a segment-style bar under a header."
+      }
+    ],
     "option-card": [
       {
         "term": "when to use",
@@ -497,6 +527,20 @@
         "desc": "Pagination with an explicit end, so the footer says when there is nothing left."
       }
     ],
+    "segmented-control": [
+      {
+        "term": "when to use",
+        "desc": "A few options, all visible at once, one always selected — a view or range switch. For a longer or optional list, Select."
+      },
+      {
+        "term": "options / value / onChange",
+        "desc": "Controlled and generic, same pattern as Select — the value keeps its type."
+      },
+      {
+        "term": "disabled",
+        "desc": "Per-option or for the whole control."
+      }
+    ],
     "select": [
       {
         "term": "when to use",
@@ -513,6 +557,24 @@
       {
         "term": "isLoading",
         "desc": "For options that arrive from the network."
+      }
+    ],
+    "skeleton": [
+      {
+        "term": "when to use",
+        "desc": "A placeholder that reserves the exact space of content still loading. For a spinner without that shape, Spinner."
+      },
+      {
+        "term": "variant",
+        "desc": "`rect` (default), `text` (line height, respects `lines`), `circle` (for an avatar)."
+      },
+      {
+        "term": "lines / lastLineWidth",
+        "desc": "Only for `variant=\"text\"`: a stacked paragraph whose last line is shorter, so it doesn't read as a solid block."
+      },
+      {
+        "term": "animated",
+        "desc": "Set it to false to respect reduced motion or to save cycles in a long list."
       }
     ],
     "spinner": [
@@ -591,6 +653,32 @@
       {
         "term": "hideCloseButton",
         "desc": "Hides the X. It still auto-dismisses on a timer."
+      },
+      {
+        "term": "showToast",
+        "desc": "Imperative, from outside the component tree — a service module, an interceptor. Needs a `ToastProvider` mounted once near the root. Returns the id for `hideToast(id)`."
+      }
+    ],
+    "transition": [
+      {
+        "term": "when to use",
+        "desc": "Mounting/unmounting a node with a native-thread animation instead of a hard cut. Modal, BottomSheet and Toast already use it internally."
+      },
+      {
+        "term": "visible",
+        "desc": "Mounts on `true`, exits (and unmounts, `onExited`) on `false`."
+      },
+      {
+        "term": "preset",
+        "desc": "One or an array — `['fade', 'slide-up']` combines opacity and a slide. `pop` is a spring by default."
+      },
+      {
+        "term": "delay",
+        "desc": "One index per item staggers a list — no need for a separate library."
+      },
+      {
+        "term": "value",
+        "desc": "Hands progress (0→1) to an outside driver, e.g. a PanResponder, instead of a timing/spring."
       }
     ],
     "wizard": [
@@ -638,12 +726,17 @@
     "Input.required": "Shows an asterisk next to the label. Purely visual — it does not validate anything.",
     "List.ListComponent": "List component to use (FlashList, etc).",
     "List.isReady": "Controlled by the consumer: while false, a full-screen spinner is shown.",
+    "NavigationBar.position": "Edge of the screen the bar lives on.",
+    "NavigationBar.safeArea": "Adds the safe area inset of the edge the bar lives on.",
     "OptionCard.layout": "'vertical': icon on top, text centered below. 'horizontal': icon and text in a row.",
     "PressableScale.scaleTo": "Target scale while pressed.",
     "Screen.edges": "Which safe area insets to apply.",
     "Screen.keyboardAvoiding": "Offsets the keyboard with a KeyboardAvoidingView. Set it to false when the\ncontent already brings its own scroller that handles the keyboard (Wizard,\nList, SearchList): both offsets add up and the focused field ends up pushed\noff screen.",
     "SearchList.header": "Optional chrome above the search field (e.g. back button + title).",
     "SearchList.loadingMode": "'replace' swaps the whole list for a spinner; 'overlay' shows it on top, keeping the layout.",
+    "Skeleton.lastLineWidth": "Width of the last line, so the paragraph doesn't end in a solid block.",
+    "Skeleton.lines": "Stacked lines, only for `variant=\"text\"`.",
+    "Skeleton.radius": "Override for the theme's radius.",
     "Spinner.indicator": "Fully custom indicator. Wins over `variant`.",
     "Spinner.variant": "'native' uses the system ActivityIndicator; 'dots' and 'ring' are custom\nindicators, identical on iOS and Android.",
     "Steps.completedIndicator": "What the circle of a completed step shows: a check, or its number.",
@@ -651,6 +744,15 @@
     "Steps.onStepPress": "If passed, every step becomes tappable and reports its index.",
     "Toast.hideCloseButton": "Hides the close X. The toast still auto-dismisses on a timer.",
     "Toast.onPress": "Fires when the toast is tapped (on top of dismissing it).",
+    "Transition.appear": "Also animates the first render. On false it starts already present.",
+    "Transition.delay": "ms before starting. One delay per index staggers a list.",
+    "Transition.distance": "Pixels the slide presets travel.",
+    "Transition.duration": "ms of the timing animation.",
+    "Transition.keepMounted": "Keeps the node mounted on exit, only hides it.",
+    "Transition.preset": "One or several: `['fade', 'scale']` combines opacity and scale.",
+    "Transition.spring": "Spring instead of timing (implicit in 'pop').",
+    "Transition.value": "Progress 0→1 driven from outside. With this, Transition only interpolates:\nwhoever passes it decides when and how it advances (a PanResponder, for example).",
+    "Transition.visible": "Mounts on true, exits (and unmounts) on false.",
     "Wizard.allowStepNavigation": "Allows going back to an already completed step by tapping it in the indicator.",
     "Wizard.current": "Current step (controlled). If omitted, the Wizard keeps its own state.",
     "Wizard.scrollableContent": "The step content scrolls when it does not fit. Set it to false only if a step\nrenders its own virtualized list (nesting a VirtualizedList inside a\nScrollView breaks virtualization)."

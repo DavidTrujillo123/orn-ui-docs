@@ -1,7 +1,39 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Button, Toast, useToast } from 'orn-ui';
+import { Body, Button, Toast, showAlert, showConfirm, showToast, useToast } from 'orn-ui';
 import { VariantList, type VariantDef } from './VariantList';
+
+/**
+ * Módulo de negocio puro: sin hooks, sin árbol de React montado que le pase
+ * props. Igual habla con el usuario porque showToast/showConfirm/showAlert
+ * llaman al provider más cercano por afuera del árbol.
+ */
+async function deleteInvoice(id: string): Promise<boolean> {
+  const confirmed = await showConfirm({
+    title: 'Delete invoice',
+    message: `Invoice #${id} will be gone for good.`,
+    confirmText: 'Delete',
+    destructive: true,
+  });
+
+  if (!confirmed) {
+    showToast({ title: 'Nothing deleted', variant: 'info' });
+    return false;
+  }
+
+  showToast({ title: 'Invoice deleted', message: `#${id}`, variant: 'success' });
+  return true;
+}
+
+async function syncInvoices(): Promise<void> {
+  showToast({ title: 'Syncing…', variant: 'info', duration: 800 });
+  await new Promise<void>((resolve) => setTimeout(resolve, 800));
+  await showAlert({
+    title: 'Sync failed',
+    message: 'The server is unreachable. Your changes are saved locally.',
+    type: 'error',
+  });
+}
 
 export function ToastDemo() {
   const { show, hideAll } = useToast();
@@ -23,6 +55,16 @@ export function ToastDemo() {
             onPress={() => show({ title: 'Unsaved changes', variant: 'warning' })}
           />
           <Button title="Info" variant="outline" onPress={() => show({ title: 'Syncing…', variant: 'info' })} />
+        </View>
+      ),
+    },
+    {
+      label: 'From business logic — showToast()/showConfirm(), no hook',
+      content: (
+        <View style={{ gap: 8 }}>
+          <Body>Both buttons call a plain async function that imports showToast/showConfirm/showAlert.</Body>
+          <Button title="Delete invoice #4821" variant="outline" onPress={() => deleteInvoice('4821')} />
+          <Button title="Sync (fails)" variant="outline" onPress={() => syncInvoices()} />
         </View>
       ),
     },

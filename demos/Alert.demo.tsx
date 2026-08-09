@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
-import { Button, Alert as OrnAlert } from 'orn-ui';
+import { Button, Alert as OrnAlert, showConfirm, showToast } from 'orn-ui';
 import { VariantList, type VariantDef } from './VariantList';
+
+/** Sin hook, sin <OrnAlert> propio: showConfirm monta el AlertProvider del sitio. */
+async function deleteInvoice(id: string): Promise<void> {
+  const confirmed = await showConfirm({
+    title: 'Delete invoice?',
+    message: `Invoice #${id} will be gone for good.`,
+    confirmText: 'Delete',
+    destructive: true,
+  });
+  showToast({ title: confirmed ? 'Invoice deleted' : 'Nothing deleted', variant: confirmed ? 'success' : 'info' });
+}
 
 type Kind = 'success' | 'error' | 'warning' | 'info' | 'question' | 'custom';
 
@@ -52,6 +63,10 @@ export function AlertDemo() {
           />
         </>
       ),
+    },
+    {
+      label: 'showConfirm() — from outside the component, no hook',
+      content: <Button title="Delete invoice (imperative)" variant="destructive" onPress={() => deleteInvoice('4821')} />,
     },
     {
       label: 'custom buttons',

@@ -19,8 +19,20 @@ site never breaks, it just says so.
    ```
 
    This records ~4s from the booted iOS Simulator, converts to an optimized
-   GIF (12fps, 320px wide, shared palette) and writes it to
-   `public/media/<slug>.gif`. Target: under 500KB per file.
+   GIF (8fps, 320px wide, 96-colour adaptive palette, then `gifsicle -O3
+   --lossy=60`) and writes it to `public/media/<slug>.gif`. Target: under
+   500KB per file.
+
+   Already have a recording? Pass it as a second argument and the script
+   skips the capture step:
+
+   ```sh
+   scripts/record.sh <slug> ~/Desktop/input.mov
+   ```
+
+   Weight is driven by frame count, not resolution: a 20s clip lands around
+   500KB no matter how far you shrink it. If a GIF comes out too big, cut
+   the recording shorter before dropping quality.
 
 ## Slug ↔ screen map
 

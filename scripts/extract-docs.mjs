@@ -43,6 +43,10 @@ const DOC_PAGES = [
 // separan por tag JSX en filterVariantsForComponent().
 const DEMO_FILE_OVERRIDES = { DateField: 'DatePicker' };
 
+// El gif se graba por página, no por export: los siblings de una página de
+// grupo comparten el de la página (Title vive en /typography).
+const MEDIA_SLUG_OVERRIDES = { Title: 'typography' };
+
 /**
  * [name, category, file, demoFileOverride?] a partir del manifest y
  * DOC_PAGES. Expande los siblings PascalCase de un mismo archivo (Text.tsx
@@ -103,18 +107,118 @@ const parserOptions = {
 };
 
 /**
- * Fallback por AST cuando react-docgen-typescript devuelve cero props pese
- * a existir la interfaz (le pasa con DatePicker). Es puramente sintáctico:
- * alcanza para nombre, opcionalidad, tipo y JSDoc.
+ * Los defaults llegan de tres fuentes con formatos distintos: docgen los
+ * devuelve sin comillas ("primary"), el destructuring tal cual está escrito
+ * ("'primary'"). Se normalizan para que la columna Default no mezcle estilos.
  */
-function extractPropsFromInterface(filePath, componentName) {
-  const source = ts.createSourceFile(
+function normalizeDefault(raw) {
+  if (raw == null) return null;
+  const value = String(raw).trim().replace(/\s+/g, ' ');
+  if (!value) return null;
+  return value.replace(/^(['"`])(.*)\1$/, '$2') || null;
+}
+
+/**
+ * docgen resuelve las uniones de literales como "enum", que en la tabla no
+ * dice nada. Se muestran los valores (`'sm' | 'md' | 'lg'`) salvo cuando son
+ * demasiados —IconName tiene decenas—: ahí gana el nombre del alias.
+ */
+const MAX_UNION_MEMBERS = 8;
+
+function resolveType(prop) {
+  const type = prop.type;
+  if (!type) return 'unknown';
+  if (type.name !== 'enum' || !Array.isArray(type.value)) return type.name;
+
+  const members = type.value.map((v) => String(v.value).replace(/"/g, "'"));
+  if (members.length === 0 || members.length > MAX_UNION_MEMBERS) return type.raw ?? type.name;
+  return members.join(' | ');
+}
+
+function parseSource(filePath) {
+  return ts.createSourceFile(
     filePath,
     fs.readFileSync(filePath, 'utf8'),
     ts.ScriptTarget.Latest,
     true,
     ts.ScriptKind.TSX
   );
+}
+
+/**
+ * Valores por defecto reales, leídos del destructuring del parámetro:
+ *
+ *   export const Button = memo(({ variant = 'primary', ... }: ButtonProps) => …)
+ *
+ * react-docgen-typescript no los ve porque toda la librería envuelve la
+ * implementación en memo()/forwardRef(), así que sin esto la columna
+ * "Default" queda vacía en casi todas las props.
+ */
+function extractDefaultsFromSource(filePath, componentName) {
+  const source = parseSource(filePath);
+  const declarations = new Map();
+  const candidates = [];
+
+  source.forEachChild((node) => {
+    if (ts.isVariableStatement(node)) {
+      for (const decl of node.declarationList.declarations) {
+        if (ts.isIdentifier(decl.name) && decl.initializer) {
+          declarations.set(decl.name.text, decl.initializer);
+          if (decl.name.text === componentName) candidates.push(decl.initializer);
+        }
+      }
+    } else if (ts.isFunctionDeclaration(node) && node.name?.text === componentName) {
+      candidates.push(node);
+    }
+  });
+
+  // memo(fn), forwardRef(fn), memo(forwardRef(fn)) y también el patrón
+  // `const Impl = (…) => …; export const X = memo(Impl)`.
+  function unwrap(expr, depth = 0) {
+    if (!expr || depth > 4) return null;
+    if (ts.isArrowFunction(expr) || ts.isFunctionExpression(expr) || ts.isFunctionDeclaration(expr)) return expr;
+    if (ts.isCallExpression(expr)) return unwrap(expr.arguments[0], depth + 1);
+    if (ts.isIdentifier(expr)) return unwrap(declarations.get(expr.text), depth + 1);
+    return null;
+  }
+
+  const defaults = {};
+  function collect(pattern) {
+    for (const element of pattern.elements) {
+      if (!element.initializer) continue;
+      const key = (element.propertyName ?? element.name).getText(source);
+      defaults[key] = normalizeDefault(element.initializer.getText(source));
+    }
+  }
+
+  for (const candidate of candidates) {
+    const fn = unwrap(candidate);
+    if (!fn) continue;
+    const param = fn.parameters?.[0];
+    if (param && ts.isObjectBindingPattern(param.name)) collect(param.name);
+
+    // El otro patrón de la librería: `(props: XProps) => { const { a = 1 } = props; … }`
+    const paramName = param && ts.isIdentifier(param.name) ? param.name.text : null;
+    if (paramName && fn.body && ts.isBlock(fn.body)) {
+      for (const statement of fn.body.statements) {
+        if (!ts.isVariableStatement(statement)) continue;
+        for (const decl of statement.declarationList.declarations) {
+          const initializerIsProps = decl.initializer && ts.isIdentifier(decl.initializer) && decl.initializer.text === paramName;
+          if (initializerIsProps && ts.isObjectBindingPattern(decl.name)) collect(decl.name);
+        }
+      }
+    }
+  }
+  return defaults;
+}
+
+/**
+ * Props leídas de la interfaz por AST. Es la fuente del JSDoc (descripción y
+ * @default) y el fallback completo cuando react-docgen-typescript devuelve
+ * cero props pese a existir la interfaz (le pasa con DatePicker).
+ */
+function extractPropsFromInterface(filePath, componentName) {
+  const source = parseSource(filePath);
 
   const wanted = `${componentName}Props`;
   let members = null;
@@ -132,12 +236,16 @@ function extractPropsFromInterface(filePath, componentName) {
     const defaultTag = ts
       .getJSDocTags(m)
       .find((t) => t.tagName.text === 'default');
+    // `@default true. En false, no ocupa flex:1` — el tag a veces trae el
+    // valor y una aclaración; la aclaración es descripción, no valor.
+    const tagText = String(defaultTag?.comment ?? '').trim();
+    const [, tagValue = tagText, tagRest = ''] = /^(\S+?)\.\s+(\S[\s\S]*)$/.exec(tagText) ?? [];
     return {
       name: m.name.getText(source),
       type: m.type ? m.type.getText(source) : 'unknown',
       required: !m.questionToken,
-      defaultValue: defaultTag ? String(defaultTag.comment ?? '').trim() || null : null,
-      description: comment,
+      defaultValue: normalizeDefault(tagValue),
+      description: comment || tagRest.trim(),
     };
   });
 }
@@ -148,18 +256,29 @@ function extractProps(category, file, componentName) {
     console.warn(`[extract-docs] missing source for ${componentName}: ${filePath}`);
     return [];
   }
+  // Las tres fuentes se complementan: docgen da tipos resueltos, la interfaz
+  // da el JSDoc y el destructuring da los defaults. Ninguna las tiene todas.
+  const fromInterface = new Map(extractPropsFromInterface(filePath, componentName).map((p) => [p.name, p]));
+  const defaults = extractDefaultsFromSource(filePath, componentName);
+
   const docs = docgen.parse(filePath, parserOptions);
   const doc = docs.find((d) => d.displayName === componentName) ?? docs[0];
   const props = Object.entries(doc?.props ?? {}).map(([name, prop]) => ({
     name,
-    type: prop.type?.name ?? 'unknown',
+    type: resolveType(prop),
     required: !!prop.required,
-    defaultValue: prop.defaultValue?.value ?? null,
-    description: prop.description ?? '',
+    // El destructuring es el valor real que corre; el JSDoc, lo declarado.
+    // docgen va último: devuelve el tag @default entero, prosa incluida.
+    defaultValue:
+      defaults[name] ?? fromInterface.get(name)?.defaultValue ?? normalizeDefault(prop.defaultValue?.value) ?? null,
+    description: prop.description || fromInterface.get(name)?.description || '',
   }));
 
   if (props.length > 0) return props;
-  return extractPropsFromInterface(filePath, componentName);
+  return [...fromInterface.values()].map((prop) => ({
+    ...prop,
+    defaultValue: prop.defaultValue ?? defaults[prop.name] ?? null,
+  }));
 }
 
 function dedent(text) {
@@ -366,7 +485,7 @@ function buildComponents() {
       snippet,
       variants,
       groupVariants,
-      mediaSlug: slug,
+      mediaSlug: MEDIA_SLUG_OVERRIDES[name] ?? slug,
       registry: loadRegistryEntry(slug),
       // Archivo fuente sin extensión. Permite agrupar siblings en la nav.
       sourceFile: path.basename(file, path.extname(file)),

@@ -33,9 +33,17 @@ interface Props {
   markdownUrl?: string;
   markdown?: string;
   providerHref: string;
+  // Nombres de los componentes que ship juntos en esta página (Title,
+  // Subtitle, Body, Caption). Sin esto no se muestra la fila de chips.
+  groupMembers?: string[];
   installSlug?: string;
   installImport?: string;
   installNote?: string;
+  // Override de las etiquetas de instalación; por defecto t('install.cli')/
+  // t('install.package'), pensadas para un solo componente. Las páginas de
+  // grupo (Typography) pasan su propio texto porque instalan varios a la vez.
+  installCliLabel?: string;
+  installPackageLabel?: string;
   deps?: DepChip[];
   usage?: UsageEntry[];
   combinedExample?: string;
@@ -61,9 +69,12 @@ const {
   markdownUrl,
   markdown,
   providerHref,
+  groupMembers = [],
   installSlug,
   installImport,
   installNote,
+  installCliLabel,
+  installPackageLabel,
   deps = [],
   usage = [],
   combinedExample,
@@ -97,6 +108,11 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 <div class="header">
   <span class="kicker">{kicker}</span>
   <h1>{title}</h1>
+  {groupMembers.length > 1 && (
+    <div class="group-chips">
+      {groupMembers.map((name) => <span class="group-chip">{name}</span>)}
+    </div>
+  )}
 </div>
 
 <div class="hero-row">
@@ -112,12 +128,12 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
       <section class="install">
         <h2>{t('install.title')}</h2>
         <div class="install-option">
-          <p class="install-label">{t('install.cli')}</p>
+          <p class="install-label">{installCliLabel ?? t('install.cli')}</p>
           <Code code={`npx orn-ui add ${installSlug}`} lang="bash" themes={codeThemes} defaultColor={false} />
         </div>
         {installImport && (
           <div class="install-option">
-            <p class="install-label">{t('install.package')}</p>
+            <p class="install-label">{installPackageLabel ?? t('install.package')}</p>
             <Code code={`pnpm add orn-ui\n${installImport}`} lang="tsx" themes={codeThemes} defaultColor={false} />
           </div>
         )}
@@ -243,6 +259,11 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   .header { margin: 16px 0 12px; }
   .kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); }
   h1 { margin: 4px 0 0; font-size: 32px; }
+  .group-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .group-chip {
+    font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+    background: var(--code-bg); color: var(--text-light); border: 1px solid var(--border);
+  }
   h2 { font-size: 20px; margin: 32px 0 12px; }
   .lede { color: var(--text-light); font-size: 15px; max-width: 560px; line-height: 1.6; margin-bottom: 20px; }
 

@@ -14,6 +14,8 @@ const site = defineCollection({
     ledePrefix: z.string(),
     ledeSuffix: z.string(),
     installOr: z.string(),
+    installCliLabel: z.string(),
+    installPackageLabel: z.string(),
     installHint: z.string(),
     badges: z.array(z.string()).length(3),
     footer: z.string(),

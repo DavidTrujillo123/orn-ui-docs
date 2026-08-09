@@ -74,6 +74,8 @@
     "gs.safeArea.propsTitle": "SafeAreaUIProviderProps",
     "gs.safeArea.propsNote": "Plus every UIProvider prop above except insets (still accepted, but optional — it overrides the measured value instead of being required).",
     "typography.name": "Typography",
+    "typography.install.cli": "Install the file (copies Title, Subtitle, Body and Caption together, no npm dependency)",
+    "typography.install.package": "Or install the whole package and import all four",
     "typography.description": "Title, Subtitle, Body and Caption — the 4 text styles of orn-ui, one shared install.",
     "typography.lede": "Four text styles, one file, one install. Title, Subtitle, Body and Caption all come from the same Text.tsx and ship together — installing one gets you all four.",
     "typography.usage": "Usage",

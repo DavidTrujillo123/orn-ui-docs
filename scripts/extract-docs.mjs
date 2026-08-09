@@ -33,10 +33,10 @@ const CATEGORIES = {
 // ToastProvider, por ejemplo, se documentan dentro de Alert/Toast).
 const DOC_PAGES = [
   'Title', 'Button', 'IconButton', 'Input', 'Checkbox', 'Badge', 'Card', 'Divider',
-  'Avatar', 'Image', 'Spinner', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
-  'Stepper', 'OptionCard', 'InfoRow', 'FormActions', 'AvatarHeader', 'ThemeToggle', 'Steps',
+  'Avatar', 'Image', 'Spinner', 'Skeleton', 'Transition', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
+  'Stepper', 'OptionCard', 'InfoRow', 'FormActions', 'AvatarHeader', 'SegmentedControl', 'ThemeToggle', 'Steps',
   'Modal', 'BottomSheet', 'Select', 'Alert', 'Screen', 'List', 'SearchList', 'Toast',
-  'DatePicker', 'DateField', 'Wizard',
+  'DatePicker', 'DateField', 'Wizard', 'NavigationBar',
 ];
 
 // Archivos fuente distintos que comparten un mismo demo. Las variantes se

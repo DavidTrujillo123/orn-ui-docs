@@ -36,10 +36,10 @@ function isActive(href: string) {
     ))}
   </ul>
 
-  <p class="sidebar-heading">{t('sidebar.componentsTitle')}</p>
+  <p class="eyebrow sidebar-heading">{t('sidebar.componentsTitle')}</p>
   {groups.map(([key, label]) => (
     <div class="sidebar-section">
-      <p class="sidebar-subheading">{label}</p>
+      <p class="eyebrow sidebar-subheading">{label}</p>
       <ul class="sidebar-group">
         {groupCards((components as any)[key], lang, t).map((c) => (
           <li>
@@ -73,14 +73,8 @@ function isActive(href: string) {
   .sidebar {
     font-size: 13px;
   }
-  .sidebar-heading {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-    color: var(--text-light); margin: 20px 0 8px;
-  }
-  .sidebar-subheading {
-    font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--text-light); margin: 16px 0 6px;
-  }
+  .sidebar-heading { margin: var(--space-xl) 0 var(--space-sm); }
+  .sidebar-subheading { margin: var(--space-lg) 0 var(--space-xs); }
   .sidebar-group { list-style: none; margin: 0; padding: 0; }
   .sidebar-section:first-of-type .sidebar-subheading { margin-top: 4px; }
   .sidebar-group li a {

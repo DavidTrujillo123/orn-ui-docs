@@ -17,6 +17,7 @@
 import { Code } from 'astro:components';
 import { useTranslations, getPropDescription, getPropDefault, type Lang } from '../i18n/ui';
 import NextItemLink from './NextItemLink.astro';
+import Callout from './Callout.astro';
 
 export interface DepChip { label: string; href?: string; italic?: boolean }
 export interface UsageEntry { term: string; desc: string }
@@ -106,7 +107,7 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 </div>
 
 <div class="header">
-  <span class="kicker">{kicker}</span>
+  <span class="eyebrow kicker">{kicker}</span>
   <h1>{title}</h1>
   {groupMembers.length > 1 && (
     <div class="group-chips">
@@ -119,28 +120,27 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   <div class="hero-left">
     {lede && <p class="lede">{lede}</p>}
 
-    <a class="provider-note" href={providerHref}>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-      <span><strong>{t('gs.requiresProvider')}</strong> — {t('gs.linkText')} →</span>
-    </a>
+    <Callout variant="warn" href={providerHref}>
+      <strong>{t('gs.requiresProvider')}</strong> — {t('gs.linkText')} →
+    </Callout>
 
     {installSlug && (
       <section class="install">
         <h2>{t('install.title')}</h2>
         <div class="install-option">
-          <p class="install-label">{installCliLabel ?? t('install.cli')}</p>
+          <p class="eyebrow install-label">{installCliLabel ?? t('install.cli')}</p>
           <Code code={`npx orn-ui add ${installSlug}`} lang="bash" themes={codeThemes} defaultColor={false} />
         </div>
         {installImport && (
           <div class="install-option">
-            <p class="install-label">{installPackageLabel ?? t('install.package')}</p>
+            <p class="eyebrow install-label">{installPackageLabel ?? t('install.package')}</p>
             <Code code={`pnpm add orn-ui\n${installImport}`} lang="tsx" themes={codeThemes} defaultColor={false} />
           </div>
         )}
         {installNote && <p class="install-note">{installNote}</p>}
         {deps.length > 0 && (
           <div class="install-deps">
-            <span class="install-label">{t('install.dependsOn')}</span>
+            <span class="eyebrow install-label">{t('install.dependsOn')}</span>
             {deps.map((dep) =>
               dep.href
                 ? <a class="dep-chip" href={dep.href}>{dep.label}</a>
@@ -188,7 +188,7 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
     <h2>{t('component.variants')}</h2>
     {variants.map((v) => (
       <div class="variant">
-        <h3>{v.label}</h3>
+        <h3 class="eyebrow">{v.label}</h3>
         <Code code={v.code} lang="tsx" themes={codeThemes} defaultColor={false} />
       </div>
     ))}
@@ -256,101 +256,93 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   .md-copy-btn:hover { color: var(--primary); border-color: var(--primary); }
   .md-copy-btn.copied { color: #16a34a; border-color: #16a34a; }
 
-  .header { margin: 16px 0 12px; }
-  .kicker { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--primary); }
-  h1 { margin: 4px 0 0; font-size: 32px; }
-  .group-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .header { margin: var(--space-lg) 0 var(--space-md); }
+  .kicker { letter-spacing: 0.06em; color: var(--primary); }
+  h1 { margin: var(--space-xs) 0 0; font-size: 32px; }
+  .group-chips { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); }
+  /* Etiqueta estática: superficie hundida, sin borde, radio chico. Reserva
+     la píldora con borde (999px) para lo interactivo — ver .dep-chip. */
   .group-chip {
-    font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
-    background: var(--code-bg); color: var(--text-light); border: 1px solid var(--border);
+    font-size: var(--text-sm); font-weight: 600; padding: 3px var(--space-md);
+    border-radius: var(--radius-xs);
+    background: var(--surface-sunken); color: var(--text-light);
   }
-  h2 { font-size: 20px; margin: 32px 0 12px; }
-  .lede { color: var(--text-light); font-size: 15px; max-width: 560px; line-height: 1.6; margin-bottom: 20px; }
+  h2 { font-size: 20px; margin: var(--space-section) 0 var(--space-md); }
+  .lede { color: var(--text-light); font-size: 15px; max-width: var(--measure); line-height: 1.6; margin-bottom: var(--space-xl); }
+  .hero-left :global(.callout) { margin-bottom: var(--space-xl); }
 
   /* Contenido a la izquierda, gif a la derecha con un ancho mínimo propio. */
-  .hero-row { display: grid; grid-template-columns: 3fr minmax(240px, 1fr); align-items: stretch; gap: 32px; }
+  .hero-row { display: grid; grid-template-columns: 3fr minmax(240px, 1fr); align-items: start; gap: var(--space-xxxl); }
   .hero-left { min-width: 0; }
-  /* La columna se estira a la altura del texto y el gif entra completo dentro
-     (contain), así no queda hueco debajo cuando la imagen es más alta. */
-  .media-col { position: relative; min-height: 420px; }
+  /* Alto derivado del aspect-ratio real de los GIF (320x647, retrato de
+     teléfono) y no de un min-height fijo: si el lede es corto, la columna
+     de media ya no deja un hueco de cientos de px debajo. */
+  .media-col { width: 100%; max-width: 280px; margin-left: auto; }
   .media-frame {
-    position: absolute; inset: 0; overflow: hidden;
-    display: flex; align-items: flex-start; justify-content: center;
+    aspect-ratio: 320 / 647;
+    overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius);
   }
-  .media-frame img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: top center; }
-  .media-placeholder { display: none; padding: 32px; color: var(--text-light); font-size: 13px; text-align: center; }
+  .media-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .media-placeholder { display: none; padding: var(--space-xxxl); color: var(--text-light); font-size: 13px; text-align: center; }
   .media-frame.media-missing {
-    align-items: center; justify-content: center;
-    background: var(--code-bg); border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface-sunken); border: 1px solid var(--border);
   }
   .media-frame.media-missing img { display: none; }
   .media-frame.media-missing .media-placeholder { display: block; }
   @media (max-width: 800px) {
     .hero-row { grid-template-columns: 1fr; }
-    .media-col { justify-self: center; width: 260px; height: 420px; min-height: 0; }
+    .media-col { justify-self: center; max-width: 260px; }
   }
-
-  .provider-note {
-    display: flex; align-items: center; gap: 8px;
-    background: color-mix(in srgb, #f59e0b 12%, var(--surface));
-    border: 1px solid color-mix(in srgb, #f59e0b 40%, var(--border));
-    color: var(--text);
-    border-radius: var(--radius);
-    padding: 10px 14px;
-    margin-bottom: 24px;
-    font-size: 13px;
-    text-decoration: none;
-  }
-  .provider-note svg { flex-shrink: 0; color: #f59e0b; }
-  .provider-note:hover { border-color: #f59e0b; }
 
   .install { margin-bottom: 0; }
-  .install-option { margin-bottom: 14px; }
-  .install-option :global(pre) { margin: 4px 0 0; }
-  .install-label {
-    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--text-light); margin: 0;
-  }
-  .install-note { font-size: 13px; color: var(--text-light); margin: 4px 0 0; }
-  .install-deps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .install-option { margin-bottom: var(--space-lg); }
+  .install-option :global(pre) { margin: var(--space-xs) 0 0; }
+  .install-label { margin: 0; }
+  .install-note { font-size: 13px; color: var(--text-light); margin: var(--space-xs) 0 0; }
+  .install-deps { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-lg); }
+  /* Píldora interactiva: superficie normal + borde, la afordancia de link
+     (no solo en hover) es el color primary del texto cuando dep.href
+     existe — sin eso, un chip-link y un chip-texto se ven idénticos hasta
+     que el mouse pasa por encima. */
   .dep-chip {
-    font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
-    background: var(--code-bg); color: var(--text); border: 1px solid var(--border);
+    font-size: var(--text-sm); font-weight: 600; padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-full);
+    background: var(--surface); color: var(--text); border: 1px solid var(--border);
     text-decoration: none;
   }
-  a.dep-chip:hover { border-color: var(--primary); color: var(--primary); }
+  a.dep-chip { color: var(--primary); }
+  a.dep-chip:hover { border-color: var(--primary); background: var(--surface-active); }
   .dep-chip-core { color: var(--text-light); font-style: italic; }
 
   .usage { margin-bottom: 0; }
-  .usage-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .usage-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-sm); }
   .usage-list li { font-size: 14px; color: var(--text-light); line-height: 1.5; }
   .usage-list strong { color: var(--text); }
 
   .example :global(pre) { margin: 0; }
 
-  .variants { margin-bottom: 32px; }
-  .variants h2 { margin-bottom: 16px; }
-  .variant { margin-bottom: 24px; }
-  .variant h3 {
-    font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--text-light); margin: 0 0 8px;
-  }
+  .variants { margin-bottom: var(--space-xxxl); }
+  .variants h2 { margin-bottom: var(--space-lg); }
+  .variant { margin-bottom: var(--space-xxl); }
+  .variant h3 { margin: 0 0 var(--space-sm); }
   .variant :global(pre) { margin: 0; }
 
-  .full-source { margin-bottom: 32px; }
+  .full-source { margin-bottom: var(--space-xxxl); }
   .full-source summary {
-    cursor: pointer; font-size: 14px; color: var(--text-light); padding: 8px 0; user-select: none;
+    cursor: pointer; font-size: 14px; color: var(--text-light); padding: var(--space-sm) 0; user-select: none;
   }
   .full-source summary:hover { color: var(--primary); }
-  .full-source :global(pre) { margin-top: 8px; }
+  .full-source :global(pre) { margin-top: var(--space-sm); }
 
-  .props-note { font-size: 13px; color: var(--text-light); margin: -4px 0 12px; }
+  .props-note { font-size: 13px; color: var(--text-light); margin: -4px 0 var(--space-md); }
   .props-table { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th, td { text-align: left; padding: 10px var(--space-lg); border-bottom: 1px solid var(--border); vertical-align: top; }
   th { color: var(--text-light); font-weight: 600; background: var(--code-bg); }
   tr:last-child td { border-bottom: none; }
 
-  .pager-row { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+  .pager-row { display: flex; gap: var(--space-lg); margin-top: var(--space-section); flex-wrap: wrap; }
   @media (max-width: 480px) { .pager-row { flex-direction: column; } }
 </style>

@@ -4,6 +4,7 @@ import { Code } from 'astro:components';
 import components from '../data/components.json';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { GITHUB_URL } from '../lib/links';
+import Callout from './Callout.astro';
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -58,20 +59,23 @@ import { Body, Caption } from '../atoms/Text';
 import { InfoRow } from '../molecules/InfoRow'; // never`;
 ---
 
-<div class="intro">
-  <div class="intro-text">
-    <h1>{t('ad.h1')}</h1>
-    <p class="lede">{t('ad.lede')}</p>
-  </div>
-  <figure class="diagram">
-    <img src="/media/atomic-design-diagram.jpeg" alt="Atom, molecule and organism represented as circles that nest into progressively larger clusters" loading="lazy" width="1200" height="1968" />
-    <figcaption>
-      {t('ad.diagram.caption')}: <a href="https://uxcel.com/glossary/atomic-design" rel="noopener noreferrer nofollow">uxcel.com/glossary/atomic-design</a>
-    </figcaption>
-  </figure>
-</div>
+<h1>{t('ad.h1')}</h1>
 
-<section class="block">
+<!-- Flota a la derecha del lede y de "Por qué se creó orn-ui": con flex,
+     una fila obligaba a la sección siguiente a empezar recién debajo del
+     punto más bajo entre imagen y texto, dejando un hueco enorme cuando el
+     lede era corto. Con float el texto de "why" sube y llena ese espacio;
+     la sección siguiente limpia el float (ver .why-block + .block). -->
+<figure class="diagram">
+  <img src="/media/atomic-design-diagram.jpeg" alt="Atom, molecule and organism represented as circles that nest into progressively larger clusters" loading="lazy" width="1200" height="1968" />
+  <figcaption>
+    {t('ad.diagram.caption')}: <a href="https://uxcel.com/glossary/atomic-design" rel="noopener noreferrer nofollow">uxcel.com/glossary/atomic-design</a>
+  </figcaption>
+</figure>
+
+<p class="lede">{t('ad.lede')}</p>
+
+<section class="block why-block">
   <h2>{t('ad.why.title')}</h2>
   <p>{t('ad.why.body1')}</p>
   <p>{t('ad.why.body2')}</p>
@@ -108,19 +112,16 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
         <h3>{l.label}</h3>
         <p>{t(`ad.layers.${l.key}.def` as any)}</p>
         <dl>
-          <dt>{t('ad.layers.examplesLabel')}</dt>
+          <dt class="eyebrow">{t('ad.layers.examplesLabel')}</dt>
           <dd><code>{t(`ad.layers.${l.key}.examples` as any)}</code></dd>
-          <dt>{t('ad.layers.ruleLabel')}</dt>
+          <dt class="eyebrow">{t('ad.layers.ruleLabel')}</dt>
           <dd>{t(`ad.layers.${l.key}.rule` as any)}</dd>
         </dl>
       </article>
     ))}
   </div>
 
-  <div class="callout">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
-    <p>{t('ad.layers.direction')}</p>
-  </div>
+  <Callout variant="info">{t('ad.layers.direction')}</Callout>
 
   <Code code={directionSnippet} lang="tsx" themes={codeThemes} defaultColor={false} />
 </section>
@@ -151,7 +152,7 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
     ))}
   </ol>
 
-  <h3 class="mistakes-title">{t('ad.mistakes.title')}</h3>
+  <h3 class="eyebrow mistakes-title">{t('ad.mistakes.title')}</h3>
   <ul class="mistakes">
     {mistakes.map((i) => <li>{t(`ad.mistakes.${i}` as any)}</li>)}
   </ul>
@@ -178,85 +179,75 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
 </section>
 
 <style>
-  h1 { font-size: 32px; margin: 0 0 8px; }
-  .lede { color: var(--text-light); font-size: 16px; line-height: 1.6; margin: 0; }
+  h1 { font-size: 32px; margin: 0 0 var(--space-md); }
+  .lede { color: var(--text-light); font-size: 16px; line-height: 1.6; margin-bottom: var(--space-section); }
 
-  /* La imagen fuente es vertical (1200x1968): va al lado del título y el
-     lede, no arriba — flex en vez de float para que quede al costado de
-     forma explícita, sin depender de que el texto alcance a envolverla. */
-  .intro {
-    display: flex;
-    align-items: flex-start;
-    gap: 32px;
-    margin-bottom: 44px;
-  }
-  .intro-text { flex: 1 1 420px; min-width: 0; }
-  .diagram { flex: 0 0 190px; width: 190px; text-align: center; }
+  /* Flota a la derecha del lede y sigue flotando dentro de .why-block: el
+     texto sube y ocupa el espacio al costado de la imagen en vez de que la
+     sección entera espere a que termine la imagen (ver comentario en el
+     markup). .why-block limpia el float al cerrar para no arrastrarlo a
+     "Las tres capas". */
+  .diagram { float: right; width: 200px; margin: 0 0 var(--space-lg) var(--space-xxxl); text-align: center; }
   @media (max-width: 720px) {
-    .intro { flex-direction: column-reverse; gap: 20px; }
-    .diagram { width: 160px; margin: 0 auto; }
+    .diagram { float: none; width: 160px; margin: 0 auto var(--space-xl); }
   }
 
-  .block { margin-bottom: 48px; }
-  .block h2 { font-size: 20px; margin: 0 0 12px; }
-  .block > p { line-height: 1.7; color: var(--text-light); max-width: 680px; }
-  .block > p + p { margin-top: 12px; }
-  .closing { margin-top: 20px !important; }
+  .block { margin-bottom: var(--space-section); }
+  /* Limpia el float acá, no en .why-block: el punto es que el texto de
+     "Por qué se creó orn-ui" SÍ suba y quede al costado de la imagen — solo
+     la sección siguiente necesita arrancar en su propio margen izquierdo. */
+  .why-block + .block { clear: both; }
+  .block h2 { font-size: 20px; margin: 0 0 var(--space-md); }
+  .block > p { line-height: 1.7; color: var(--text-light); }
+  .block > p + p { margin-top: var(--space-md); }
+  .closing { margin-top: var(--space-xl) !important; }
 
   .inline-link { font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; }
   .inline-link:hover { color: var(--primary-hover); }
 
-  .points { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 16px; }
+  .points { list-style: none; margin: var(--space-xl) 0 0; padding: 0; display: grid; gap: var(--space-lg); }
   .points > li {
     border: 1px solid var(--border); border-radius: var(--radius);
-    background: var(--surface); padding: 16px 18px;
+    background: var(--surface); padding: var(--space-lg) 18px;
   }
-  .points h3 { font-size: 14px; margin: 0 0 6px; }
+  .points h3 { font-size: 14px; margin: 0 0 var(--space-sm); }
   .points p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-light); }
-  .points pre { margin: 12px 0 0; background: var(--code-bg); font-size: 12px; }
-  .points .inline-link { display: inline-block; margin-top: 12px; }
+  .points pre { margin: var(--space-md) 0 0; background: var(--code-bg); font-size: 12px; }
+  .points .inline-link { display: inline-block; margin-top: var(--space-md); }
 
-  .layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 24px 0; }
+  .layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-lg); margin: var(--space-xl) 0; }
   .layer {
     position: relative;
     border: 1px solid var(--border); border-radius: var(--radius);
     background: var(--surface); padding: 18px;
   }
   .layer-n {
-    position: absolute; top: 14px; right: 16px;
+    position: absolute; top: 14px; right: var(--space-lg);
     font-size: 28px; font-weight: 700; line-height: 1;
     color: color-mix(in srgb, var(--primary) 22%, transparent);
   }
-  .layer h3 { font-size: 15px; margin: 0 0 8px; }
+  .layer h3 { font-size: 15px; margin: 0 0 var(--space-sm); }
   .layer > p { font-size: 13px; line-height: 1.6; color: var(--text-light); margin: 0; }
-  .layer dl { margin: 14px 0 0; font-size: 12px; }
-  .layer dt {
-    font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--text-light); margin-top: 10px;
-  }
-  .layer dd { margin: 4px 0 0; color: var(--text-light); line-height: 1.5; }
+  .layer dl { margin: var(--space-md) 0 0; }
+  .layer dt { margin-top: var(--space-sm); }
+  .layer dd { margin: var(--space-xs) 0 0; color: var(--text-light); line-height: 1.5; }
   .layer dd code { font-size: 11px; }
 
-  .callout {
-    display: flex; gap: 10px; align-items: flex-start;
-    background: color-mix(in srgb, var(--primary) 10%, var(--surface));
-    border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
-    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px;
-  }
-  .callout svg { flex-shrink: 0; margin-top: 2px; color: var(--primary); }
-  .callout p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text); }
+  :global(.block .callout) { margin-bottom: var(--space-lg); }
 
-  .steps { margin: 24px 0 0; padding: 0 0 0 4px; list-style: none; counter-reset: step; }
+  /* Círculo del número centrado sobre el borde izquierdo de 1px: el offset
+     es -mitad del diámetro del círculo, no un número copiado a ojo. */
+  .steps { margin: var(--space-xl) 0 0; padding: 0 0 0 var(--space-xs); list-style: none; counter-reset: step; }
   .steps > li {
     counter-increment: step;
     position: relative;
-    padding: 0 0 24px 40px;
+    padding: 0 0 var(--space-xl) 40px;
     border-left: 1px solid var(--border);
   }
   .steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
   .steps > li::before {
     content: counter(step);
-    position: absolute; left: -13px; top: -2px;
+    position: absolute; left: calc(-13px + 0.5px); top: -2px;
     width: 26px; height: 26px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center;
     font-size: 12px; font-weight: 700;
@@ -264,36 +255,33 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
     background: var(--surface);
     border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--border));
   }
-  .steps h3 { font-size: 14px; margin: 0 0 6px; }
-  .steps p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-light); max-width: 640px; }
-  .steps :global(pre) { margin: 12px 0 0; font-size: 12px; }
+  .steps h3 { font-size: 14px; margin: 0 0 var(--space-sm); }
+  .steps p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-light); }
+  .steps :global(pre) { margin: var(--space-md) 0 0; font-size: 12px; }
 
-  .mistakes-title {
-    font-size: 13px; margin: 32px 0 12px; color: var(--text-light);
-    text-transform: uppercase; letter-spacing: 0.05em;
-  }
-  .mistakes { margin: 0; padding-left: 20px; max-width: 680px; }
-  .mistakes li { font-size: 14px; line-height: 1.6; color: var(--text-light); margin-bottom: 8px; }
+  .mistakes-title { margin: var(--space-xxxl) 0 var(--space-md); }
+  .mistakes { margin: 0; padding-left: var(--space-xl); }
+  .mistakes li { font-size: 14px; line-height: 1.6; color: var(--text-light); margin-bottom: var(--space-sm); }
 
   .diagram img {
     max-width: 100%; width: 100%; height: auto;
     border: 1px solid var(--border); border-radius: var(--radius);
     background: #fff; padding: 14px;
   }
-  .diagram figcaption { margin-top: 8px; font-size: 12px; color: var(--text-light); }
+  .diagram figcaption { margin-top: var(--space-sm); font-size: 12px; color: var(--text-light); }
   .diagram figcaption a { color: var(--text-light); }
   .diagram figcaption a:hover { color: var(--primary); }
 
-  .sources { margin: 24px 0 0; padding-left: 20px; max-width: 680px; }
-  .sources > li { margin-bottom: 16px; }
+  .sources { margin: var(--space-xl) 0 0; padding-left: var(--space-xl); }
+  .sources > li { margin-bottom: var(--space-lg); }
   .sources > li::marker { color: var(--text-light); font-size: 12px; }
   .sources a { font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; }
   .sources a:hover { text-decoration: underline; }
   .source-meta { display: block; font-size: 12px; color: var(--text-light); margin-top: 2px; }
-  .sources p { margin: 4px 0 0; font-size: 13px; line-height: 1.6; color: var(--text-light); }
+  .sources p { margin: var(--space-xs) 0 0; font-size: 13px; line-height: 1.6; color: var(--text-light); }
 
   .cta {
-    display: inline-block; margin-top: 12px; font-weight: 600; font-size: 14px;
+    display: inline-block; margin-top: var(--space-md); font-weight: 600; font-size: 14px;
     color: var(--primary); text-decoration: none;
   }
   .cta:hover { color: var(--primary-hover); }

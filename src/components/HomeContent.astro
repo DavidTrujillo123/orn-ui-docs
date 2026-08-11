@@ -39,13 +39,16 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
     <p class="install-label">{content.installPackageLabel}</p>
     <Code code={`pnpm add orn-ui`} lang="bash" themes={codeThemes} defaultColor={false} />
   </div>
-  <p class="install-hint">
-    {content.installHint}
-    {' '}
-    <a href={getRelativeLocaleUrl(lang, '/getting-started')}>{t('gs.linkText')} →</a>
-    {' · '}
-    <a href={getRelativeLocaleUrl(lang, '/atomic-design')}>{t('nav.atomicDesign')} →</a>
-  </p>
+  <p class="install-hint">{content.installHint}</p>
+
+  <div class="hero-actions">
+    <!-- Único botón sólido primary del hero: en un layout donde h1, lede,
+         2 bloques de instalación y los badges pesan todos igual, no había
+         ningún punto de entrada al que el ojo fuera primero. -->
+    <a class="btn-primary" href={getRelativeLocaleUrl(lang, '/getting-started')}>{t('gs.linkText')} →</a>
+    <a class="btn-secondary" href={getRelativeLocaleUrl(lang, '/atomic-design')}>{t('nav.atomicDesign')}</a>
+  </div>
+
   <div class="badges">
     {content.badges.map((b) => <span class="badge">{b}</span>)}
   </div>
@@ -104,24 +107,42 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 </script>
 
 <style>
-  .hero { padding: 40px 0 56px; border-bottom: 1px solid var(--border); margin-bottom: 40px; }
-  .hero h1 { font-size: 40px; line-height: 1.15; margin: 0 0 16px; max-width: 720px; letter-spacing: -0.01em; }
-  .lede { color: var(--text-light); font-size: 16px; max-width: 640px; line-height: 1.6; margin-bottom: 20px; }
-  .install-block { max-width: 480px; margin-bottom: 14px; }
-  .install-block :global(pre) { margin: 6px 0 0; }
+  .hero { padding: var(--space-xxxl) 0 56px; border-bottom: 1px solid var(--border); margin-bottom: var(--space-section); }
+  .hero h1 { font-size: 40px; line-height: 1.15; margin: 0 0 var(--space-lg); max-width: 720px; letter-spacing: -0.01em; }
+  .lede { color: var(--text-light); font-size: 16px; line-height: 1.6; margin-bottom: var(--space-xl); }
+  .install-block { max-width: 480px; margin-bottom: var(--space-md); }
+  .install-block :global(pre) { margin: var(--space-xs) 0 0; }
   .install-label { font-size: 13px; font-weight: 400; color: var(--text-light); margin: 0; }
-  .install-hint { font-size: 13px; color: var(--text-light); margin: 6px 0 20px; }
-  .badges { display: flex; gap: 8px; flex-wrap: wrap; }
+  .install-hint { font-size: 13px; color: var(--text-light); margin: var(--space-xs) 0 var(--space-xl); }
+
+  .hero-actions { display: flex; align-items: center; gap: var(--space-md); flex-wrap: wrap; margin-bottom: var(--space-xl); }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: var(--space-xs);
+    background: var(--primary); color: #fff; font-weight: 600; font-size: 14px;
+    padding: 10px var(--space-xl); border-radius: var(--radius-md);
+    text-decoration: none; transition: background var(--duration-fast);
+  }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-secondary {
+    font-size: 14px; font-weight: 600; color: var(--text-light); text-decoration: none;
+    transition: color var(--duration-fast);
+  }
+  .btn-secondary:hover { color: var(--primary); }
+
+  /* Etiqueta estática, no interactiva: superficie hundida sin borde, radio
+     chico — la píldora con borde queda reservada para lo clicable. */
+  .badges { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
   .badge {
-    font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px;
-    background: var(--code-bg); color: var(--text-light); border: 1px solid var(--border);
+    font-size: var(--text-sm); font-weight: 600; padding: var(--space-xs) var(--space-md);
+    border-radius: var(--radius-xs);
+    background: var(--surface-sunken); color: var(--text-light);
   }
 
   .filter-bar {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: var(--space-sm);
     border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 10px 14px; margin-bottom: 32px; background: var(--surface);
-    max-width: 360px; transition: border-color 0.15s;
+    padding: 10px var(--space-lg); margin-bottom: var(--space-xl); background: var(--surface);
+    max-width: 360px; transition: border-color var(--duration-fast);
   }
   .filter-bar:focus-within { border-color: var(--primary); box-shadow: var(--focus-ring); }
   .filter-icon { color: var(--text-light); flex-shrink: 0; }
@@ -130,21 +151,27 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
     font-size: 14px; width: 100%; font-family: inherit;
   }
   .filter-bar input::placeholder { color: var(--text-light); }
-  .filter-empty { color: var(--text-light); font-size: 14px; margin: -16px 0 32px; }
+  /* Antes vivía en margen negativo para "restar" el hueco que ya dejaba
+     .filter-bar: ese hueco no debería haber existido. El mensaje ocupa el
+     lugar de la grilla directamente, sin acrobacia de margen. */
+  .filter-empty { color: var(--text-light); font-size: 14px; margin: 0 0 var(--space-xl); }
 
-  .group { margin-bottom: 40px; }
-  .group h2 { font-size: 20px; margin-bottom: 16px; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
+  .group { margin-bottom: var(--space-section); }
+  .group h2 { font-size: 20px; margin-bottom: var(--space-lg); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: var(--space-md); }
   .card {
     display: block; text-decoration: none; color: var(--text);
     border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
-    background: var(--surface); transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+    background: var(--surface); transition: border-color var(--duration-fast), transform var(--duration-fast), box-shadow var(--duration-fast);
   }
-  .card:hover { border-color: var(--primary); transform: translateY(-2px); box-shadow: var(--shadow); }
+  .card:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+  @media (prefers-reduced-motion: no-preference) {
+    .card:hover { transform: translateY(-2px); }
+  }
   .card-media {
-    aspect-ratio: 16 / 10; background: var(--code-bg);
+    aspect-ratio: 16 / 10; background: var(--surface-sunken);
     display: flex; align-items: center; justify-content: center;
   }
   .card-media img { width: 100%; height: 100%; object-fit: cover; }
-  .card-name { padding: 10px 12px; font-size: 13px; font-weight: 600; }
+  .card-name { padding: 10px var(--space-md); font-size: 13px; font-weight: 600; }
 </style>

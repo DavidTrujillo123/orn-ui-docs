@@ -6,6 +6,7 @@ import { LANGUAGES, LANGUAGE_LABELS, useTranslations, type Lang } from '../i18n/
 import { GITHUB_URL, NPM_URL } from '../lib/links';
 import NpmIcon from '../components/icons/NpmIcon.astro';
 import GithubIcon from '../components/icons/GithubIcon.astro';
+import '../styles/tokens.css';
 
 interface Props {
   title: string;
@@ -320,6 +321,23 @@ const hasSidebar = Astro.slots.has('sidebar');
         document.addEventListener('astro:page-load', wire);
       })();
     </script>
+    <script is:inline>
+      // Sombra del topbar al scrollear: con blur + borde de 1px nomás, el
+      // contenido que pasa por debajo competía visualmente con la barra
+      // fija. `scroll` con passive, no un IntersectionObserver — no hay
+      // sentinel que mantener sincronizado con el alto real del header.
+      (function () {
+        var topbar = null;
+        function sync() {
+          if (!topbar) topbar = document.querySelector('.topbar');
+          if (!topbar) return;
+          topbar.classList.toggle('is-scrolled', window.scrollY > 4);
+        }
+        sync();
+        window.addEventListener('scroll', sync, { passive: true });
+        document.addEventListener('astro:page-load', sync);
+      })();
+    </script>
   </body>
 </html>
 
@@ -331,10 +349,16 @@ const hasSidebar = Astro.slots.has('sidebar');
     --bg: #f7f8fa;
     --surface: #ffffff;
     --surface-hover: #f0f2f5;
+    /* Elevación explícita, misma dirección en los dos temas: sunken < bg <
+       surface < surface-active. code-bg es alias de sunken — "código" no es
+       una superficie propia, es contenido hundido, igual que un GIF de
+       media o un swatch de token. */
+    --surface-sunken: #eef1f5;
+    --surface-active: color-mix(in srgb, var(--primary) 10%, var(--surface));
+    --code-bg: var(--surface-sunken);
     --text: #1a1d21;
     --text-light: #5b6572;
     --border: #e3e6ea;
-    --code-bg: #f4f6f8;
     --radius: 12px;
     --shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
     --focus-ring: 0 0 0 3px rgba(47, 107, 255, 0.35);
@@ -349,10 +373,14 @@ const hasSidebar = Astro.slots.has('sidebar');
       --bg: #0a0c10;
       --surface: #14171c;
       --surface-hover: #1b1f26;
+      /* Misma dirección que en claro: sunken queda más oscuro que bg, no
+         más claro — si no, "código = hundido" se invierte entre temas. */
+      --surface-sunken: #07090c;
+      --surface-active: color-mix(in srgb, var(--primary) 14%, var(--surface));
+      --code-bg: var(--surface-sunken);
       --text: #edeef0;
       --text-light: #97a1ad;
       --border: #262b33;
-      --code-bg: #101317;
       --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
       --focus-ring: 0 0 0 3px rgba(110, 161, 255, 0.4);
       color-scheme: dark;
@@ -366,10 +394,12 @@ const hasSidebar = Astro.slots.has('sidebar');
     --bg: #0a0c10;
     --surface: #14171c;
     --surface-hover: #1b1f26;
+    --surface-sunken: #07090c;
+    --surface-active: color-mix(in srgb, var(--primary) 14%, var(--surface));
+    --code-bg: var(--surface-sunken);
     --text: #edeef0;
     --text-light: #97a1ad;
     --border: #262b33;
-    --code-bg: #101317;
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
     --focus-ring: 0 0 0 3px rgba(110, 161, 255, 0.4);
     color-scheme: dark;
@@ -408,6 +438,18 @@ const hasSidebar = Astro.slots.has('sidebar');
     border-radius: 4px;
   }
 
+  /* Único eyebrow del sitio (mayúsculas + tracking + --text-sm). Antes
+     aparecía en 11/12/13px según el archivo — la misma señal ("esto es una
+     categoría, no prosa") se leía como tres señales distintas. El color
+     (primary vs text-light) es la única variación permitida. */
+  .eyebrow {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-light);
+  }
+
   .skip-link {
     position: absolute;
     left: -9999px;
@@ -442,7 +484,9 @@ const hasSidebar = Astro.slots.has('sidebar');
     background: color-mix(in srgb, var(--bg) 88%, transparent);
     backdrop-filter: blur(8px);
     z-index: 10;
+    transition: box-shadow var(--duration-fast);
   }
+  .topbar.is-scrolled { box-shadow: var(--shadow); }
 
   .brand {
     display: flex;
@@ -921,7 +965,13 @@ const hasSidebar = Astro.slots.has('sidebar');
     list-style: none; margin: 0; padding: 6px; overflow-y: auto; overscroll-behavior: contain;
   }
   .search-results li { border-radius: 8px; }
-  .search-results li.active { background: var(--surface-hover); }
+  /* Antes solo cambiaba el fondo contra --surface — casi invisible. El
+     borde izquierdo con --primary es la misma señal que usa aria-current
+     en el sidebar (Sidebar.astro), no una nueva. */
+  .search-results li.active {
+    background: var(--surface-active);
+    box-shadow: inset 3px 0 0 var(--primary);
+  }
   .search-result {
     display: flex; align-items: center; justify-content: space-between; gap: 12px;
     padding: 10px 10px; text-decoration: none; color: var(--text); font-size: 14px;

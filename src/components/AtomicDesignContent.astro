@@ -1,0 +1,300 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Code } from 'astro:components';
+import components from '../data/components.json';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { GITHUB_URL } from '../lib/links';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as const };
+
+const counts = {
+  atoms: (components as any).atoms.length,
+  molecules: (components as any).molecules.length,
+  organisms: (components as any).organisms.length,
+};
+
+// Los tres nombres de capa son términos de la metodología y ya viven
+// traducidos como títulos de grupo en el sidebar (group.atoms, …), así
+// que se reutilizan en vez de duplicar la traducción acá.
+const layers = [
+  { key: 'atoms', label: t('group.atoms'), n: 1 },
+  { key: 'molecules', label: t('group.molecules'), n: 2 },
+  { key: 'organisms', label: t('group.organisms'), n: 3 },
+] as const;
+
+const benefits = [1, 2, 3, 4, 5] as const;
+const steps = [1, 2, 3, 4, 5] as const;
+const mistakes = [1, 2, 3] as const;
+
+// Títulos en el idioma original de cada fuente: son referencias
+// bibliográficas, no copy del sitio. Solo la nota se traduce.
+const sources = [
+  { n: 1, title: 'Brad Frost — “Atomic Design”', meta: 'bradfrost.com, 10 Jun 2013', href: 'https://bradfrost.com/blog/post/atomic-web-design/' },
+  { n: 2, title: 'Brad Frost — Atomic Design, ch. 2: “Atomic Design Methodology”', meta: 'atomicdesign.bradfrost.com', href: 'https://atomicdesign.bradfrost.com/chapter-2/' },
+  { n: 3, title: 'eslint-plugin-import — import/no-restricted-paths', meta: 'github.com/import-js', href: 'https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-restricted-paths.md' },
+  { n: 4, title: 'dependency-cruiser', meta: 'github.com/sverweij', href: 'https://github.com/sverweij/dependency-cruiser' },
+  { n: 5, title: 'orn-ui', meta: 'github.com/DavidTrujillo123', href: GITHUB_URL },
+] as const;
+
+const treeSnippet = `src/
+  components/
+    atoms/        Button, Input, Badge, Avatar…
+    molecules/    SearchField, OptionCard, InfoRow…
+    organisms/    Modal, List, NavigationBar…
+  screens/        templates + pages (your routes)`;
+
+const directionSnippet = `// organisms/UserCard.tsx — may import both layers below
+import { InfoRow } from '../molecules/InfoRow';
+import { Avatar } from '../atoms/Avatar';
+
+// molecules/InfoRow.tsx — may import atoms
+import { Body, Caption } from '../atoms/Text';
+
+// atoms/Avatar.tsx — imports nothing from the layers above
+import { InfoRow } from '../molecules/InfoRow'; // never`;
+---
+
+<div class="intro">
+  <div class="intro-text">
+    <h1>{t('ad.h1')}</h1>
+    <p class="lede">{t('ad.lede')}</p>
+  </div>
+  <figure class="diagram">
+    <img src="/media/atomic-design-diagram.jpeg" alt="Atom, molecule and organism represented as circles that nest into progressively larger clusters" loading="lazy" width="1200" height="1968" />
+    <figcaption>
+      {t('ad.diagram.caption')}: <a href="https://uxcel.com/glossary/atomic-design" rel="noopener noreferrer nofollow">uxcel.com/glossary/atomic-design</a>
+    </figcaption>
+  </figure>
+</div>
+
+<section class="block">
+  <h2>{t('ad.why.title')}</h2>
+  <p>{t('ad.why.body1')}</p>
+  <p>{t('ad.why.body2')}</p>
+
+  <ul class="points">
+    <li>
+      <h3>{t('ad.why.point1.title')}</h3>
+      <p>{t('ad.why.point1.body')}</p>
+      <pre><code>npx orn-ui add button</code></pre>
+    </li>
+    <li>
+      <h3>{t('ad.why.point2.title')}</h3>
+      <p>{t('ad.why.point2.body')}</p>
+      <pre><code>pnpm add orn-ui</code></pre>
+    </li>
+    <li>
+      <h3>{t('ad.why.point3.title')}</h3>
+      <p>{t('ad.why.point3.body')}</p>
+      <a class="inline-link" href={getRelativeLocaleUrl(lang, '/getting-started')}>{t('gs.linkText')} →</a>
+    </li>
+  </ul>
+
+  <p class="closing">{t('ad.why.closing')}</p>
+</section>
+
+<section class="block">
+  <h2>{t('ad.what.title')}</h2>
+  <p>{t('ad.what.body')}</p>
+
+  <div class="layers">
+    {layers.map((l) => (
+      <article class="layer">
+        <span class="layer-n" aria-hidden="true">{l.n}</span>
+        <h3>{l.label}</h3>
+        <p>{t(`ad.layers.${l.key}.def` as any)}</p>
+        <dl>
+          <dt>{t('ad.layers.examplesLabel')}</dt>
+          <dd><code>{t(`ad.layers.${l.key}.examples` as any)}</code></dd>
+          <dt>{t('ad.layers.ruleLabel')}</dt>
+          <dd>{t(`ad.layers.${l.key}.rule` as any)}</dd>
+        </dl>
+      </article>
+    ))}
+  </div>
+
+  <div class="callout">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="m19 12-7 7-7-7"></path></svg>
+    <p>{t('ad.layers.direction')}</p>
+  </div>
+
+  <Code code={directionSnippet} lang="tsx" themes={codeThemes} defaultColor={false} />
+</section>
+
+<section class="block">
+  <h2>{t('ad.benefits.title')}</h2>
+  <ul class="points">
+    {benefits.map((i) => (
+      <li>
+        <h3>{t(`ad.benefits.${i}.title` as any)}</h3>
+        <p>{t(`ad.benefits.${i}.body` as any)}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<section class="block">
+  <h2>{t('ad.how.title')}</h2>
+  <p>{t('ad.how.body')}</p>
+
+  <ol class="steps">
+    {steps.map((i) => (
+      <li>
+        <h3>{t(`ad.how.${i}.title` as any)}</h3>
+        <p>{t(`ad.how.${i}.body` as any)}</p>
+        {i === 1 && <Code code={treeSnippet} lang="text" themes={codeThemes} defaultColor={false} />}
+      </li>
+    ))}
+  </ol>
+
+  <h3 class="mistakes-title">{t('ad.mistakes.title')}</h3>
+  <ul class="mistakes">
+    {mistakes.map((i) => <li>{t(`ad.mistakes.${i}` as any)}</li>)}
+  </ul>
+</section>
+
+<section class="block">
+  <h2>{t('ad.map.title')}</h2>
+  <p>{t('ad.map.body', counts.atoms, counts.molecules, counts.organisms)}</p>
+  <a class="cta" href={`${getRelativeLocaleUrl(lang, '/')}#components`}>{t('ad.map.cta')} →</a>
+</section>
+
+<section class="block">
+  <h2>{t('ad.sources.title')}</h2>
+  <p>{t('ad.sources.body')}</p>
+  <ol class="sources">
+    {sources.map((s) => (
+      <li>
+        <a href={s.href} rel="noopener noreferrer nofollow">{s.title}</a>
+        <span class="source-meta">{s.meta}</span>
+        <p>{t(`ad.sources.${s.n}.note` as any)}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  h1 { font-size: 32px; margin: 0 0 8px; }
+  .lede { color: var(--text-light); font-size: 16px; line-height: 1.6; margin: 0; }
+
+  /* La imagen fuente es vertical (1200x1968): va al lado del título y el
+     lede, no arriba — flex en vez de float para que quede al costado de
+     forma explícita, sin depender de que el texto alcance a envolverla. */
+  .intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    margin-bottom: 44px;
+  }
+  .intro-text { flex: 1 1 420px; min-width: 0; }
+  .diagram { flex: 0 0 190px; width: 190px; text-align: center; }
+  @media (max-width: 720px) {
+    .intro { flex-direction: column-reverse; gap: 20px; }
+    .diagram { width: 160px; margin: 0 auto; }
+  }
+
+  .block { margin-bottom: 48px; }
+  .block h2 { font-size: 20px; margin: 0 0 12px; }
+  .block > p { line-height: 1.7; color: var(--text-light); max-width: 680px; }
+  .block > p + p { margin-top: 12px; }
+  .closing { margin-top: 20px !important; }
+
+  .inline-link { font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; }
+  .inline-link:hover { color: var(--primary-hover); }
+
+  .points { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 16px; }
+  .points > li {
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); padding: 16px 18px;
+  }
+  .points h3 { font-size: 14px; margin: 0 0 6px; }
+  .points p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-light); }
+  .points pre { margin: 12px 0 0; background: var(--code-bg); font-size: 12px; }
+  .points .inline-link { display: inline-block; margin-top: 12px; }
+
+  .layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 24px 0; }
+  .layer {
+    position: relative;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: var(--surface); padding: 18px;
+  }
+  .layer-n {
+    position: absolute; top: 14px; right: 16px;
+    font-size: 28px; font-weight: 700; line-height: 1;
+    color: color-mix(in srgb, var(--primary) 22%, transparent);
+  }
+  .layer h3 { font-size: 15px; margin: 0 0 8px; }
+  .layer > p { font-size: 13px; line-height: 1.6; color: var(--text-light); margin: 0; }
+  .layer dl { margin: 14px 0 0; font-size: 12px; }
+  .layer dt {
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--text-light); margin-top: 10px;
+  }
+  .layer dd { margin: 4px 0 0; color: var(--text-light); line-height: 1.5; }
+  .layer dd code { font-size: 11px; }
+
+  .callout {
+    display: flex; gap: 10px; align-items: flex-start;
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));
+    border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px;
+  }
+  .callout svg { flex-shrink: 0; margin-top: 2px; color: var(--primary); }
+  .callout p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text); }
+
+  .steps { margin: 24px 0 0; padding: 0 0 0 4px; list-style: none; counter-reset: step; }
+  .steps > li {
+    counter-increment: step;
+    position: relative;
+    padding: 0 0 24px 40px;
+    border-left: 1px solid var(--border);
+  }
+  .steps > li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .steps > li::before {
+    content: counter(step);
+    position: absolute; left: -13px; top: -2px;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    color: var(--primary);
+    background: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--border));
+  }
+  .steps h3 { font-size: 14px; margin: 0 0 6px; }
+  .steps p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--text-light); max-width: 640px; }
+  .steps :global(pre) { margin: 12px 0 0; font-size: 12px; }
+
+  .mistakes-title {
+    font-size: 13px; margin: 32px 0 12px; color: var(--text-light);
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .mistakes { margin: 0; padding-left: 20px; max-width: 680px; }
+  .mistakes li { font-size: 14px; line-height: 1.6; color: var(--text-light); margin-bottom: 8px; }
+
+  .diagram img {
+    max-width: 100%; width: 100%; height: auto;
+    border: 1px solid var(--border); border-radius: var(--radius);
+    background: #fff; padding: 14px;
+  }
+  .diagram figcaption { margin-top: 8px; font-size: 12px; color: var(--text-light); }
+  .diagram figcaption a { color: var(--text-light); }
+  .diagram figcaption a:hover { color: var(--primary); }
+
+  .sources { margin: 24px 0 0; padding-left: 20px; max-width: 680px; }
+  .sources > li { margin-bottom: 16px; }
+  .sources > li::marker { color: var(--text-light); font-size: 12px; }
+  .sources a { font-size: 14px; font-weight: 600; color: var(--primary); text-decoration: none; }
+  .sources a:hover { text-decoration: underline; }
+  .source-meta { display: block; font-size: 12px; color: var(--text-light); margin-top: 2px; }
+  .sources p { margin: 4px 0 0; font-size: 13px; line-height: 1.6; color: var(--text-light); }
+
+  .cta {
+    display: inline-block; margin-top: 12px; font-weight: 600; font-size: 14px;
+    color: var(--primary); text-decoration: none;
+  }
+  .cta:hover { color: var(--primary-hover); }
+</style>

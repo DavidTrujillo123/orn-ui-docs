@@ -25,6 +25,7 @@ export const GET: APIRoute = async () => {
     '## Docs',
     '',
     '- [Getting Started](https://orn-ui-docs.vercel.app/getting-started.md): install + required <UIProvider> setup — read this before using any component below.',
+    '- [Atomic Design](https://orn-ui-docs.vercel.app/atomic-design.md): why orn-ui exists, what the atoms/molecules/organisms split means, and how to apply it in any frontend project.',
     '- [Typography](https://orn-ui-docs.vercel.app/typography.md): Title, Subtitle, Body, Caption — one shared install, used together in one example.',
     '- [Tokens](https://orn-ui-docs.vercel.app/tokens): spacing, radius, font size and duration scales.',
     '- [Full reference](https://orn-ui-docs.vercel.app/llms-full.txt): every page below, concatenated into one file.',

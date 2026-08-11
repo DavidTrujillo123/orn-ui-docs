@@ -87,7 +87,74 @@
     "typography.subtitle.usage": "Subtítulo, justo debajo de un Title, o por sí solo como encabezado de sección más ligero.",
     "typography.body.usage": "El estilo de párrafo por defecto — la mayor parte del texto de una pantalla debería ser Body.",
     "typography.caption.usage": "Texto pequeño: notas secundarias, metadatos, marcas de tiempo o texto de ayuda debajo de un campo.",
-    "component.usage": "Uso"
+    "component.usage": "Uso",
+    "ad.title": "Diseño atómico",
+    "ad.description": "Qué es el diseño atómico, por qué orn-ui está construida sobre él y cómo aplicar las mismas tres capas en cualquier proyecto de frontend.",
+    "ad.h1": "Diseño atómico",
+    "ad.lede": "El diseño atómico organiza una interfaz en unas pocas capas que se construyen una sobre otra: las piezas pequeñas se combinan en piezas más grandes, y nada depende nunca de algo que esté por encima. orn-ui se publica en esas capas, y la misma estructura sirve en cualquier código de frontend, sea React Native o no.",
+    "ad.why.title": "Por qué se creó orn-ui",
+    "ad.why.body1": "La mayoría de las librerías de componentes intentan cubrir web y móvil desde un solo código. Ese alcance se paga en el teléfono: capas de abstracción adicionales, dependencias pensadas para web que viajan hasta el bundle, motores de estilos que resuelven en tiempo de ejecución. Se paga por una portabilidad que no se está usando.",
+    "ad.why.body2": "orn-ui toma el camino contrario. Es 100% React Native, con cero dependencias en tiempo de ejecución: react y react-native son los únicos peers. Nada que compilar, ningún motor de estilos que configurar, ningún plugin que agregar al bundler.",
+    "ad.why.point1.title": "Se instala un componente, no una librería",
+    "ad.why.point1.body": "npx orn-ui add button copia el código fuente de ese componente dentro de tu proyecto. No agrega un paquete al package.json ni una versión que mantener: el código es tuyo y puedes editarlo.",
+    "ad.why.point2.title": "O se instala el paquete y aun así solo se publica lo que se usa",
+    "ad.why.point2.body": "pnpm add orn-ui no tiene side effects y exporta por subpath, así que importar Button trae Button. Los componentes que nunca se importan nunca llegan al bundle.",
+    "ad.why.point3.title": "La configuración es un solo wrapper",
+    "ad.why.point3.body": "Al envolver tu app en UIProvider, todos los componentes ya tienen theme, íconos, insets y labels. Ese es el paso de configuración completo.",
+    "ad.why.closing": "El objetivo es la velocidad: maquetar pantallas reales sin rehacer un Button por quinta vez, y sin gastar el contexto de un agente escribiendo desde cero primitivas que ya existen, probadas, en la capa de abajo.",
+    "ad.what.title": "Las tres capas",
+    "ad.what.body": "El modelo original de Brad Frost tiene cinco niveles: átomos, moléculas, organismos, templates y páginas. Una librería de componentes solo puede ser dueña de los tres primeros, porque los templates y las páginas describen tu producto, no un paquete reutilizable. Por eso orn-ui llega hasta organismos y las últimas dos capas quedan en tu app.",
+    "ad.layers.atoms.def": "La pieza útil más pequeña. Sin composición ni lógica de negocio: renderiza lo que recibe y avisa lo que hizo la persona usuaria.",
+    "ad.layers.atoms.examples": "Button, Input, Badge, Avatar, Body",
+    "ad.layers.atoms.rule": "Si se divide, no queda nada utilizable.",
+    "ad.layers.molecules.def": "Unos pocos átomos conectados para un trabajo concreto. Puede tener estado local de UI, pero nunca sabe de dónde vinieron los datos.",
+    "ad.layers.molecules.examples": "InfoRow, SegmentedControl, Stepper, OptionCard",
+    "ad.layers.molecules.rule": "Un solo trabajo, describible en una frase corta sin usar la palabra “y”.",
+    "ad.layers.organisms.def": "Una sección autónoma de una pantalla. Compone moléculas y átomos, es dueña del flujo de interacción y es la primera capa que puede tocar datos o navegación.",
+    "ad.layers.organisms.examples": "Modal, List, SearchList, NavigationBar, Wizard",
+    "ad.layers.organisms.rule": "Puesto solo en una pantalla vacía, sigue teniendo sentido.",
+    "ad.layers.ruleLabel": "Regla práctica",
+    "ad.layers.examplesLabel": "En orn-ui",
+    "ad.layers.direction": "Las dependencias apuntan siempre hacia abajo: los organismos pueden importar moléculas y átomos, las moléculas pueden importar átomos, y los átomos no importan nada de las capas superiores. Al romper esa dirección una sola vez, las capas dejan de significar algo.",
+    "ad.benefits.title": "Para qué sirve",
+    "ad.benefits.1.title": "Nombrar deja de ser una discusión",
+    "ad.benefits.1.body": "El lugar de un componente nuevo lo decide de qué depende, no el gusto de cada persona. Eso elimina una de las discusiones más repetidas en un código que crece.",
+    "ad.benefits.2.title": "La duplicación se vuelve visible",
+    "ad.benefits.2.body": "Cuando cada primitiva vive en una sola carpeta, el segundo Button escrito dentro de una pantalla salta a la vista en lugar de sobrevivir un año.",
+    "ad.benefits.3.title": "Los refactors quedan acotados",
+    "ad.benefits.3.body": "Como las dependencias van en una sola dirección, cambiar un organismo nunca puede romper un átomo. El alcance de un cambio queda limitado a la capa que se tocó.",
+    "ad.benefits.4.title": "Encaja con el tree-shaking",
+    "ad.benefits.4.body": "Las capas en un solo sentido son exactamente lo que un bundler necesita para descartar código sin usar. En orn-ui, importar un átomo trae ese átomo y nada más.",
+    "ad.benefits.5.title": "Las personas nuevas producen el primer día",
+    "ad.benefits.5.body": "“Va en moléculas” es una respuesta completa. Alguien que nunca vio el repositorio puede ubicar un componente en el lugar correcto.",
+    "ad.how.title": "Cómo aplicarlo en cualquier proyecto",
+    "ad.how.body": "Nada de esto es específico de React Native. Las mismas tres carpetas funcionan en Next.js, Vue, SwiftUI o CSS modules a secas.",
+    "ad.how.1.title": "Crear las carpetas",
+    "ad.how.1.body": "Tres directorios dentro de components/, más el lugar donde ya viven tus rutas. Los templates y las páginas son tus pantallas actuales: no hace falta inventarles un lugar nuevo.",
+    "ad.how.2.title": "Escribir la única regla",
+    "ad.how.2.body": "Los imports apuntan solo hacia abajo. Conviene hacerlo cumplir de forma mecánica: import/no-restricted-paths en ESLint, o dependency-cruiser, rompen el build en lugar de depender de que alguien lo note en el review.",
+    "ad.how.3.title": "Empezar por la pantalla, no por la teoría",
+    "ad.how.3.body": "No conviene diseñar un catálogo de átomos por adelantado. Es mejor armar una pantalla real y después extraer lo que se repite. Lo que aparece en tres lugares se ganó bajar de capa.",
+    "ad.how.4.title": "Que la capa decida quién tiene el estado",
+    "ad.how.4.body": "Los átomos no tienen estado y se manejan por props. Las moléculas pueden tener estado local de UI: abierto/cerrado, índice enfocado. El fetch de datos, los stores y la navegación empiezan en los organismos, nunca más abajo.",
+    "ad.how.5.title": "Templates simples, páginas inteligentes",
+    "ad.how.5.body": "Un template es un layout con huecos; una página llena esos huecos con datos reales. Esa separación es lo que permite previsualizar cualquier layout sin backend.",
+    "ad.mistakes.title": "Tres formas de hacerlo mal",
+    "ad.mistakes.1": "Clasificar por tamaño en lugar de por dependencia. Un componente pequeño que lee de un store es un organismo, por pocas líneas que tenga.",
+    "ad.mistakes.2": "Atomizar de más. Envolver cada Text en un átomo propio deja cien archivos de una línea que nadie recuerda. Conviene promover en la tercera repetición, no en la primera.",
+    "ad.mistakes.3": "Carpetas sin la regla. Tres directorios con imports yendo en todas las direcciones son el mismo desorden de antes con nombres nuevos: la dirección de las dependencias es toda la metodología.",
+    "ad.map.title": "Cómo está organizada orn-ui",
+    "ad.map.body": "{atoms} átomos, {molecules} moléculas y {organisms} organismos, cada uno con su propia página con props, variantes y una grabación del simulador. Todos se instalan por separado.",
+    "ad.map.cta": "Ver los componentes",
+    "nav.atomicDesign": "Diseño atómico",
+    "ad.sources.title": "Fuentes",
+    "ad.sources.body": "La metodología es de Brad Frost, publicada en 2013 y ampliada en un libro que se puede leer gratis en línea. El resto son las herramientas mencionadas más arriba y el código de orn-ui, de donde salen los conteos de componentes de esta página.",
+    "ad.sources.1.note": "El artículo de 2013 que introdujo la analogía con la química y las cinco etapas.",
+    "ad.sources.2.note": "La definición completa del libro sobre átomos, moléculas, organismos, templates y páginas.",
+    "ad.sources.3.note": "Regla de ESLint que se usa para hacer cumplir la dirección de los imports entre capas.",
+    "ad.sources.4.note": "Valida y visualiza dependencias; la otra forma de romper el build ante un import en la dirección equivocada.",
+    "ad.sources.5.note": "La librería misma; las capas descritas aquí son las carpetas que publica.",
+    "ad.diagram.caption": "Fuente: Uxcel"
   },
   "componentUsage": {
     "alert": [
@@ -209,7 +276,7 @@
       },
       {
         "term": "style",
-        "desc": "Los ajustes de espaciado o ancho van acá, no en un View que envuelva la Card."
+        "desc": "Los ajustes de espaciado o ancho van aquí, no en un View que envuelva la Card."
       }
     ],
     "checkbox": [
@@ -277,7 +344,7 @@
       },
       {
         "term": "style",
-        "desc": "El margen se ajusta acá. Dos divisores seguidos, o uno justo después de un título de sección, suelen sobrar."
+        "desc": "El margen se ajusta aquí. Dos divisores seguidos, o uno justo después de un título de sección, suelen sobrar."
       }
     ],
     "empty-state": [
@@ -347,7 +414,7 @@
       },
       {
         "term": "radius",
-        "desc": "Mismo patrón que Avatar/Card. Se define acá, no con un wrapper con overflow."
+        "desc": "Mismo patrón que Avatar/Card. Se define aquí, no con un wrapper con overflow."
       },
       {
         "term": "loading / fallback",
@@ -577,7 +644,7 @@
       },
       {
         "term": "animated",
-        "desc": "Ponelo en false para respetar reduced motion o ahorrar ciclos en una lista larga."
+        "desc": "Ponlo en false para respetar reduced motion o ahorrar ciclos en una lista larga."
       }
     ],
     "spinner": [

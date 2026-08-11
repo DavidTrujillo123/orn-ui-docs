@@ -260,3 +260,102 @@ export function buildGettingStartedMarkdown(): string {
   ];
   return lines.join('\n');
 }
+
+// Mismas referencias que lista AtomicDesignContent.astro, en el mismo orden:
+// los números son los que citan las notas ad.sources.N.note.
+const ATOMIC_DESIGN_SOURCES: Array<[number, string, string]> = [
+  [1, 'Brad Frost — "Atomic Design"', 'https://bradfrost.com/blog/post/atomic-web-design/'],
+  [2, 'Brad Frost — Atomic Design, ch. 2: "Atomic Design Methodology"', 'https://atomicdesign.bradfrost.com/chapter-2/'],
+  [3, 'eslint-plugin-import — import/no-restricted-paths', 'https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/no-restricted-paths.md'],
+  [4, 'dependency-cruiser', 'https://github.com/sverweij/dependency-cruiser'],
+  [5, 'orn-ui', 'https://github.com/DavidTrujillo123/orn-ui'],
+];
+
+/**
+ * Versión Markdown de AtomicDesignContent.astro. A diferencia de las otras
+ * páginas, la prosa no se repite acá: sale de las mismas claves i18n que
+ * renderiza el .astro, así que editar la traducción actualiza las dos.
+ */
+export function buildAtomicDesignMarkdown(t: T, counts: { atoms: number; molecules: number; organisms: number }): string {
+  const layers: Array<[string, string]> = [
+    ['atoms', t('group.atoms')],
+    ['molecules', t('group.molecules')],
+    ['organisms', t('group.organisms')],
+  ];
+
+  const lines: string[] = [
+    `# ${t('ad.h1')} — orn-ui`,
+    '',
+    `> ${t('ad.lede')}`,
+    '',
+    `## ${t('ad.why.title')}`,
+    '',
+    t('ad.why.body1'),
+    '',
+    t('ad.why.body2'),
+    '',
+    ...[1, 2, 3].map((i) => `- **${t(`ad.why.point${i}.title`)}**: ${t(`ad.why.point${i}.body`)}`),
+    '',
+    '```bash',
+    'npx orn-ui add button   # single component, copied into your repo',
+    'pnpm add orn-ui         # whole package, tree-shakeable per subpath',
+    '```',
+    '',
+    t('ad.why.closing'),
+    '',
+    `## ${t('ad.what.title')}`,
+    '',
+    t('ad.what.body'),
+    '',
+    ...layers.flatMap(([key, label]) => [
+      `### ${label}`,
+      '',
+      t(`ad.layers.${key}.def`),
+      '',
+      `- ${t('ad.layers.examplesLabel')}: ${t(`ad.layers.${key}.examples`)}`,
+      `- ${t('ad.layers.ruleLabel')}: ${t(`ad.layers.${key}.rule`)}`,
+      '',
+    ]),
+    `> ${t('ad.layers.direction')}`,
+    '',
+    `## ${t('ad.benefits.title')}`,
+    '',
+    ...[1, 2, 3, 4, 5].map((i) => `- **${t(`ad.benefits.${i}.title`)}**: ${t(`ad.benefits.${i}.body`)}`),
+    '',
+    `## ${t('ad.how.title')}`,
+    '',
+    t('ad.how.body'),
+    '',
+    ...[1, 2, 3, 4, 5].map((i) => `${i}. **${t(`ad.how.${i}.title`)}** — ${t(`ad.how.${i}.body`)}`),
+    '',
+    '```text',
+    'src/',
+    '  components/',
+    '    atoms/        Button, Input, Badge, Avatar…',
+    '    molecules/    SearchField, OptionCard, InfoRow…',
+    '    organisms/    Modal, List, NavigationBar…',
+    '  screens/        templates + pages (your routes)',
+    '```',
+    '',
+    `### ${t('ad.mistakes.title')}`,
+    '',
+    ...[1, 2, 3].map((i) => `- ${t(`ad.mistakes.${i}`)}`),
+    '',
+    `## ${t('ad.map.title')}`,
+    '',
+    t('ad.map.body', counts.atoms, counts.molecules, counts.organisms),
+    '',
+    'Full catalog: https://orn-ui-docs.vercel.app/llms.txt',
+    '',
+    `## ${t('ad.sources.title')}`,
+    '',
+    t('ad.sources.body'),
+    '',
+    ...ATOMIC_DESIGN_SOURCES.map(
+      ([n, title, href]) => `${n}. [${title}](${href}) — ${t(`ad.sources.${n}.note`)}`
+    ),
+    '',
+  ];
+
+  return lines.join('\n');
+}

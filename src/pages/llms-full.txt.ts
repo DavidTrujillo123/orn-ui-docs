@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import components from '../data/components.json';
-import { buildComponentMarkdown, buildGettingStartedMarkdown, buildTypographyMarkdown } from '../lib/markdown';
+import { buildAtomicDesignMarkdown, buildComponentMarkdown, buildGettingStartedMarkdown, buildTypographyMarkdown } from '../lib/markdown';
 import { useTranslations } from '../i18n/ui';
 import { isMergedIntoGroupPage } from '../lib/groupedPages';
 
@@ -19,7 +19,17 @@ export const GET: APIRoute = () => {
     .filter((c: any) => !isMergedIntoGroupPage(c))
     .map((c: any) => buildComponentMarkdown(c, t, 'en'))
     .join('\n\n---\n\n');
-  const full = [buildGettingStartedMarkdown(), buildTypographyMarkdown(typographyMembers), body].join('\n\n---\n\n');
+  const counts = {
+    atoms: (components as any).atoms.length,
+    molecules: (components as any).molecules.length,
+    organisms: (components as any).organisms.length,
+  };
+  const full = [
+    buildGettingStartedMarkdown(),
+    buildAtomicDesignMarkdown(t, counts),
+    buildTypographyMarkdown(typographyMembers),
+    body,
+  ].join('\n\n---\n\n');
   return new Response(`# orn-ui — full reference\n\n${full}`, {
     headers: { 'Content-Type': 'text/plain; charset=utf-8' },
   });

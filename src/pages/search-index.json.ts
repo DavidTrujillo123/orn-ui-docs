@@ -43,6 +43,7 @@ export const GET: APIRoute = () => {
 
   entries.push(
     { name: 'Getting Started', category: 'Guide', slug: 'getting-started', haystack: 'getting started install uiprovider setup safeareauiprovider' },
+    { name: 'Atomic Design', category: 'Guide', slug: 'atomic-design', haystack: 'atomic design diseño atomico atoms molecules organisms atomos moleculas organismos methodology metodologia architecture arquitectura why orn-ui' },
     { name: 'Tokens', category: 'Guide', slug: 'tokens', haystack: 'tokens spacing radius font size duration' }
   );
 

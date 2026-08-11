@@ -5,8 +5,12 @@
   "ledeSuffix": "como peers. Sin config de babel, sin config de metro, sin pods.",
   "installOr": "o",
   "installCliLabel": "Agregá solo los componentes que necesitás (copia el código, sin dependencia npm)",
-  "installPackageLabel": "O instalá el paquete completo",
+  "installPackageLabel": "O instala el paquete completo",
   "installHint": "Instala toda la librería, o solo los componentes que necesites — la segunda opción no agrega dependencia npm.",
-  "badges": ["Cero dependencias", "TypeScript", "Claro y oscuro"],
+  "badges": [
+    "Cero dependencias",
+    "TypeScript",
+    "Claro y oscuro"
+  ],
   "footer": "orn-ui — licencia MIT. Sin dependencias en tiempo de ejecución."
 }

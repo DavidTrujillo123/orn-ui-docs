@@ -43,6 +43,8 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
     {content.installHint}
     {' '}
     <a href={getRelativeLocaleUrl(lang, '/getting-started')}>{t('gs.linkText')} →</a>
+    {' · '}
+    <a href={getRelativeLocaleUrl(lang, '/atomic-design')}>{t('nav.atomicDesign')} →</a>
   </p>
   <div class="badges">
     {content.badges.map((b) => <span class="badge">{b}</span>)}

@@ -17,7 +17,7 @@
   "devDependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@types/react": "~19.2.14",
-    "orn-ui": "^0.2.1",
+    "orn-ui": "^0.2.4",
     "react": "19.2.3",
     "react-docgen-typescript": "^2.4.0",
     "react-native": "0.86.2",

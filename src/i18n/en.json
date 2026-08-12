@@ -559,6 +559,24 @@
         "desc": "Also accepts a render prop that receives whether it is pressed, to restyle the content while held."
       }
     ],
+    "reorderable-list": [
+      {
+        "term": "when to use",
+        "desc": "A short, fully-loaded list people rearrange by hand: playlists, priority lists, custom sort order."
+      },
+      {
+        "term": "itemHeight",
+        "desc": "Required and fixed — the drop index is computed from drag distance, not from measuring layout."
+      },
+      {
+        "term": "onReorder",
+        "desc": "Fires on release with the array already reordered; `data` itself is never mutated."
+      },
+      {
+        "term": "disabled",
+        "desc": "Rows still render, dragging just stops responding — no separate read-only variant needed."
+      }
+    ],
     "screen": [
       {
         "term": "when to use",
@@ -697,6 +715,24 @@
       {
         "term": "onStepPress",
         "desc": "Makes each step tappable. Only wire it if going back is actually allowed."
+      }
+    ],
+    "symmetric-grid": [
+      {
+        "term": "when to use",
+        "desc": "A grid of cards or tiles where a short last row would otherwise read as a broken layout."
+      },
+      {
+        "term": "columns",
+        "desc": "`2` by default. Cell width is `100 / columns`, so the row still fills flush on any screen."
+      },
+      {
+        "term": "balanceLastRow",
+        "desc": "Centers an incomplete last row by default instead of leaving it flush left with a gap on the right."
+      },
+      {
+        "term": "gap",
+        "desc": "Applies to both axes. Leave it unset to inherit the theme's `spacing.md`."
       }
     ],
     "theme-toggle": [

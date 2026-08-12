@@ -557,6 +557,24 @@
         "desc": "También acepta una render prop que recibe si está presionado, para cambiar el contenido mientras se mantiene."
       }
     ],
+    "reorderable-list": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una lista corta y ya cargada que la gente reordena a mano: playlists, prioridades, orden custom."
+      },
+      {
+        "term": "itemHeight",
+        "desc": "Obligatorio y fijo — el índice destino se calcula por distancia de arrastre, no midiendo layout."
+      },
+      {
+        "term": "onReorder",
+        "desc": "Se dispara al soltar, con el arreglo ya reordenado; `data` en sí nunca se muta."
+      },
+      {
+        "term": "disabled",
+        "desc": "Las filas siguen renderizando, solo deja de responder el arrastre — no hace falta una variante de solo lectura aparte."
+      }
+    ],
     "screen": [
       {
         "term": "cuándo usarlo",
@@ -695,6 +713,24 @@
       {
         "term": "onStepPress",
         "desc": "Hace tocable cada paso. Conviene conectarlo solo si volver atrás está realmente permitido."
+      }
+    ],
+    "symmetric-grid": [
+      {
+        "term": "cuándo usarlo",
+        "desc": "Una grilla de cards o tiles donde una última fila corta, si no, se lee como un layout roto."
+      },
+      {
+        "term": "columns",
+        "desc": "`2` por defecto. El ancho de celda es `100 / columns`, así la fila sigue llenando parejo en cualquier pantalla."
+      },
+      {
+        "term": "balanceLastRow",
+        "desc": "Centra por defecto una última fila incompleta en vez de dejarla pegada a la izquierda con un hueco a la derecha."
+      },
+      {
+        "term": "gap",
+        "desc": "Aplica a ambos ejes. Sin definir, hereda el `spacing.md` del theme."
       }
     ],
     "theme-toggle": [

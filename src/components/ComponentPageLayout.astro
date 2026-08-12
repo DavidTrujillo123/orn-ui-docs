@@ -293,7 +293,10 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   .media-frame.media-missing .media-placeholder { display: block; }
   @media (max-width: 800px) {
     .hero-row { grid-template-columns: 1fr; }
-    .media-col { justify-self: center; max-width: 260px; }
+    /* margin-left:auto (de desktop) le gana a justify-self si no se resetea
+       el margin acá: con auto en un solo lado, el gif queda pegado a la
+       derecha en vez de centrado. */
+    .media-col { justify-self: center; max-width: 260px; margin: 0 auto; }
   }
 
   .install { margin-bottom: 0; }

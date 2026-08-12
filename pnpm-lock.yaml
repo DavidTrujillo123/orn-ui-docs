@@ -19,8 +19,8 @@ importers:
         specifier: ~19.2.14
         version: 19.2.18
       orn-ui:
-        specifier: ^0.2.1
-        version: 0.2.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
+        specifier: ^0.2.4
+        version: 0.2.4(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1730,8 +1730,8 @@ packages:
     resolution: {integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==}
     engines: {node: '>=8'}
 
-  orn-ui@0.2.1:
-    resolution: {integrity: sha512-/oTtIgw6lOdnXQhEW7RBEwkV35N8I+Qn6U395CZZKV1ImQsTXWQSEZTNwYgrk4adg9cnCSWyDx3J9pPBuRkLIQ==}
+  orn-ui@0.2.4:
+    resolution: {integrity: sha512-9jJumUFUO0u0a72dUZX72sKXdLOnAAgThTySZ383t3avL5kHTnbphFkt05IX8oHDBBHZKvNauSnG/cDpVqtK8w==}
     hasBin: true
     peerDependencies:
       react: '>=18.0.0'
@@ -4037,7 +4037,7 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  orn-ui@0.2.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
+  orn-ui@0.2.4(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
     dependencies:
       react: 19.2.3
       react-native: 0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3)

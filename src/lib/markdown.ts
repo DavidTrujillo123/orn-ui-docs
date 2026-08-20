@@ -15,6 +15,10 @@ export function buildComponentMarkdown(component: any, t: T, lang: Lang = DEFAUL
     `> ⚠️ ${t('gs.requiresProvider')}: ${t('gs.requiresProviderNote')} See https://orn-ui-docs.vercel.app/getting-started.md`,
     ''
   );
+  // Una línea, no un segundo bloque de aviso: un agente que aterriza acá
+  // (y no en getting-started.md) pregunta "¿corre en mi SDK?" antes que nada,
+  // y sin esto tendría que ir a buscarlo a otra página.
+  lines.push(`> ${t('gs.compat.oneLine')}`, '');
 
   if (component.registry) {
     lines.push(`## ${t('install.title')}`, '');
@@ -93,6 +97,9 @@ export function buildTypographyMarkdown(members: any[]): string {
     '> ⚠️ Requires <UIProvider>: like every orn-ui component, these must',
     '> render inside a <UIProvider> ancestor. See https://orn-ui-docs.vercel.app/getting-started.md',
     '',
+    '> Runs on Expo SDK 54, 55, 56 and 57, and on bare React Native >=0.81',
+    '> with react >=19.1. No native modules — works in Expo Go, no prebuild.',
+    '',
     '## Installation',
     '',
     'One command installs the whole file — Title, Subtitle, Body and',
@@ -165,10 +172,38 @@ const UI_PROVIDER_PROPS_EN: Array<[string, string, string, string]> = [
   ['allowFontScaling?', 'boolean', 'false', 'Off by default, for parity across the library.'],
 ];
 
+// Mismas versiones que la tabla de GettingStartedContent.astro, y las mismas
+// que corre la matriz de compatibilidad del repo: si una se mueve, las tres.
+const SUPPORTED_SDKS: Array<[string, string, string]> = [
+  ['54', '0.81.5', '19.1.0'],
+  ['55', '0.83.10', '19.2.0'],
+  ['56', '0.85.3', '19.2.3'],
+  ['57', '0.86.2', '19.2.3'],
+];
+
 // Versión Markdown de GettingStartedContent.astro.
 export function buildGettingStartedMarkdown(): string {
   const lines: string[] = [
     '# Getting Started — orn-ui',
+    '',
+    '## Compatibility',
+    '',
+    'Verified on Expo SDK 54, 55, 56 and 57 — every one of them, not just the',
+    "newest. Each SDK gets its own sandbox with that release's exact",
+    'react-native and react, and both the type check and the full test suite',
+    'run against it in CI. Bare React Native works the same way: nothing in',
+    'the library imports Expo.',
+    '',
+    '| Expo SDK | react-native | react |',
+    '|---|---|---|',
+    ...SUPPORTED_SDKS.map(([sdk, rn, react]) => `| ${sdk} | \`${rn}\` | \`${react}\` |`),
+    '',
+    'Declared as peerDependencies: `react-native >=0.81.0` and',
+    '`react >=19.1.0`. `react-native-safe-area-context >=5.4.0` is optional —',
+    'only `orn-ui/safe-area` imports it.',
+    '',
+    'No native build required: orn-ui ships no native modules, so it runs',
+    'inside Expo Go on every SDK listed here.',
     '',
     '## 1. Install',
     '',

@@ -33,6 +33,16 @@ const safeAreaProps = [
   { name: 'mountSafeAreaProvider', type: 'boolean', required: false, default: 'true', description: { en: 'Also mount <SafeAreaProvider>. Set false if your app already has one above.', es: 'También monta <SafeAreaProvider>. Ponlo en false si tu app ya tiene uno arriba.' } },
 ];
 
+// Versiones exactas que publica cada SDK soportado. Las mismas que corre la
+// matriz de compatibilidad del repo (packages/ui/scripts/compat-matrix.mjs):
+// si esa tabla se mueve, esta tiene que moverse con ella.
+const supportedSdks = [
+  { sdk: '54', reactNative: '0.81.5', react: '19.1.0' },
+  { sdk: '55', reactNative: '0.83.10', react: '19.2.0' },
+  { sdk: '56', reactNative: '0.85.3', react: '19.2.3' },
+  { sdk: '57', reactNative: '0.86.2', react: '19.2.3' },
+];
+
 const uiProviderProps = [
   { name: 'children', type: 'React.ReactNode', required: true, default: '—', description: { en: 'Your app — mounted once, above the navigator.', es: 'Tu app — montado una sola vez, arriba del navigator.' } },
   { name: 'theme', type: 'ThemePair', required: false, default: 'defaultTheme', description: { en: 'Light/dark pair. Build one with createTheme().', es: 'Par light/dark. Se crea con createTheme().' } },
@@ -57,6 +67,33 @@ const uiProviderProps = [
     <pre><code>pnpm add orn-ui</code></pre>
     <span class="install-or">/</span>
     <pre><code>npx orn-ui add button</code></pre>
+  </div>
+
+  <div class="compat">
+    <h3 class="compat-title">{t('gs.compat.title')}</h3>
+    <p>{t('gs.compat.body')}</p>
+    <div class="props-table">
+      <table>
+        <thead>
+          <tr>
+            <th>{t('gs.compat.col.sdk')}</th>
+            <th>react-native</th>
+            <th>react</th>
+          </tr>
+        </thead>
+        <tbody>
+          {supportedSdks.map((row) => (
+            <tr>
+              <td>{row.sdk}</td>
+              <td><code>{row.reactNative}</code></td>
+              <td><code>{row.react}</code></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="compat-note">{t('gs.compat.peers')}</p>
+    <Callout variant="info">{t('gs.compat.expoGo')}</Callout>
   </div>
 </section>
 
@@ -144,6 +181,12 @@ const uiProviderProps = [
   .install-pair { display: flex; align-items: center; gap: var(--space-md); flex-wrap: wrap; }
   .install-pair pre { margin: 0; background: var(--code-bg); }
   .install-or { font-size: 13px; color: var(--text-light); }
+
+  .compat { margin-top: var(--space-xxl); }
+  .compat-title { margin: 0 0 var(--space-sm); font-size: 16px; }
+  .compat .props-table { margin-top: var(--space-md); }
+  .compat-note { font-size: 13px; margin: var(--space-md) 0 0; }
+  .compat :global(.callout) { margin-top: var(--space-md); }
 
   .safe-area {
     margin-top: var(--space-xxl); padding: var(--space-xl) var(--space-xl) var(--space-xs);

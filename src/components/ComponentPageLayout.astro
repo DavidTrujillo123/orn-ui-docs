@@ -14,6 +14,8 @@
 //   8. paginación
 //
 // Las secciones sin datos no se renderizan; el orden nunca cambia.
+import fs from 'node:fs';
+import path from 'node:path';
 import { Code } from 'astro:components';
 import { useTranslations, getPropDescription, getPropDefault, type Lang } from '../i18n/ui';
 import NextItemLink from './NextItemLink.astro';
@@ -53,6 +55,9 @@ interface Props {
   snippet?: string;
   props?: any[];
   propsNote?: string;
+  // El componente reenvía `testID`. No se lista en la tabla (es un gancho para
+  // los tests E2E, no API de diseño) pero conviene decir que existe.
+  forwardsTestID?: boolean;
   // Nombre del tipo dueño de las props, para buscar sus descripciones
   // traducidas. Por defecto, el nombre del componente.
   propsOwner?: string;
@@ -84,6 +89,7 @@ const {
   snippet,
   props = [],
   propsNote,
+  forwardsTestID = false,
   propsOwner,
   prevItem,
   nextItem,
@@ -91,6 +97,25 @@ const {
 
 const t = useTranslations(lang);
 const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as const };
+
+// Video si el componente tiene clip grabado (scripts/record-demo.sh). La
+// decisión se toma en build, mirando el archivo: no hay bandera que mantener
+// en components.json ni fallback en el navegador que dependa de un 404.
+// Ver MEDIA.md.
+// process.cwd(), no import.meta.url: en build este archivo ya es un chunk
+// compilado fuera de src/, así que una ruta relativa al módulo apunta a
+// cualquier lado. Astro corre siempre desde la raíz del proyecto.
+const MEDIA_DIR = path.join(process.cwd(), 'public/media');
+const hasVideo = fs.existsSync(path.join(MEDIA_DIR, `${mediaSlug}.mp4`));
+// Sin clip pero con poster: el componente se documenta con una imagen fija.
+// Es la salida para lo que no tiene nada que mostrar en movimiento —- borrar
+// el .mp4 y dejar el .jpg alcanza, sin tocar código ni datos.
+const hasPoster = !hasVideo && fs.existsSync(path.join(MEDIA_DIR, `${mediaSlug}.jpg`));
+// Aspect ratio del simulador con el que se graban todos los clips (iPhone 17,
+// 1206x2622). Es constante a propósito: un ratio por clip obligaría a
+// ffprobear en build, y clips de distintos device serían inconsistentes en
+// la grilla del home.
+const VIDEO_ASPECT = '1206 / 2622';
 ---
 
 <div class="page-actions">
@@ -164,13 +189,27 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   </div>
 
   <div class="media-col">
-    <div class="media-frame">
-      <img
-        src={`/media/${mediaSlug}.gif`}
-        alt={`${title} demo`}
-        loading="lazy"
-        onerror="this.closest('.media-frame').classList.add('media-missing')"
-      />
+    <div class="media-frame" style={hasVideo || hasPoster ? `--media-aspect: ${VIDEO_ASPECT}` : undefined}>
+      {hasVideo ? (
+        <video
+          src={`/media/${mediaSlug}.mp4`}
+          poster={`/media/${mediaSlug}.jpg`}
+          aria-label={`${title} demo`}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          disablepictureinpicture
+        />
+      ) : (
+        <img
+          src={`/media/${mediaSlug}.jpg`}
+          alt={`${title} demo`}
+          loading="lazy"
+          onerror="this.closest('.media-frame').classList.add('media-missing')"
+        />
+      )}
       <div class="media-placeholder">{t('component.mediaMissing')}</div>
     </div>
   </div>
@@ -204,6 +243,7 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 
 <h2>{t('component.props')}</h2>
 {propsNote && <p class="props-note">{propsNote}</p>}
+{forwardsTestID && <p class="props-note" set:html={t('component.testID')} />}
 {props.length > 0 ? (
   <div class="props-table">
     <table>
@@ -279,12 +319,15 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
      de media ya no deja un hueco de cientos de px debajo. */
   .media-col { width: 100%; max-width: 280px; margin-left: auto; }
   .media-frame {
-    aspect-ratio: 320 / 647;
+    /* 320/647 es el ratio de los GIF; los clips de video pasan el suyo por
+       --media-aspect (ver el frontmatter). */
+    aspect-ratio: var(--media-aspect, 320 / 647);
     overflow: hidden;
     display: flex; align-items: center; justify-content: center;
     border-radius: var(--radius);
   }
-  .media-frame img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 40px; }
+  .media-frame img,
+  .media-frame video { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 40px; }
   .media-placeholder { display: none; padding: var(--space-xxxl); color: var(--text-light); font-size: 13px; text-align: center; }
   .media-frame.media-missing {
     background: var(--surface-sunken); border: 1px solid var(--border);

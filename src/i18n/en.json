@@ -34,7 +34,7 @@
     "tokens.fontSize": "Font size",
     "tokens.duration": "Duration",
     "component.back": "← All components",
-    "component.mediaMissing": "GIF not recorded yet — see MEDIA.md",
+    "component.mediaMissing": "Demo clip not recorded yet — see MEDIA.md",
     "install.title": "Installation",
     "install.cli": "Install just this component (copies the source into your project, no npm dependency)",
     "install.package": "Or install the whole package and import it",
@@ -44,6 +44,7 @@
     "component.fullSource": "Full demo source",
     "component.props": "Props",
     "component.noProps": "No props extracted for this component.",
+    "component.testID": "Also accepts <code>testID</code>, forwarded to the root node. It exists for end-to-end tests (Maestro drives the app by the accessibility tree) and has no effect on how the component looks or behaves.",
     "component.titleSuffix": "React Native component",
     "component.metaDescription": "{name} component for React Native and Expo. Props table, code examples and install instructions. Works on Expo SDK 54–57 with zero runtime dependencies.",
     "props.name": "Name",
@@ -816,6 +817,54 @@
       {
         "term": "scrollableContent",
         "desc": "Off only if a step renders its own virtualized list."
+      }
+    ],
+    "gradient": [
+      {
+        "term": "when to use",
+        "desc": "A linear gradient with no native dependency. React Native has none across Expo SDK 54–57, so this composes one out of bands."
+      },
+      {
+        "term": "colors",
+        "desc": "The stops, in order. One colour paints flat; each consecutive pair becomes its own segment."
+      },
+      {
+        "term": "direction",
+        "desc": "vertical, horizontal, diagonal or diagonal-reverse. Diagonals rotate a √2 plane, so no measuring is involved."
+      },
+      {
+        "term": "steps",
+        "desc": "Bands per segment. More is smoother and heavier in the view tree; 24 is the default and enough for most surfaces."
+      },
+      {
+        "term": "children",
+        "desc": "Content sits above the gradient and stays tappable — the gradient never takes the touch."
+      }
+    ],
+    "slides": [
+      {
+        "term": "when to use",
+        "desc": "Onboarding, a feature tour, a carousel. Anything that is one full panel at a time rather than a list."
+      },
+      {
+        "term": "data / keyExtractor / renderItem",
+        "desc": "Generic over the item type, like a list: the slide content is yours to render."
+      },
+      {
+        "term": "background",
+        "desc": "Per slide: one colour paints flat, several become a Gradient behind the content."
+      },
+      {
+        "term": "autoPlay / interval",
+        "desc": "Advances on its own and pauses while a finger is dragging. showAutoPlayToggle is on by default because content that moves on its own needs a way to stop it (WCAG 2.2.2)."
+      },
+      {
+        "term": "indicators / indicatorPlacement",
+        "desc": "Dots or numbers, laid over the slide in white or outside it in theme colours."
+      },
+      {
+        "term": "index / defaultIndex / onIndexChange",
+        "desc": "Controlled or uncontrolled, the same pair as the rest of the library."
       }
     ]
   },

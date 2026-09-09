@@ -284,6 +284,72 @@ const hasSidebar = Astro.slots.has('sidebar');
       })();
     </script>
     <script is:inline>
+      (function () {
+        // El clip de un componente se reproduce en loop: es lo que reemplaza
+        // al GIF. Dos motivos por los que no alcanza con el atributo
+        // `autoplay` del <video>:
+        //
+        // 1. Hay navegadores que bloquean autoplay por política aunque el
+        //    video esté muteado (Brave lo hace de fábrica). Medido con CDP:
+        //    paused=true, currentTime=0, readyState=4 — cargado y frenado, sin
+        //    error. Un play() desde script sí arranca.
+        // 2. Con ClientRouter, una navegación cliente no vuelve a ejecutar los
+        //    scripts inline del contenido que entra. Por eso esto vive acá y
+        //    se engancha a astro:page-load, como el resto de los scripts del
+        //    sitio: si no, el video sólo se movía tras recargar la página.
+        function wire() {
+          var videos = document.querySelectorAll('.media-frame video');
+          if (!videos.length) return;
+
+          // "Reducir movimiento" es justo el pedido de que un loop no se
+          // reproduzca solo: queda en el poster con controles, a un click de
+          // verse. No se puede resolver con CSS — autoplay no es estilo.
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            videos.forEach(function (video) {
+              video.removeAttribute('autoplay');
+              video.controls = true;
+              video.pause();
+            });
+            return;
+          }
+
+          videos.forEach(function (video) {
+            if (video.dataset.wired) return;
+            video.dataset.wired = '1';
+
+            var play = function () {
+              // Tras una navegación de ClientRouter el <video> llega con su
+              // atributo src intacto pero sin fuente seleccionada
+              // (networkState NETWORK_NO_SOURCE, currentSrc vacío): el
+              // elemento se adoptó en el documento nuevo sin volver a correr
+              // la selección de recurso, y play() falla con
+              // NotSupportedError "The element has no supported sources".
+              // load() la dispara de nuevo. Verificado con CDP: sin esto el
+              // clip sólo arrancaba recargando la página a mano.
+              if (!video.currentSrc || video.networkState === video.NETWORK_NO_SOURCE) video.load();
+
+              var started = video.play();
+              // Si el navegador igual lo rechaza, controles: el demo sigue
+              // estando, pero a pedido. Peor sería un poster mudo sin explicar.
+              if (started && started.catch) started.catch(function () { video.controls = true; });
+            };
+
+            if (!('IntersectionObserver' in window)) { play(); return; }
+            // Fuera de pantalla no decodifica: el clip está arriba de todo,
+            // pero quien scrollea hasta las props no necesita el loop girando.
+            new IntersectionObserver(function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) play();
+                else video.pause();
+              });
+            }, { threshold: 0.25 }).observe(video);
+          });
+        }
+        wire();
+        document.addEventListener('astro:page-load', wire);
+      })();
+    </script>
+    <script is:inline>
       // El sidebar se sirve como <details open> para que sea visible sin
       // JS; esto solo lo colapsa en viewport chico.
       (function () {

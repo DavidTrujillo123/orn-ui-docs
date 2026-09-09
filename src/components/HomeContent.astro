@@ -1,10 +1,20 @@
 ---
+import fs from 'node:fs';
+import path from 'node:path';
+
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getEntry } from 'astro:content';
 import { Code } from 'astro:components';
 import components from '../data/components.json';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { groupCards } from '../lib/navGroups';
+
+// La grilla muestra el poster del clip, no el clip: son ~40 tarjetas, y
+// cuarenta videos reproduciéndose a la vez es una home que se mueve entera y
+// pesa decenas de megas. El movimiento vive en la página del componente.
+const MEDIA_DIR = path.join(process.cwd(), 'public/media');
+const posterFor = (slug) => `/media/${slug}.jpg`;
+const hasPoster = (slug) => fs.existsSync(path.join(MEDIA_DIR, `${slug}.jpg`));
 
 interface Props { lang: Lang }
 const { lang } = Astro.props;
@@ -74,7 +84,9 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
         {groupCards((components as any)[key], lang, t).map((c) => (
           <a class="card" href={c.href} data-name={c.filterNames}>
             <div class="card-media">
-              <img src={`/media/${c.mediaSlug}.gif`} alt="" loading="lazy" onerror="this.style.display='none'" />
+              {hasPoster(c.mediaSlug) && (
+                <img src={posterFor(c.mediaSlug)} alt="" loading="lazy" onerror="this.style.display='none'" />
+              )}
             </div>
             <div class="card-name">{c.label}</div>
           </a>

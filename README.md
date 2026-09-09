@@ -1,30 +1,27 @@
 # orn-ui-docs
 
-Static documentation site for [orn-ui](../only-react-native-components), built
-with [Astro](https://astro.build). Every component page is code + a recorded
-GIF — there is no React Native runtime in the browser here, and no
-`react-native-web`. See "Why static, not live" below.
+Static documentation site for [orn-ui](https://www.npmjs.com/package/orn-ui), built
+with [Astro](https://astro.build). Every component page is code + a demo clip
+recorded from the real app — there is no React Native runtime in the browser
+here, and no `react-native-web`. See "Why static, not live" below.
 
 ## Setup
 
 This repo is separate from the `orn-ui` monorepo on purpose (independent
-release cycle, independent deploy), but during development it depends on
-`packages/ui` from the sibling repo via a `file:` link, so the docs always
-reflect the code you're actually working on:
+release cycle, independent deploy) and depends on the **published package**:
 
 ```json
-"orn-ui": "file:../only-react-native-components/packages/ui"
+"orn-ui": "^0.2.8"
 ```
 
-That means **this repo assumes `only-react-native-components` is checked out
-as a sibling directory** (`../only-react-native-components` relative to this
-repo). If you cloned this repo standalone, clone that one next to it first.
+Everything the docs need is read out of `node_modules/orn-ui`: the props
+tables come from `src/` (the package ships its sources in `files`, not just
+the compiled `lib/`) and the install sizes from `registry/`. Nothing here
+needs the library checked out — a plain `pnpm install` is enough, which is
+also what CI does.
 
-Once `orn-ui` publishes to npm, swap that line for a real version range
-(`"orn-ui": "^0.1.0"`) and drop the sibling-repo assumption entirely — nothing
-else in this repo needs to change, since the extractor reads from
-`node_modules/orn-ui/src` either way (the package ships its source in
-`files`, not just the compiled `lib/`).
+The one exception is recording demo clips: those drive the library's example
+app on a simulator, so they do need the sibling repo. See `MEDIA.md`.
 
 ```sh
 pnpm install
@@ -43,16 +40,21 @@ Nothing on a component page is hand-written prose the code can drift from:
   `// #region demo` / `// #endregion demo` markers. These demo files import
   from `orn-ui` and are typechecked in CI (`pnpm run typecheck:demos`) — a
   snippet that doesn't compile never ships.
-- **GIF** — recorded separately from the sibling repo's `apps/example` (the
-  actual native app, not this site). See `MEDIA.md`.
+- **Demo clip** — an `.mp4` recorded from the sibling repo's `apps/example`
+  (the actual native app, not this site) by running that component's Maestro
+  flow, so the choreography is versioned code rather than a screen recording
+  someone made by hand. A component without a clip falls back to its poster
+  frame. See `MEDIA.md`.
 
 ## Why static, not live
 
 An earlier version of this plan rendered actual `orn-ui` components in the
 browser via `react-native-web`. That's why the library is zero-dependency —
-it would have worked. It was dropped in favor of code + GIF: simpler
+it would have worked. It was dropped in favor of code + clip: simpler
 mental model, no RNW compatibility gaps to work around (`PanResponder` +
-mouse, `Modal` behavior), and no client JS at all. The zero-dependency
+mouse, `Modal` behavior), and no framework runtime in the browser — the only
+client JS is a handful of inline vanilla scripts (copy buttons, search, theme
+toggle, starting the demo clip). The zero-dependency
 constraint on `orn-ui` itself stays regardless — it's what makes the library
 installable in one command, independent of this site's rendering choice.
 
@@ -63,7 +65,8 @@ orn-ui-docs/
 ├── demos/                  # one *.demo.tsx per component, source of truth for snippets
 ├── scripts/
 │   ├── extract-docs.mjs    # props + snippets + tokens → src/data/*.json
-│   └── record.sh           # simulator video → optimized GIF
+│   ├── record-demo.sh      # runs a component's Maestro flow → mp4 + poster
+│   └── record-all-demos.sh # the same, for every component
 ├── src/
 │   ├── layouts/BaseLayout.astro
 │   ├── pages/
@@ -71,5 +74,5 @@ orn-ui-docs/
 │   │   ├── tokens.astro          # spacing/radius/fontSize/duration scales
 │   │   └── components/[slug].astro
 │   └── data/                # generated, gitignored — see scripts/extract-docs.mjs
-└── public/media/*.gif       # see MEDIA.md
+└── public/media/*.mp4      # + *.jpg posters, see MEDIA.md
 ```

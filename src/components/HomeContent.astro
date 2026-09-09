@@ -28,7 +28,8 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 <section class="hero">
   <h1>{content.heroH1}</h1>
   <p class="lede">
-    {total} {content.ledePrefix} <code>react</code> {lang === 'es' ? 'y' : 'and'} <code>react-native</code>{' '}
+    {total} {content.ledePrefix} <code>react</code>, <code>react-native</code>{' '}
+    {lang === 'es' ? 'y' : 'and'} <code>react-native-safe-area-context</code>{' '}
     {content.ledeSuffix}
   </p>
   <div class="install-block">

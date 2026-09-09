@@ -2,21 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomeContent from '../components/HomeContent.astro';
 import { getEntry } from 'astro:content';
+import { homeJsonLd } from '../lib/structuredData';
 
 const site = await getEntry('site', 'en');
 const description = 'orn-ui — a fast, atomic-design component library for React Native and Expo SDK 54–57. Zero runtime dependencies.';
 
-const jsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'SoftwareSourceCode',
-  name: 'orn-ui',
+const jsonLd = homeJsonLd({
   description,
-  programmingLanguage: 'TypeScript',
-  runtimePlatform: 'React Native',
-  codeRepository: 'https://github.com/',
-  url: 'https://orn-ui-docs.vercel.app',
-  inLanguage: 'en',
-};
+  url: 'https://orn-ui-docs.vercel.app/',
+  lang: 'en',
+});
 ---
 
 <BaseLayout title={site!.data.tabTitle} description={description} lang="en" path="/" jsonLd={jsonLd}>

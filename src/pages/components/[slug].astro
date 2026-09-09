@@ -13,7 +13,10 @@ export function getStaticPaths() {
 
 const { component } = Astro.props as { component: any };
 const t = useTranslations('en');
-const description = `${component.name} — ${t('component.descriptionSuffix', component.category.toLowerCase())}`;
+const description = t('component.metaDescription', component.name);
+// El <title> lleva "React Native component" en vez de solo el nombre: nadie
+// busca "Button orn-ui", pero sí "react native button component".
+const title = `${component.name} — ${t('component.titleSuffix')}`;
 const markdownUrl = `/components/${component.slug}.md`;
 
 const jsonLd = {
@@ -28,7 +31,7 @@ const jsonLd = {
 ---
 
 <BaseLayout
-  title={component.name}
+  title={title}
   description={description}
   lang="en"
   path={`/components/${component.slug}`}

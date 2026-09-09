@@ -46,6 +46,7 @@ const deps: DepChip[] = (component.registry?.registryDependencies ?? []).map((de
   variants={component.variants ?? []}
   snippet={component.snippet}
   props={component.props ?? []}
+  forwardsTestID={component.forwardsTestID ?? false}
   prevItem={prevItem}
   nextItem={nextItem}
 />

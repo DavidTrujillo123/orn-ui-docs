@@ -33,19 +33,28 @@ const CATEGORIES = {
 // ToastProvider, por ejemplo, se documentan dentro de Alert/Toast).
 const DOC_PAGES = [
   'Title', 'Button', 'IconButton', 'Input', 'Checkbox', 'Badge', 'Card', 'Divider',
-  'Avatar', 'Image', 'Spinner', 'Skeleton', 'Transition', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
+  'Avatar', 'Image', 'Gradient', 'Spinner', 'Skeleton', 'Transition', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
   'Stepper', 'OptionCard', 'InfoRow', 'FormActions', 'AvatarHeader', 'SegmentedControl', 'ThemeToggle', 'Steps', 'SymmetricGrid',
   'Modal', 'BottomSheet', 'Select', 'Alert', 'Screen', 'List', 'SearchList', 'Toast',
-  'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList',
+  'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList', 'Slides',
 ];
 
 // Archivos fuente distintos que comparten un mismo demo. Las variantes se
 // separan por tag JSX en filterVariantsForComponent().
 const DEMO_FILE_OVERRIDES = { DateField: 'DatePicker' };
 
-// El gif se graba por página, no por export: los siblings de una página de
-// grupo comparten el de la página (Title vive en /typography).
-const MEDIA_SLUG_OVERRIDES = { Title: 'typography' };
+// El clip se graba por demo, no por export: varios exports comparten pantalla
+// y por lo tanto comparten media. Title/Subtitle/Body/Caption son la misma
+// página (/typography), y DateField se demuestra dentro del demo de DatePicker
+// (ver DEMO_FILE_OVERRIDES) — sin esto quedaban pidiendo un archivo que ningún
+// flow graba, y mostraban el placeholder de "todavía no grabado".
+const MEDIA_SLUG_OVERRIDES = {
+  Title: 'typography',
+  Subtitle: 'typography',
+  Body: 'typography',
+  Caption: 'typography',
+  DateField: 'date-picker',
+};
 
 /**
  * [name, category, file, demoFileOverride?] a partir del manifest y
@@ -471,10 +480,24 @@ function extractVariants(componentName, demoFileOverride) {
   };
 }
 
+// `testID` no es API de diseño: existe para que Maestro pueda agarrar el nodo
+// en los tests E2E, y su fila en la tabla salía siempre vacía —- sin tipo útil,
+// sin default y sin descripción, porque no hay nada que describir. Se saca de
+// la tabla y la página lo menciona una sola vez, como nota, si el componente
+// lo reenvía.
+const TESTING_PROPS = new Set(['testID']);
+
+function splitTestingProps(props) {
+  return {
+    props: props.filter((p) => !TESTING_PROPS.has(p.name)),
+    forwardsTestID: props.some((p) => p.name === 'testID'),
+  };
+}
+
 function buildComponents() {
   const byCategory = { atoms: [], molecules: [], organisms: [] };
   for (const [name, category, file, demoFileOverride] of COMPONENTS) {
-    const props = extractProps(category, file, name);
+    const { props, forwardsTestID } = splitTestingProps(extractProps(category, file, name));
     const { snippet, variants, groupVariants } = extractVariants(name, demoFileOverride);
     const slug = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
     byCategory[category].push({
@@ -482,6 +505,7 @@ function buildComponents() {
       category: CATEGORIES[category],
       slug,
       props,
+      forwardsTestID,
       snippet,
       variants,
       groupVariants,
@@ -518,7 +542,7 @@ function main() {
   if (!fs.existsSync(UI_SRC)) {
     console.error(
       `[extract-docs] orn-ui source not found at ${UI_SRC}. Run "pnpm install" first ` +
-        `(package.json depends on it via file:../only-react-native-components/packages/ui).`
+        `(the package ships its sources in "files", so node_modules/orn-ui/src is what this reads).`
     );
     process.exit(1);
   }

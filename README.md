@@ -5,6 +5,9 @@ with [Astro](https://astro.build). Every component page is code + a demo clip
 recorded from the real app — there is no React Native runtime in the browser
 here, and no `react-native-web`. See "Why static, not live" below.
 
+Contributing: [`CONTRIBUTING.md`](CONTRIBUTING.md). Recording the demo clips:
+[`MEDIA.md`](MEDIA.md).
+
 ## Setup
 
 This repo is separate from the `orn-ui` monorepo on purpose (independent

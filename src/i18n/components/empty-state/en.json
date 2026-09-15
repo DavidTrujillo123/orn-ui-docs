@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A list or a search that returned nothing. Not for errors — those are Alert or a retry state."
+    },
+    {
+      "term": "title / description",
+      "desc": "The title names what is missing; the description says what to do about it."
+    },
+    {
+      "term": "iconName / icon",
+      "desc": "`search` by default. Change it so the icon matches what is empty."
+    }
+  ],
+  "props": {}
+}

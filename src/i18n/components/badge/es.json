@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un estado corto, de solo lectura, pegado a otra cosa. Nunca maneja un press."
+    },
+    {
+      "term": "variant",
+      "desc": "Semántica, no decorativa: `success`, `error`, `warning`, `info`, `neutral` (el default)."
+    },
+    {
+      "term": "backgroundColor / textColor",
+      "desc": "Override manual, para estados propios del producto que las cinco variantes no cubren."
+    }
+  ],
+  "props": {
+    "backgroundColor": {
+      "description": "Override manual, tiene precedencia sobre `variant`."
+    }
+  }
+}

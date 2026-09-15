@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Separating sections of a list or a form when whitespace alone is not enough."
+    },
+    {
+      "term": "style",
+      "desc": "Change the margin here. Two dividers in a row, or one right after a section title, are usually noise."
+    }
+  ],
+  "props": {}
+}

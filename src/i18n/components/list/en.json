@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Any data list: it bundles loading, empty and pagination so each screen does not reinvent them."
+    },
+    {
+      "term": "isLoading / isReady",
+      "desc": "`isLoading` is the data fetch; `isReady` is everything the screen needs before rendering at all."
+    },
+    {
+      "term": "emptyTitle / emptyDescription",
+      "desc": "Feed the EmptyState it renders when there is nothing to show."
+    },
+    {
+      "term": "onEndReached / isLoadingMore",
+      "desc": "Pagination: the callback loads, the flag shows the footer spinner."
+    },
+    {
+      "term": "ListComponent",
+      "desc": "`FlatList` by default; swap in FlashList without touching the rest."
+    }
+  ],
+  "props": {
+    "ListComponent": {
+      "description": "List component to use (FlashList, etc)."
+    },
+    "isReady": {
+      "description": "Controlled by the consumer: while false, a full-screen spinner is shown."
+    }
+  }
+}

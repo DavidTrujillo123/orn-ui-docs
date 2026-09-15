@@ -1,0 +1,29 @@
+{
+  "usage": [
+    {
+      "term": "label / required",
+      "desc": "`required` only paints the asterisk — validation stays with you."
+    },
+    {
+      "term": "error",
+      "desc": "Passing a string switches the field to its error state and shows the message below it."
+    },
+    {
+      "term": "isPassword",
+      "desc": "Adds the show/hide toggle. Do not combine it with a right icon of your own."
+    },
+    {
+      "term": "rightIconName / onRightIconPress",
+      "desc": "The clearable, search or unit-toggle patterns: an icon of your choice plus its handler."
+    },
+    {
+      "term": "isLoading",
+      "desc": "For fields that resolve something async (a lookup by code, a remote validation)."
+    }
+  ],
+  "props": {
+    "required": {
+      "description": "Shows an asterisk next to the label. Purely visual — it does not validate anything."
+    }
+  }
+}

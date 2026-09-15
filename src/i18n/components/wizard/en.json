@@ -1,0 +1,35 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A multi-step flow with navigation. To only show progress, Steps is enough."
+    },
+    {
+      "term": "current / onStepChange",
+      "desc": "Optional: without them the Wizard keeps its own state, which covers most flows."
+    },
+    {
+      "term": "canGoNext",
+      "desc": "Per-step validation — the step declares whether it lets you move on."
+    },
+    {
+      "term": "allowStepNavigation",
+      "desc": "Lets people jump back to a completed step from the indicator."
+    },
+    {
+      "term": "scrollableContent",
+      "desc": "Off only if a step renders its own virtualized list."
+    }
+  ],
+  "props": {
+    "allowStepNavigation": {
+      "description": "Allows going back to an already completed step by tapping it in the indicator."
+    },
+    "current": {
+      "description": "Current step (controlled). If omitted, the Wizard keeps its own state."
+    },
+    "scrollableContent": {
+      "description": "The step content scrolls when it does not fit. Set it to false only if a step\nrenders its own virtualized list (nesting a VirtualizedList inside a\nScrollView breaks virtualization)."
+    }
+  }
+}

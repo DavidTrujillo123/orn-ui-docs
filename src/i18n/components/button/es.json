@@ -1,0 +1,33 @@
+{
+  "usage": [
+    {
+      "term": "primary",
+      "desc": "La acción principal de una pantalla — una por vista. Enviar, confirmar, continuar."
+    },
+    {
+      "term": "secondary",
+      "desc": "Una acción de apoyo junto a la principal, cuando ambas importan."
+    },
+    {
+      "term": "outline / ghost",
+      "desc": "Acciones de baja jerarquía: cancelar, descartar o acciones repetidas en una lista."
+    },
+    {
+      "term": "link",
+      "desc": "Se lee como texto, no como control — navegación dentro de un párrafo o un pie."
+    },
+    {
+      "term": "destructive",
+      "desc": "Borrados o acciones sin retorno. Acompañarla siempre con una confirmación."
+    },
+    {
+      "term": "size",
+      "desc": "`md` por defecto. `lg` para una llamada a la acción de ancho completo, `sm` dentro de filas o tarjetas densas."
+    },
+    {
+      "term": "loading / disabled",
+      "desc": "Usar `loading` mientras corre una acción asíncrona y `disabled` cuando la acción todavía no está disponible."
+    }
+  ],
+  "props": {}
+}

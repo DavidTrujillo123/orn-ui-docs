@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Grouping related content into a surface: a summary, a list item with several lines, a form block."
+    },
+    {
+      "term": "composition",
+      "desc": "It brings padding, radius and elevation, nothing else — the content inside is entirely yours."
+    },
+    {
+      "term": "style",
+      "desc": "Adjust spacing or width here rather than wrapping the Card in another View."
+    }
+  ],
+  "props": {}
+}

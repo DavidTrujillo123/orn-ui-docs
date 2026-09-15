@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un placeholder que reserva el espacio exacto de un contenido que todavía carga. Para un spinner sin esa forma, Spinner."
+    },
+    {
+      "term": "variant",
+      "desc": "`rect` (default), `text` (alto de línea, respeta `lines`), `circle` (para un avatar)."
+    },
+    {
+      "term": "lines / lastLineWidth",
+      "desc": "Sólo para `variant=\"text\"`: un párrafo apilado cuya última línea es más corta, para que no se lea como un bloque sólido."
+    },
+    {
+      "term": "animated",
+      "desc": "Ponlo en false para respetar reduced motion o ahorrar ciclos en una lista larga."
+    }
+  ],
+  "props": {
+    "lastLineWidth": {
+      "description": "Ancho de la última línea, para que el párrafo no termine en bloque sólido."
+    },
+    "lines": {
+      "description": "Líneas apiladas, solo para variant=\"text\"."
+    },
+    "radius": {
+      "description": "Override del radio del theme."
+    }
+  }
+}

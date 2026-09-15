@@ -1,0 +1,34 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Imágenes remotas que necesitan estado de carga y de error — o sea, casi todas."
+    },
+    {
+      "term": "radius",
+      "desc": "Mismo patrón que Avatar/Card. Se define aquí, no con un wrapper con overflow."
+    },
+    {
+      "term": "loading / fallback",
+      "desc": "Qué mostrar mientras carga y si falla. Ambas aceptan un nodo, así que un skeleton con forma de imagen entra bien."
+    },
+    {
+      "term": "priority",
+      "desc": "`high` hace prefetch al montar — para la imagen principal de una pantalla, no para cada ítem de una lista."
+    }
+  ],
+  "props": {
+    "fallback": {
+      "description": "Qué mostrar si la carga falla."
+    },
+    "loading": {
+      "description": "Qué mostrar mientras carga. `false` para no mostrar nada."
+    },
+    "priority": {
+      "description": "'high' dispara Image.prefetch() al montar, antes de que <Image> arranque\nsu propio ciclo de carga — pensado para la imagen above-the-fold de una\npantalla (la primera que ve el usuario). Sin costo si ya está en caché."
+    },
+    "radius": {
+      "description": "Radio de las esquinas, mismo patrón que Avatar/Card."
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Pocas opciones, todas visibles a la vez, siempre una seleccionada — un switch de vista o rango. Para una lista más larga u opcional, Select."
+    },
+    {
+      "term": "options / value / onChange",
+      "desc": "Controlado y genérico, mismo patrón que Select — el valor conserva su tipo."
+    },
+    {
+      "term": "disabled",
+      "desc": "Por opción o para todo el control."
+    }
+  ],
+  "props": {}
+}

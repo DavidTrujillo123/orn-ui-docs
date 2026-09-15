@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Separar secciones de una lista o un formulario cuando el espacio en blanco no alcanza."
+    },
+    {
+      "term": "style",
+      "desc": "El margen se ajusta aquí. Dos divisores seguidos, o uno justo después de un título de sección, suelen sobrar."
+    }
+  ],
+  "props": {}
+}

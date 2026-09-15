@@ -1,0 +1,56 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un calendario inline. Para elegir una fecha desde un formulario, DateField envuelve a este en un campo."
+    },
+    {
+      "term": "mode",
+      "desc": "`single` elige una fecha; `range` elige un intervalo con dos toques."
+    },
+    {
+      "term": "minDate / maxDate",
+      "desc": "Acotan la selección en vez de validar después."
+    },
+    {
+      "term": "monthNames / weekdayNames",
+      "desc": "Localización: el componente no trae traducciones propias."
+    },
+    {
+      "term": "firstDayOfWeek",
+      "desc": "`0` domingo, `1` lunes — una decisión regional, no estética."
+    }
+  ],
+  "props": {
+    "defaultMonth": {
+      "description": "Mes mostrado al abrir si no hay `value`."
+    },
+    "firstDayOfWeek": {
+      "description": "0 = domingo, 1 = lunes."
+    },
+    "mode": {
+      "description": "'single' elige una fecha; 'range' elige un intervalo con dos toques."
+    },
+    "monthNames": {
+      "description": "Nombres de los meses."
+    },
+    "onChange": {
+      "description": "Se llama en mode=\"single\"."
+    },
+    "onRangeChange": {
+      "description": "Se llama en mode=\"range\", tanto al fijar el inicio como al cerrar el rango."
+    },
+    "onVisibleMonthChange": {
+      "description": "Avisa qué mes quedó a la vista al navegar con las flechas."
+    },
+    "range": {
+      "description": "Rango seleccionado en mode=\"range\"."
+    },
+    "value": {
+      "description": "Fecha seleccionada en mode=\"single\"."
+    },
+    "weekdayNames": {
+      "description": "Iniciales de los días, índice 0 = domingo."
+    }
+  }
+}

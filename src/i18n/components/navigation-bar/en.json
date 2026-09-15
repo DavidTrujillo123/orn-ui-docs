@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "The app's top-level sections, always visible. For a step flow inside one screen, Steps."
+    },
+    {
+      "term": "items",
+      "desc": "Each entry: `key`, `label`, `iconName`, optional `badge`."
+    },
+    {
+      "term": "activeKey / onChange",
+      "desc": "Controlled: the active tab lives in your navigator, not in the bar."
+    },
+    {
+      "term": "position",
+      "desc": "`bottom` by default; `top` for a segment-style bar under a header."
+    }
+  ],
+  "props": {
+    "position": {
+      "description": "Edge of the screen the bar lives on."
+    },
+    "safeArea": {
+      "description": "Adds the safe area inset of the edge the bar lives on."
+    }
+  }
+}

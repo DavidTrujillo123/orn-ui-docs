@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A few options, all visible at once, one always selected — a view or range switch. For a longer or optional list, Select."
+    },
+    {
+      "term": "options / value / onChange",
+      "desc": "Controlled and generic, same pattern as Select — the value keeps its type."
+    },
+    {
+      "term": "disabled",
+      "desc": "Per-option or for the whole control."
+    }
+  ],
+  "props": {}
+}

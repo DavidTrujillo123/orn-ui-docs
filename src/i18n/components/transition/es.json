@@ -1,0 +1,53 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Montar/desmontar un nodo con animación en el hilo nativo en vez de un corte seco. Modal, BottomSheet y Toast ya lo usan internamente."
+    },
+    {
+      "term": "visible",
+      "desc": "Entra en `true`, sale (desmonta, `onExited`) en `false`."
+    },
+    {
+      "term": "preset",
+      "desc": "Uno o un array — `['fade', 'slide-up']` combina opacidad y un slide. `pop` es un spring por defecto."
+    },
+    {
+      "term": "delay",
+      "desc": "Un índice por ítem escalona una lista — sin necesitar otra librería."
+    },
+    {
+      "term": "value",
+      "desc": "Le pasa el progreso (0→1) a un driver externo, p.ej. un PanResponder, en vez de un timing/spring."
+    }
+  ],
+  "props": {
+    "appear": {
+      "description": "Anima también el primer render. En false arranca ya presente."
+    },
+    "delay": {
+      "description": "ms antes de arrancar. Un delay por índice escalona una lista."
+    },
+    "distance": {
+      "description": "Píxeles que recorren los presets de slide."
+    },
+    "duration": {
+      "description": "Duración del timing en ms."
+    },
+    "keepMounted": {
+      "description": "Deja el nodo montado al salir, solo lo esconde."
+    },
+    "preset": {
+      "description": "Uno o más: 'fade scale' combina opacidad y escala."
+    },
+    "spring": {
+      "description": "Spring en vez de timing (implícito en 'pop')."
+    },
+    "value": {
+      "description": "Progreso 0→1 manejado desde afuera. Con esto, Transition solo interpola:\nquien lo pasa decide cuándo y cómo avanza (un PanResponder, por ejemplo)."
+    },
+    "visible": {
+      "description": "Entra cuando es true, sale (y desmonta) cuando es false."
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A linear gradient with no native dependency. React Native has none across Expo SDK 54–57, so this composes one out of bands."
+    },
+    {
+      "term": "colors",
+      "desc": "The stops, in order. One colour paints flat; each consecutive pair becomes its own segment."
+    },
+    {
+      "term": "direction",
+      "desc": "vertical, horizontal, diagonal or diagonal-reverse. Diagonals rotate a √2 plane, so no measuring is involved."
+    },
+    {
+      "term": "steps",
+      "desc": "Bands per segment. More is smoother and heavier in the view tree; 24 is the default and enough for most surfaces."
+    },
+    {
+      "term": "children",
+      "desc": "Content sits above the gradient and stays tappable — the gradient never takes the touch."
+    }
+  ],
+  "props": {
+    "children": {
+      "description": "Content drawn above the gradient."
+    },
+    "colors": {
+      "description": "Gradient stops. One alone paints flat; none paints nothing."
+    },
+    "direction": {
+      "description": "'vertical' runs top to bottom, 'horizontal' left to right,\n'diagonal' top-left to bottom-right and 'diagonal-reverse' top-right\nto bottom-left."
+    },
+    "steps": {
+      "description": "Bands per segment (a segment = a pair of consecutive colours). More bands\n= smoother transition and more views in the tree.",
+      "default": "24"
+    }
+  }
+}

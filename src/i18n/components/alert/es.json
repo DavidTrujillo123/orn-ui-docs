@@ -1,0 +1,25 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Interrumpir para confirmar o informar algo que no puede esperar. Para el resto alcanza un Toast."
+    },
+    {
+      "term": "type",
+      "desc": "`question` para confirmaciones; `success`, `error`, `warning` e `info` para informar."
+    },
+    {
+      "term": "buttons",
+      "desc": "Más allá de confirmar/cancelar: una lista con etiquetas y handlers propios."
+    },
+    {
+      "term": "inline",
+      "desc": "Lo renderiza dentro del layout en vez de sobre la pantalla — para documentación y demos."
+    },
+    {
+      "term": "showAlert / showConfirm",
+      "desc": "Imperativo, desde afuera del árbol de componentes — un módulo de negocio, un interceptor. Necesita un `AlertProvider` montado una vez cerca de la raíz. `showConfirm` resuelve `true`/`false`."
+    }
+  ],
+  "props": {}
+}

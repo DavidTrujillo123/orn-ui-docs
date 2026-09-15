@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "La barra de acciones al pie de un formulario o un modal — mantiene el orden y el espaciado parejos."
+    },
+    {
+      "term": "primaryLabel",
+      "desc": "Si se omite, solo se renderiza el botón secundario (un pie con Cancelar únicamente)."
+    },
+    {
+      "term": "primaryLoading / primaryDisabled",
+      "desc": "`primaryLoading` mientras corre el envío, `primaryDisabled` mientras el formulario no es válido."
+    }
+  ],
+  "props": {
+    "primaryLabel": {
+      "description": "Si se omite, solo se muestra el botón secundario."
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Dar feedback de presión a algo que no es un Button: una card, un tile, una fila."
+    },
+    {
+      "term": "scaleTo",
+      "desc": "`0.96` por defecto — se nota sin distraer. Los valores más bajos van mejor en targets chicos."
+    },
+    {
+      "term": "children",
+      "desc": "También acepta una render prop que recibe si está presionado, para cambiar el contenido mientras se mantiene."
+    }
+  ],
+  "props": {
+    "children": {
+      "description": "Los children, o una render prop que recibe un booleano indicando si el componente está presionado."
+    },
+    "scaleTo": {
+      "description": "Escala objetivo al presionar."
+    }
+  }
+}

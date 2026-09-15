@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Small numeric amounts adjusted by hand: quantities, units, servings."
+    },
+    {
+      "term": "value / onChangeText",
+      "desc": "The value is a string: the field stays editable and empty states do not turn into NaN."
+    },
+    {
+      "term": "size",
+      "desc": "`md` by default, `sm` inside dense rows such as a cart line."
+    }
+  ],
+  "props": {}
+}

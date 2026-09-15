@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A list whose main entry point is a search field. Otherwise, List."
+    },
+    {
+      "term": "searchValue / onSearchChange",
+      "desc": "Controlled: debounce and query live in your screen, not in the component."
+    },
+    {
+      "term": "loadingMode",
+      "desc": "`replace` swaps the list for a spinner; `overlay` keeps the layout, which avoids the jump while typing."
+    },
+    {
+      "term": "onScanPress",
+      "desc": "Adds the scan action next to the field — for codes, QR, barcodes."
+    },
+    {
+      "term": "hasMore / onLoadMore",
+      "desc": "Pagination with an explicit end, so the footer says when there is nothing left."
+    }
+  ],
+  "props": {
+    "header": {
+      "description": "Optional chrome above the search field (e.g. back button + title)."
+    },
+    "loadingMode": {
+      "description": "'replace' swaps the whole list for a spinner; 'overlay' shows it on top, keeping the layout."
+    }
+  }
+}

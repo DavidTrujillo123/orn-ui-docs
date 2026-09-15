@@ -1,0 +1,38 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un flujo de varios pasos con navegación. Para solo mostrar el avance, alcanza Steps."
+    },
+    {
+      "term": "current / onStepChange",
+      "desc": "Opcionales: sin ellos el Wizard maneja su propio estado, que cubre la mayoría de los flujos."
+    },
+    {
+      "term": "canGoNext",
+      "desc": "Validación por paso — el paso declara si deja avanzar."
+    },
+    {
+      "term": "allowStepNavigation",
+      "desc": "Permite volver a un paso completado desde el indicador."
+    },
+    {
+      "term": "scrollableContent",
+      "desc": "En `false` solo si un paso renderiza su propia lista virtualizada."
+    }
+  ],
+  "props": {
+    "allowStepNavigation": {
+      "description": "Permite volver a un paso ya completado tocándolo en el indicador."
+    },
+    "animated": {
+      "description": "El contenido del paso entra deslizándose en el sentido de la navegación.\nSolo opacity y transform, así que la animación corre en el hilo nativo."
+    },
+    "current": {
+      "description": "Paso actual (controlado). Si se omite, el Wizard maneja su propio estado."
+    },
+    "scrollableContent": {
+      "description": "El contenido del paso scrollea cuando no entra. Ponelo en false solo si\nun paso renderiza su propia lista virtualizada (anidar una\nVirtualizedList dentro de un ScrollView rompe la virtualización)."
+    }
+  }
+}

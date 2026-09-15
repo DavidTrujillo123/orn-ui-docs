@@ -17,11 +17,13 @@ drifts from the code and nobody notices.
 | code snippet | `demos/<Name>.demo.tsx`, between `// #region demo` markers |
 | install size and deps | `node_modules/orn-ui/registry/<slug>.json` |
 | demo clip | `public/media/<slug>.mp4`, recorded from the library's example app |
-| "Usage" bullets | `src/i18n/{en,es}.json` → `componentUsage.<slug>` |
+| "Usage" bullets | `src/i18n/components/<slug>/{en,es}.json` → `usage` |
+| translated prop descriptions | `src/i18n/components/<slug>/{en,es}.json` → `props` |
 
-The only hand-written part is that last one — and it should say what the props
-table cannot: when to reach for the component, which prop pairs go together,
-what the default protects you from.
+The only hand-written parts are those last two, and they live together in one
+folder per component. The bullets should say what the props table cannot: when
+to reach for the component, which prop pairs go together, what the default
+protects you from.
 
 ```sh
 pnpm install
@@ -48,9 +50,27 @@ version cannot be documented here yet — bump the dependency once it ships.
    The extractor pulls the props, the snippet and the registry entry from
    there.
 
-3. **Write the "Usage" bullets** in `src/i18n/en.json` and `src/i18n/es.json`,
-   under `componentUsage.<slug>`. Both languages: a missing translation falls
+3. **Write the "Usage" bullets** in `src/i18n/components/<slug>/en.json` and
+   `.../es.json`, under `usage`. Both languages: a missing translation falls
    back to English silently, which reads like an oversight because it is one.
+
+   The same two files carry the prop overrides, under `props`. The JSDoc in
+   `orn-ui` is written in one language, so the *other* one goes here:
+
+   ```json
+   {
+     "usage": [{ "term": "when to use", "desc": "..." }],
+     "props": {
+       "steps": { "description": "Bands per segment.", "default": "24" }
+     }
+   }
+   ```
+
+   `description` replaces the JSDoc text for that language — without it the
+   table falls back to the source, which is how a page ends up half in the
+   wrong language. `default` is only for the `@default` values that say
+   nothing to a reader: prose ("a plain grey placeholder") or a constant name
+   (`DEFAULT_STEPS`).
 
 4. **Record the clip** — see [`MEDIA.md`](MEDIA.md). Needs macOS, a booted
    simulator and the library repo checked out as a sibling:

@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Representar a una persona o entidad: cabeceras de perfil, filas de lista, hilos de comentarios."
+    },
+    {
+      "term": "size",
+      "desc": "Un número en puntos (44 por defecto). Conviene un solo tamaño por contexto."
+    },
+    {
+      "term": "backgroundColor",
+      "desc": "Override del círculo; sirve para codificar por color según el tipo de entidad."
+    }
+  ],
+  "props": {}
+}

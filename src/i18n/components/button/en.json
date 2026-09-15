@@ -1,0 +1,33 @@
+{
+  "usage": [
+    {
+      "term": "primary",
+      "desc": "The main action of a screen — one per view. Submit, confirm, continue."
+    },
+    {
+      "term": "secondary",
+      "desc": "A supporting action next to a primary one, when both matter."
+    },
+    {
+      "term": "outline / ghost",
+      "desc": "Low-emphasis actions: cancel, dismiss, or repeated actions in a list."
+    },
+    {
+      "term": "link",
+      "desc": "Reads as text, not as a control — inline navigation inside a paragraph or footer."
+    },
+    {
+      "term": "destructive",
+      "desc": "Deletes or actions that cannot be undone. Pair it with a confirmation."
+    },
+    {
+      "term": "size",
+      "desc": "`md` by default. `lg` for a full-width call to action, `sm` inside dense rows or cards."
+    },
+    {
+      "term": "loading / disabled",
+      "desc": "Use `loading` while an async action runs, `disabled` when the action is not available yet."
+    }
+  ],
+  "props": {}
+}

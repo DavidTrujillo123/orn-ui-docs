@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Picking one option from a closed list. For two or three options with an icon, OptionCard reads better."
+    },
+    {
+      "term": "options / selectedValue",
+      "desc": "Controlled and generic: the value keeps its type, it is not forced into a string."
+    },
+    {
+      "term": "error / required",
+      "desc": "Same pattern as Input, so a form mixing both stays consistent."
+    },
+    {
+      "term": "isLoading",
+      "desc": "For options that arrive from the network."
+    }
+  ],
+  "props": {}
+}

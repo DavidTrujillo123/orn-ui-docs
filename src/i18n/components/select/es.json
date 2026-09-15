@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Elegir una opción de una lista cerrada. Para dos o tres opciones con ícono, OptionCard se lee mejor."
+    },
+    {
+      "term": "options / selectedValue",
+      "desc": "Controlado y genérico: el valor conserva su tipo, no se fuerza a string."
+    },
+    {
+      "term": "error / required",
+      "desc": "Mismo patrón que Input, así un formulario que mezcla ambos queda consistente."
+    },
+    {
+      "term": "isLoading",
+      "desc": "Para opciones que llegan de la red."
+    }
+  ],
+  "props": {
+    "maxHeight": {
+      "description": "Alto máximo del desplegable, si el espacio disponible lo permite."
+    },
+    "searchable": {
+      "description": "Agrega un buscador dentro del desplegable."
+    }
+  }
+}

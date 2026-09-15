@@ -1,0 +1,29 @@
+{
+  "usage": [
+    {
+      "term": "label / required",
+      "desc": "`required` solo pinta el asterisco — la validación queda del lado de quien lo usa."
+    },
+    {
+      "term": "error",
+      "desc": "Pasar un string cambia el campo a estado de error y muestra el mensaje debajo."
+    },
+    {
+      "term": "isPassword",
+      "desc": "Agrega el toggle de mostrar/ocultar. No conviene combinarlo con un ícono derecho propio."
+    },
+    {
+      "term": "rightIconName / onRightIconPress",
+      "desc": "Los patrones de limpiar, buscar o cambiar unidad: un ícono a elección con su handler."
+    },
+    {
+      "term": "isLoading",
+      "desc": "Para campos que resuelven algo asíncrono (una búsqueda por código, una validación remota)."
+    }
+  ],
+  "props": {
+    "required": {
+      "description": "Muestra un asterisco junto al label. Puramente visual, no valida nada."
+    }
+  }
+}

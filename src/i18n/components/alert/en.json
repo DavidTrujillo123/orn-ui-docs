@@ -1,0 +1,25 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Interrupting to confirm or report something that cannot wait. A Toast is enough for the rest."
+    },
+    {
+      "term": "type",
+      "desc": "`question` for confirmations; `success`, `error`, `warning` and `info` to report."
+    },
+    {
+      "term": "buttons",
+      "desc": "Beyond confirm/cancel: a list with its own labels and handlers."
+    },
+    {
+      "term": "inline",
+      "desc": "Renders it inside the layout instead of over the screen — for docs and demos."
+    },
+    {
+      "term": "showAlert / showConfirm",
+      "desc": "Imperative, from outside the component tree — a service module, an interceptor. Needs an `AlertProvider` mounted once near the root. `showConfirm` resolves `true`/`false`."
+    }
+  ],
+  "props": {}
+}

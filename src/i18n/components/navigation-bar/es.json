@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarla",
+      "desc": "Las secciones de nivel superior de la app, siempre visibles. Para un flujo por pasos dentro de una pantalla, Steps."
+    },
+    {
+      "term": "items",
+      "desc": "Cada ítem: `key`, `label`, `iconName`, `badge` opcional."
+    },
+    {
+      "term": "activeKey / onChange",
+      "desc": "Controlado: el tab activo vive en tu navegador, no en la barra."
+    },
+    {
+      "term": "position",
+      "desc": "`bottom` por defecto; `top` para una barra tipo segmento debajo de un header."
+    }
+  ],
+  "props": {
+    "position": {
+      "description": "Borde de la pantalla donde vive la barra."
+    },
+    "safeArea": {
+      "description": "Agrega el inset de safe area del borde donde vive la barra."
+    }
+  }
+}

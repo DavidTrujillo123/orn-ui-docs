@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "variant",
+      "desc": "`native` is the system indicator and the right default. `dots` and `ring` look identical on iOS and Android when that matters."
+    },
+    {
+      "term": "fullscreen",
+      "desc": "`true` takes the whole area; set it to `false` for an inline spinner inside a row or a card."
+    },
+    {
+      "term": "text",
+      "desc": "A short line under the indicator. Use it when the wait is long enough to need explaining."
+    },
+    {
+      "term": "indicator",
+      "desc": "Your own node, when the brand asks for something the three variants do not cover."
+    }
+  ],
+  "props": {
+    "indicator": {
+      "description": "Fully custom indicator. Wins over `variant`."
+    },
+    "variant": {
+      "description": "'native' uses the system ActivityIndicator; 'dots' and 'ring' are custom\nindicators, identical on iOS and Android."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Mostrar el avance dentro de una secuencia conocida. Solo muestra estado — el que navega es Wizard."
+    },
+    {
+      "term": "orientation",
+      "desc": "`horizontal` para tres o cuatro pasos cortos; `vertical` cuando las etiquetas son largas."
+    },
+    {
+      "term": "completedIndicator",
+      "desc": "Un check por defecto; `number` cuando la gente se refiere al paso por su número."
+    },
+    {
+      "term": "onStepPress",
+      "desc": "Hace tocable cada paso. Conviene conectarlo solo si volver atrás está realmente permitido."
+    }
+  ],
+  "props": {
+    "completedIndicator": {
+      "description": "Qué muestra el círculo de un paso ya completado: un check, o su número."
+    },
+    "current": {
+      "description": "Índice del paso actual (0-based). Los anteriores quedan como 'completed'."
+    },
+    "onStepPress": {
+      "description": "Si se pasa, cada paso es tocable y reporta su índice."
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una lista cuya entrada principal es un campo de búsqueda. Si no, List."
+    },
+    {
+      "term": "searchValue / onSearchChange",
+      "desc": "Controlado: el debounce y la query viven en la pantalla, no en el componente."
+    },
+    {
+      "term": "loadingMode",
+      "desc": "`replace` cambia la lista por un spinner; `overlay` mantiene el layout, lo que evita el salto mientras se escribe."
+    },
+    {
+      "term": "onScanPress",
+      "desc": "Agrega la acción de escanear al lado del campo — para códigos, QR, barras."
+    },
+    {
+      "term": "hasMore / onLoadMore",
+      "desc": "Paginado con final explícito, así el pie avisa cuando ya no queda nada."
+    }
+  ],
+  "props": {
+    "ListComponent": {
+      "description": "Componente de lista a usar (FlashList, etc)."
+    },
+    "header": {
+      "description": "Chrome opcional arriba del buscador (ej. back button + título)."
+    },
+    "isLoading": {
+      "description": "Carga inicial: mientras es true y no hay datos, se muestran placeholders."
+    },
+    "isReady": {
+      "description": "Controlado por quien lo consume: mientras es false, se muestra un spinner de pantalla completa."
+    },
+    "isRefreshing": {
+      "description": "Recarga con datos ya en pantalla (pull-to-refresh)."
+    },
+    "loadingMode": {
+      "description": "'replace' reemplaza toda la lista por un spinner/skeleton; 'overlay' lo muestra encima manteniendo el layout."
+    },
+    "renderSkeletonItem": {
+      "description": "Placeholder propio, para que calce con la forma real del ítem."
+    },
+    "skeletonCount": {
+      "description": "Filas fantasma de la carga inicial."
+    }
+  }
+}

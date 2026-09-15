@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Confirmar algo que ya pasó, sin interrumpir. Si hace falta una decisión, es un Alert."
+    },
+    {
+      "term": "variant",
+      "desc": "`success`, `error`, `warning`, `info` — la misma semántica que Badge y Alert."
+    },
+    {
+      "term": "onPress",
+      "desc": "Lo hace tocable: normalmente para abrir aquello de lo que habla. También lo cierra."
+    },
+    {
+      "term": "hideCloseButton",
+      "desc": "Oculta la X. Igual se auto-descarta por tiempo."
+    },
+    {
+      "term": "showToast",
+      "desc": "Imperativo, desde afuera del árbol de componentes — un módulo de negocio, un interceptor. Necesita un `ToastProvider` montado una vez cerca de la raíz. Devuelve el id para `hideToast(id)`."
+    }
+  ],
+  "props": {
+    "hideCloseButton": {
+      "description": "Esconde la X de cerrar. El toast sigue auto-cerrándose por timeout."
+    },
+    "onPress": {
+      "description": "Se dispara al tocar el toast (además de cerrarlo)."
+    }
+  }
+}

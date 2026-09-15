@@ -1,0 +1,71 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Onboarding, a feature tour, a carousel. Anything that is one full panel at a time rather than a list."
+    },
+    {
+      "term": "data / keyExtractor / renderItem",
+      "desc": "Generic over the item type, like a list: the slide content is yours to render."
+    },
+    {
+      "term": "background",
+      "desc": "Per slide: one colour paints flat, several become a Gradient behind the content."
+    },
+    {
+      "term": "autoPlay / interval",
+      "desc": "Advances on its own and pauses while a finger is dragging. showAutoPlayToggle is on by default because content that moves on its own needs a way to stop it (WCAG 2.2.2)."
+    },
+    {
+      "term": "indicators / indicatorPlacement",
+      "desc": "Dots or numbers, laid over the slide in white or outside it in theme colours."
+    },
+    {
+      "term": "index / defaultIndex / onIndexChange",
+      "desc": "Controlled or uncontrolled, the same pair as the rest of the library."
+    }
+  ],
+  "props": {
+    "autoPlay": {
+      "description": "Advances on its own. Pauses while a finger is dragging."
+    },
+    "background": {
+      "description": "Background per slide: `'#101014'` paints flat, `['#004cef', '#00cae1']` makes a gradient."
+    },
+    "gradientDirection": {
+      "description": "Direction of the gradient when `background` returns several colours."
+    },
+    "height": {
+      "description": "Height of the swipeable area.",
+      "default": "240"
+    },
+    "index": {
+      "description": "Controlled index. Without it, the component keeps its own starting from `defaultIndex`."
+    },
+    "indicatorPlacement": {
+      "description": "'overlay' rests them on the slide, in white; 'outside' moves them out\nof the swipeable area, in theme colours."
+    },
+    "indicators": {
+      "description": "Circles, numbered circles, or none."
+    },
+    "interval": {
+      "description": "ms between `autoPlay` advances.",
+      "default": "4000"
+    },
+    "loop": {
+      "description": "After the last one it goes back to the first (and the other way round)."
+    },
+    "renderItem": {
+      "description": "Slide content: images, buttons, whatever. Drawn on top of `background`."
+    },
+    "showAutoPlayToggle": {
+      "description": "Button to stop the automatic advance. Only appears with `autoPlay`, and\ndefaults to `true` because content that moves on its own needs a way to\npause it (WCAG 2.2.2)."
+    },
+    "slideStyle": {
+      "description": "Styles for the visible box of each slide — padding, alignment, radius."
+    },
+    "spacing": {
+      "description": "Gap between slides, in px. At 0 they sit flush."
+    }
+  }
+}

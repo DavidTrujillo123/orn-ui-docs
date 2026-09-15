@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "variant",
+      "desc": "`full` and `fullScreen` for a whole task; `overlay` for a short confirmation; `bottomSheet` for actions on the current context."
+    },
+    {
+      "term": "onClose",
+      "desc": "Also fires on the backdrop and the header X — keep it idempotent."
+    },
+    {
+      "term": "footer",
+      "desc": "Where FormActions goes: it stays fixed while the content scrolls."
+    },
+    {
+      "term": "scrollable",
+      "desc": "On by default. Turn it off when the content brings its own list."
+    }
+  ],
+  "props": {}
+}

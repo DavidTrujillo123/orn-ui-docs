@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Filas de detalle de solo lectura con ícono: datos de contacto, metadatos de una orden."
+    },
+    {
+      "term": "placeholder",
+      "desc": "Obligatoria, porque el valor ausente es el caso común — deja el hueco explícito en vez de un espacio vacío."
+    }
+  ],
+  "props": {}
+}

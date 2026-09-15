@@ -1,0 +1,29 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un degradado lineal sin dependencia nativa. React Native no trae uno en el rango soportado (Expo SDK 54–57), así que este lo compone con bandas."
+    },
+    {
+      "term": "colors",
+      "desc": "Las paradas, en orden. Un solo color pinta plano; cada par consecutivo arma su propio tramo."
+    },
+    {
+      "term": "direction",
+      "desc": "vertical, horizontal, diagonal o diagonal-reverse. Las diagonales rotan un plano √2, así que no hay que medir el contenedor."
+    },
+    {
+      "term": "steps",
+      "desc": "Bandas por tramo. Más bandas es más suave y más pesado en el árbol de vistas; 24 es el default y alcanza para casi todo."
+    },
+    {
+      "term": "children",
+      "desc": "El contenido va por encima del degradado y sigue siendo tocable — el degradado nunca se queda con el toque."
+    }
+  ],
+  "props": {
+    "steps": {
+      "default": "24"
+    }
+  }
+}

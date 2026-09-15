@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A date inside a form: it reads like an Input and opens the calendar in a modal."
+    },
+    {
+      "term": "format",
+      "desc": "How the chosen date reads in the field. Match your locale."
+    },
+    {
+      "term": "required / error",
+      "desc": "Same pattern as Input and Select."
+    },
+    {
+      "term": "modalTitle / clearLabel",
+      "desc": "The strings of the modal, for when the app is not in English."
+    }
+  ],
+  "props": {
+    "firstDayOfWeek": {
+      "description": "0 = Sunday, 1 = Monday."
+    },
+    "format": {
+      "description": "Formats the date shown in the field.",
+      "default": "\"D de Month de YYYY\" in English"
+    },
+    "modalTitle": {
+      "description": "Title of the calendar modal."
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Showing progress through a known sequence. It only displays state — Wizard is the one that navigates."
+    },
+    {
+      "term": "orientation",
+      "desc": "`horizontal` for three or four short steps; `vertical` when the labels are long."
+    },
+    {
+      "term": "completedIndicator",
+      "desc": "A check by default; `number` when the step number is what people refer to."
+    },
+    {
+      "term": "onStepPress",
+      "desc": "Makes each step tappable. Only wire it if going back is actually allowed."
+    }
+  ],
+  "props": {
+    "completedIndicator": {
+      "description": "What the circle of a completed step shows: a check, or its number."
+    },
+    "current": {
+      "description": "Index of the current step (0-based). Earlier ones are marked 'completed'."
+    },
+    "onStepPress": {
+      "description": "If passed, every step becomes tappable and reports its index."
+    }
+  }
+}

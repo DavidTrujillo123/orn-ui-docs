@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A short, fully-loaded list people rearrange by hand: playlists, priority lists, custom sort order."
+    },
+    {
+      "term": "itemHeight",
+      "desc": "Required and fixed — the drop index is computed from drag distance, not from measuring layout."
+    },
+    {
+      "term": "onReorder",
+      "desc": "Fires on release with the array already reordered; `data` itself is never mutated."
+    },
+    {
+      "term": "disabled",
+      "desc": "Rows still render, dragging just stops responding — no separate read-only variant needed."
+    }
+  ],
+  "props": {}
+}

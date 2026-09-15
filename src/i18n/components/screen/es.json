@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "La raíz de toda pantalla: aplica safe area, scroll y manejo de teclado en un solo lugar."
+    },
+    {
+      "term": "edges",
+      "desc": "`['top','bottom']` por defecto. Se saca `bottom` cuando un tab bar ya lo cubre."
+    },
+    {
+      "term": "scrollable",
+      "desc": "En `false` cuando el contenido es una lista — anidar una lista dentro de un scroll rompe la virtualización."
+    },
+    {
+      "term": "keyboardAvoiding",
+      "desc": "En `false` cuando el contenido ya maneja el teclado (List, SearchList, Wizard): las dos compensaciones se suman."
+    }
+  ],
+  "props": {
+    "edges": {
+      "description": "Qué insets de safe area aplicar."
+    },
+    "keyboardAvoiding": {
+      "description": "Compensa el teclado: en iOS con scroll lo hace el propio ScrollView, en\notros casos un KeyboardAvoidingView. Ponelo en false cuando\nel contenido ya trae su propio scroller que maneja el teclado (Wizard,\nList, SearchList): las dos compensaciones se suman y el campo enfocado\ntermina empujado fuera de pantalla."
+    }
+  }
+}

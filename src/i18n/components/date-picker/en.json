@@ -1,0 +1,47 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "An inline calendar. To pick a date from a form, DateField wraps this one in a field."
+    },
+    {
+      "term": "mode",
+      "desc": "`single` picks one date; `range` picks an interval with two taps."
+    },
+    {
+      "term": "minDate / maxDate",
+      "desc": "Bound the selection instead of validating afterwards."
+    },
+    {
+      "term": "monthNames / weekdayNames",
+      "desc": "Localization: the component ships no translations of its own."
+    },
+    {
+      "term": "firstDayOfWeek",
+      "desc": "`0` Sunday, `1` Monday — a regional decision, not a stylistic one."
+    }
+  ],
+  "props": {
+    "defaultMonth": {
+      "description": "Month shown on open when there is no `value`."
+    },
+    "firstDayOfWeek": {
+      "description": "0 = Sunday, 1 = Monday."
+    },
+    "mode": {
+      "description": "'single' picks one date; 'range' picks an interval with two taps."
+    },
+    "onChange": {
+      "description": "Called in mode=\"single\"."
+    },
+    "onRangeChange": {
+      "description": "Called in mode=\"range\", both when setting the start and when closing the range."
+    },
+    "range": {
+      "description": "Range picked in mode=\"range\"."
+    },
+    "value": {
+      "description": "Date picked in mode=\"single\"."
+    }
+  }
+}

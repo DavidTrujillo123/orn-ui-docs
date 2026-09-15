@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A grid of cards or tiles where a short last row would otherwise read as a broken layout."
+    },
+    {
+      "term": "columns",
+      "desc": "`2` by default. Cell width is `100 / columns`, so the row still fills flush on any screen."
+    },
+    {
+      "term": "balanceLastRow",
+      "desc": "Centers an incomplete last row by default instead of leaving it flush left with a gap on the right."
+    },
+    {
+      "term": "gap",
+      "desc": "Applies to both axes. Leave it unset to inherit the theme's `spacing.md`."
+    }
+  ],
+  "props": {}
+}

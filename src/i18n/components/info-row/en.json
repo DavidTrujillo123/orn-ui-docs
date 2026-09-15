@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Read-only detail rows with an icon: contact data, order metadata."
+    },
+    {
+      "term": "placeholder",
+      "desc": "Required, because a missing value is the common case — it makes the gap explicit instead of leaving a blank."
+    }
+  ],
+  "props": {}
+}

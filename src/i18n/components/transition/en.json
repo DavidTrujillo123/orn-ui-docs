@@ -1,0 +1,53 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Mounting/unmounting a node with a native-thread animation instead of a hard cut. Modal, BottomSheet and Toast already use it internally."
+    },
+    {
+      "term": "visible",
+      "desc": "Mounts on `true`, exits (and unmounts, `onExited`) on `false`."
+    },
+    {
+      "term": "preset",
+      "desc": "One or an array — `['fade', 'slide-up']` combines opacity and a slide. `pop` is a spring by default."
+    },
+    {
+      "term": "delay",
+      "desc": "One index per item staggers a list — no need for a separate library."
+    },
+    {
+      "term": "value",
+      "desc": "Hands progress (0→1) to an outside driver, e.g. a PanResponder, instead of a timing/spring."
+    }
+  ],
+  "props": {
+    "appear": {
+      "description": "Also animates the first render. On false it starts already present."
+    },
+    "delay": {
+      "description": "ms before starting. One delay per index staggers a list."
+    },
+    "distance": {
+      "description": "Pixels the slide presets travel."
+    },
+    "duration": {
+      "description": "ms of the timing animation."
+    },
+    "keepMounted": {
+      "description": "Keeps the node mounted on exit, only hides it."
+    },
+    "preset": {
+      "description": "One or several: `['fade', 'scale']` combines opacity and scale."
+    },
+    "spring": {
+      "description": "Spring instead of timing (implicit in 'pop')."
+    },
+    "value": {
+      "description": "Progress 0→1 driven from outside. With this, Transition only interpolates:\nwhoever passes it decides when and how it advances (a PanResponder, for example)."
+    },
+    "visible": {
+      "description": "Mounts on true, exits (and unmounts) on false."
+    }
+  }
+}

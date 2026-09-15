@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A short read-only status attached to something else. It never handles a press."
+    },
+    {
+      "term": "variant",
+      "desc": "Semantic, not decorative: `success`, `error`, `warning`, `info`, `neutral` (the default)."
+    },
+    {
+      "term": "backgroundColor / textColor",
+      "desc": "Manual override, for statuses your product defines and the five variants do not cover."
+    }
+  ],
+  "props": {
+    "backgroundColor": {
+      "description": "Manual override, wins over `variant`."
+    }
+  }
+}

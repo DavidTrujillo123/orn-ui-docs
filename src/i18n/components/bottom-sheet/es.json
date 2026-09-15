@@ -1,0 +1,40 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Acciones o contenido secundario sobre la pantalla actual, sin salir de ella."
+    },
+    {
+      "term": "visible / onClose",
+      "desc": "Controlado: cierra con el fondo y con el gesto, siempre a través de `onClose`."
+    },
+    {
+      "term": "title / footer",
+      "desc": "Con título aparece el header, con su botón de cerrar. `footerPlacement` decide dónde vive el footer: fijo, al final del scroll, u oculto mientras el teclado está abierto."
+    },
+    {
+      "term": "draggable / maxHeight",
+      "desc": "`draggable={false}` para una hoja que sólo cierra por botón o fondo. `maxHeight` como fracción 0-1 de la pantalla, o en píxeles."
+    }
+  ],
+  "props": {
+    "draggable": {
+      "description": "Arrastrar la hoja hacia abajo la cierra."
+    },
+    "footer": {
+      "description": "Acciones de la hoja. Dónde viven lo decide `footerPlacement`."
+    },
+    "footerPlacement": {
+      "description": "'fixed' lo ancla al fondo de la hoja; 'scroll' lo deja al final del\ncontenido; 'hide-with-keyboard' lo esconde mientras se tipea, que en un\nformulario largo le devuelve esa franja al campo enfocado."
+    },
+    "maxHeight": {
+      "description": "Fracción de la pantalla (0-1) o píxeles."
+    },
+    "scrollable": {
+      "description": "El contenido scrollea cuando no entra."
+    },
+    "title": {
+      "description": "Con título aparece el header, con su botón de cerrar."
+    }
+  }
+}

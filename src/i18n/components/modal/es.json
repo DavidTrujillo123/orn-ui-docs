@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "variant",
+      "desc": "`full` y `fullScreen` para una tarea completa; `overlay` para una confirmación corta; `bottomSheet` para acciones sobre el contexto actual."
+    },
+    {
+      "term": "onClose",
+      "desc": "También se dispara con el fondo y con la X de la cabecera — conviene que sea idempotente."
+    },
+    {
+      "term": "footer",
+      "desc": "Donde va FormActions: queda fijo mientras el contenido scrollea."
+    },
+    {
+      "term": "scrollable",
+      "desc": "Activo por defecto. Se apaga cuando el contenido ya trae su propia lista."
+    }
+  ],
+  "props": {}
+}

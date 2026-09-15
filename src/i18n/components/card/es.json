@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Agrupar contenido relacionado en una superficie: un resumen, un ítem de lista con varias líneas, un bloque de formulario."
+    },
+    {
+      "term": "composición",
+      "desc": "Aporta padding, radio y elevación, nada más — el contenido de adentro es libre."
+    },
+    {
+      "term": "style",
+      "desc": "Los ajustes de espaciado o ancho van aquí, no en un View que envuelva la Card."
+    }
+  ],
+  "props": {}
+}

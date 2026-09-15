@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Read-only pairs stacked in a column: totals, order details, a summary before confirming."
+    },
+    {
+      "term": "value",
+      "desc": "Takes a node, not only a string — a Badge or a bold amount works."
+    },
+    {
+      "term": "labelStyle / valueStyle",
+      "desc": "Emphasize the last row of a total without building a separate component."
+    }
+  ],
+  "props": {}
+}

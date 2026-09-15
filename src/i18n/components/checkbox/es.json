@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una decisión binaria que se sostiene sola: aceptar términos, recordar sesión, activar un filtro."
+    },
+    {
+      "term": "value / onValueChange",
+      "desc": "Siempre controlado — el estado vive en el padre."
+    },
+    {
+      "term": "label",
+      "desc": "Es tocable junto con la caja. Se omite solo cuando un texto cercano ya la nombra."
+    },
+    {
+      "term": "color",
+      "desc": "Override del acento en estado marcado; por defecto sigue el primary del theme."
+    }
+  ],
+  "props": {}
+}

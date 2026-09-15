@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una acción sin espacio para etiqueta — cabeceras de modal, filas de lista, barras de herramientas. Si la etiqueta entra, va Button."
+    },
+    {
+      "term": "iconName / icon",
+      "desc": "`iconName` toma un ícono del set incluido; `icon` acepta cualquier nodo cuando el set no alcanza."
+    },
+    {
+      "term": "size",
+      "desc": "Un número en puntos (24 por defecto). Conviene mantenerlo parejo dentro de una fila o cabecera."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Obligatoria, y con razón: no hay texto visible, así que es lo único que anuncia un lector de pantalla."
+    }
+  ],
+  "props": {}
+}

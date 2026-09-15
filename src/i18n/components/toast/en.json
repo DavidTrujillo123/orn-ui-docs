@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Confirming something that already happened, without interrupting. If a decision is needed, it is an Alert."
+    },
+    {
+      "term": "variant",
+      "desc": "`success`, `error`, `warning`, `info` — the same semantics as Badge and Alert."
+    },
+    {
+      "term": "onPress",
+      "desc": "Makes it tappable: usually to open what it is talking about. It also dismisses."
+    },
+    {
+      "term": "hideCloseButton",
+      "desc": "Hides the X. It still auto-dismisses on a timer."
+    },
+    {
+      "term": "showToast",
+      "desc": "Imperative, from outside the component tree — a service module, an interceptor. Needs a `ToastProvider` mounted once near the root. Returns the id for `hideToast(id)`."
+    }
+  ],
+  "props": {
+    "hideCloseButton": {
+      "description": "Hides the close X. The toast still auto-dismisses on a timer."
+    },
+    "onPress": {
+      "description": "Fires when the toast is tapped (on top of dismissing it)."
+    }
+  }
+}

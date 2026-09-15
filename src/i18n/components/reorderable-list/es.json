@@ -1,0 +1,34 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una lista corta y ya cargada que la gente reordena a mano: playlists, prioridades, orden custom."
+    },
+    {
+      "term": "itemHeight",
+      "desc": "Obligatorio y fijo — el índice destino se calcula por distancia de arrastre, no midiendo layout."
+    },
+    {
+      "term": "onReorder",
+      "desc": "Se dispara al soltar, con el arreglo ya reordenado; `data` en sí nunca se muta."
+    },
+    {
+      "term": "disabled",
+      "desc": "Las filas siguen renderizando, solo deja de responder el arrastre — no hace falta una variante de solo lectura aparte."
+    }
+  ],
+  "props": {
+    "itemHeight": {
+      "description": "Alto fijo de cada fila: necesario para calcular el índice destino sin medir layout async."
+    },
+    "onDragEnd": {
+      "description": "Termina el drag — al soltar o cancelar. Siempre corre si `onDragStart` corrió."
+    },
+    "onDragStart": {
+      "description": "Empieza a arrastrar la fila `index`. Usalo para apagar el scroll del contenedor\n(`scrollEnabled={false}`) mientras dure: en iOS el `UIScrollView`\npadre cancela los toques sobre el contenido apenas arranca su\ngesto vertical, y sin esto el drag muere a los pocos píxeles."
+    },
+    "onReorder": {
+      "description": "Se llama al soltar, con el array ya reordenado. No muta `data`."
+    }
+  }
+}

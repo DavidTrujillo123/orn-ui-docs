@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Dejar elegir entre claro, oscuro o sistema — normalmente en ajustes."
+    },
+    {
+      "term": "labels",
+      "desc": "Reemplaza los tres textos incluidos cuando el producto los nombra distinto."
+    }
+  ],
+  "props": {}
+}

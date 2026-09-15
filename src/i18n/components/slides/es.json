@@ -1,0 +1,36 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Onboarding, un tour de features, un carrusel. Todo lo que sea un panel completo por vez y no una lista."
+    },
+    {
+      "term": "data / keyExtractor / renderItem",
+      "desc": "Genérico sobre el tipo del item, como una lista: el contenido de la slide lo renderizás vos."
+    },
+    {
+      "term": "background",
+      "desc": "Por slide: un color pinta plano, varios arman un Gradient detrás del contenido."
+    },
+    {
+      "term": "autoPlay / interval",
+      "desc": "Avanza solo y se pausa mientras el dedo arrastra. showAutoPlayToggle viene en true porque contenido que se mueve solo necesita una forma de frenarlo (WCAG 2.2.2)."
+    },
+    {
+      "term": "indicators / indicatorPlacement",
+      "desc": "Círculos o números, apoyados sobre la slide en blanco o afuera del área deslizable con los colores del tema."
+    },
+    {
+      "term": "index / defaultIndex / onIndexChange",
+      "desc": "Controlado o no controlado, el mismo par que el resto de la librería."
+    }
+  ],
+  "props": {
+    "height": {
+      "default": "240"
+    },
+    "interval": {
+      "default": "4000"
+    }
+  }
+}

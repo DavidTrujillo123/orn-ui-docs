@@ -1,0 +1,36 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Cantidades numéricas chicas que se ajustan a mano: unidades, porciones, ítems."
+    },
+    {
+      "term": "value / onChangeText",
+      "desc": "El valor es un string: el campo sigue siendo editable y el estado vacío no se convierte en NaN."
+    },
+    {
+      "term": "size",
+      "desc": "`md` por defecto, `sm` dentro de filas densas como la línea de un carrito."
+    }
+  ],
+  "props": {
+    "allowDecimals": {
+      "description": "Acepta separador decimal, normalizando la coma a punto."
+    },
+    "block": {
+      "description": "Ocupa todo el ancho disponible y el input absorbe el espacio extra."
+    },
+    "editable": {
+      "description": "En false el valor solo se cambia con los botones: el teclado no se abre y\nel campo pierde el fondo que lo anuncia como editable."
+    },
+    "max": {
+      "description": "Máximo permitido. Deshabilita \"+\" al alcanzarlo y acota lo tipeado."
+    },
+    "min": {
+      "description": "Mínimo permitido. Deshabilita \"-\" al alcanzarlo y acota lo tipeado al\nsalir del campo. Los negativos se aceptan solo si `min` es negativo."
+    },
+    "size": {
+      "description": "Escala del control: alto, botones, ícono y tipografía."
+    }
+  }
+}

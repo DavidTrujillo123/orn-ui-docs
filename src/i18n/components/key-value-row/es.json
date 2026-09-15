@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Pares de solo lectura apilados en columna: totales, detalle de una orden, un resumen antes de confirmar."
+    },
+    {
+      "term": "value",
+      "desc": "Acepta un nodo, no solo un string — un Badge o un monto en negrita funcionan."
+    },
+    {
+      "term": "labelStyle / valueStyle",
+      "desc": "Destacar la última fila de un total sin armar un componente aparte."
+    }
+  ],
+  "props": {}
+}

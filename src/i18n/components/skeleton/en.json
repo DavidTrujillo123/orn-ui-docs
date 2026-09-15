@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A placeholder that reserves the exact space of content still loading. For a spinner without that shape, Spinner."
+    },
+    {
+      "term": "variant",
+      "desc": "`rect` (default), `text` (line height, respects `lines`), `circle` (for an avatar)."
+    },
+    {
+      "term": "lines / lastLineWidth",
+      "desc": "Only for `variant=\"text\"`: a stacked paragraph whose last line is shorter, so it doesn't read as a solid block."
+    },
+    {
+      "term": "animated",
+      "desc": "Set it to false to respect reduced motion or to save cycles in a long list."
+    }
+  ],
+  "props": {
+    "lastLineWidth": {
+      "description": "Width of the last line, so the paragraph doesn't end in a solid block."
+    },
+    "lines": {
+      "description": "Stacked lines, only for `variant=\"text\"`."
+    },
+    "radius": {
+      "description": "Override for the theme's radius."
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una fecha dentro de un formulario: se lee como un Input y abre el calendario en un modal."
+    },
+    {
+      "term": "format",
+      "desc": "Cómo se lee la fecha elegida en el campo. Conviene alinearlo con el locale."
+    },
+    {
+      "term": "required / error",
+      "desc": "Mismo patrón que Input y Select."
+    },
+    {
+      "term": "modalTitle / clearLabel",
+      "desc": "Los textos del modal, para cuando la app no está en inglés."
+    }
+  ],
+  "props": {
+    "clearLabel": {
+      "description": "Texto de ese botón."
+    },
+    "firstDayOfWeek": {
+      "description": "0 = domingo, 1 = lunes."
+    },
+    "format": {
+      "description": "Formatea la fecha del campo."
+    },
+    "modalTitle": {
+      "description": "Título del modal del calendario."
+    },
+    "mode": {
+      "description": "'single' elige una fecha; 'range' elige un intervalo con dos toques."
+    },
+    "monthNames": {
+      "description": "Nombres de los meses."
+    },
+    "onChange": {
+      "description": "Se llama en mode=\"single\"."
+    },
+    "onClear": {
+      "description": "Si se pasa, el modal muestra un botón que borra la selección y cierra.\nSin esto no hay botón: el \"Clear\" anterior solo cerraba, sin limpiar nada."
+    },
+    "onRangeChange": {
+      "description": "Se llama en mode=\"range\", tanto al fijar el inicio como al cerrar el rango."
+    },
+    "range": {
+      "description": "Rango seleccionado en mode=\"range\"."
+    },
+    "value": {
+      "description": "Fecha seleccionada en mode=\"single\"."
+    },
+    "weekdayNames": {
+      "description": "Iniciales de los días, índice 0 = domingo."
+    }
+  }
+}

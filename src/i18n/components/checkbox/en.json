@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A binary choice that stands on its own: accept terms, remember me, toggle a filter."
+    },
+    {
+      "term": "value / onValueChange",
+      "desc": "Always controlled — the parent owns the state."
+    },
+    {
+      "term": "label",
+      "desc": "Tappable along with the box. Skip it only when a nearby text already labels it."
+    },
+    {
+      "term": "color",
+      "desc": "Accent override for the checked state; by default it follows the theme primary."
+    }
+  ],
+  "props": {}
+}

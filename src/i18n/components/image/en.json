@@ -1,0 +1,35 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Remote images that need a loading and an error state — which is most of them."
+    },
+    {
+      "term": "radius",
+      "desc": "Same pattern as Avatar/Card. Set it here, not with an overflow wrapper."
+    },
+    {
+      "term": "loading / fallback",
+      "desc": "What to show while it loads and if it fails. Both accept a node, so an image-shaped skeleton is fine."
+    },
+    {
+      "term": "priority",
+      "desc": "`high` prefetches on mount — for the above-the-fold image of a screen, not for every item in a list."
+    }
+  ],
+  "props": {
+    "fallback": {
+      "description": "What to show if loading fails.",
+      "default": "a plain grey placeholder, no content"
+    },
+    "loading": {
+      "description": "What to show while loading. `false` shows nothing."
+    },
+    "priority": {
+      "description": "'high' fires Image.prefetch() on mount, before <Image> starts its own\nloading cycle — meant for the above-the-fold image of a screen (the first\none the user sees). Free if it is already cached."
+    },
+    "radius": {
+      "description": "Corner radius, same pattern as Avatar/Card."
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Elegir entre pocas opciones, cada una con un ícono — un método de pago, un tipo de envío."
+    },
+    {
+      "term": "layout",
+      "desc": "`horizontal` para una lista apilada; `vertical` para una grilla de dos o tres columnas."
+    },
+    {
+      "term": "isSelected / onPress",
+      "desc": "Selección controlada: el padre decide cuál está activa."
+    }
+  ],
+  "props": {
+    "description": {
+      "description": "Línea secundaria: el detalle que decide la elección (\"llega en 3 días\")."
+    },
+    "layout": {
+      "description": "'vertical': ícono arriba, texto centrado abajo. 'horizontal': en fila."
+    }
+  }
+}

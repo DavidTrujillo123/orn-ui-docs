@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "La acción principal única de una pantalla, flotando sobre el contenido. Uno por pantalla."
+    },
+    {
+      "term": "bottom / right",
+      "desc": "Desplazamientos en puntos. Conviene subir `bottom` cuando hay un tab bar o un footer debajo."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Obligatoria: el botón es solo un ícono."
+    }
+  ],
+  "props": {}
+}

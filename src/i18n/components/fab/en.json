@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "The single primary action of a screen, floating above the content. One per screen."
+    },
+    {
+      "term": "bottom / right",
+      "desc": "Offsets in points. Raise `bottom` when a tab bar or a footer sits underneath."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Required: the button is only an icon."
+    }
+  ],
+  "props": {}
+}

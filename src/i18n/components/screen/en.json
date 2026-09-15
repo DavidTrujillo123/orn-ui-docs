@@ -1,0 +1,28 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "The root of every screen: it applies safe area, scroll and keyboard handling in one place."
+    },
+    {
+      "term": "edges",
+      "desc": "`['top','bottom']` by default. Drop `bottom` when a tab bar already covers it."
+    },
+    {
+      "term": "scrollable",
+      "desc": "Off when the content is a list — nesting a list inside a scroll breaks virtualization."
+    },
+    {
+      "term": "keyboardAvoiding",
+      "desc": "Off when the content already handles the keyboard (List, SearchList, Wizard): the two offsets add up."
+    }
+  ],
+  "props": {
+    "edges": {
+      "description": "Which safe area insets to apply."
+    },
+    "keyboardAvoiding": {
+      "description": "Offsets the keyboard with a KeyboardAvoidingView. Set it to false when the\ncontent already brings its own scroller that handles the keyboard (Wizard,\nList, SearchList): both offsets add up and the focused field ends up pushed\noff screen."
+    }
+  }
+}

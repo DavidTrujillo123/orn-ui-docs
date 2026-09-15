@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "variant",
+      "desc": "`native` es el indicador del sistema y el default correcto. `dots` y `ring` se ven iguales en iOS y Android cuando eso importa."
+    },
+    {
+      "term": "fullscreen",
+      "desc": "`true` ocupa toda el área; en `false` queda un spinner inline dentro de una fila o una card."
+    },
+    {
+      "term": "text",
+      "desc": "Una línea corta debajo del indicador. Va cuando la espera es larga y conviene explicarla."
+    },
+    {
+      "term": "indicator",
+      "desc": "Un nodo propio, cuando la marca pide algo que las tres variantes no cubren."
+    }
+  ],
+  "props": {
+    "fullscreen": {
+      "description": "En false, no ocupa flex:1 (útil inline, dentro de un botón/fila)."
+    },
+    "indicator": {
+      "description": "Indicador totalmente propio. Tiene precedencia sobre `variant`."
+    },
+    "variant": {
+      "description": "'native' usa el ActivityIndicator del sistema; 'dots' y 'ring' son\nindicadores propios, idénticos en iOS y Android."
+    }
+  }
+}

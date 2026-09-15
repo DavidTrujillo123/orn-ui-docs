@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una lista o una búsqueda que no devolvió nada. No para errores — eso es Alert o un estado con reintento."
+    },
+    {
+      "term": "title / description",
+      "desc": "El título nombra lo que falta; la descripción dice qué hacer al respecto."
+    },
+    {
+      "term": "iconName / icon",
+      "desc": "`search` por defecto. Se cambia para que el ícono coincida con lo que está vacío."
+    }
+  ],
+  "props": {}
+}

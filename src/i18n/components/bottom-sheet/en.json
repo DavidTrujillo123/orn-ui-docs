@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Actions or secondary content over the current screen, without leaving it."
+    },
+    {
+      "term": "visible / onClose",
+      "desc": "Controlled: it closes on the backdrop and on gesture, always through `onClose`."
+    },
+    {
+      "term": "title / footer",
+      "desc": "With a title the header appears with its close button. `footerPlacement` decides where the footer lives: fixed, at the end of the scroll, or hidden while the keyboard is up."
+    },
+    {
+      "term": "draggable / maxHeight",
+      "desc": "`draggable={false}` for a sheet that only closes by button or backdrop. `maxHeight` as a 0-1 fraction of the screen, or in pixels."
+    }
+  ],
+  "props": {}
+}

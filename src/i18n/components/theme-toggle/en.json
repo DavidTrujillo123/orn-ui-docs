@@ -1,0 +1,13 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Letting the user pick light, dark or system — usually in settings."
+    },
+    {
+      "term": "labels",
+      "desc": "Override the three built-in strings when your product words them differently."
+    }
+  ],
+  "props": {}
+}

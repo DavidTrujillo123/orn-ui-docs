@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "An action with no room for a label — modal headers, list rows, toolbars. If the label fits, use Button."
+    },
+    {
+      "term": "iconName / icon",
+      "desc": "`iconName` picks a bundled glyph; `icon` takes any node when the set falls short."
+    },
+    {
+      "term": "size",
+      "desc": "A number in points (24 by default). Keep it consistent within a row or header."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Required, and for good reason: there is no visible text, so it is the only thing a screen reader announces."
+    }
+  ],
+  "props": {}
+}

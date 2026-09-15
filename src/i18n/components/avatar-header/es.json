@@ -1,0 +1,20 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "La cabecera de un perfil o una pantalla de detalle: avatar, título y una línea de apoyo."
+    },
+    {
+      "term": "iconName / initials",
+      "desc": "Las iniciales cuando hay un nombre; el ícono cuando no lo hay."
+    }
+  ],
+  "props": {
+    "iconName": {
+      "description": "Ícono a mostrar dentro del círculo. Si se omite, se usa `initials`."
+    },
+    "initials": {
+      "description": "Texto corto (ej. 2 letras) que se muestra cuando no se pasa `iconName`."
+    }
+  }
+}

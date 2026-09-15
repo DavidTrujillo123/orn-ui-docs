@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "The action bar at the bottom of a form or a modal — keeps the order and spacing consistent."
+    },
+    {
+      "term": "primaryLabel",
+      "desc": "If omitted, only the secondary button renders (a Cancel-only footer)."
+    },
+    {
+      "term": "primaryLoading / primaryDisabled",
+      "desc": "`primaryLoading` while the submit runs, `primaryDisabled` while the form is invalid."
+    }
+  ],
+  "props": {
+    "primaryLabel": {
+      "description": "If omitted, only the secondary button is shown."
+    }
+  }
+}

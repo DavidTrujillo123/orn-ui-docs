@@ -1,0 +1,21 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Giving press feedback to something that is not a Button: a card, a tile, a row."
+    },
+    {
+      "term": "scaleTo",
+      "desc": "`0.96` by default — noticeable without being distracting. Lower values suit small targets."
+    },
+    {
+      "term": "children",
+      "desc": "Also accepts a render prop that receives whether it is pressed, to restyle the content while held."
+    }
+  ],
+  "props": {
+    "scaleTo": {
+      "description": "Target scale while pressed."
+    }
+  }
+}

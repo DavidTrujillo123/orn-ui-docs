@@ -1,0 +1,17 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Representing a person or entity: profile headers, list rows, comment threads."
+    },
+    {
+      "term": "size",
+      "desc": "A number in points (44 by default). Keep one size per context."
+    },
+    {
+      "term": "backgroundColor",
+      "desc": "Override for the circle; useful to color-code by entity type."
+    }
+  ],
+  "props": {}
+}

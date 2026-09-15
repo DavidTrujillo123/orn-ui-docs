@@ -1,0 +1,44 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Cualquier lista de datos: resuelve carga, vacío y paginado para que cada pantalla no los reinvente."
+    },
+    {
+      "term": "isLoading / isReady",
+      "desc": "`isLoading` es la carga de los datos; `isReady` es todo lo que la pantalla necesita antes de renderizar algo."
+    },
+    {
+      "term": "emptyTitle / emptyDescription",
+      "desc": "Alimentan el EmptyState que muestra cuando no hay nada."
+    },
+    {
+      "term": "onEndReached / isLoadingMore",
+      "desc": "Paginado: el callback carga, la bandera muestra el spinner del pie."
+    },
+    {
+      "term": "ListComponent",
+      "desc": "`FlatList` por defecto; se cambia por FlashList sin tocar el resto."
+    }
+  ],
+  "props": {
+    "ListComponent": {
+      "description": "Componente de lista a usar (FlashList, etc)."
+    },
+    "isLoading": {
+      "description": "Carga inicial: mientras es true y no hay datos, se muestran placeholders."
+    },
+    "isReady": {
+      "description": "Controlado por quien lo consume: mientras es false, se muestra un spinner de pantalla completa."
+    },
+    "isRefreshing": {
+      "description": "Recarga con datos ya en pantalla (pull-to-refresh)."
+    },
+    "renderSkeletonItem": {
+      "description": "Placeholder propio, para que calce con la forma real del ítem."
+    },
+    "skeletonCount": {
+      "description": "Filas fantasma de la carga inicial."
+    }
+  }
+}

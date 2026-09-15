@@ -1,0 +1,31 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una grilla de cards o tiles donde una última fila corta, si no, se lee como un layout roto."
+    },
+    {
+      "term": "columns",
+      "desc": "`2` por defecto. El ancho de celda es `100 / columns`, así la fila sigue llenando parejo en cualquier pantalla."
+    },
+    {
+      "term": "balanceLastRow",
+      "desc": "Centra por defecto una última fila incompleta en vez de dejarla pegada a la izquierda con un hueco a la derecha."
+    },
+    {
+      "term": "gap",
+      "desc": "Aplica a ambos ejes. Sin definir, hereda el `spacing.md` del theme."
+    }
+  ],
+  "props": {
+    "balanceLastRow": {
+      "description": "Última fila incompleta: centrada (simétrica) en vez de pegada a la\nizquierda con un hueco a la derecha."
+    },
+    "columns": {
+      "description": "Columnas por fila."
+    },
+    "gap": {
+      "description": "Separación entre celdas, en ambos ejes."
+    }
+  }
+}

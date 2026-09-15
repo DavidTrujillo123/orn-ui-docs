@@ -1,0 +1,55 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Seis familias de gráfico en un solo componente, sin dependencia nativa. React Native no trae lienzo vectorial en el rango soportado (Expo SDK 54–57), así que acá todo se compone con View: barras, un rectángulo rotado por tramo de línea y un medio disco recortado por porción."
+    },
+    {
+      "term": "type",
+      "desc": "bar, line, area, pie, donut y radar. Es una unión discriminada, así que un innerRadius en un chart de barras no compila. bar agrega orientation y stacked; line y area agregan smooth, dots y decimate; pie y donut se diferencian sólo en innerRadius; el radar mide desde el centro, y por eso su mínimo es siempre cero."
+    },
+    {
+      "term": "data / series / xKey",
+      "desc": "Filas adentro, una columna por serie. En una torta las categorías son las filas y no las columnas, así que sólo se lee la primera serie — y la leyenda lista las filas."
+    },
+    {
+      "term": "legend",
+      "desc": "El filtro más barato que tiene un chart. 'toggle' (el default con dos o más series) apaga una serie al tocarla; repite el color de la serie, así que nunca tiene que explicar qué apaga."
+    },
+    {
+      "term": "filters",
+      "desc": "Dibuja tus controles arriba del chart y avisa el cambio. Chart no filtra nada — qué significa \"últimos 7 días\" es de quien tiene los datos."
+    },
+    {
+      "term": "selected / onSelect",
+      "desc": "Un toque elige la categoría entera: el globo muestra todas las series visibles y el resto se atenúa. El blanco táctil es la banda, no la marca — tocar una línea de 2px es imposible. Tocar el mismo punto otra vez lo suelta."
+    },
+    {
+      "term": "selectBy",
+      "desc": "Va junto con window siempre que los datos se muevan. Sin él la selección se guarda por índice, y en una ventana deslizante el índice corre: el resaltado termina, en silencio, sobre otro dato."
+    },
+    {
+      "term": "domain / window / decimate",
+      "desc": "Las tres que hacen legible un chart en vivo. domain='sticky' evita que el eje se reacomode en cada tick; window se queda con las últimas N filas; decimate adelgaza una línea con LTTB hasta lo que el ancho medido puede mostrar. Las barras nunca se adelgazan — una barra que falta se lee como un dato que falta."
+    },
+    {
+      "term": "colores",
+      "desc": "Derivados del theme, no listados: las primeras series reusan sus acentos y el resto rota el tono del primario. Todos superan 3:1 contra surface, el mínimo de WCAG para un objeto gráfico. Se pisa serie por serie con series[].color."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Obligatorio: un chart no tiene texto propio que lo describa. Cada banda además lleva su categoría y sus números, así un lector de pantalla puede recorrer los datos."
+    }
+  ],
+  "props": {
+    "height": { "default": "220" },
+    "legend": { "default": "'auto' — toggle con dos o más series, none con una" },
+    "formatValue": { "default": "compacto — 1.2k, 3.4M" },
+    "duration": { "default": "500" },
+    "stacked": { "default": "false" },
+    "barRadius": { "default": "4" },
+    "decimate": { "default": "el ancho medido — un punto cada dos píxeles" },
+    "dots": { "default": "true en 'line', false en 'area'" },
+    "innerRadius": { "default": "0 en 'pie', 0.6 en 'donut'" }
+  }
+}

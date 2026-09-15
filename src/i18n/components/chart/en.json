@@ -1,0 +1,83 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Six chart families in one component, with no native dependency. React Native has no vector canvas across Expo SDK 54–57, so everything here is composed out of View: bars, a rotated rectangle per line segment, and a clipped half-disc per slice."
+    },
+    {
+      "term": "type",
+      "desc": "bar, line, area, pie, donut and radar. The prop is a discriminated union, so innerRadius on a bar chart does not compile. bar adds orientation and stacked; line and area add smooth, dots and decimate; pie and donut differ only in innerRadius; radar measures from the centre, so its minimum is always zero."
+    },
+    {
+      "term": "data / series / xKey",
+      "desc": "Rows in, one column per series. In a pie the categories are the rows rather than the columns, so only the first series is read — and the legend lists the rows instead."
+    },
+    {
+      "term": "legend",
+      "desc": "The cheapest filter a chart has. 'toggle' (the default with two or more series) turns a series off on tap; it repeats the series colour, so it never has to explain what it turns off."
+    },
+    {
+      "term": "filters",
+      "desc": "Renders your controls above the chart and reports the change. Chart does not filter anything — what \"last 7 days\" means belongs to whoever has the data."
+    },
+    {
+      "term": "selected / onSelect",
+      "desc": "A tap selects a whole category: the tooltip shows every visible series and everything else dims. The touch target is the band, not the mark — tapping a 2px line is impossible. Tapping the same point again lets it go."
+    },
+    {
+      "term": "selectBy",
+      "desc": "Pair it with window whenever the data moves. Without it the selection is held by index, and in a sliding window the index shifts: the highlight silently ends up on a different datum."
+    },
+    {
+      "term": "domain / window / decimate",
+      "desc": "The three that make a live chart readable. domain='sticky' stops the axis rearranging on every tick; window keeps the last N rows; decimate thins a line with LTTB down to what the measured width can show. Bars are never thinned — a missing bar reads as missing data."
+    },
+    {
+      "term": "colors",
+      "desc": "Derived from the theme, not listed: the first series reuse its accents and the rest rotate the primary's hue. Every one clears 3:1 against surface, the WCAG minimum for a graphical object. Override one series at a time with series[].color."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Required: a chart has no text of its own to describe it. Each band also carries its category and its numbers, so a screen reader can walk the data."
+    }
+  ],
+  "props": {
+    "data": { "description": "The rows. Each one is a category on the x axis plus a number per series." },
+    "series": { "description": "The series to draw. In 'pie'/'donut' only the first is used: the categories of a pie are its rows, not its columns." },
+    "xKey": { "description": "The column holding each row's label." },
+    "selectBy": { "description": "Stable identity for a row. Without it the selection is held by index, and in a sliding window the index moves: the highlight ends up pointing at another datum with nobody touching it. With it the highlight follows its datum, and disappears only once the datum leaves the window." },
+    "window": { "description": "Draws only the last N rows — the sliding window of a live chart, so whoever pushes the data does not have to trim it on every tick." },
+    "height": { "description": "Height of the drawing area, not counting filters or legend.", "default": "220" },
+    "legend": { "description": "'toggle' turns the legend into the cheapest filter a chart has: tapping a series turns it off.", "default": "'auto' — toggle with two or more series, none with one" },
+    "hiddenKeys": { "description": "Series that are off, controlled. Without it Chart remembers them on its own." },
+    "defaultHiddenKeys": { "description": "Series that start off, uncontrolled." },
+    "onHiddenKeysChange": { "description": "Reports the new set of hidden series." },
+    "filters": { "description": "Controls above the chart, one per filter. Chart shows them and reports the change; it does not filter anything itself." },
+    "selected": { "description": "The highlighted point, controlled. null means none." },
+    "onSelect": { "description": "Reports the point that was tapped, or null when the selection is released." },
+    "tooltip": { "description": "Balloon with the values of the category that was tapped." },
+    "formatValue": { "description": "Formats every number on the axis and in the tooltip.", "default": "compact — 1.2k, 3.4M" },
+    "animate": { "description": "Bars travel to their new value instead of jumping. Turn it off for high-frequency updates." },
+    "duration": { "description": "Milliseconds the marks take to animate.", "default": "500" },
+    "emptyText": { "description": "Shown when there is nothing left to draw." },
+    "accessibilityLabel": { "description": "Required: a chart has no text of its own to describe it." },
+    "type": { "description": "The family of mark to draw. A discriminated union: the props of one type do not typecheck on another." },
+    "orientation": { "description": "'horizontal' puts the categories on the vertical axis." },
+    "stacked": { "description": "Stacks the series instead of placing them side by side.", "default": "false" },
+    "barRadius": { "description": "Radius of the free end of each bar.", "default": "4" },
+    "domain": { "description": "Fixes the value axis. By default it is recomputed with every datum, which is right for a static chart and worst for a live one: a higher value arrives, the whole scale rearranges and the line jumps although the datum did not move. [min, max] is exact, with no rounding; 'sticky' starts from the data and grows when something does not fit, but never gives the room back." },
+    "grid": { "description": "Reference lines on the value axis." },
+    "ticks": { "description": "Ticks wanted on the value axis; rounding may give one more or one less." },
+    "xAxis": { "description": "Labels on the horizontal axis." },
+    "yAxis": { "description": "Labels on the vertical axis." },
+    "decimate": { "description": "How many points to draw at most, chosen with LTTB. false draws them all.", "default": "the measured width — one point per two pixels" },
+    "smooth": { "description": "Catmull-Rom instead of straight segments. The curve passes through every original point." },
+    "thickness": { "description": "Line thickness in pixels." },
+    "dots": { "description": "A dot on each datum.", "default": "true on 'line', false on 'area'" },
+    "fillOpacity": { "description": "Opacity of the fill under the line." },
+    "innerRadius": { "description": "Hole as a fraction of the radius, 0–0.9.", "default": "0 for 'pie', 0.6 for 'donut'" },
+    "sliceLabels": { "description": "What to write on each slice. A slice narrower than 18° gets none — the label would land on its neighbours." },
+    "levels": { "description": "Rings of the web." },
+    "fill": { "description": "Fills the polygon as well as drawing its outline." }
+  }
+}

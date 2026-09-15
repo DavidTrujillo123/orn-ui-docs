@@ -36,7 +36,7 @@ const DOC_PAGES = [
   'Avatar', 'Image', 'Gradient', 'Spinner', 'Skeleton', 'Transition', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
   'Stepper', 'OptionCard', 'InfoRow', 'FormActions', 'AvatarHeader', 'SegmentedControl', 'ThemeToggle', 'Steps', 'SymmetricGrid',
   'Modal', 'BottomSheet', 'Select', 'Alert', 'Screen', 'List', 'SearchList', 'Toast',
-  'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList', 'Slides',
+  'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList', 'Slides', 'Chart',
 ];
 
 // Archivos fuente distintos que comparten un mismo demo. Las variantes se

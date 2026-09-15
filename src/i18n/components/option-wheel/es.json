@@ -1,0 +1,49 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Un rango largo y ordenado donde importan los vecinos: minutos, un peso, un talle, un año. La opción de la ventana del centro es la elegida — no hay paso de confirmar. Para una lista corta de opciones sin relación está Select, y para un puñado, SegmentedControl."
+    },
+    {
+      "term": "options / selectedValue / onSelect",
+      "desc": "Controlado y genérico, el mismo patrón que Select: el valor conserva su tipo, así que una rueda de números devuelve un número."
+    },
+    {
+      "term": "visibleCount / itemHeight",
+      "desc": "Cuánto del rango entra en pantalla. visibleCount se fuerza al impar siguiente para que haya una fila que sea el centro, y itemHeight es lo que hace que la rueda entre en una card o llene una hoja."
+    },
+    {
+      "term": "variant",
+      "desc": "'window' marca la elección con una banda detrás de la fila del centro — la lectura de iOS. 'spotlight' saca la banda y en su lugar apaga las filas lejanas, que va mejor sobre un fondo oscuro o con imagen, donde la banda parece una costura."
+    },
+    {
+      "term": "curveRadius / curveFrom",
+      "desc": "Arquea las filas sobre una rueda cuyo centro está corrido hacia un lado, así se van curvando hacia adentro a medida que se alejan del medio. Es el adorno, no el mecanismo — sin eso la rueda funciona igual."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Obligatorio cuando no hay label: la rueda entera necesita un nombre, porque sus filas son números y un lector de pantalla diciendo \"15, 20, 25\" no dice de qué son."
+    },
+    {
+      "term": "textColor",
+      "desc": "La rueda no pinta su propio fondo — lo pinta quien la compone. Éste es el modo de que el texto siga legible arriba de lo que sea que resulte."
+    }
+  ],
+  "props": {
+    "options": { "description": "El rango, en orden. Cada opción lleva una etiqueta, su valor, y puede estar deshabilitada." },
+    "selectedValue": { "description": "La opción de la ventana del centro." },
+    "onSelect": { "description": "Avisa la opción en la que quedó la rueda." },
+    "label": { "description": "Título arriba de la rueda." },
+    "accessibilityLabel": { "description": "Obligatorio cuando no hay `label`: la rueda entera necesita un nombre." },
+    "visibleCount": { "description": "Filas en pantalla. Se fuerza al impar siguiente para que una de ellas sea el centro.", "default": "5" },
+    "itemHeight": { "description": "Alto de cada fila.", "default": "44" },
+    "unit": { "description": "Texto fijo a la derecha de la fila del centro ('kg', 'min')." },
+    "perspective": { "description": "Inclina las filas lejanas para sugerir un cilindro." },
+    "variant": { "description": "'window' marca la elección con una banda detrás de la fila del centro. 'spotlight' saca la banda y deja que las filas lejanas se apaguen." },
+    "textColor": { "description": "Color de las etiquetas. El fondo sobre el que se apoya la rueda lo pinta quien la compone — éste es el modo de que el texto siga legible.", "default": "theme.colors.text" },
+    "curveRadius": { "description": "Radio, en píxeles, de la rueda sobre la que se apoyan las filas. Su centro está corrido hacia un lado, así que las filas se arquean hacia adentro a medida que se alejan del medio." },
+    "curveFrom": { "description": "De qué lado está el centro de la rueda." },
+    "disabled": { "description": "Impide girar la rueda." },
+    "style": { "description": "Estilo del contenedor." }
+  }
+}

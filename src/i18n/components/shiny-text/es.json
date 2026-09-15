@@ -1,0 +1,35 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Una banda de luz recorre el texto para decir \"mirá acá\" sin un badge ni un ícono: una tarjeta de upgrade, una etiqueta de beta, el único titular de una pantalla de bienvenida. Uno por pantalla — dos barridos compitiendo no dicen nada."
+    },
+    {
+      "term": "cómo funciona",
+      "desc": "El texto se parte en caracteres y la opacidad de cada uno sale de un solo valor compartido, así que el efecto entero corre en el hilo nativo. Necesita los caracteres: text recibe un string, no nodos."
+    },
+    {
+      "term": "color / shineColor",
+      "desc": "El color en reposo y el de la banda que lo recorre. Los dos salen de roles del theme, así que el efecto sigue a una marca propia sin que haya que decírselo."
+    },
+    {
+      "term": "spread",
+      "desc": "Cuán ancha es la banda, como fracción del texto. Chico es un destello sobre uno o dos caracteres; grande enciende casi toda la línea a la vez y se lee como un latido."
+    },
+    {
+      "term": "animated",
+      "desc": "En false dibuja texto plano en shineColor — la salida para quien pidió menos movimiento, y el estado que conviene en un test de snapshot."
+    }
+  ],
+  "props": {
+    "text": { "description": "El texto a animar. Sólo un string: el efecto necesita los caracteres." },
+    "duration": { "description": "Milisegundos que tarda un barrido de punta a punta.", "default": "2400" },
+    "delay": { "description": "Pausa entre barridos, en ms.", "default": "600" },
+    "spread": { "description": "Ancho de la banda brillante como fracción del texto, de 0 a 1. Valores chicos dan un destello angosto; grandes, un latido.", "default": "0.28" },
+    "animated": { "description": "En false dibuja texto plano en `shineColor`." },
+    "color": { "description": "Color de los caracteres en reposo.", "default": "theme.colors.textLight" },
+    "shineColor": { "description": "Color de la banda que lo recorre.", "default": "theme.colors.primary" },
+    "align": { "description": "Alineación horizontal de la línea." },
+    "style": { "description": "Sólo tipografía: `color` y `shineColor` ganan sobre cualquier color puesto acá." }
+  }
+}

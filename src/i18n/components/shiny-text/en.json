@@ -1,0 +1,32 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A band of light sweeps the text to say \"look here\" without a badge or an icon: an upgrade card, a beta label, the one headline on a landing screen. One per screen — two competing sweeps say nothing."
+    },
+    {
+      "term": "how it works",
+      "desc": "The text is split into characters and each one's opacity is driven from a single shared value, so the whole effect runs on the native thread. It needs the characters: text takes a string, not nodes."
+    },
+    {
+      "term": "color / shineColor",
+      "desc": "The resting colour and the band that travels across it. Both default to theme roles, so the effect follows a custom brand without being told."
+    },
+    {
+      "term": "spread",
+      "desc": "How wide the bright band is, as a fraction of the text. Small is a glint on one or two characters; large lights most of the line at once and reads as a pulse."
+    },
+    {
+      "term": "animated",
+      "desc": "False renders plain text in shineColor — the escape hatch for a user who asked for less motion, and the state to use in a snapshot test."
+    }
+  ],
+  "props": {
+    "align": { "description": "Horizontal alignment of the line." },
+    "duration": { "default": "2400" },
+    "delay": { "default": "600" },
+    "spread": { "default": "0.28" },
+    "color": { "default": "theme.colors.textLight" },
+    "shineColor": { "default": "theme.colors.primary" }
+  }
+}

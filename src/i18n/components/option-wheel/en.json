@@ -1,0 +1,42 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "A long, ordered range where the neighbours matter: minutes, a weight, a size, a year. The option in the centre window is the one picked — no confirm step. For a short list of unrelated options use Select, and for a handful of them SegmentedControl."
+    },
+    {
+      "term": "options / selectedValue / onSelect",
+      "desc": "Controlled and generic, the same pattern as Select: the value keeps its type, so a wheel of numbers reports a number."
+    },
+    {
+      "term": "visibleCount / itemHeight",
+      "desc": "How much of the range is on screen. visibleCount is forced to the next odd number so one row is the centre, and itemHeight is what makes the wheel fit a card or fill a sheet."
+    },
+    {
+      "term": "variant",
+      "desc": "'window' marks the pick with a band behind the centre row — the iOS reading. 'spotlight' drops the band and fades the far rows instead, which suits a dark or image background where a band would look like a seam."
+    },
+    {
+      "term": "curveRadius / curveFrom",
+      "desc": "Bows the rows onto a wheel whose centre is off to the side, so they bend inwards as they get further from the middle. It is the flourish, not the mechanism — leave it out and the wheel still works."
+    },
+    {
+      "term": "accessibilityLabel",
+      "desc": "Required when there is no label: the wheel as a whole needs a name, because its rows are numbers and a screen reader reading \"15, 20, 25\" says nothing about what they are."
+    },
+    {
+      "term": "textColor",
+      "desc": "The wheel does not paint its own background — whoever composes it does. This is how the text stays legible on top of whatever that turns out to be."
+    }
+  ],
+  "props": {
+    "options": { "description": "The range, in order. Each option takes a label, its value, and can be disabled." },
+    "selectedValue": { "description": "The option in the centre window." },
+    "onSelect": { "description": "Reports the option the wheel settled on." },
+    "disabled": { "description": "Stops the wheel from being turned." },
+    "style": { "description": "Style for the container." },
+    "visibleCount": { "default": "5" },
+    "itemHeight": { "default": "44" },
+    "textColor": { "default": "theme.colors.text" }
+  }
+}

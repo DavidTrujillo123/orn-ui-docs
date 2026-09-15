@@ -33,9 +33,9 @@ const CATEGORIES = {
 // ToastProvider, por ejemplo, se documentan dentro de Alert/Toast).
 const DOC_PAGES = [
   'Title', 'Button', 'IconButton', 'Input', 'Checkbox', 'Badge', 'Card', 'Divider',
-  'Avatar', 'Image', 'Gradient', 'Spinner', 'Skeleton', 'Transition', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
+  'Avatar', 'Image', 'Gradient', 'Spinner', 'Skeleton', 'Transition', 'ShinyText', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
   'Stepper', 'OptionCard', 'InfoRow', 'FormActions', 'AvatarHeader', 'SegmentedControl', 'ThemeToggle', 'Steps', 'SymmetricGrid',
-  'Modal', 'BottomSheet', 'Select', 'Alert', 'Screen', 'List', 'SearchList', 'Toast',
+  'Modal', 'BottomSheet', 'Select', 'OptionWheel', 'Timeline', 'Alert', 'Screen', 'List', 'SearchList', 'Toast',
   'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList', 'Slides', 'Chart',
 ];
 

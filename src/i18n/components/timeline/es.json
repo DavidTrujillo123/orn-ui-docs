@@ -1,0 +1,40 @@
+{
+  "usage": [
+    {
+      "term": "cuándo usarlo",
+      "desc": "Hitos a lo largo de un camino: un pedido que se entrega, un roadmap, los pasos por los que pasa un cambio. Para un formulario partido en pasos está Wizard, y para un indicador de progreso pelado, Steps — éste es para un recorrido que vale la pena mirar."
+    },
+    {
+      "term": "items / status",
+      "desc": "Cada hito está cumplido o pendiente. El progreso se cuenta desde el arranque y se corta en el primer pendiente: un hito cumplido detrás de uno pendiente no tira de la línea, porque un camino es un camino."
+    },
+    {
+      "term": "advance",
+      "desc": "Qué puede hacer un toque. 'free' deja que responda cualquier hito y que la línea siga a items para donde vaya; 'sequential' sólo responde el que sigue a la línea y nunca retrocede; 'revisit' responde además todo lo ya recorrido, y tampoco retrocede."
+    },
+    {
+      "term": "selectedIndex",
+      "desc": "Hasta dónde llegaste y qué estás mirando no son lo mismo. Éste marca con un borde el hito que se está leyendo, y puede quedar detrás de la línea sin tirarla para atrás."
+    },
+    {
+      "term": "curve / startSide / spacing",
+      "desc": "La forma del camino. curve={0} lo dibuja recto, startSide da vuelta hacia qué lado sale la primera píldora, y spacing es el aire que recibe cada hito. Dejale lugar al halo — sobresale unos 20px de la píldora."
+    },
+    {
+      "term": "glow",
+      "desc": "El halo son muchas capas tenues y no tres fuertes: con pocos escalones se ven los anillos, que es justo lo contrario de un difuminado."
+    }
+  ],
+  "props": {
+    "items": { "description": "Los hitos, en orden. Cada uno lleva una etiqueta, opcionalmente un ícono o un emoji, y su estado." },
+    "curve": { "description": "Píxeles que la línea se arquea respecto del camino recto. 0 la dibuja derecha.", "default": "28" },
+    "spacing": { "description": "Distancia vertical entre un nodo y el siguiente.", "default": "84" },
+    "startSide": { "description": "Lado hacia el que sale la primera píldora; las demás alternan." },
+    "glow": { "description": "Halo detrás de cada píldora." },
+    "onItemPress": { "description": "Hace tocable cada píldora y avisa su índice." },
+    "advance": { "description": "Qué toques se permiten, y si la línea puede volver atrás." },
+    "selectedIndex": { "description": "El hito que se está mirando ahora, resaltado. No es el progreso: puede quedar detrás de la línea sin tirarla para atrás." },
+    "duration": { "description": "Milisegundos que tarda la línea en recorrer un vano cuando se alcanza un hito.", "default": "420" },
+    "style": { "description": "Estilo del contenedor." }
+  }
+}

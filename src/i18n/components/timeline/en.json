@@ -1,0 +1,35 @@
+{
+  "usage": [
+    {
+      "term": "when to use",
+      "desc": "Milestones along a path: an order being delivered, a roadmap, the steps a change goes through. For a form split into steps use Wizard, and for a plain progress indicator, Steps — this one is for a journey worth looking at."
+    },
+    {
+      "term": "items / status",
+      "desc": "Each milestone is done or pending. Progress is counted from the start and stops at the first pending one: a done milestone sitting behind a pending one does not pull the line forward, because a path is a path."
+    },
+    {
+      "term": "advance",
+      "desc": "What a tap can do. 'free' lets every milestone answer and the line follow items either way; 'sequential' only answers the one right after the line and never retreats; 'revisit' also answers everything already walked, and still never retreats."
+    },
+    {
+      "term": "selectedIndex",
+      "desc": "How far you got and what you are looking at are not the same thing. This one marks the milestone being read, with a border, and can sit behind the line without pulling it back."
+    },
+    {
+      "term": "curve / startSide / spacing",
+      "desc": "The shape of the path. curve={0} draws it straight, startSide flips which way the first pill goes, and spacing is the room each milestone gets. Leave air for the halo — it bleeds about 20px past the pill."
+    },
+    {
+      "term": "glow",
+      "desc": "The halo is many faint layers rather than three strong ones: with few steps you see rings, which is the opposite of a blur."
+    }
+  ],
+  "props": {
+    "items": { "description": "The milestones, in order. Each one takes a label, an optional icon or emoji, and its status." },
+    "style": { "description": "Style for the container." },
+    "curve": { "default": "28" },
+    "spacing": { "default": "84" },
+    "duration": { "default": "420" }
+  }
+}

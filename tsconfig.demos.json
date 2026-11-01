@@ -1,14 +1,24 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "bundler",
     "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "orn-ui": [
+        "../orn-ui/packages/ui/lib/typescript/index.d.ts",
+        "./node_modules/orn-ui"
+      ]
+    }
   },
-  "include": ["demos/**/*"]
+  "include": [
+    "demos/**/*"
+  ]
 }

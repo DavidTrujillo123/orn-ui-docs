@@ -38,6 +38,12 @@ build). It also rewrites the poster `public/media/<slug>.jpg` from variant 1.
 Keep `demos/<Name>.demo.tsx` here in sync with the example app's copy, or the
 numbering drifts from the labels.
 
+With the library repo checked out next to this one (`../orn-ui`), props,
+registry and demo types come from it (see `scripts/orn-ui-path.mjs`), so the
+docs can show unreleased APIs locally. Vercel has no sibling repo and uses
+the npm package: publish the library before deploying docs that use new APIs
+(`ORN_UI_PUBLISHED=1 pnpm run build` reproduces the Vercel build).
+
 Which medium for which component:
 
 - **Static** (text, badges, dividers, cards, avatars): variant screenshots and

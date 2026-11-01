@@ -2,9 +2,8 @@
 /**
  * Genera src/data/components.json y tokens.json.
  *
- * Props: react-docgen-typescript sobre node_modules/orn-ui/src. Se lee de
- * node_modules y no del repo hermano para que funcione igual con `file:`
- * local o con el paquete publicado.
+ * Props: react-docgen-typescript sobre orn-ui/src. De dónde sale orn-ui (el
+ * repo hermano o el paquete de npm) lo decide scripts/orn-ui-path.mjs.
  *
  * Snippets: el bloque entre `// #region demo` y `// #endregion demo` de
  * cada demos/*.demo.tsx, que además se typecheckea en el build.
@@ -14,11 +13,13 @@ import path from 'node:path';
 import fs from 'node:fs';
 import * as docgen from 'react-docgen-typescript';
 import ts from 'typescript';
+import { ORN_UI_DIR, ORN_UI_IS_LOCAL } from './orn-ui-path.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const UI_SRC = path.resolve(ROOT, 'node_modules/orn-ui/src');
-const REGISTRY_DIR = path.resolve(ROOT, 'node_modules/orn-ui/registry');
+const UI_SRC = path.resolve(ORN_UI_DIR, 'src');
+const REGISTRY_DIR = path.resolve(ORN_UI_DIR, 'registry');
+console.log(`[extract-docs] orn-ui desde ${ORN_UI_IS_LOCAL ? 'el repo local' : 'npm'}: ${ORN_UI_DIR}`);
 const DEMOS_DIR = path.resolve(ROOT, 'demos');
 const OUT_DIR = path.resolve(ROOT, 'src/data');
 

@@ -13,10 +13,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { ORN_UI_DIR } from './orn-ui-path.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
-const SRC_DIR = path.resolve(ROOT, 'node_modules/orn-ui/registry');
+const SRC_DIR = path.resolve(ORN_UI_DIR, 'registry');
 const OUT_DIR = path.resolve(ROOT, 'public/r');
 
 function main() {

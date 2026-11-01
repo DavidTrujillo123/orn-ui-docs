@@ -29,7 +29,14 @@ one is visible. A variant without a capture shows only its code.
 scripts/capture-variants.sh <layer> <slug> <count> [cropY cropH]
 scripts/capture-variants.sh atoms typography 9 1300 320   # small content: a band
 scripts/capture-variants.sh organisms modal 4             # default: the whole demo card
+VIDEO=1 BAND_H=560 scripts/capture-variants.sh atoms spinner 8   # band centred on each variant
 ```
+
+`BAND_H=<px>` finds each variant's content inside the demo card (from the
+light screenshot) and centres a band of that height on it, so every variant
+gets the same height and equal air above and below. With `VIDEO=1` each clip
+is checked against its poster (background luma at the first and last frame):
+a clip that does not match its theme aborts the run instead of shipping.
 
 It opens each variant by deep link (`ornui:///<layer>/<slug>?v=N`, handled
 by the example app's `VariantList`), so it needs neither Maestro nor swipes:

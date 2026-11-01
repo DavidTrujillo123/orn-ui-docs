@@ -1,4 +1,4 @@
-import { releases, CHANGE_KIND_ORDER, type ChangeKind } from '../data/changelog';
+import { releases, CHANGE_KIND_ORDER, tr, type ChangeKind } from '../data/changelog';
 
 function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -33,21 +33,21 @@ export function buildChangelogMarkdown(): string {
   for (const r of releases) {
     lines.push(`## ${r.date ? `${r.version} — ${r.date}` : `Unreleased — ${r.version}`}`, '');
     if (r.since) lines.push(`Changes since ${r.since}.`, '');
-    lines.push(r.summary, '');
+    lines.push(tr(r.summary, 'en'), '');
     for (const kind of CHANGE_KIND_ORDER) {
       const groups = r.changes[kind];
       if (!groups?.length) continue;
       lines.push(`### ${KIND_LABELS[kind]}`, '');
       for (const g of groups) {
         lines.push(`- **${g.component}**`);
-        for (const item of g.items) lines.push(`  - ${item}`);
+        for (const item of g.items) lines.push(`  - ${tr(item, 'en')}`);
       }
       lines.push('');
     }
     if (r.migration?.length) {
       lines.push(`### Migrating from ${r.since ?? 'the previous version'}`, '');
       r.migration.forEach((m, i) => {
-        lines.push(`${i + 1}. **${m.title}.** ${m.body}`, '');
+        lines.push(`${i + 1}. **${tr(m.title, 'en')}.** ${tr(m.body, 'en')}`, '');
         const lang = (code: string) => (code.includes('pnpm ') ? 'bash' : 'tsx');
         if (m.before) lines.push('   Before:', '', '   ```' + lang(m.before), ...m.before.split('\n').map((l) => `   ${l}`), '   ```', '');
         if (m.after) {

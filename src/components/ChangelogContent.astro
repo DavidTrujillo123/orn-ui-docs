@@ -2,7 +2,7 @@
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { Code } from 'astro:components';
 import components from '../data/components.json';
-import { releases, CHANGE_KIND_ORDER, type ChangeGroup } from '../data/changelog';
+import { releases, CHANGE_KIND_ORDER, tr, type ChangeGroup } from '../data/changelog';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { inlineMarkdown, slugifyVersion } from '../lib/changelog';
 import { groupPageFor } from '../lib/groupedPages';
@@ -26,10 +26,9 @@ function hrefFor(group: ChangeGroup): string | undefined {
 
 <h1>{t('changelog.title')}</h1>
 <p class="lede">{t('changelog.lede')}</p>
-{lang === 'es' && <p class="lang-note">{t('changelog.languageNote')}</p>}
 
 {releases.map((r) => (
-  <article class="release" id={slugifyVersion(r.version)} lang="en">
+  <article class="release" id={slugifyVersion(r.version)}>
     <header class="release-head">
       <h2>
         <a href={`#${slugifyVersion(r.version)}`}>
@@ -43,7 +42,7 @@ function hrefFor(group: ChangeGroup): string | undefined {
         {r.since && <span>{t('changelog.since')} <code>{r.since}</code></span>}
       </p>
     </header>
-    <p class="summary" set:html={inlineMarkdown(r.summary)} />
+    <p class="summary" set:html={inlineMarkdown(tr(r.summary, lang))} />
 
     {CHANGE_KIND_ORDER.filter((k) => r.changes[k]?.length).map((kind) => (
       <section class={`kind kind-${kind}`}>
@@ -62,7 +61,7 @@ function hrefFor(group: ChangeGroup): string | undefined {
                   {href ? <a href={href}>{g.component}</a> : g.component}
                 </p>
                 <ul>
-                  {g.items.map((item) => <li set:html={inlineMarkdown(item)} />)}
+                  {g.items.map((item) => <li set:html={inlineMarkdown(tr(item, lang))} />)}
                 </ul>
               </div>
             );
@@ -77,8 +76,8 @@ function hrefFor(group: ChangeGroup): string | undefined {
         <ol>
           {r.migration.map((m) => (
             <li>
-              <p class="step-title">{m.title}</p>
-              <p set:html={inlineMarkdown(m.body)} />
+              <p class="step-title">{tr(m.title, lang)}</p>
+              <p set:html={inlineMarkdown(tr(m.body, lang))} />
               {(m.before || m.after) && (
                 <div class:list={['diff', { 'diff-pair': m.before && m.after }]}>
                   {m.before && (
@@ -106,7 +105,6 @@ function hrefFor(group: ChangeGroup): string | undefined {
 <style>
   h1 { margin: 0 0 var(--space-xs); font-size: 32px; }
   .lede { color: var(--text-light); font-size: var(--text-lg); line-height: 1.6; max-width: var(--measure); margin-bottom: var(--space-block); }
-  .lang-note { font-size: 13px; color: var(--text-light); margin: calc(-1 * var(--space-xxl)) 0 var(--space-block); }
 
   .release { margin-bottom: var(--space-section); }
   .release-head {

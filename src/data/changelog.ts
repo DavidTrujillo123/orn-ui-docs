@@ -352,6 +352,19 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'Transition',
+          items: [
+            {
+              en: 'Content that is hidden or on its way out leaves the accessibility tree and stops taking touches, so screen readers no longer read what is not on screen (e.g. `keepMounted` while hidden).',
+              es: 'El contenido oculto o que está saliendo sale del árbol de accesibilidad y deja de recibir toques, así los lectores de pantalla ya no leen lo que no está en pantalla (por ejemplo, con `keepMounted` mientras está oculto).',
+            },
+            {
+              en: 'Switching between light and dark no longer replays the enter animation or fires `onEntered` again.',
+              es: 'Cambiar entre claro y oscuro ya no repite la animación de entrada ni vuelve a disparar `onEntered`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

@@ -94,7 +94,12 @@ check_shot() { # shot.jpg
       for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>24)n++;if(n>3){r++;if(y<16||y>=H-16)edge++;}}
       console.log(r+" "+edge);});' $(sips -g pixelWidth -g pixelHeight "$1" | awk '/pixel/{printf "%s ", $2}'))
   set -- "$1" $rows
-  if [ "$2" -lt 12 ]; then echo "captura $1: sin contenido visible ($2 filas) — regrabar" >&2; exit 1; fi
+  if [ "$2" -lt 12 ]; then
+    # soft: lo llama shot_content, que reintenta (un demo animado puede estar
+    # justo en su fase oculta). Sin soft, una captura vacía aborta.
+    [ "${SOFT:-0}" = 1 ] && return 1
+    echo "captura $1: sin contenido visible ($2 filas) — regrabar" >&2; exit 1
+  fi
   if [ "$3" -gt 0 ]; then echo "captura $1: contenido cortado en el borde de la banda — subir BAND_H o revisar el centrado" >&2; exit 1; fi
 }
 check_clip() { # clip.mp4 poster.jpg
@@ -160,21 +165,31 @@ to_jpg() { # in out
 # portada <slug>.mp4 junta todas las variantes, así que solo se reescribe
 # en una corrida completa.
 FROM=${FROM:-1}
+# Captura fija con contenido: un demo que se anima solo (Transition) puede
+# estar en su fase vacía al sacar la foto; se reintenta hasta 8 veces.
+shot_content() { # png jpg [center]
+  local i
+  for i in 1 2 3 4 5 6 7 8; do
+    shot "$1"
+    [ "${3:-}" = center ] && center_band "$1"
+    to_jpg "$1" "$2"
+    SOFT=1 check_shot "$2" && return 0
+    sleep 0.4
+  done
+  check_shot "$2"
+}
+
 for N in $(seq "$FROM" "$COUNT"); do
   open_variant "$N"
   xcrun simctl ui booted appearance light; sleep 2
-  shot "$TMP/l.png"
+  shot_content "$TMP/l.png" "$OUT/$N-light.jpg" center
   xcrun simctl ui booted appearance dark; sleep 2
-  shot "$TMP/d.png"
+  shot_content "$TMP/d.png" "$OUT/$N-dark.jpg"
   # El clip oscuro se graba ahora, todavía en oscuro. Antes se volvía a claro
   # antes de grabarlo y el "-dark.mp4" era un fundido a claro y después el
   # demo en claro: en la docs, con tema oscuro, el clip parpadeaba a blanco.
   [ "$VIDEO" = 1 ] && record "$TMP/d.mov"
   xcrun simctl ui booted appearance light
-  center_band "$TMP/l.png"
-  to_jpg "$TMP/l.png" "$OUT/$N-light.jpg"
-  to_jpg "$TMP/d.png" "$OUT/$N-dark.jpg"
-  check_shot "$OUT/$N-light.jpg"; check_shot "$OUT/$N-dark.jpg"
   if [ "$VIDEO" = 1 ]; then
     sleep 1
     record "$TMP/l.mov"

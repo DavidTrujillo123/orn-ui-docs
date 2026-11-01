@@ -397,7 +397,7 @@ const variantShots = variants.map((_, i) => {
      grupo. Gestalt, región común + proximidad: en pantallas anchas van lado a
      lado con la misma altura, separados por menos aire (sm) que el que hay
      entre variantes (xxl); en móvil se apilan. */
-  .variant-body.has-shot { display: grid; gap: var(--space-sm); }
+  .variant-body.has-shot { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
   @media (min-width: 700px) {
     .variant-body.has-shot { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: stretch; }
     .variant-body.has-shot .variant-shot { margin: 0; }

@@ -81,6 +81,22 @@ record() { # out.mov — graba CLIP_S segundos de la pantalla
 # es del tema que dice ser (o quedó a medias). Mejor fallar que publicarlo.
 corner_luma() { ffmpeg -v error -i "$1" -vf "format=gray,crop=4:4:6:6" -frames:v 1 -f rawvideo - | od -An -tu1 | awk '{for(i=1;i<=NF;i++){s+=$i;n++}} END{print int(s/n)}'; }
 last_luma() { ffmpeg -v error -sseof -0.2 -i "$1" -vf "format=gray,crop=4:4:6:6" -frames:v 1 -f rawvideo - | od -An -tu1 | awk '{for(i=1;i<=NF;i++){s+=$i;n++}} END{print int(s/n)}'; }
+# Una captura sin contenido (banda mal centrada, app sin cargar) aborta: no
+# se publica una tarjeta vacía. Cuenta filas con algo distinto del fondo.
+check_shot() { # shot.jpg
+  local rows
+  rows=$(ffmpeg -v error -i "$1" -vf format=gray -f rawvideo - | node -e '
+    const [W,H]=process.argv.slice(1).map(Number); const ch=[];
+    process.stdin.on("data",d=>ch.push(d)).on("end",()=>{const b=Buffer.concat(ch);let r=0;
+      // r: filas con contenido. edge: contenido en las 16 filas de arriba o de
+      // abajo = la banda corta algo (p. ej. solo se ve la última línea).
+      let edge=0;
+      for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>24)n++;if(n>3){r++;if(y<16||y>=H-16)edge++;}}
+      console.log(r+" "+edge);});' $(sips -g pixelWidth -g pixelHeight "$1" | awk '/pixel/{printf "%s ", $2}'))
+  set -- "$1" $rows
+  if [ "$2" -lt 12 ]; then echo "captura $1: sin contenido visible ($2 filas) — regrabar" >&2; exit 1; fi
+  if [ "$3" -gt 0 ]; then echo "captura $1: contenido cortado en el borde de la banda — subir BAND_H o revisar el centrado" >&2; exit 1; fi
+}
 check_clip() { # clip.mp4 poster.jpg
   local p a b f; p=$(corner_luma "$2"); a=$(corner_luma "$1"); b=$(last_luma "$1")
   # recordVideo a veces entrega 2-12 frames en vez de ~90: tampoco sirve.
@@ -102,19 +118,25 @@ center_band() { # screenshot.png -> fija CROP_Y/CROP_H
   local c
   c=$(ffmpeg -v error -i "$1" -vf "crop=${CROP_W}:${CARD_H}:${CROP_X}:${CARD_Y},format=gray" -f rawvideo - \
     | node -e '
-      const W=+process.argv[1], H=+process.argv[2], pad=24, px=80; const ch=[];
+      const W=+process.argv[1], H=+process.argv[2], px=80; const ch=[];
       process.stdin.on("data", d => ch.push(d)).on("end", () => {
-        const b = Buffer.concat(ch); let top = -1, bot = -1;
-        // Filas con algo distinto del fondo de la propia fila; se saltan
-        // los bordes de la tarjeta (pad) arriba y abajo, y a los lados sus
-        // esquinas redondeadas (px).
-        for (let y = pad; y < H - pad; y++) {
-          // Una fila casi entera distinta es el borde de la tarjeta (con un
-          // label de dos líneas la tarjeta baja y entra en la banda): no cuenta.
-          const bg = b[y * W + px]; let n = 0;
-          for (let x = px; x < W - px; x++) if (Math.abs(b[y * W + x] - bg) > 12) n++;
-          if (n > 0 && n < (W - 2 * px) * 0.6) { if (top < 0) top = y; bot = y; }
+        const b = Buffer.concat(ch);
+        // Por fila: cuántos píxeles difieren del fondo de esa misma fila.
+        const diff = (y) => { const bg = b[y * W + px]; let n = 0;
+          for (let x = px; x < W - px; x++) if (Math.abs(b[y * W + x] - bg) > 12) n++; return n; };
+        const full = (W - 2 * px) * 0.6;
+        // Filas con contenido, agrupadas en bloques separados por >= 60 px.
+        const blocks = []; let cur = null;
+        for (let y = 24; y < H - 24; y++) {
+          const n = diff(y); if (!(n > 0 && n < full)) continue;
+          if (cur && y - cur.bot < 60) cur.bot = y; else { cur = { top: y, bot: y }; blocks.push(cur); }
         }
+        // Un label de dos líneas entra en CARD_Y: es un bloque pegado arriba
+        // (termina antes de 160 px), afuera de la tarjeta. No es contenido;
+        // contarlo corría el centro hacia arriba y la banda salía vacía
+        // (ShinyText, 2026-11-01).
+        const content = blocks.filter((k) => k.bot >= 160);
+        const top = content.length ? content[0].top : -1, bot = content.length ? content[content.length - 1].bot : -1;
         console.log(top < 0 ? Math.floor(H / 2) : Math.round((top + bot) / 2));
       });' "$CROP_W" "$CARD_H")
   CROP_H=$BAND_H
@@ -152,6 +174,7 @@ for N in $(seq "$FROM" "$COUNT"); do
   center_band "$TMP/l.png"
   to_jpg "$TMP/l.png" "$OUT/$N-light.jpg"
   to_jpg "$TMP/d.png" "$OUT/$N-dark.jpg"
+  check_shot "$OUT/$N-light.jpg"; check_shot "$OUT/$N-dark.jpg"
   if [ "$VIDEO" = 1 ]; then
     sleep 1
     record "$TMP/l.mov"

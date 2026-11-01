@@ -1,6 +1,15 @@
 import React from 'react';
 import { View } from 'react-native';
-import { BUILT_IN_ICON_NAMES, Caption, IconButton, useColors } from 'orn-ui';
+import { Caption, IconButton, useColors, type IconName } from 'orn-ui';
+
+// orn-ui >= 0.2.11 exporta esta lista como BUILT_IN_ICON_NAMES (y amplía
+// IconName); la docs compila contra la versión publicada, así que la copia
+// acá con un cast. Al publicar, reemplazar por el import.
+const BUILT_IN_ICON_NAMES = [
+  'check', 'close', 'plus', 'minus', 'search', 'menu', 'more', 'home', 'settings', 'user',
+  'trash', 'edit', 'share', 'heart', 'star', 'eye', 'eye-off',
+  'chevron-left', 'chevron-right', 'chevron-up', 'chevron-down', 'alert', 'warning', 'info', 'question',
+] as unknown as IconName[];
 import { VariantList, type VariantDef } from './VariantList';
 
 export function IconButtonDemo() {

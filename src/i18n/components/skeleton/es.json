@@ -26,6 +26,9 @@
     },
     "radius": {
       "description": "Override del radio del theme."
+    },
+    "animated": {
+      "description": "Pulsa mientras espera. Se desactiva cuando el sistema tiene activado Reducir movimiento."
     }
   }
 }

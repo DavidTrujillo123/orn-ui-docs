@@ -26,6 +26,12 @@
     },
     "variant": {
       "description": "'native' usa el ActivityIndicator del sistema; 'dots' y 'ring' son\nindicadores propios, idénticos en iOS y Android."
+    },
+    "logo": {
+      "description": "Se muestra sobre el indicador; normalmente el logo de la app en una pantalla de splash o de primera carga (un `<Image>`, un `<Avatar>`, cualquier nodo)."
+    },
+    "accessibilityLabel": {
+      "description": "Lo que anuncian los lectores de pantalla."
     }
   }
 }

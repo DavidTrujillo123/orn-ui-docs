@@ -14,7 +14,7 @@
     },
     {
       "term": "steps",
-      "desc": "Bands per segment. More is smoother and heavier in the view tree; 24 is the default and enough for most surfaces."
+      "desc": "Bands per segment. More is smoother and heavier in the view tree; 48 is the default and enough for most surfaces."
     },
     {
       "term": "children",
@@ -32,8 +32,7 @@
       "description": "'vertical' runs top to bottom, 'horizontal' left to right,\n'diagonal' top-left to bottom-right and 'diagonal-reverse' top-right\nto bottom-left."
     },
     "steps": {
-      "description": "Bands per segment (a segment = a pair of consecutive colours). More bands\n= smoother transition and more views in the tree.",
-      "default": "24"
+      "description": "Bands per segment (a segment = a pair of consecutive colours). More bands\n= smoother transition and more views in the tree."
     }
   }
 }

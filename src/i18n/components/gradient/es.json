@@ -14,7 +14,7 @@
     },
     {
       "term": "steps",
-      "desc": "Bandas por tramo. Más bandas es más suave y más pesado en el árbol de vistas; 24 es el default y alcanza para casi todo."
+      "desc": "Bandas por tramo. Más bandas es más suave y más pesado en el árbol de vistas; 48 es el valor por defecto y alcanza para casi todo."
     },
     {
       "term": "children",
@@ -23,7 +23,16 @@
   ],
   "props": {
     "steps": {
-      "default": "24"
+      "description": "Bandas por tramo (un tramo = un par de colores consecutivos). Más bandas = una transición más suave y más vistas en el árbol."
+    },
+    "colors": {
+      "description": "Paradas del degradado. Un solo color pinta plano; ninguno no pinta nada."
+    },
+    "direction": {
+      "description": "'vertical' va de arriba abajo, 'horizontal' de izquierda a derecha, 'diagonal' de arriba a la izquierda hacia abajo a la derecha y 'diagonal-reverse' de arriba a la derecha hacia abajo a la izquierda."
+    },
+    "children": {
+      "description": "Contenido que se dibuja sobre el degradado."
     }
   }
 }

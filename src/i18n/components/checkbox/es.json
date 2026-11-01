@@ -17,5 +17,9 @@
       "desc": "Override del acento en estado marcado; por defecto sigue el primary del theme."
     }
   ],
-  "props": {}
+  "props": {
+    "accessibilityLabel": {
+      "description": "En la práctica es obligatorio si no hay `label`: es lo único que anuncia un lector de pantalla."
+    }
+  }
 }

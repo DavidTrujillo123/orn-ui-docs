@@ -9,5 +9,12 @@
       "desc": "El margen se ajusta aquí. Dos divisores seguidos, o uno justo después de un título de sección, suelen sobrar."
     }
   ],
-  "props": {}
+  "props": {
+    "orientation": {
+      "description": "`vertical` separa elementos en una fila y se estira al alto de la fila."
+    },
+    "spacing": {
+      "description": "Espacio a cada lado de la línea, de la escala de espaciado. Sin valor, la línea no añade margen."
+    }
+  }
 }

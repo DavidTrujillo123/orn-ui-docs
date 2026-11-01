@@ -32,7 +32,7 @@
       "description": "Paso actual (controlado). Si se omite, el Wizard maneja su propio estado."
     },
     "scrollableContent": {
-      "description": "El contenido del paso scrollea cuando no entra. Ponelo en false solo si\nun paso renderiza su propia lista virtualizada (anidar una\nVirtualizedList dentro de un ScrollView rompe la virtualización)."
+      "description": "El contenido del paso scrollea cuando no entra. Ponlo en false solo si\nun paso renderiza su propia lista virtualizada (anidar una\nVirtualizedList dentro de un ScrollView rompe la virtualización)."
     }
   }
 }

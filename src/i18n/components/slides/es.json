@@ -27,10 +27,45 @@
   ],
   "props": {
     "height": {
-      "default": "240"
+      "default": "240",
+      "description": "Alto del área deslizable."
     },
     "interval": {
-      "default": "4000"
+      "default": "4000",
+      "description": "Milisegundos entre avances de `autoPlay`."
+    },
+    "renderItem": {
+      "description": "Contenido de la slide: imágenes, botones, lo que sea. Se dibuja sobre `background`."
+    },
+    "background": {
+      "description": "Fondo por slide: `'#101014'` pinta plano, `['#004cef', '#00cae1']` pinta un degradado."
+    },
+    "gradientDirection": {
+      "description": "Dirección del degradado cuando `background` devuelve varios colores."
+    },
+    "indicators": {
+      "description": "Puntos, puntos numerados o ninguno."
+    },
+    "indicatorPlacement": {
+      "description": "'overlay' los coloca sobre la slide, en blanco; 'outside' los saca del área deslizable, con los colores del tema."
+    },
+    "loop": {
+      "description": "Después de la última slide vuelve a la primera (y al revés)."
+    },
+    "autoPlay": {
+      "description": "Avanza solo. Se pausa mientras un dedo arrastra."
+    },
+    "showAutoPlayToggle": {
+      "description": "Botón que pausa el avance automático. Solo aparece con `autoPlay`; está activado por defecto porque el contenido que se mueve solo necesita una forma de pausarlo (WCAG 2.2.2)."
+    },
+    "spacing": {
+      "description": "Hueco entre slides, en px. En 0 quedan pegadas."
+    },
+    "index": {
+      "description": "Índice controlado. Sin él, el componente gestiona el suyo a partir de `defaultIndex`."
+    },
+    "slideStyle": {
+      "description": "Estilos de la caja visible de cada slide: padding, alineación, radio."
     }
   }
 }

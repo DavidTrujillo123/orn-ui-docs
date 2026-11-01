@@ -19,8 +19,7 @@
   ],
   "props": {
     "fallback": {
-      "description": "What to show if loading fails.",
-      "default": "a plain grey placeholder, no content"
+      "description": "What to show if loading fails."
     },
     "loading": {
       "description": "What to show while loading. `false` shows nothing."

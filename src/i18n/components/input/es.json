@@ -24,6 +24,9 @@
   "props": {
     "required": {
       "description": "Muestra un asterisco junto al label. Puramente visual, no valida nada."
+    },
+    "rightIconAccessibilityLabel": {
+      "description": "Nombre accesible del botón de `rightIconName`."
     }
   }
 }

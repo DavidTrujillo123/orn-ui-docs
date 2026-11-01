@@ -19,7 +19,8 @@
   ],
   "props": {
     "fallback": {
-      "description": "Qué mostrar si la carga falla."
+      "description": "Qué mostrar si la carga falla.",
+      "default": "placeholder con un ícono de advertencia"
     },
     "loading": {
       "description": "Qué mostrar mientras carga. `false` para no mostrar nada."
@@ -29,6 +30,12 @@
     },
     "radius": {
       "description": "Radio de las esquinas, mismo patrón que Avatar/Card."
+    },
+    "onLoadEnd": {
+      "description": "Se llama cuando termina la carga, con éxito o no (igual que en RN)."
+    },
+    "accessibilityLabel": {
+      "description": "Describe la imagen para los lectores de pantalla. Sin él, la imagen es decorativa."
     }
   }
 }

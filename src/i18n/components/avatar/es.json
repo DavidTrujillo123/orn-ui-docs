@@ -13,5 +13,24 @@
       "desc": "Override del círculo; sirve para codificar por color según el tipo de entidad."
     }
   ],
-  "props": {}
+  "props": {
+    "size": {
+      "description": "Diámetro en pt."
+    },
+    "source": {
+      "description": "Foto. Si no carga, recurre a las iniciales de `name` (o al ícono)."
+    },
+    "name": {
+      "description": "Nombre de la persona: genera las iniciales y el nombre accesible."
+    },
+    "iconName": {
+      "description": "Ícono que se muestra cuando no hay foto ni nombre."
+    },
+    "color": {
+      "description": "Color de las iniciales y del ícono."
+    },
+    "children": {
+      "description": "Contenido propio; tiene prioridad sobre source/name/iconName."
+    }
+  }
 }

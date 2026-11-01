@@ -22,7 +22,7 @@
       "description": "Qué insets de safe area aplicar."
     },
     "keyboardAvoiding": {
-      "description": "Compensa el teclado: en iOS con scroll lo hace el propio ScrollView, en\notros casos un KeyboardAvoidingView. Ponelo en false cuando\nel contenido ya trae su propio scroller que maneja el teclado (Wizard,\nList, SearchList): las dos compensaciones se suman y el campo enfocado\ntermina empujado fuera de pantalla."
+      "description": "Compensa el teclado: en iOS con scroll lo hace el propio ScrollView, en\notros casos un KeyboardAvoidingView. Ponlo en false cuando\nel contenido ya trae su propio scroller que maneja el teclado (Wizard,\nList, SearchList): las dos compensaciones se suman y el campo enfocado\ntermina empujado fuera de pantalla."
     }
   }
 }

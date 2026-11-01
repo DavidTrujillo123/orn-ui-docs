@@ -25,7 +25,7 @@
       "description": "Termina el drag — al soltar o cancelar. Siempre corre si `onDragStart` corrió."
     },
     "onDragStart": {
-      "description": "Empieza a arrastrar la fila `index`. Usalo para apagar el scroll del contenedor\n(`scrollEnabled={false}`) mientras dure: en iOS el `UIScrollView`\npadre cancela los toques sobre el contenido apenas arranca su\ngesto vertical, y sin esto el drag muere a los pocos píxeles."
+      "description": "Empieza a arrastrar la fila `index`. Úsalo para apagar el scroll del contenedor\n(`scrollEnabled={false}`) mientras dure: en iOS el `UIScrollView`\npadre cancela los toques sobre el contenido apenas arranca su\ngesto vertical, y sin esto el drag muere a los pocos píxeles."
     },
     "onReorder": {
       "description": "Se llama al soltar, con el array ya reordenado. No muta `data`."

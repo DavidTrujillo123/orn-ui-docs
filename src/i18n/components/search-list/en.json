@@ -26,7 +26,7 @@
       "description": "Optional chrome above the search field (e.g. back button + title)."
     },
     "loadingMode": {
-      "description": "'replace' swaps the whole list for a spinner; 'overlay' shows it on top, keeping the layout."
+      "description": "'replace' swaps the whole list for a spinner/skeleton; 'overlay' shows it on top, keeping the layout."
     }
   }
 }

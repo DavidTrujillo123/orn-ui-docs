@@ -427,6 +427,24 @@ function filterVariantsForComponent(variants, componentName) {
   return own.length > 0 ? own : variants;
 }
 
+/**
+ * Una variante cuyo contenido es solo `<Helper />` o `<Helper prop="x" />` (un componente definido en
+ * el mismo demo) mostraba ese tag como código: no enseña nada y, sin el tag
+ * del componente, el filtro la descartaba. Se reemplaza por el código del
+ * helper completo.
+ */
+function inlineLocalComponent(source, code) {
+  const m = code.trim().match(/^<([A-Z]\w*)(\s[^<>]*)?\/>$/);
+  if (!m) return code;
+  const start = source.search(new RegExp(`^function ${m[1]}\\(`, 'm'));
+  if (start === -1) return code;
+  const paramsEnd = matchDelimiter(source, source.indexOf('(', start));
+  const bodyStart = source.indexOf('{', paramsEnd);
+  const helper = source.slice(start, matchDelimiter(source, bodyStart) + 1);
+  // Con props (`<Toggle preset="fade" />`) el uso también importa: va debajo.
+  return m[2]?.trim() ? `${helper}\n\n${code.trim()}` : helper;
+}
+
 function extractVariants(componentName, demoFileOverride) {
   const demoFile = path.join(DEMOS_DIR, `${demoFileOverride ?? componentName}.demo.tsx`);
   if (!fs.existsSync(demoFile)) return { snippet: null, variants: [] };
@@ -447,6 +465,11 @@ function extractVariants(componentName, demoFileOverride) {
   const arrayBody = region[1].slice(arrayStart + 1, arrayEnd);
 
   const variants = [];
+  // Posición real en el array del demo (1-based): es el `?v=N` del deep link y
+  // el nombre de la captura (`variants/<slug>/<N>-light.jpg`). El filtro por
+  // componente descarta variantes, así que la página NO puede usar el índice
+  // del array filtrado — eso desfasaba las capturas (ShinyText, 2026-11-01).
+  let position = 0;
   let cursor = 0;
   while (cursor < arrayBody.length) {
     const objStart = arrayBody.indexOf('{', cursor);
@@ -454,6 +477,7 @@ function extractVariants(componentName, demoFileOverride) {
     const objEnd = matchDelimiter(arrayBody, objStart);
     const obj = arrayBody.slice(objStart, objEnd + 1);
 
+    position++;
     const labelMatch = obj.match(/label:\s*(['"`])([\s\S]*?)\1/);
     const contentIndex = obj.indexOf('content:');
     if (labelMatch && contentIndex !== -1) {
@@ -467,7 +491,7 @@ function extractVariants(componentName, demoFileOverride) {
       } else {
         code = obj.slice(open, findTopLevelEnd(obj, open));
       }
-      variants.push({ label: labelMatch[2], code: dedent(code) });
+      variants.push({ label: labelMatch[2], code: inlineLocalComponent(source, dedent(code)), index: position });
     }
     cursor = objEnd + 1;
   }
@@ -559,6 +583,34 @@ function main() {
   const total = Object.values(components).flat().length;
   const withSnippet = Object.values(components).flat().filter((c) => c.snippet).length;
   console.log(`[extract-docs] ${total} components indexed, ${withSnippet} with a demo snippet.`);
+  checkVariantMedia(components);
+}
+
+/**
+ * Las capturas por variante (`public/media/variants/<slug>/<N>-light.jpg`)
+ * tienen que coincidir 1:1 con las variantes del demo: si el demo ganó o
+ * perdió una variante y no se volvió a capturar, cada tarjeta mostraría la
+ * imagen de otra. Falla el build en vez de publicar ejemplos cruzados.
+ */
+function checkVariantMedia(components) {
+  const problems = [];
+  for (const c of Object.values(components).flat()) {
+    const dir = path.join(ROOT, 'public/media/variants', c.mediaSlug);
+    if (!fs.existsSync(dir)) continue;
+    const files = fs.readdirSync(dir);
+    const all = c.groupVariants ?? c.variants;
+    for (const theme of ['light', 'dark']) {
+      const shots = files.filter((f) => f.endsWith(`-${theme}.jpg`)).length;
+      if (shots !== all.length) problems.push(`${c.name}: el demo tiene ${all.length} variantes y hay ${shots} capturas ${theme}`);
+    }
+    for (const v of c.variants) {
+      if (!files.includes(`${v.index}-light.jpg`)) problems.push(`${c.name}: falta la captura de la variante ${v.index} (${v.label})`);
+    }
+  }
+  if (problems.length) {
+    console.error('[extract-docs] capturas desalineadas con los demos — volver a correr scripts/capture-variants.sh:\n  ' + [...new Set(problems)].join('\n  '));
+    process.exit(1);
+  }
 }
 
 main();

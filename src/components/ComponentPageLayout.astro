@@ -136,8 +136,10 @@ function jpegSize(file: string): { w: number; h: number } | null {
   }
   return null;
 }
-const variantShots = variants.map((_, i) => {
-  const base = `variants/${mediaSlug}/${i + 1}`;
+// `index` es la posición real en el demo (= nombre de la captura); el array
+// `variants` puede venir filtrado, así que `i + 1` solo sirve de respaldo.
+const variantShots = variants.map((v: { index?: number }, i: number) => {
+  const base = `variants/${mediaSlug}/${v.index ?? i + 1}`;
   const has = fs.existsSync(path.join(MEDIA_DIR, `${base}-light.jpg`))
     && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.jpg`));
   if (!has) return null;

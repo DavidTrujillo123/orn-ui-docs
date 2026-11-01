@@ -123,7 +123,16 @@ const variantShots = variants.map((_, i) => {
   const base = `variants/${mediaSlug}/${i + 1}`;
   const has = fs.existsSync(path.join(MEDIA_DIR, `${base}-light.jpg`))
     && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.jpg`));
-  return has ? { light: `/media/${base}-light.jpg`, dark: `/media/${base}-dark.jpg` } : null;
+  if (!has) return null;
+  // Con clip (componentes con movimiento) el .jpg queda de poster.
+  const video =
+    fs.existsSync(path.join(MEDIA_DIR, `${base}-light.mp4`)) && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.mp4`));
+  return {
+    light: `/media/${base}-light.jpg`,
+    dark: `/media/${base}-dark.jpg`,
+    lightVideo: video ? `/media/${base}-light.mp4` : null,
+    darkVideo: video ? `/media/${base}-dark.mp4` : null,
+  };
 });
 ---
 
@@ -240,8 +249,17 @@ const variantShots = variants.map((_, i) => {
         <div class:list={['variant-body', { 'has-shot': !!variantShots[i] }]}>
           {variantShots[i] && (
             <figure class="variant-shot">
-              <img class="shot-light" src={variantShots[i]!.light} alt={`${title}: ${v.label}`} loading="lazy" decoding="async" />
-              <img class="shot-dark" src={variantShots[i]!.dark} alt={`${title}: ${v.label} (dark)`} loading="lazy" decoding="async" />
+              {variantShots[i]!.lightVideo ? (
+                <>
+                  <video class="shot-light" src={variantShots[i]!.lightVideo} poster={variantShots[i]!.light} aria-label={`${title}: ${v.label}`} autoplay muted loop playsinline preload="none" disablepictureinpicture />
+                  <video class="shot-dark" src={variantShots[i]!.darkVideo!} poster={variantShots[i]!.dark} aria-label={`${title}: ${v.label} (dark)`} autoplay muted loop playsinline preload="none" disablepictureinpicture />
+                </>
+              ) : (
+                <>
+                  <img class="shot-light" src={variantShots[i]!.light} alt={`${title}: ${v.label}`} loading="lazy" decoding="async" />
+                  <img class="shot-dark" src={variantShots[i]!.dark} alt={`${title}: ${v.label} (dark)`} loading="lazy" decoding="async" />
+                </>
+              )}
             </figure>
           )}
           <Code code={v.code} lang="tsx" themes={codeThemes} defaultColor={false} />
@@ -413,7 +431,8 @@ const variantShots = variants.map((_, i) => {
     overflow: hidden;
     background: var(--surface);
   }
-  .variant-shot img { display: block; width: 100%; height: auto; }
+  .variant-shot img,
+  .variant-shot video { display: block; width: 100%; height: auto; }
   .variant-shot .shot-dark { display: none; }
   @media (prefers-color-scheme: dark) {
     :global(:root:not([data-theme='light'])) .variant-shot .shot-light { display: none; }

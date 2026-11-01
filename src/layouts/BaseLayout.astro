@@ -298,7 +298,7 @@ const hasSidebar = Astro.slots.has('sidebar');
         //    se engancha a astro:page-load, como el resto de los scripts del
         //    sitio: si no, el video sólo se movía tras recargar la página.
         function wire() {
-          var videos = document.querySelectorAll('.media-frame video');
+          var videos = document.querySelectorAll('.media-frame video, .variant-shot video');
           if (!videos.length) return;
 
           // "Reducir movimiento" es justo el pedido de que un loop no se

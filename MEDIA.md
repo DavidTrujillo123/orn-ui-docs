@@ -48,6 +48,10 @@ Which medium for which component:
 
 - **Static** (text, badges, dividers, cards, avatars): variant screenshots and
   a poster; no clip. Delete the `.mp4` so the hero shows the still.
+- **Animated on its own** (spinners, skeleton, shiny text, transitions): run
+  with `VIDEO=1`. Every variant gets a ~3 s loop (light and dark, the still as
+  poster) and the hero clip is those variants back to back. No Maestro
+  needed: the motion needs no touch.
 - **Interactive** (sheets, pickers, gestures, toasts, wizards): a short clip of
   the interaction in the hero, plus a screenshot of each variant's resting
   state in "Variants".

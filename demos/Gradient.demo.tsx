@@ -34,7 +34,7 @@ export function GradientDemo() {
       content: <Gradient colors={['#0f9b0f', '#00cae1', '#004cef', '#7b2ff7']} direction="horizontal" style={BOX} />,
     },
     {
-      label: 'steps: 3 (visible banding) vs 24 (default)',
+      label: 'steps: 3 (visible banding) vs 48 (default)',
       content: (
         <View style={{ width: '100%', gap: 12 }}>
           <Gradient colors={['#101014', '#00cae1']} steps={3} style={BOX} />
@@ -46,7 +46,7 @@ export function GradientDemo() {
       label: 'children stay tappable — the gradient never takes the touch',
       content: (
         <Gradient
-          colors={['#004cef', '#00cae1']}
+          colors={['#0b2a8f', '#004cef']}
           direction="diagonal"
           style={{ ...BOX, alignItems: 'center', justifyContent: 'center', gap: 8 }}
         >
@@ -57,5 +57,6 @@ export function GradientDemo() {
     },
   ];
   // #endregion demo
+
   return <VariantList variants={variants} />;
 }

@@ -27,7 +27,7 @@
     "delay": { "description": "Pausa entre barridos, en ms.", "default": "600" },
     "spread": { "description": "Ancho de la banda brillante como fracción del texto, de 0 a 1. Valores chicos dan un destello angosto; grandes, un latido.", "default": "0.28" },
     "animated": { "description": "En false dibuja texto plano en `shineColor`." },
-    "color": { "description": "Color de los caracteres en reposo.", "default": "theme.colors.textLight" },
+    "color": { "description": "Color de los caracteres en reposo. Debe leerse solo (WCAG AA): el brillo es decorativo.", "default": "theme.colors.textLight" },
     "shineColor": { "description": "Color de la banda que lo recorre.", "default": "theme.colors.primary" },
     "align": { "description": "Alineación horizontal de la línea." },
     "style": { "description": "Sólo tipografía: `color` y `shineColor` ganan sobre cualquier color puesto acá." }

@@ -379,8 +379,11 @@ const hasSidebar = Astro.slots.has('sidebar');
             var currentlyDark = current ? current === 'dark' : systemDark;
             var next = currentlyDark ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
-            if (window.__ornSyncThemeColor) window.__ornSyncThemeColor();
+            // Guardar antes de sincronizar: __ornSyncThemeColor vuelve a
+            // aplicar el theme guardado, y con el valor viejo deshacía el
+            // click (uno de cada dos no cambiaba nada).
             try { localStorage.setItem(KEY, next); } catch (e) {}
+            if (window.__ornSyncThemeColor) window.__ornSyncThemeColor();
           });
         }
         wire();

@@ -119,6 +119,23 @@ const VIDEO_ASPECT = '1206 / 2622';
 // Captura por variante (scripts/capture-variants.sh): public/media/variants/
 // <slug>/<N>-light.jpg y -dark.jpg, N = posición de la variante en el demo
 // (1-based). Una variante sin captura muestra solo su código.
+// Medida real de cada captura, leída del .jpg (cabecera SOF, sin
+// dependencias): width/height en el <img>/<video> reservan el alto antes de
+// que llegue el archivo, así cambiar de tema o cargar la página no mueve nada.
+function jpegSize(file: string): { w: number; h: number } | null {
+  const b = fs.readFileSync(file);
+  let o = 2;
+  while (o + 9 < b.length) {
+    if (b[o] !== 0xff) return null;
+    const marker = b[o + 1]!;
+    const len = b.readUInt16BE(o + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      return { h: b.readUInt16BE(o + 5), w: b.readUInt16BE(o + 7) };
+    }
+    o += 2 + len;
+  }
+  return null;
+}
 const variantShots = variants.map((_, i) => {
   const base = `variants/${mediaSlug}/${i + 1}`;
   const has = fs.existsSync(path.join(MEDIA_DIR, `${base}-light.jpg`))
@@ -127,7 +144,10 @@ const variantShots = variants.map((_, i) => {
   // Con clip (componentes con movimiento) el .jpg queda de poster.
   const video =
     fs.existsSync(path.join(MEDIA_DIR, `${base}-light.mp4`)) && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.mp4`));
+  const size = jpegSize(path.join(MEDIA_DIR, `${base}-light.jpg`));
   return {
+    w: size?.w,
+    h: size?.h,
     light: `/media/${base}-light.jpg`,
     dark: `/media/${base}-dark.jpg`,
     lightVideo: video ? `/media/${base}-light.mp4` : null,
@@ -251,13 +271,13 @@ const variantShots = variants.map((_, i) => {
             <figure class="variant-shot">
               {variantShots[i]!.lightVideo ? (
                 <>
-                  <video class="shot-light" src={variantShots[i]!.lightVideo} poster={variantShots[i]!.light} aria-label={`${title}: ${v.label}`} autoplay muted loop playsinline preload="none" disablepictureinpicture />
-                  <video class="shot-dark" src={variantShots[i]!.darkVideo!} poster={variantShots[i]!.dark} aria-label={`${title}: ${v.label} (dark)`} autoplay muted loop playsinline preload="none" disablepictureinpicture />
+                  <video class="shot-light" src={variantShots[i]!.lightVideo} poster={variantShots[i]!.light} width={variantShots[i]!.w} height={variantShots[i]!.h} aria-label={`${title}: ${v.label}`} autoplay muted loop playsinline preload="auto" disablepictureinpicture />
+                  <video class="shot-dark" src={variantShots[i]!.darkVideo!} poster={variantShots[i]!.dark} width={variantShots[i]!.w} height={variantShots[i]!.h} aria-label={`${title}: ${v.label} (dark)`} autoplay muted loop playsinline preload="auto" disablepictureinpicture />
                 </>
               ) : (
                 <>
-                  <img class="shot-light" src={variantShots[i]!.light} alt={`${title}: ${v.label}`} loading="lazy" decoding="async" />
-                  <img class="shot-dark" src={variantShots[i]!.dark} alt={`${title}: ${v.label} (dark)`} loading="lazy" decoding="async" />
+                  <img class="shot-light" src={variantShots[i]!.light} width={variantShots[i]!.w} height={variantShots[i]!.h} alt={`${title}: ${v.label}`} loading="lazy" decoding="async" />
+                  <img class="shot-dark" src={variantShots[i]!.dark} width={variantShots[i]!.w} height={variantShots[i]!.h} alt={`${title}: ${v.label} (dark)`} loading="lazy" decoding="async" />
                 </>
               )}
             </figure>
@@ -429,17 +449,33 @@ const variantShots = variants.map((_, i) => {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
-    background: var(--surface);
+  }
+  /* Las dos versiones (claro y oscuro) van apiladas en la misma celda y el
+     tema solo cambia cuál se ve. Nunca display:none: un <video> oculto así no
+     tiene caja, el IntersectionObserver del autoplay lo da por fuera de
+     pantalla y lo pausa, y al cambiar de tema el que entra arranca desde su
+     poster y vuelve a cargar — el parpadeo. Con visibility los dos conservan
+     su caja, siguen cargados y reproduciéndose, y el cambio es instantáneo.
+     Centrados en vertical: en pantallas anchas la tarjeta se estira al alto
+     del código y el clip no debe quedar pegado arriba. El fondo es el de la
+     tarjeta del demo (--shot-bg), así el aire extra continúa la captura. */
+  .variant-shot {
+    --shot-bg: #ffffff;
+    display: grid;
+    align-content: center;
+    background: var(--shot-bg);
   }
   .variant-shot img,
-  .variant-shot video { display: block; width: 100%; height: auto; }
-  .variant-shot .shot-dark { display: none; }
+  .variant-shot video { grid-area: 1 / 1; display: block; width: 100%; height: auto; }
+  .variant-shot .shot-dark { visibility: hidden; }
   @media (prefers-color-scheme: dark) {
-    :global(:root:not([data-theme='light'])) .variant-shot .shot-light { display: none; }
-    :global(:root:not([data-theme='light'])) .variant-shot .shot-dark { display: block; }
+    :global(:root:not([data-theme='light'])) .variant-shot { --shot-bg: #1e1e1e; }
+    :global(:root:not([data-theme='light'])) .variant-shot .shot-light { visibility: hidden; }
+    :global(:root:not([data-theme='light'])) .variant-shot .shot-dark { visibility: visible; }
   }
-  :global(:root[data-theme='dark']) .variant-shot .shot-light { display: none; }
-  :global(:root[data-theme='dark']) .variant-shot .shot-dark { display: block; }
+  :global(:root[data-theme='dark']) .variant-shot { --shot-bg: #1e1e1e; }
+  :global(:root[data-theme='dark']) .variant-shot .shot-light { visibility: hidden; }
+  :global(:root[data-theme='dark']) .variant-shot .shot-dark { visibility: visible; }
 
   .full-source { margin-bottom: var(--space-xxxl); }
   .full-source summary {

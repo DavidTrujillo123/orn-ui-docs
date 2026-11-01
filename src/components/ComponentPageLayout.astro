@@ -116,6 +116,15 @@ const hasPoster = !hasVideo && fs.existsSync(path.join(MEDIA_DIR, `${mediaSlug}.
 // ffprobear en build, y clips de distintos device serían inconsistentes en
 // la grilla del home.
 const VIDEO_ASPECT = '1206 / 2622';
+// Captura por variante (scripts/capture-variants.sh): public/media/variants/
+// <slug>/<N>-light.jpg y -dark.jpg, N = posición de la variante en el demo
+// (1-based). Una variante sin captura muestra solo su código.
+const variantShots = variants.map((_, i) => {
+  const base = `variants/${mediaSlug}/${i + 1}`;
+  const has = fs.existsSync(path.join(MEDIA_DIR, `${base}-light.jpg`))
+    && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.jpg`));
+  return has ? { light: `/media/${base}-light.jpg`, dark: `/media/${base}-dark.jpg` } : null;
+});
 ---
 
 <div class="page-actions">
@@ -225,10 +234,18 @@ const VIDEO_ASPECT = '1206 / 2622';
 {variants.length > 0 && (
   <section class="variants">
     <h2>{t('component.variants')}</h2>
-    {variants.map((v) => (
+    {variants.map((v, i) => (
       <div class="variant">
         <h3 class="eyebrow">{v.label}</h3>
-        <Code code={v.code} lang="tsx" themes={codeThemes} defaultColor={false} />
+        <div class:list={['variant-body', { 'has-shot': !!variantShots[i] }]}>
+          {variantShots[i] && (
+            <figure class="variant-shot">
+              <img class="shot-light" src={variantShots[i]!.light} alt={`${title}: ${v.label}`} loading="lazy" decoding="async" />
+              <img class="shot-dark" src={variantShots[i]!.dark} alt={`${title}: ${v.label} (dark)`} loading="lazy" decoding="async" />
+            </figure>
+          )}
+          <Code code={v.code} lang="tsx" themes={codeThemes} defaultColor={false} />
+        </div>
       </div>
     ))}
   </section>
@@ -339,7 +356,7 @@ const VIDEO_ASPECT = '1206 / 2622';
     /* margin-left:auto (de desktop) le gana a justify-self si no se resetea
        el margin acá: con auto en un solo lado, el gif queda pegado a la
        derecha en vez de centrado. */
-    .media-col { justify-self: center; max-width: 260px; margin: 0 auto; }
+    .media-col { justify-self: center; max-width: 200px; margin: 0 auto; }
   }
 
   .install { margin-bottom: 0; }
@@ -374,6 +391,36 @@ const VIDEO_ASPECT = '1206 / 2622';
   .variant { margin-bottom: var(--space-xxl); }
   .variant h3 { margin: 0 0 var(--space-sm); }
   .variant :global(pre) { margin: 0; }
+  /* Captura de la variante encima de su código: misma tarjeta, la imagen
+     arriba (qué se ve) y el código abajo (cómo se escribe). Proximidad. */
+  /* Imagen (qué se ve) y código (cómo se escribe) de una variante forman un
+     grupo. Gestalt, región común + proximidad: en pantallas anchas van lado a
+     lado con la misma altura, separados por menos aire (sm) que el que hay
+     entre variantes (xxl); en móvil se apilan. */
+  .variant-body.has-shot { display: grid; gap: var(--space-sm); }
+  @media (min-width: 700px) {
+    .variant-body.has-shot { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: stretch; }
+    .variant-body.has-shot .variant-shot { margin: 0; }
+    .variant-body.has-shot :global(pre) { height: 100%; box-sizing: border-box; display: flex; align-items: center; }
+  }
+  .variant-shot {
+    /* 360px = la tarjeta del demo en un iPhone a 1x (las capturas son @3x):
+       el texto se ve al tamaño real del teléfono, no ampliado. */
+    max-width: 360px;
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .variant-shot img { display: block; width: 100%; height: auto; }
+  .variant-shot .shot-dark { display: none; }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .variant-shot .shot-light { display: none; }
+    :global(:root:not([data-theme='light'])) .variant-shot .shot-dark { display: block; }
+  }
+  :global(:root[data-theme='dark']) .variant-shot .shot-light { display: none; }
+  :global(:root[data-theme='dark']) .variant-shot .shot-dark { display: block; }
 
   .full-source { margin-bottom: var(--space-xxxl); }
   .full-source summary {

@@ -17,6 +17,35 @@ clip (26x smaller for BottomSheet, and regenerable instead of hand-recorded).
 `scripts/record.sh`, which built them, went with them — it is in the history if
 it is ever needed.
 
+## Variant screenshots
+
+Every variant in the "Variants" section can show a still of itself, in light
+and dark, above its code. The page picks them up at build time from
+`public/media/variants/<slug>/<N>-light.jpg` / `<N>-dark.jpg`, where `N` is
+the variant's 1-based position in the demo; the site's theme decides which
+one is visible. A variant without a capture shows only its code.
+
+```sh
+scripts/capture-variants.sh <layer> <slug> <count> [cropY cropH]
+scripts/capture-variants.sh atoms typography 9 1300 320   # small content: a band
+scripts/capture-variants.sh organisms modal 4             # default: the whole demo card
+```
+
+It opens each variant by deep link (`ornui:///<layer>/<slug>?v=N`, handled
+by the example app's `VariantList`), so it needs neither Maestro nor swipes:
+only a booted simulator with the example app (plus Metro if it is a Debug
+build). It also rewrites the poster `public/media/<slug>.jpg` from variant 1.
+Keep `demos/<Name>.demo.tsx` here in sync with the example app's copy, or the
+numbering drifts from the labels.
+
+Which medium for which component:
+
+- **Static** (text, badges, dividers, cards, avatars): variant screenshots and
+  a poster; no clip. Delete the `.mp4` so the hero shows the still.
+- **Interactive** (sheets, pickers, gestures, toasts, wizards): a short clip of
+  the interaction in the hero, plus a screenshot of each variant's resting
+  state in "Variants".
+
 ## Recording a clip (video)
 
 The choreography is a Maestro flow living in the library repo, at

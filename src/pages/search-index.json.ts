@@ -45,9 +45,10 @@ export const GET: APIRoute = () => {
     // El haystack va bilingüe a propósito (el índice es uno solo para los dos
     // idiomas). La tabla de compatibilidad vive en esta página, así que buscar
     // "expo", "sdk 54" o "compatibilidad" tiene que traer acá.
-    { name: 'Getting Started', category: 'Guide', slug: 'getting-started', haystack: 'getting started install instalacion uiprovider setup safeareauiprovider compatibility compatibilidad expo expo go sdk 54 55 56 57 react-native 0.81 0.83 0.85 0.86 peer dependencies peerdependencies requisitos versiones versions' },
+    { name: 'Getting Started', category: 'Guide', slug: 'getting-started', haystack: 'getting started install instalacion uiprovider setup safe area safe-area-context insets mountsafeareaprovider safeareauiprovider pod install compatibility compatibilidad expo expo go sdk 54 55 56 57 react-native 0.81 0.83 0.85 0.86 peer dependencies peerdependencies requisitos versiones versions' },
     { name: 'Atomic Design', category: 'Guide', slug: 'atomic-design', haystack: 'atomic design diseño atomico atoms molecules organisms atomos moleculas organismos methodology metodologia architecture arquitectura why orn-ui' },
-    { name: 'Tokens', category: 'Guide', slug: 'tokens', haystack: 'tokens spacing radius font size duration' }
+    { name: 'Tokens', category: 'Guide', slug: 'tokens', haystack: 'tokens spacing radius font size duration' },
+    { name: 'Changelog', category: 'Guide', slug: 'changelog', haystack: 'changelog cambios registro de cambios release notes releases versions versiones migration migracion breaking 0.3.0 safeareauiprovider upgrade' }
   );
 
   return new Response(JSON.stringify(entries), {

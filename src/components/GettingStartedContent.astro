@@ -8,30 +8,18 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-const appSnippet = `import { UIProvider } from 'orn-ui';
+const appSnippet = `import { UIProvider } from 'orn-ui/theme';
 
 export default function App() {
   return (
-    <UIProvider>
+    <UIProvider defaultMode="system">
       {/* your navigator / screens go here */}
     </UIProvider>
   );
 }`;
 
-const safeAreaSnippet = `import { SafeAreaUIProvider } from 'orn-ui/safe-area';
-
-export default function App() {
-  return (
-    <SafeAreaUIProvider>
-      {/* your navigator / screens go here */}
-    </SafeAreaUIProvider>
-  );
-}`;
-
-const safeAreaProps = [
-  { name: 'insets', type: 'EdgeInsets', required: false, default: 'measured via useSafeAreaInsets()', description: { en: 'Explicit override — wins over the measured value. Useful for tests, Storybook, or a screen that does not fill the window.', es: 'Override explícito — gana sobre el valor medido. Útil para tests, Storybook, o una pantalla que no ocupa la ventana entera.' } },
-  { name: 'mountSafeAreaProvider', type: 'boolean', required: false, default: 'true', description: { en: 'Also mount <SafeAreaProvider>. Set false if your app already has one above.', es: 'También monta <SafeAreaProvider>. Ponlo en false si tu app ya tiene uno arriba.' } },
-];
+const bareInstall = `pnpm add react-native-safe-area-context
+cd ios && pod install`;
 
 // Versiones exactas que publica cada SDK soportado. Las mismas que corre la
 // matriz de compatibilidad del repo (packages/ui/scripts/compat-matrix.mjs):
@@ -50,7 +38,8 @@ const uiProviderProps = [
   { name: 'mode', type: "'system' | 'light' | 'dark'", required: false, default: '—', description: { en: 'Controlled mode — pass with onModeChange to manage it yourself.', es: 'Modo controlado — pásalo junto a onModeChange para manejarlo tú.' } },
   { name: 'onModeChange', type: '(mode: ThemeMode) => void', required: false, default: '—', description: { en: 'Called on toggle when mode is controlled.', es: 'Se llama al togglear, cuando mode es controlado.' } },
   { name: 'icons', type: 'IconRenderer', required: false, default: 'renderDefaultIcon', description: { en: 'Icon renderer. Defaults to the zero-dep glyphs bundled with orn-ui.', es: 'Renderer de íconos. Por defecto usa los glifos zero-dep incluidos.' } },
-  { name: 'insets', type: 'EdgeInsets', required: false, default: 'zeroInsets', description: { en: 'Safe-area insets, typically from useSafeAreaInsets().', es: 'Insets de safe area, típicamente de useSafeAreaInsets().' } },
+  { name: 'insets', type: 'EdgeInsets', required: false, default: 'measured', description: { en: 'Overrides the measured safe-area insets. Leave it out in apps; useful for tests and screenshots.', es: 'Sobrescribe los insets de safe area medidos. En una app no hace falta; útil para tests y capturas.' } },
+  { name: 'mountSafeAreaProvider', type: 'boolean', required: false, default: 'true', description: { en: 'Mounts a <SafeAreaProvider> around the app. Pass false if your app already mounts one above (expo-router does).', es: 'Monta un <SafeAreaProvider> alrededor de la app. Pasa false si tu app ya monta uno arriba (expo-router lo hace).' } },
   { name: 'labels', type: 'Partial<Labels>', required: false, default: 'defaultLabels', description: { en: 'Override any built-in string (Close, Cancel, Search…).', es: 'Sobreescribe cualquier string interno (Close, Cancel, Search…).' } },
   { name: 'allowFontScaling', type: 'boolean', required: false, default: 'false', description: { en: 'Off by default, for parity across the library.', es: 'Apagado por defecto, para paridad en toda la librería.' } },
 ];
@@ -132,34 +121,9 @@ const uiProviderProps = [
     <p>{t('gs.safeArea.body')}</p>
     <p>{t('gs.safeArea.subpath')}</p>
     <p class="eyebrow install-label">{t('gs.safeArea.install')}</p>
-    <pre><code>pnpm add react-native-safe-area-context</code></pre>
-    <Code code={safeAreaSnippet} lang="tsx" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
+    <Code code={bareInstall} lang="bash" themes={{ light: 'github-light', dark: 'github-dark' }} defaultColor={false} />
     <Callout variant="info">{t('gs.safeArea.nestedNote')}</Callout>
-
-    <h3 class="eyebrow">{t('gs.safeArea.propsTitle')}</h3>
-    <p class="props-note">{t('gs.safeArea.propsNote')}</p>
-    <div class="props-table">
-      <table>
-        <thead>
-          <tr>
-            <th>{t('props.name')}</th>
-            <th>{t('props.type')}</th>
-            <th>{t('props.default')}</th>
-            <th>{t('props.description')}</th>
-          </tr>
-        </thead>
-        <tbody>
-          {safeAreaProps.map((p) => (
-            <tr>
-              <td><code>{p.name}{p.required ? '' : '?'}</code></td>
-              <td><code>{p.type}</code></td>
-              <td>{p.default}</td>
-              <td>{p.description[lang]}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <Callout variant="warn">{t('gs.safeArea.deprecated')}</Callout>
   </div>
 </section>
 
@@ -198,7 +162,6 @@ const uiProviderProps = [
   .safe-area .install-label { margin: var(--space-lg) 0 0; }
   .safe-area :global(.callout) { margin-top: var(--space-md); margin-bottom: var(--space-lg); }
   .step :global(.callout) { margin-top: var(--space-md); }
-  .props-note { font-size: 13px; color: var(--text-light); margin: -4px 0 var(--space-md); }
 
   .props-table { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
   table { width: 100%; border-collapse: collapse; font-size: 13px; }

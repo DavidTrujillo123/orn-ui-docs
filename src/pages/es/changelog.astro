@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChangelogContent from '../../components/ChangelogContent.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { useTranslations } from '../../i18n/ui';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout title={t('changelog.title')} description={t('changelog.description')} lang="es" path="/changelog" markdownUrl="/changelog.md">
+  <Sidebar slot="sidebar" lang="es" />
+  <ChangelogContent lang="es" />
+</BaseLayout>

@@ -1,0 +1,187 @@
+---
+import { getRelativeLocaleUrl } from 'astro:i18n';
+import { Code } from 'astro:components';
+import components from '../data/components.json';
+import { releases, CHANGE_KIND_ORDER, type ChangeGroup } from '../data/changelog';
+import { useTranslations, type Lang } from '../i18n/ui';
+import { inlineMarkdown, slugifyVersion } from '../lib/changelog';
+import { groupPageFor } from '../lib/groupedPages';
+
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as const };
+
+const catalog = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
+
+// Link del grupo: `page` explícito, o la página del componente si existe en
+// el catálogo (Title/Subtitle/Caption viven en /typography).
+function hrefFor(group: ChangeGroup): string | undefined {
+  if (group.page) return getRelativeLocaleUrl(lang, group.page);
+  const c = catalog.find((x: any) => x.name === group.component);
+  if (!c) return undefined;
+  return getRelativeLocaleUrl(lang, groupPageFor(c.sourceFile) ?? `/components/${c.slug}`);
+}
+---
+
+<h1>{t('changelog.title')}</h1>
+<p class="lede">{t('changelog.lede')}</p>
+{lang === 'es' && <p class="lang-note">{t('changelog.languageNote')}</p>}
+
+{releases.map((r) => (
+  <article class="release" id={slugifyVersion(r.version)} lang="en">
+    <header class="release-head">
+      <h2>
+        <a href={`#${slugifyVersion(r.version)}`}>
+          {!r.date && <span class="status">{t('changelog.unreleased')}</span>}
+          <span class="version">{r.version}</span>
+        </a>
+      </h2>
+      <p class="release-meta">
+        {r.date && <time datetime={r.date}>{r.date}</time>}
+        {r.date && r.since && <span aria-hidden="true"> · </span>}
+        {r.since && <span>{t('changelog.since')} <code>{r.since}</code></span>}
+      </p>
+    </header>
+    <p class="summary" set:html={inlineMarkdown(r.summary)} />
+
+    {CHANGE_KIND_ORDER.filter((k) => r.changes[k]?.length).map((kind) => (
+      <section class={`kind kind-${kind}`}>
+        <h3>
+          <span class="tag">{t(`changelog.kind.${kind}` as any)}</span>
+          {kind === 'breaking' && r.migration?.length && (
+            <a class="jump" href={`#${slugifyVersion(r.version)}-migration`}>{t('changelog.migration')} {r.since ?? ''} ↓</a>
+          )}
+        </h3>
+        <div class="groups">
+          {r.changes[kind]!.map((g) => {
+            const href = hrefFor(g);
+            return (
+              <div class="group">
+                <p class="group-name">
+                  {href ? <a href={href}>{g.component}</a> : g.component}
+                </p>
+                <ul>
+                  {g.items.map((item) => <li set:html={inlineMarkdown(item)} />)}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </section>
+    ))}
+
+    {r.migration?.length && (
+      <section class="migration" id={`${slugifyVersion(r.version)}-migration`}>
+        <h3>{t('changelog.migration')} {r.since ?? ''}</h3>
+        <ol>
+          {r.migration.map((m) => (
+            <li>
+              <p class="step-title">{m.title}</p>
+              <p set:html={inlineMarkdown(m.body)} />
+              {(m.before || m.after) && (
+                <div class:list={['diff', { 'diff-pair': m.before && m.after }]}>
+                  {m.before && (
+                    <div class="diff-side">
+                      <p class="diff-label">{t('changelog.before')}</p>
+                      <Code code={m.before} lang={m.before.includes('pnpm ') ? 'bash' : 'tsx'} themes={codeThemes} defaultColor={false} />
+                    </div>
+                  )}
+                  {m.after && (
+                    <div class="diff-side">
+                      {m.before && <p class="diff-label">{t('changelog.after')}</p>}
+                      <Code code={m.after} lang={m.after.includes('pnpm ') ? 'bash' : 'tsx'} themes={codeThemes} defaultColor={false} />
+                    </div>
+                  )}
+                </div>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+    )}
+  </article>
+))}
+
+<style>
+  h1 { margin: 0 0 var(--space-xs); font-size: 32px; }
+  .lede { color: var(--text-light); font-size: var(--text-lg); line-height: 1.6; max-width: var(--measure); margin-bottom: var(--space-block); }
+  .lang-note { font-size: 13px; color: var(--text-light); margin: calc(-1 * var(--space-xxl)) 0 var(--space-block); }
+
+  .release { margin-bottom: var(--space-section); }
+  .release-head {
+    display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-sm) var(--space-lg);
+    flex-wrap: wrap; padding-bottom: var(--space-md); border-bottom: 1px solid var(--border);
+  }
+  .release-head h2 { margin: 0; font-size: var(--text-xxl); }
+  .release-head h2 a { color: var(--text); text-decoration: none; display: inline-flex; align-items: center; gap: var(--space-sm); }
+  .release-head h2 a:hover .version { color: var(--primary); }
+  .status {
+    font-size: var(--text-sm); font-weight: 600; letter-spacing: 0.02em;
+    padding: var(--space-xxs) var(--space-sm); border-radius: var(--radius-full);
+    color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, transparent);
+    border: 1px solid color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+  .release-meta { margin: 0; font-size: 13px; color: var(--text-light); }
+  .summary { color: var(--text-light); line-height: 1.6; max-width: var(--measure); margin: var(--space-lg) 0 var(--space-xxl); }
+
+  .kind { margin-top: var(--space-block); }
+  .kind h3 { margin: 0 0 var(--space-md); font-size: var(--text-md); display: flex; align-items: center; flex-wrap: wrap; gap: var(--space-sm) var(--space-lg); }
+  .jump { font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; }
+  .jump:hover { color: var(--primary-hover); text-decoration: underline; }
+  .tag {
+    display: inline-block; padding: var(--space-xxs) var(--space-md); border-radius: var(--radius-full);
+    font-size: var(--text-sm); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--kind); background: color-mix(in srgb, var(--kind) 12%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--kind) 35%, var(--border));
+  }
+  .kind-breaking { --kind: #d92d20; }
+  .kind-added { --kind: #12805c; }
+  .kind-fixed { --kind: var(--primary); }
+  .kind-changed { --kind: var(--text-light); }
+  :global(:root[data-theme='dark']) .kind-breaking { --kind: #ff7a70; }
+  :global(:root[data-theme='dark']) .kind-added { --kind: #4cc38a; }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .kind-breaking { --kind: #ff7a70; }
+    :global(:root:not([data-theme='light'])) .kind-added { --kind: #4cc38a; }
+  }
+
+  .groups {
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+    border-left: 3px solid var(--kind);
+  }
+  .group {
+    display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); gap: var(--space-lg);
+    padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--border);
+  }
+  .group:last-child { border-bottom: none; }
+  .group-name { margin: 0; font-size: var(--text-md); font-weight: 600; line-height: 1.6; }
+  .group-name a { color: var(--text); text-decoration: none; }
+  .group-name a:hover { color: var(--primary); text-decoration: underline; }
+  .group ul { margin: 0; padding-left: 1.1em; }
+  .group li { line-height: 1.6; color: var(--text-light); font-size: var(--text-md); }
+  .group li + li { margin-top: var(--space-xs); }
+  .group li :global(strong), .summary :global(strong) { color: var(--text); }
+
+  .migration {
+    margin-top: var(--space-block); padding: var(--space-xl);
+    border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface);
+  }
+  .migration h3 { margin: 0 0 var(--space-md); font-size: var(--text-lg); color: var(--primary); }
+  .migration ol { margin: 0; padding-left: 1.3em; }
+  .migration li + li { margin-top: var(--space-xl); }
+  .migration li .step-title { margin: 0; font-weight: 600; }
+  .migration li p { margin: var(--space-xs) 0 0; line-height: 1.6; color: var(--text-light); max-width: var(--measure); }
+  .migration li .step-title { color: var(--text); }
+  .diff { margin-top: var(--space-md); display: grid; gap: var(--space-md); }
+  .diff-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .diff-side { min-width: 0; }
+  .diff-label { margin: 0 0 var(--space-xs) !important; font-size: var(--text-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+  .diff :global(pre) { margin: 0; overflow-x: auto; font-size: 12.5px; }
+
+  @media (max-width: 720px) {
+    .group { grid-template-columns: minmax(0, 1fr); gap: var(--space-xs); }
+    .diff-pair { grid-template-columns: minmax(0, 1fr); }
+    .migration { padding: var(--space-lg); }
+  }
+</style>

@@ -10,13 +10,7 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmit": true,
-    "paths": {
-      "orn-ui": [
-        "../orn-ui/packages/ui/lib/typescript/index.d.ts",
-        "./node_modules/orn-ui"
-      ]
-    }
+    "noEmit": true
   },
   "include": [
     "demos/**/*"

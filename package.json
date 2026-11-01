@@ -6,7 +6,7 @@
   "scripts": {
     "extract": "node scripts/extract-docs.mjs",
     "sync:registry": "node scripts/sync-registry.mjs",
-    "typecheck:demos": "tsc --noEmit -p tsconfig.demos.json",
+    "typecheck:demos": "node scripts/typecheck-demos.mjs",
     "dev": "pnpm run sync:registry && pnpm run extract && astro dev",
     "build": "pnpm run typecheck:demos && pnpm run sync:registry && pnpm run extract && astro build",
     "preview": "astro preview",

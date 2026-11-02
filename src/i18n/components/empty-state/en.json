@@ -11,6 +11,10 @@
     {
       "term": "iconName / icon",
       "desc": "`search` by default. Change it so the icon matches what is empty."
+    },
+    {
+      "term": "action",
+      "desc": "The next step as a button under the text (\"Add client\"). It stays a separate, focusable element: screen readers read the message, then the button."
     }
   ],
   "props": {}

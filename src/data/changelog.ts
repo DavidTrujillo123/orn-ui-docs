@@ -178,6 +178,19 @@ export const releases: Release[] = [
             },
           ],
         },
+        {
+          component: 'EmptyState',
+          items: [
+            {
+              en: '`action={{ label, onPress, variant? }}` shows the next step as a button under the text; it stays focusable on its own.',
+              es: '`action={{ label, onPress, variant? }}` muestra el siguiente paso como botón debajo del texto; se puede enfocar por separado.',
+            },
+            {
+              en: '`testID`, and `style` accepts style arrays.',
+              es: '`testID`, y `style` acepta arrays de estilos.',
+            },
+          ],
+        },
       ],
       fixed: [
         {
@@ -466,6 +479,19 @@ export const releases: Release[] = [
             {
               en: 'Stronger placeholder color so it stands out from cards: `#e3e5e8` in light (was `#eceef1`), `#2c2c30` in dark (was `#26262a`).',
               es: 'Color más marcado para que se distinga de las tarjetas: `#e3e5e8` en claro (antes `#eceef1`) y `#2c2c30` en oscuro (antes `#26262a`).',
+            },
+          ],
+        },
+        {
+          component: 'EmptyState',
+          items: [
+            {
+              en: 'The title uses the main text color, so it stands apart from the description.',
+              es: 'El título usa el color de texto principal, así se distingue de la descripción.',
+            },
+            {
+              en: 'Spacing and line heights come from tokens: 12pt between icon and title, 4pt between title and description.',
+              es: 'Espaciado e interlineado salen de los tokens: 12pt entre ícono y título, 4pt entre título y descripción.',
             },
           ],
         },

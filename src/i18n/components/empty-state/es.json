@@ -11,7 +11,33 @@
     {
       "term": "iconName / icon",
       "desc": "`search` por defecto. Se cambia para que el ícono coincida con lo que está vacío."
+    },
+    {
+      "term": "action",
+      "desc": "El siguiente paso, como botón debajo del texto (\"Agregar cliente\"). Queda como elemento aparte y enfocable: el lector lee el mensaje y luego el botón."
     }
   ],
-  "props": {}
+  "props": {
+    "title": {
+      "description": "Línea principal.",
+      "default": "labels.noResultsTitle"
+    },
+    "description": {
+      "description": "Línea de apoyo debajo del título.",
+      "default": "labels.noResultsDescription"
+    },
+    "iconName": {
+      "description": "Nombre de un ícono incluido o propio. Se ignora si pasas `icon`.",
+      "default": "'search'"
+    },
+    "icon": {
+      "description": "Cualquier nodo en lugar del ícono (un Image, una ilustración)."
+    },
+    "action": {
+      "description": "El siguiente paso, como botón debajo del texto (p. ej. \"Agregar cliente\")."
+    },
+    "style": {
+      "description": "Estilo del contenedor."
+    }
+  }
 }

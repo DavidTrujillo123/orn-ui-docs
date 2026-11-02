@@ -19,11 +19,15 @@
     {
       "term": "isLoading",
       "desc": "For fields that resolve something async (a lookup by code, a remote validation)."
+    },
+    {
+      "term": "validation",
+      "desc": "`required` and `rules` run when leaving the field; the error shows in writing, is announced to screen readers and clears as soon as the value is fixed. To validate on submit, call `ref.validate()` on each field."
+    },
+    {
+      "term": "keyboard",
+      "desc": "The focused field (label and error included) always stays above the keyboard: the root UIProvider takes care of it, no Screen or ScrollView needed."
     }
   ],
-  "props": {
-    "required": {
-      "description": "Shows an asterisk next to the label. Purely visual — it does not validate anything."
-    }
-  }
+  "props": {}
 }

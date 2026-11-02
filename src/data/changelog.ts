@@ -63,6 +63,15 @@ export const releases: Release[] = [
     changes: {
       breaking: [
         {
+          component: 'Input',
+          items: [
+            {
+              en: '`required` now validates: leaving an empty required field shows `labels.requiredError`. If you validate yourself, keep passing `error` (it wins) or use `validateOn="submit"`.',
+              es: '`required` ahora valida: salir de un campo obligatorio vacío muestra `labels.requiredError`. Si validas por tu cuenta, sigue pasando `error` (manda) o usa `validateOn="submit"`.',
+            },
+          ],
+        },
+        {
           component: 'Fab',
           items: [
             {
@@ -210,6 +219,29 @@ export const releases: Release[] = [
             {
               en: 'Adds `testID`.',
               es: 'Se agrega `testID`.',
+            },
+          ],
+        },
+        {
+          component: 'UIProvider',
+          page: '/getting-started',
+          items: [
+            {
+              en: '`keyboardAvoidance` (default `true`): the focused Input — label and error included — always stays above the keyboard. The root provider moves the app up just enough and back when the keyboard closes; no Screen or ScrollView needed.',
+              es: '`keyboardAvoidance` (por defecto `true`): el Input enfocado — label y error incluidos — siempre queda por encima del teclado. El provider raíz sube la app lo justo y la devuelve al cerrarse el teclado; sin necesidad de Screen ni ScrollView.',
+            },
+          ],
+        },
+        {
+          component: 'Input',
+          items: [
+            {
+              en: 'Built-in validation: `rules` (`minLength`, `maxLength`, `pattern`, `validate`), `validateOn` (`blur` by default, `change` or `submit`) and `onValidate`. The ref is the TextInput plus `validate()`, for checking on submit.',
+              es: 'Validación integrada: `rules` (`minLength`, `maxLength`, `pattern`, `validate`), `validateOn` (`blur` por defecto, `change` o `submit`) y `onValidate`. El ref es el TextInput más `validate()`, para validar al enviar.',
+            },
+            {
+              en: 'A shown error re-checks on every change and clears as soon as the value is fixed; new errors are announced to screen readers. Messages come from `labels`, so they translate with the app.',
+              es: 'Un error visible se revalida en cada cambio y desaparece apenas se corrige; los errores nuevos se anuncian al lector de pantalla. Los mensajes salen de `labels`, así se traducen con la app.',
             },
           ],
         },
@@ -469,6 +501,15 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'Screen',
+          items: [
+            {
+              en: 'While the root UIProvider handles the keyboard, Screen no longer wraps its content in a second KeyboardAvoidingView. With `keyboardAvoidance={false}` it keeps doing it.',
+              es: 'Mientras el UIProvider raíz maneja el teclado, Screen ya no envuelve su contenido en un segundo KeyboardAvoidingView. Con `keyboardAvoidance={false}` lo sigue haciendo.',
+            },
+          ],
+        },
+        {
           component: 'Title',
           items: [
             {
@@ -557,8 +598,8 @@ export const releases: Release[] = [
           page: '/tokens',
           items: [
             {
-              en: 'The `Labels` type has three new keys. If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
-              es: 'El tipo `Labels` tiene tres claves nuevas. Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
+              en: 'The `Labels` type has seven new keys (`showPassword`, `hidePassword`, `required` and the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
+              es: 'El tipo `Labels` tiene siete claves nuevas (`showPassword`, `hidePassword`, `required` y los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
             },
           ],
         },

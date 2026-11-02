@@ -19,14 +19,35 @@
     {
       "term": "isLoading",
       "desc": "Para campos que resuelven algo asíncrono (una búsqueda por código, una validación remota)."
+    },
+    {
+      "term": "validación",
+      "desc": "`required` y `rules` corren al salir del campo; el error aparece escrito, se anuncia al lector y desaparece apenas se corrige. Para validar al enviar, `ref.validate()` en cada campo."
+    },
+    {
+      "term": "teclado",
+      "desc": "El campo enfocado (label y error incluidos) siempre queda por encima del teclado: lo resuelve el UIProvider raíz, sin necesidad de Screen ni ScrollView."
     }
   ],
   "props": {
     "required": {
-      "description": "Muestra un asterisco junto al label. Puramente visual, no valida nada."
+      "description": "Muestra un asterisco junto al label, y un valor vacío falla la validación (`labels.requiredError`)."
     },
     "rightIconAccessibilityLabel": {
       "description": "Nombre accesible del botón de `rightIconName`."
+    },
+    "error": {
+      "description": "Error debajo del campo. Manda sobre la validación integrada."
+    },
+    "rules": {
+      "description": "Validación integrada: límites de largo, un patrón y/o una verificación propia."
+    },
+    "validateOn": {
+      "description": "Cuándo corren las reglas: al salir del campo, en cada cambio o solo con `ref.validate()`. Una vez visible, el error se revalida en cada cambio y desaparece apenas se corrige.",
+      "default": "'blur'"
+    },
+    "onValidate": {
+      "description": "Se llama con el error (o undefined) cada vez que corren las reglas."
     }
   }
 }

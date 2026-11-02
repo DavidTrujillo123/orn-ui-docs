@@ -169,6 +169,7 @@ const UI_PROVIDER_PROPS_EN: Array<[string, string, string, string]> = [
   ['icons?', 'IconRenderer', 'renderDefaultIcon', 'Icon renderer. Defaults to the zero-dep glyphs bundled with orn-ui.'],
   ['insets?', 'EdgeInsets', 'measured', 'Overrides the measured safe-area insets. Leave it out in apps; useful for tests and screenshots.'],
   ['mountSafeAreaProvider?', 'boolean', '`true`', 'Mounts a `<SafeAreaProvider>` around the app. Pass false if your app already mounts one above (expo-router does).'],
+  ['keyboardAvoidance?', 'boolean', '`true`', 'Keeps the focused Input (label and error included) above the keyboard by moving the app up just enough, with no Screen or ScrollView needed. Only the root provider does it.'],
   ['labels?', 'Partial<Labels>', 'defaultLabels', 'Override any built-in string (Close, Cancel, Search…).'],
   ['allowFontScaling?', 'boolean', 'false', 'Off by default, for parity across the library.'],
 ];

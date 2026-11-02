@@ -22,6 +22,7 @@ const REGISTRY_DIR = path.resolve(ORN_UI_DIR, 'registry');
 console.log(`[extract-docs] orn-ui desde ${ORN_UI_IS_LOCAL ? 'el repo local' : 'npm'}: ${ORN_UI_DIR}`);
 const DEMOS_DIR = path.resolve(ROOT, 'demos');
 const OUT_DIR = path.resolve(ROOT, 'src/data');
+const UNKNOWN_TAGS = [];
 
 const CATEGORIES = {
   atoms: 'Atom',
@@ -433,16 +434,54 @@ function filterVariantsForComponent(variants, componentName) {
  * del componente, el filtro la descartaba. Se reemplaza por el código del
  * helper completo.
  */
-function inlineLocalComponent(source, code) {
-  const m = code.trim().match(/^<([A-Z]\w*)(\s[^<>]*)?\/>$/);
-  if (!m) return code;
-  const start = source.search(new RegExp(`^function ${m[1]}\\(`, 'm'));
-  if (start === -1) return code;
+function localHelperSource(source, name) {
+  const start = source.search(new RegExp(`^function ${name}\\(`, 'm'));
+  if (start === -1) return null;
   const paramsEnd = matchDelimiter(source, source.indexOf('(', start));
   const bodyStart = source.indexOf('{', paramsEnd);
-  const helper = source.slice(start, matchDelimiter(source, bodyStart) + 1);
-  // Con props (`<Toggle preset="fade" />`) el uso también importa: va debajo.
-  return m[2]?.trim() ? `${helper}\n\n${code.trim()}` : helper;
+  return source.slice(start, matchDelimiter(source, bodyStart) + 1);
+}
+
+const definedIn = (code) =>
+  new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*=/g)].map((m) => m[1] || m[2]));
+
+function inlineLocalComponent(source, code) {
+  const m = code.trim().match(/^<([A-Z]\w*)(\s[^<>]*)?\/>$/);
+  let out = code;
+  if (m) {
+    const helper = localHelperSource(source, m[1]);
+    // Con props (`<Toggle preset="fade" />`) el uso también importa: va debajo.
+    if (helper) out = m[2]?.trim() ? `${helper}\n\n${code.trim()}` : helper;
+  }
+  // Un auxiliar del demo usado DENTRO del código (`<Row>`, `<Panel>`) sin su
+  // definición a la vista no se entiende de dónde sale (pasó con `Frame` en
+  // Fab, 2026-11-02): se antepone su definición.
+  for (let guard = 0; guard < 5; guard++) {
+    const defined = definedIn(out);
+    const missing = [...new Set([...out.matchAll(/<([A-Z]\w*)/g)].map((x) => x[1]))]
+      .filter((tag) => !defined.has(tag))
+      .map((tag) => localHelperSource(source, tag))
+      .filter(Boolean);
+    if (!missing.length) break;
+    out = `${missing.join('\n\n')}\n\n${out}`;
+  }
+  return out;
+}
+
+/**
+ * Todo tag JSX del código mostrado tiene que venir de orn-ui o react-native
+ * (importado en el demo) o estar definido en el mismo código. Un `<Frame>` o
+ * `<VariantRow>` sin origen visible no se puede copiar ni entender: falla.
+ */
+function unknownTags(source, code) {
+  const allowed = new Set();
+  for (const m of source.matchAll(/import\s*\{([^}]*)\}\s*from\s*['"](orn-ui|react-native)['"]/g)) {
+    for (const name of m[1].split(',')) allowed.add(name.trim().replace(/^type\s+/, '').split(/\s+as\s+/).pop());
+  }
+  const defined = definedIn(code);
+  return [...new Set([...code.matchAll(/<([A-Z]\w*)/g)].map((x) => x[1]))].filter(
+    (tag) => !allowed.has(tag) && !defined.has(tag)
+  );
 }
 
 function extractVariants(componentName, demoFileOverride) {
@@ -491,7 +530,12 @@ function extractVariants(componentName, demoFileOverride) {
       } else {
         code = obj.slice(open, findTopLevelEnd(obj, open));
       }
-      variants.push({ label: labelMatch[2], code: inlineLocalComponent(source, dedent(code)), index: position });
+      const shown = inlineLocalComponent(source, dedent(code));
+      const unknown = unknownTags(source, shown);
+      if (unknown.length) {
+        UNKNOWN_TAGS.push(`${path.basename(demoFile)} — "${labelMatch[2]}": ${unknown.map((t) => `<${t}>`).join(', ')}`);
+      }
+      variants.push({ label: labelMatch[2], code: shown, index: position });
     }
     cursor = objEnd + 1;
   }
@@ -584,6 +628,10 @@ function main() {
   const withSnippet = Object.values(components).flat().filter((c) => c.snippet).length;
   console.log(`[extract-docs] ${total} components indexed, ${withSnippet} with a demo snippet.`);
   checkVariantMedia(components);
+  if (UNKNOWN_TAGS.length) {
+    console.error('[extract-docs] el código de estas variantes usa tags que no vienen de orn-ui/react-native ni están definidos a la vista:\n  ' + [...new Set(UNKNOWN_TAGS)].join('\n  '));
+    process.exit(1);
+  }
 }
 
 /**

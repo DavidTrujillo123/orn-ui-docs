@@ -1,5 +1,5 @@
-// Componente -> Markdown. Fuente única del botón "Copy page" y de los
-// endpoints .md. Recibe `t` para que los encabezados salgan traducidos.
+// Component -> Markdown. Single source for the "Copy page" button and the
+// .md endpoints. Receives `t` so the headings come out translated.
 import { getPropDescription, getPropDefault, DEFAULT_LANG, type Lang } from '../i18n/ui';
 
 type T = (key: string, ...args: any[]) => string;
@@ -15,9 +15,9 @@ export function buildComponentMarkdown(component: any, t: T, lang: Lang = DEFAUL
     `> ⚠️ ${t('gs.requiresProvider')}: ${t('gs.requiresProviderNote')} See https://orn-ui-docs.vercel.app/getting-started.md`,
     ''
   );
-  // Una línea, no un segundo bloque de aviso: un agente que aterriza acá
-  // (y no en getting-started.md) pregunta "¿corre en mi SDK?" antes que nada,
-  // y sin esto tendría que ir a buscarlo a otra página.
+  // One line, not a second notice block: an agent that lands here
+  // (and not on getting-started.md) asks "does it run on my SDK?" before
+  // anything else, and without this it would have to look it up on another page.
   lines.push(`> ${t('gs.compat.oneLine')}`, '');
 
   if (component.registry) {
@@ -80,8 +80,8 @@ const TYPOGRAPHY_USAGE_EN: Record<string, string> = {
 };
 
 /**
- * Title/Subtitle/Body/Caption no tienen `.md` propio (ver groupedPages.ts):
- * comparten archivo, props e instalación, así que se documentan juntos.
+ * Title/Subtitle/Body/Caption don't have their own `.md` (see groupedPages.ts):
+ * they share file, props and installation, so they're documented together.
  */
 export function buildTypographyMarkdown(members: any[]): string {
   const primary = members.find((m) => m.registry) ?? members[0];
@@ -174,8 +174,8 @@ const UI_PROVIDER_PROPS_EN: Array<[string, string, string, string]> = [
   ['allowFontScaling?', 'boolean', 'false', 'Off by default, for parity across the library.'],
 ];
 
-// Mismas versiones que la tabla de GettingStartedContent.astro, y las mismas
-// que corre la matriz de compatibilidad del repo: si una se mueve, las tres.
+// Same versions as the table in GettingStartedContent.astro, and the same
+// ones the repo's compatibility matrix runs: if one moves, all three do.
 const SUPPORTED_SDKS: Array<[string, string, string]> = [
   ['54', '0.81.5', '19.1.0'],
   ['55', '0.83.10', '19.2.0'],
@@ -183,7 +183,7 @@ const SUPPORTED_SDKS: Array<[string, string, string]> = [
   ['57', '0.86.2', '19.2.3'],
 ];
 
-// Versión Markdown de GettingStartedContent.astro.
+// Markdown version of GettingStartedContent.astro.
 export function buildGettingStartedMarkdown(): string {
   const lines: string[] = [
     '# Getting Started — orn-ui',
@@ -285,8 +285,8 @@ export function buildGettingStartedMarkdown(): string {
   return lines.join('\n');
 }
 
-// Mismas referencias que lista AtomicDesignContent.astro, en el mismo orden:
-// los números son los que citan las notas ad.sources.N.note.
+// Same references AtomicDesignContent.astro lists, in the same order:
+// the numbers are the ones the ad.sources.N.note notes cite.
 const ATOMIC_DESIGN_SOURCES: Array<[number, string, string]> = [
   [1, 'Brad Frost — "Atomic Design"', 'https://bradfrost.com/blog/post/atomic-web-design/'],
   [2, 'Brad Frost — Atomic Design, ch. 2: "Atomic Design Methodology"', 'https://atomicdesign.bradfrost.com/chapter-2/'],
@@ -296,9 +296,9 @@ const ATOMIC_DESIGN_SOURCES: Array<[number, string, string]> = [
 ];
 
 /**
- * Versión Markdown de AtomicDesignContent.astro. A diferencia de las otras
- * páginas, la prosa no se repite acá: sale de las mismas claves i18n que
- * renderiza el .astro, así que editar la traducción actualiza las dos.
+ * Markdown version of AtomicDesignContent.astro. Unlike the other pages,
+ * the prose isn't repeated here: it comes from the same i18n keys the
+ * .astro renders, so editing the translation updates both.
  */
 export function buildAtomicDesignMarkdown(t: T, counts: { atoms: number; molecules: number; organisms: number }): string {
   const layers: Array<[string, string]> = [

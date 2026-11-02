@@ -1,6 +1,6 @@
-// Carga de traducciones. Los textos de chrome (nav, botones, títulos de
-// sección) viven en en.json y es.json; los de cada componente, en
-// components/<slug>/{en,es}.json. Este archivo solo los tipa y resuelve.
+// Translation loading. The chrome texts (nav, buttons, section titles)
+// live in en.json and es.json; each component's, in
+// components/<slug>/{en,es}.json. This file only types and resolves them.
 import en from './en.json';
 import es from './es.json';
 import components from '../data/components.json';
@@ -20,20 +20,20 @@ export interface UsageEntry {
 }
 
 interface PropTranslation {
-  // Descripción traducida de la prop. El JSDoc de orn-ui está escrito a veces
-  // en inglés y a veces en español, así que el idioma que no coincide con la
-  // fuente la traduce acá; sin entrada se muestra el texto original.
+  // The prop's translated description. orn-ui's JSDoc is sometimes written
+  // in English and sometimes in Spanish, so the language that doesn't match
+  // the source translates it here; without an entry the original text is shown.
   description?: string;
-  // Solo para los @default escritos en prosa ("un placeholder gris") o como
-  // nombre de constante (DEFAULT_STEPS), que no le dicen nada a quien lee.
+  // Only for @defaults written in prose ("a gray placeholder") or as a
+  // constant name (DEFAULT_STEPS), which tell the reader nothing.
   default?: string;
 }
 
 // Un archivo por componente y por idioma: src/i18n/components/<slug>/<lang>.json.
 export interface ComponentTranslations {
-  // Guía de uso. Un componente sin entradas simplemente no muestra "Uso".
+  // Usage guide. A component with no entries simply doesn't show "Usage".
   usage: UsageEntry[];
-  // Indexadas por nombre de prop, tal cual sale del código.
+  // Indexed by prop name, exactly as it comes out of the code.
   props: Record<string, PropTranslation>;
 }
 
@@ -51,8 +51,8 @@ for (const [path, file] of Object.entries(componentFiles)) {
   if (match) byLang[match[2] as Lang][match[1]] = file;
 }
 
-// Las props se piden por nombre de componente (es lo que sabe la tabla) y los
-// archivos van por slug (es lo que se ve en la URL); este mapa une los dos.
+// Props are requested by component name (that's what the table knows) and
+// the files go by slug (that's what's seen in the URL); this map joins the two.
 const SLUG_BY_NAME: Record<string, string> = Object.fromEntries(
   ['atoms', 'molecules', 'organisms']
     .flatMap((group) => (components as any)[group] as { name: string; slug: string }[])
@@ -66,8 +66,8 @@ function translationsFor(lang: Lang, componentName: string): ComponentTranslatio
 
 export type UIKey = keyof typeof en.ui;
 
-// Las cadenas con partes variables usan marcadores {nombre}; el orden de los
-// argumentos es el orden en que aparecen los marcadores en la cadena en inglés.
+// Strings with variable parts use {name} placeholders; the order of the
+// arguments is the order the placeholders appear in the English string.
 function interpolate(template: string, args: unknown[]): string {
   let i = 0;
   return template.replace(/\{(\w+)\}/g, () => String(args[i++] ?? ''));

@@ -14,8 +14,8 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
 
 const catalog = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
 
-// Link del grupo: `page` explícito, o la página del componente si existe en
-// el catálogo (Title/Subtitle/Caption viven en /typography).
+// The group's link: an explicit `page`, or the component's page if it exists
+// in the catalog (Title/Subtitle/Caption live in /typography).
 function hrefFor(group: ChangeGroup): string | undefined {
   if (group.page) return getRelativeLocaleUrl(lang, group.page);
   const c = catalog.find((x: any) => x.name === group.component);

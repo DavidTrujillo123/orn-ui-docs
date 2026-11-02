@@ -10,16 +10,16 @@ export interface NavCard {
 }
 
 /**
- * Colapsa a un solo item los componentes que comparten archivo fuente
- * (Text.tsx → Title/Subtitle/Body/Caption). Depende de que vengan
- * ordenados con el primario primero, como los emite extract-docs.mjs.
+ * Collapses into a single item the components that share a source file
+ * (Text.tsx → Title/Subtitle/Body/Caption). Depends on them coming sorted
+ * with the primary first, as extract-docs.mjs emits them.
  *
- * Devuelve el resultado alfabético dentro de la categoría. El orden se aplica
- * acá y no en extract-docs.mjs por dos razones: agrupar tiene que pasar antes
- * de ordenar —si no, los hermanos de un mismo archivo se desparraman y el
- * colapso, que mira items consecutivos, no los junta más— y la etiqueta que se
- * ordena es la que se ve, que depende del idioma (Text.tsx se muestra como
- * "Typography").
+ * Returns the result alphabetically within the category. The ordering is
+ * applied here and not in extract-docs.mjs for two reasons: grouping has to
+ * happen before sorting —otherwise the siblings of the same file scatter and
+ * the collapse, which looks at consecutive items, no longer joins them— and
+ * the label that gets sorted is the one that's shown, which depends on the
+ * language (Text.tsx is shown as "Typography").
  */
 export function groupCards(list: any[], lang: Lang, t: (key: any) => string): NavCard[] {
   const groups: { primary: any; members: any[] }[] = [];
@@ -46,7 +46,7 @@ export function groupCards(list: any[], lang: Lang, t: (key: any) => string): Na
     .sort((a, b) => a.label.localeCompare(b.label, lang, { sensitivity: 'base' }));
 }
 
-/** Mismo orden del sidebar, aplanado — lo usan los links Anterior/Siguiente. */
+/** Same order as the sidebar, flattened — used by the Previous/Next links. */
 export function getFlatNavList(components: any, lang: Lang, t: (key: any) => string): NavCard[] {
   return (['atoms', 'molecules', 'organisms'] as const).flatMap((cat) => groupCards(components[cat], lang, t));
 }

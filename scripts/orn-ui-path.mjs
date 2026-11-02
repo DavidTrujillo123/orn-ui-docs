@@ -1,13 +1,13 @@
 /**
- * De dónde lee la docs a orn-ui (props, registry, tipos de los demos).
+ * Where the docs read orn-ui from (props, registry, demo types).
  *
- * Con el repo de la librería al lado (`../orn-ui/packages/ui`, el workspace
- * de desarrollo) usa ESE: la docs documenta lo que está en el repo, incluso
- * lo que todavía no se publicó. Sin él (Vercel, un clon suelto) o con
- * ORN_UI_PUBLISHED=1, usa el paquete instalado desde npm.
+ * With the library repo alongside (`../orn-ui/packages/ui`, the development
+ * workspace) it uses THAT one: the docs document what's in the repo, even
+ * what hasn't been published yet. Without it (Vercel, a standalone clone) or
+ * with ORN_UI_PUBLISHED=1, it uses the package installed from npm.
  *
- * Ojo: si la docs usa una API que no está publicada, el build en Vercel
- * falla. Publicar la librería antes de desplegar la docs.
+ * Careful: if the docs use an API that isn't published, the build on Vercel
+ * fails. Publish the library before deploying the docs.
  */
 import fs from 'node:fs';
 import path from 'node:path';

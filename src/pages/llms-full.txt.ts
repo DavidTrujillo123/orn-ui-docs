@@ -4,9 +4,9 @@ import { buildAtomicDesignMarkdown, buildComponentMarkdown, buildGettingStartedM
 import { useTranslations } from '../i18n/ui';
 import { isMergedIntoGroupPage } from '../lib/groupedPages';
 
-// Catálogo completo en un solo archivo. Getting Started va primero a
-// propósito: es lo único que menciona el <UIProvider> obligatorio, y así
-// se lee antes que cualquier snippet de componente.
+// Full catalog in a single file. Getting Started goes first on purpose:
+// it's the only thing that mentions the required <UIProvider>, and this way
+// it's read before any component snippet.
 export const GET: APIRoute = () => {
   const t = useTranslations('en');
   const all = [

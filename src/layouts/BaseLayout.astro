@@ -12,11 +12,11 @@ interface Props {
   title: string;
   description?: string;
   lang?: Lang;
-  /** Ruta sin prefijo de idioma. Alimenta el switcher EN/ES y las hreflang. */
+  /** Route without a language prefix. Feeds the EN/ES switcher and the hreflangs. */
   path?: string;
-  /** Versión .md de esta página, si existe. Se expone como rel="alternate". */
+  /** .md version of this page, if it exists. Exposed as rel="alternate". */
   markdownUrl?: string;
-  /** JSON-LD ya armado por la página. */
+  /** JSON-LD already built by the page. */
   jsonLd?: Record<string, unknown>;
 }
 const {
@@ -69,8 +69,8 @@ const hasSidebar = Astro.slots.has('sidebar');
 
     <ClientRouter />
 
-    <!-- Aplica el theme guardado antes del primer paint para evitar el
-         flash de tema equivocado, y mantiene <meta theme-color> en sync. -->
+    <!-- Applies the saved theme before the first paint to avoid the wrong-theme
+         flash, and keeps <meta theme-color> in sync. -->
     <script is:inline>
       (function () {
         var KEY = 'orn-ui-theme';
@@ -214,10 +214,10 @@ const hasSidebar = Astro.slots.has('sidebar');
     <script src="/copy.js" defer></script>
     <script src="/search.js" defer></script>
     <script is:inline>
-      // Modal de donación. El SDK de PayPal recién se pide al abrir el
-      // modal por primera vez (no en cada carga de página) y el botón se
-      // renderiza una sola vez; navegaciones de ClientRouter no lo tocan
-      // porque el modal vive fuera de <main>.
+      // Donation modal. The PayPal SDK is only requested when the modal is
+      // first opened (not on every page load) and the button is rendered
+      // just once; ClientRouter navigations don't touch it because the
+      // modal lives outside <main>.
       (function () {
         var sdkPromise = null;
 
@@ -285,25 +285,24 @@ const hasSidebar = Astro.slots.has('sidebar');
     </script>
     <script is:inline>
       (function () {
-        // El clip de un componente se reproduce en loop: es lo que reemplaza
-        // al GIF. Dos motivos por los que no alcanza con el atributo
-        // `autoplay` del <video>:
+        // A component's clip plays in a loop: it's what replaces the GIF.
+        // Two reasons why the <video>'s `autoplay` attribute isn't enough:
         //
-        // 1. Hay navegadores que bloquean autoplay por política aunque el
-        //    video esté muteado (Brave lo hace de fábrica). Medido con CDP:
-        //    paused=true, currentTime=0, readyState=4 — cargado y frenado, sin
-        //    error. Un play() desde script sí arranca.
-        // 2. Con ClientRouter, una navegación cliente no vuelve a ejecutar los
-        //    scripts inline del contenido que entra. Por eso esto vive acá y
-        //    se engancha a astro:page-load, como el resto de los scripts del
-        //    sitio: si no, el video sólo se movía tras recargar la página.
+        // 1. Some browsers block autoplay by policy even when the video is
+        //    muted (Brave does it out of the box). Measured with CDP:
+        //    paused=true, currentTime=0, readyState=4 — loaded and stopped,
+        //    no error. A play() from script does start it.
+        // 2. With ClientRouter, a client navigation doesn't re-run the inline
+        //    scripts of the incoming content. That's why this lives here and
+        //    hooks into astro:page-load, like the rest of the site's scripts:
+        //    otherwise, the video only moved after reloading the page.
         function wire() {
           var videos = document.querySelectorAll('.media-frame video, .variant-shot video');
           if (!videos.length) return;
 
-          // "Reducir movimiento" es justo el pedido de que un loop no se
-          // reproduzca solo: queda en el poster con controles, a un click de
-          // verse. No se puede resolver con CSS — autoplay no es estilo.
+          // "Reduce motion" is precisely the request that a loop not play on
+          // its own: it stays on the poster with controls, one click away
+          // from being seen. It can't be solved with CSS — autoplay isn't style.
           if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             videos.forEach(function (video) {
               video.removeAttribute('autoplay');
@@ -318,25 +317,25 @@ const hasSidebar = Astro.slots.has('sidebar');
             video.dataset.wired = '1';
 
             var play = function () {
-              // Tras una navegación de ClientRouter el <video> llega con su
-              // atributo src intacto pero sin fuente seleccionada
-              // (networkState NETWORK_NO_SOURCE, currentSrc vacío): el
-              // elemento se adoptó en el documento nuevo sin volver a correr
-              // la selección de recurso, y play() falla con
+              // After a ClientRouter navigation the <video> arrives with its
+              // src attribute intact but with no source selected
+              // (networkState NETWORK_NO_SOURCE, empty currentSrc): the
+              // element was adopted into the new document without re-running
+              // resource selection, and play() fails with
               // NotSupportedError "The element has no supported sources".
-              // load() la dispara de nuevo. Verificado con CDP: sin esto el
-              // clip sólo arrancaba recargando la página a mano.
+              // load() triggers it again. Verified with CDP: without this the
+              // clip only started by reloading the page by hand.
               if (!video.currentSrc || video.networkState === video.NETWORK_NO_SOURCE) video.load();
 
               var started = video.play();
-              // Si el navegador igual lo rechaza, controles: el demo sigue
-              // estando, pero a pedido. Peor sería un poster mudo sin explicar.
+              // If the browser still rejects it, controls: the demo is still
+              // there, but on demand. Worse would be a silent, unexplained poster.
               if (started && started.catch) started.catch(function () { video.controls = true; });
             };
 
             if (!('IntersectionObserver' in window)) { play(); return; }
-            // Fuera de pantalla no decodifica: el clip está arriba de todo,
-            // pero quien scrollea hasta las props no necesita el loop girando.
+            // Off screen it doesn't decode: the clip is at the very top, but
+            // whoever scrolls down to the props doesn't need the loop spinning.
             new IntersectionObserver(function (entries) {
               entries.forEach(function (entry) {
                 if (entry.isIntersecting) play();
@@ -350,8 +349,8 @@ const hasSidebar = Astro.slots.has('sidebar');
       })();
     </script>
     <script is:inline>
-      // El sidebar se sirve como <details open> para que sea visible sin
-      // JS; esto solo lo colapsa en viewport chico.
+      // The sidebar is served as <details open> so it's visible without JS;
+      // this only collapses it on a small viewport.
       (function () {
         var mq = window.matchMedia('(max-width: 900px)');
         function sync(e) {
@@ -379,9 +378,9 @@ const hasSidebar = Astro.slots.has('sidebar');
             var currentlyDark = current ? current === 'dark' : systemDark;
             var next = currentlyDark ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
-            // Guardar antes de sincronizar: __ornSyncThemeColor vuelve a
-            // aplicar el theme guardado, y con el valor viejo deshacía el
-            // click (uno de cada dos no cambiaba nada).
+            // Save before syncing: __ornSyncThemeColor reapplies the saved
+            // theme, and with the old value it undid the click (one out of
+            // two did nothing).
             try { localStorage.setItem(KEY, next); } catch (e) {}
             if (window.__ornSyncThemeColor) window.__ornSyncThemeColor();
           });
@@ -391,10 +390,10 @@ const hasSidebar = Astro.slots.has('sidebar');
       })();
     </script>
     <script is:inline>
-      // Sombra del topbar al scrollear: con blur + borde de 1px nomás, el
-      // contenido que pasa por debajo competía visualmente con la barra
-      // fija. `scroll` con passive, no un IntersectionObserver — no hay
-      // sentinel que mantener sincronizado con el alto real del header.
+      // Topbar shadow on scroll: with just blur + a 1px border, the content
+      // passing underneath competed visually with the fixed bar. `scroll`
+      // with passive, not an IntersectionObserver — there's no sentinel to
+      // keep in sync with the header's real height.
       (function () {
         var topbar = null;
         function sync() {
@@ -418,10 +417,10 @@ const hasSidebar = Astro.slots.has('sidebar');
     --bg: #f7f8fa;
     --surface: #ffffff;
     --surface-hover: #f0f2f5;
-    /* Elevación explícita, misma dirección en los dos temas: sunken < bg <
-       surface < surface-active. code-bg es alias de sunken — "código" no es
-       una superficie propia, es contenido hundido, igual que un GIF de
-       media o un swatch de token. */
+    /* Explicit elevation, same direction in both themes: sunken < bg <
+       surface < surface-active. code-bg is an alias of sunken — "code" isn't
+       a surface of its own, it's sunken content, just like a media GIF or a
+       token swatch. */
     --surface-sunken: #eef1f5;
     --surface-active: color-mix(in srgb, var(--primary) 10%, var(--surface));
     --code-bg: var(--surface-sunken);
@@ -442,8 +441,8 @@ const hasSidebar = Astro.slots.has('sidebar');
       --bg: #0a0c10;
       --surface: #14171c;
       --surface-hover: #1b1f26;
-      /* Misma dirección que en claro: sunken queda más oscuro que bg, no
-         más claro — si no, "código = hundido" se invierte entre temas. */
+      /* Same direction as in light: sunken ends up darker than bg, not
+         lighter — otherwise "code = sunken" flips between themes. */
       --surface-sunken: #07090c;
       --surface-active: color-mix(in srgb, var(--primary) 14%, var(--surface));
       --code-bg: var(--surface-sunken);
@@ -483,8 +482,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
-    /* `clip` y no `hidden`: `hidden` crea un contenedor de scroll y
-       rompería el position:sticky del topbar y del sidebar. */
+    /* `clip` and not `hidden`: `hidden` creates a scroll container and
+       would break the topbar's and sidebar's position:sticky. */
     overflow-x: clip;
   }
 
@@ -507,10 +506,10 @@ const hasSidebar = Astro.slots.has('sidebar');
     border-radius: 4px;
   }
 
-  /* Único eyebrow del sitio (mayúsculas + tracking + --text-sm). Antes
-     aparecía en 11/12/13px según el archivo — la misma señal ("esto es una
-     categoría, no prosa") se leía como tres señales distintas. El color
-     (primary vs text-light) es la única variación permitida. */
+  /* The site's only eyebrow (uppercase + tracking + --text-sm). It used to
+     appear at 11/12/13px depending on the file — the same signal ("this is a
+     category, not prose") read as three different signals. The color
+     (primary vs text-light) is the only allowed variation. */
   .eyebrow {
     font-size: var(--text-sm);
     font-weight: 700;
@@ -673,16 +672,16 @@ const hasSidebar = Astro.slots.has('sidebar');
     line-height: 1.5;
     width: 100%;
   }
-  /* El contenedor de PayPal tiene que ser un bloque normal: el SDK inyecta
-     su propio markup adentro y, como flex item, colapsaba a min-content
-     (una letra por línea). El spinner se superpone en absolute. */
-  /* 200px es el ancho al que PayPal renderiza su formulario. El contenedor
-     tiene que medir lo mismo: si es más ancho, PayPal deja su form pegado a
-     la izquierda y queda descentrado dentro del modal. */
+  /* The PayPal container has to be a normal block: the SDK injects its own
+     markup inside and, as a flex item, it collapsed to min-content
+     (one letter per line). The spinner is overlaid with absolute. */
+  /* 200px is the width PayPal renders its form at. The container has to
+     measure the same: if it's wider, PayPal leaves its form stuck to the
+     left and it ends up off-center inside the modal. */
   .donate-widget {
     position: relative;
-    /* Alto del formulario ya renderizado, para que el modal abra con su
-       tamaño final y no crezca cuando entra el iframe de PayPal. */
+    /* Height of the already rendered form, so the modal opens at its final
+       size and doesn't grow when PayPal's iframe comes in. */
     min-height: 320px;
     width: 100%;
     max-width: 200px;
@@ -731,8 +730,8 @@ const hasSidebar = Astro.slots.has('sidebar');
   @media (max-width: 720px) {
     .search-trigger-label { display: none; }
     .search-kbd { display: none; }
-    /* Los links de texto se mantienen visibles: la home no tiene sidebar
-       y esconderlos la dejaría sin navegación. */
+    /* The text links stay visible: the home page has no sidebar and hiding
+       them would leave it without navigation. */
     .topbar {
       padding: 10px 16px;
       gap: 10px;
@@ -810,15 +809,15 @@ const hasSidebar = Astro.slots.has('sidebar');
     overscroll-behavior: contain;
     padding: 32px 4px 40px 0;
   }
-  /* Un <details> sin `open` esconde su contenido desde el shadow DOM del
-     navegador, no con `display` en los hijos: por eso el markup lleva
-     `open` fijo y lo colapsa un script, no CSS. */
+  /* A <details> without `open` hides its content from the browser's shadow
+     DOM, not with `display` on the children: that's why the markup has a
+     fixed `open` and a script collapses it, not CSS. */
   .sidebar-summary { display: none; }
 
   @media (max-width: 900px) {
-    /* minmax(0, 1fr) y no "1fr": un track sin mínimo explícito se estira
-       hasta el min-content de sus hijos, y un <pre> largo desbordaba la
-       página entera. */
+    /* minmax(0, 1fr) and not "1fr": a track without an explicit minimum
+       stretches to its children's min-content, and a long <pre> overflowed
+       the whole page. */
     .page-with-sidebar { grid-template-columns: minmax(0, 1fr); }
     .sidebar-col {
       position: static;
@@ -896,8 +895,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     border: 1px solid var(--border);
   }
 
-  /* Sincroniza los bloques shiki con el toggle manual, no solo con
-     prefers-color-scheme. Requiere defaultColor={false} en cada <Code>. */
+  /* Syncs the shiki blocks with the manual toggle, not only with
+     prefers-color-scheme. Requires defaultColor={false} on each <Code>. */
   html[data-theme='dark'] .astro-code,
   html[data-theme='dark'] .astro-code span {
     color: var(--shiki-dark) !important;
@@ -978,8 +977,8 @@ const hasSidebar = Astro.slots.has('sidebar');
     justify-content: center;
     padding: 12vh 16px 16px;
   }
-  /* El selector por id le gana al [hidden] del navegador; sin este
-     override el atributo hidden no haría nada. */
+  /* The id selector beats the browser's [hidden]; without this override
+     the hidden attribute would do nothing. */
   #search-modal:not([hidden]) {
     display: flex;
   }
@@ -1034,9 +1033,9 @@ const hasSidebar = Astro.slots.has('sidebar');
     list-style: none; margin: 0; padding: 6px; overflow-y: auto; overscroll-behavior: contain;
   }
   .search-results li { border-radius: 8px; }
-  /* Antes solo cambiaba el fondo contra --surface — casi invisible. El
-     borde izquierdo con --primary es la misma señal que usa aria-current
-     en el sidebar (Sidebar.astro), no una nueva. */
+  /* It used to change only the background against --surface — almost
+     invisible. The left border with --primary is the same signal
+     aria-current uses in the sidebar (Sidebar.astro), not a new one. */
   .search-results li.active {
     background: var(--surface-active);
     box-shadow: inset 3px 0 0 var(--primary);

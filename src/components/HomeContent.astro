@@ -9,9 +9,9 @@ import components from '../data/components.json';
 import { useTranslations, type Lang } from '../i18n/ui';
 import { groupCards } from '../lib/navGroups';
 
-// La grilla muestra el poster del clip, no el clip: son ~40 tarjetas, y
-// cuarenta videos reproduciéndose a la vez es una home que se mueve entera y
-// pesa decenas de megas. El movimiento vive en la página del componente.
+// The grid shows the clip's poster, not the clip: there are ~40 cards, and
+// forty videos playing at once is a home page that moves all over and weighs
+// tens of megabytes. The motion lives on the component's page.
 const MEDIA_DIR = path.join(process.cwd(), 'public/media');
 const posterFor = (slug) => `/media/${slug}.jpg`;
 const hasPoster = (slug) => fs.existsSync(path.join(MEDIA_DIR, `${slug}.jpg`));
@@ -53,9 +53,9 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   <p class="install-hint">{content.installHint}</p>
 
   <div class="hero-actions">
-    <!-- Único botón sólido primary del hero: en un layout donde h1, lede,
-         2 bloques de instalación y los badges pesan todos igual, no había
-         ningún punto de entrada al que el ojo fuera primero. -->
+    <!-- The hero's only solid primary button: in a layout where h1, lede,
+         2 install blocks and the badges all weigh the same, there was no
+         entry point for the eye to go to first. -->
     <a class="btn-primary" href={getRelativeLocaleUrl(lang, '/getting-started')}>{t('gs.linkText')} →</a>
     <a class="btn-secondary" href={getRelativeLocaleUrl(lang, '/atomic-design')}>{t('nav.atomicDesign')}</a>
   </div>
@@ -142,8 +142,8 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
   }
   .btn-secondary:hover { color: var(--primary); }
 
-  /* Etiqueta estática, no interactiva: superficie hundida sin borde, radio
-     chico — la píldora con borde queda reservada para lo clicable. */
+  /* Static, non-interactive label: sunken surface without a border, small
+     radius — the bordered pill is reserved for what's clickable. */
   .badges { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
   .badge {
     font-size: var(--text-sm); font-weight: 600; padding: var(--space-xs) var(--space-md);
@@ -164,9 +164,9 @@ const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as cons
     font-size: 14px; width: 100%; font-family: inherit;
   }
   .filter-bar input::placeholder { color: var(--text-light); }
-  /* Antes vivía en margen negativo para "restar" el hueco que ya dejaba
-     .filter-bar: ese hueco no debería haber existido. El mensaje ocupa el
-     lugar de la grilla directamente, sin acrobacia de margen. */
+  /* It used to live in a negative margin to "subtract" the gap .filter-bar
+     already left: that gap shouldn't have existed. The message takes the
+     grid's place directly, with no margin acrobatics. */
   .filter-empty { color: var(--text-light); font-size: 14px; margin: 0 0 var(--space-xl); }
 
   .group { margin-bottom: var(--space-section); }

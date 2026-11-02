@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Typecheck de demos/ contra el mismo orn-ui que usa el resto de la docs
- * (ver orn-ui-path.mjs): con el repo hermano, sus tipos compilados
- * (lib/typescript, `pnpm --filter orn-ui build`); si no, el paquete de npm.
+ * Typechecks demos/ against the same orn-ui the rest of the docs uses
+ * (see orn-ui-path.mjs): with the sibling repo, its compiled types
+ * (lib/typescript, `pnpm --filter orn-ui build`); otherwise, the npm package.
  */
 import { spawnSync } from 'node:child_process';
 import { ORN_UI_IS_LOCAL } from './orn-ui-path.mjs';

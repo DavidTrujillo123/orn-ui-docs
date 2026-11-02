@@ -1,10 +1,10 @@
 import { GITHUB_URL, NPM_URL } from './links';
 
 /**
- * JSON-LD de la home, en el idioma que se le pase. Describe el paquete, no el
- * sitio: `sameAs` enlaza npm y GitHub para que los buscadores traten las tres
- * URLs como la misma entidad, que es lo que hace que una búsqueda por "orn-ui"
- * pueda resolver a cualquiera de ellas en vez de a `orion-ui` u `ore-ui`.
+ * The home page's JSON-LD, in the language passed in. It describes the
+ * package, not the site: `sameAs` links npm and GitHub so search engines
+ * treat the three URLs as the same entity, which is what lets a search for
+ * "orn-ui" resolve to any of them instead of to `orion-ui` or `ore-ui`.
  */
 export function homeJsonLd(opts: {
   description: string;

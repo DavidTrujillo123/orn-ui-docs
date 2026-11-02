@@ -1,34 +1,34 @@
 #!/usr/bin/env bash
-# Graba el clip de un componente corriendo su flow de Maestro contra el
-# simulador, y lo deja listo para la web en public/media/<slug>.mp4 + un
-# poster .jpg.
+# Records a component's clip by running its Maestro flow against the
+# simulator, and leaves it ready for the web in public/media/<slug>.mp4 + a
+# .jpg poster.
 #
-# Sólo h264: se probó agregar un .webm (VP9) y salía el doble de pesado que
-# el mp4 a calidad equivalente en clips de UI —- planos, con mucha superficie
-# lisa. h264 lo reproduce todo lo que soporta <video>, así que el segundo
-# formato era peso y un paso de encode a cambio de nada.
+# h264 only: adding a .webm (VP9) was tried and it came out twice as heavy as
+# the mp4 at equivalent quality on UI clips —- flat, with lots of smooth
+# surface. h264 plays everywhere <video> is supported, so the second format
+# was weight and an extra encode step for nothing.
 #
-# A diferencia de record.sh (GIF, captura a ciegas de ~4s mientras alguien
-# maneja el simulador a mano), acá la coreografía es el flow: mismo clip cada
-# vez, regenerable, y versionado junto al componente. Ver MEDIA.md.
+# Unlike record.sh (GIF, a blind ~4s capture while someone drives the
+# simulator by hand), here the choreography is the flow: the same clip every
+# time, regenerable, and versioned alongside the component. See MEDIA.md.
 #
-# Uso:
+# Usage:
 #   scripts/record-demo.sh <slug>              # flow: .maestro/demos/*<slug>.yaml
-#   scripts/record-demo.sh <slug> <flow.yaml>  # flow explícito
-#   scripts/record-demo.sh <slug> --from <clip.mp4>   # sin grabar, sólo encodear
+#   scripts/record-demo.sh <slug> <flow.yaml>  # explicit flow
+#   scripts/record-demo.sh <slug> --from <clip.mp4>   # no recording, encode only
 #
-# Requiere: maestro, ffmpeg, un simulador booteado con la app instalada.
+# Requires: maestro, ffmpeg, a booted simulator with the app installed.
 set -euo pipefail
 
-SLUG="${1:?uso: scripts/record-demo.sh <slug> [flow.yaml | --from clip.mp4]}"
+SLUG="${1:?usage: scripts/record-demo.sh <slug> [flow.yaml | --from clip.mp4]}"
 shift || true
 
 DOCS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT_DIR="${DOCS_DIR}/public/media"
 
-# El repo de la librería es hermano de este (ver README). El nombre del
-# directorio cambió una vez ya, así que se resuelve por lo que exista y se
-# puede forzar con EXAMPLE_APP_DIR.
+# The library repo is a sibling of this one (see README). The directory's
+# name has already changed once, so it's resolved by whatever exists and can
+# be forced with EXAMPLE_APP_DIR.
 APP_DIR="${EXAMPLE_APP_DIR:-}"
 if [ -z "$APP_DIR" ]; then
   for candidate in "${DOCS_DIR}/../orn-ui/apps/example" "${DOCS_DIR}/../only-react-native-components/apps/example"; do
@@ -39,52 +39,52 @@ fi
 SOURCE_MP4=""
 FLOW=""
 case "${1:-}" in
-  --from) SOURCE_MP4="${2:?--from necesita un archivo}" ;;
+  --from) SOURCE_MP4="${2:?--from needs a file}" ;;
   "")     FLOW="${APP_DIR}/.maestro/demos/${SLUG}.yaml" ;;
   *)      FLOW="$1" ;;
 esac
 
-# El ancho es el de la columna de media (280px CSS) por 2 para pantallas
-# retina. Subir de ahí engorda el archivo sin que se vea nada más: el clip
-# nunca se muestra más grande.
+# The width is the media column's (280px CSS) times 2 for retina screens.
+# Going higher fattens the file without showing anything more: the clip is
+# never displayed larger.
 WIDTH=560
 FPS=30
 
 mkdir -p "$OUT_DIR"
 
 if [ -z "$SOURCE_MP4" ]; then
-  [ -n "$APP_DIR" ] || { echo "no encontré apps/example — exportá EXAMPLE_APP_DIR" >&2; exit 1; }
+  [ -n "$APP_DIR" ] || { echo "apps/example not found — export EXAMPLE_APP_DIR" >&2; exit 1; }
   if [ ! -f "$FLOW" ]; then
-    # El nombre del flow lleva la categoría del manifest (organisms-select),
-    # el slug solo no alcanza para encontrarlo.
+    # The flow's name carries the manifest category (organisms-select),
+    # the slug alone isn't enough to find it.
     FLOW="$(find "${APP_DIR}/.maestro/demos" -name "*${SLUG}.yaml" | head -1)"
-    [ -n "$FLOW" ] || { echo "no encontré flow de demo para '${SLUG}' en ${APP_DIR}/.maestro/demos" >&2; exit 1; }
+    [ -n "$FLOW" ] || { echo "no demo flow found for '${SLUG}' in ${APP_DIR}/.maestro/demos" >&2; exit 1; }
   fi
 
-  # Barra de estado fija: sin esto cada regrabación cambia hora y batería, y
-  # el diff de un clip regenerado es ruido puro.
+  # Fixed status bar: without this every re-recording changes the time and
+  # battery, and the diff of a regenerated clip is pure noise.
   xcrun simctl status_bar booted override \
     --time "9:41" --dataNetwork wifi --wifiMode active --wifiBars 3 \
     --cellularMode active --cellularBars 4 \
     --batteryState charged --batteryLevel 100 >/dev/null 2>&1 || true
 
-  echo "Corriendo ${FLOW##*/}..."
-  # Un `maestro test` interrumpido deja la sesión de grabación del simulador
-  # tomada, y el siguiente startRecording muere con "RECORDING_FAILED
-  # exit_code=16" — para siempre, hasta que se mate al proceso o se reinicie
-  # el simulador. Barrer antes de arrancar hace que una corrida cancelada no
-  # envenene a la siguiente.
+  echo "Running ${FLOW##*/}..."
+  # An interrupted `maestro test` leaves the simulator's recording session
+  # taken, and the next startRecording dies with "RECORDING_FAILED
+  # exit_code=16" — forever, until the process is killed or the simulator
+  # restarts. Sweeping before starting keeps a cancelled run from poisoning
+  # the next one.
   pkill -f 'simctl io .* recordVideo' 2>/dev/null || true
 
-  # Maestro escribe el .mp4 de startRecording en el CWD, con el nombre que le
-  # pasa el flow — por convención, el slug.
+  # Maestro writes startRecording's .mp4 to the CWD, with the name the flow
+  # passes it — by convention, the slug.
   RUN_LOG="$(mktemp -t "maestro-${SLUG}.XXXXXX")"
   run_flow() { (cd "$APP_DIR" && maestro test "$FLOW") 2>&1 | tee "$RUN_LOG"; return "${PIPESTATUS[0]}"; }
   if ! run_flow; then
-    # Un solo reintento, y sólo para el fallo de grabación: si lo que falló es
-    # un selector, reintentar es perder un minuto para volver a fallar igual.
+    # A single retry, and only for the recording failure: if what failed is
+    # a selector, retrying is losing a minute to fail the same way again.
     if grep -q 'RECORDING_FAILED' "$RUN_LOG"; then
-      echo "reintentando ${SLUG} tras limpiar la grabación colgada..."
+      echo "retrying ${SLUG} after clearing the stuck recording..."
       pkill -f 'simctl io .* recordVideo' 2>/dev/null || true
       run_flow || { rm -f "$RUN_LOG"; exit 1; }
     else
@@ -95,23 +95,23 @@ if [ -z "$SOURCE_MP4" ]; then
   rm -f "$RUN_LOG"
   SOURCE_MP4="${APP_DIR}/${SLUG}.mp4"
   KEEP_SOURCE=0
-  [ -f "$SOURCE_MP4" ] || { echo "el flow no dejó ${SLUG}.mp4 — ¿el startRecording se llama distinto?" >&2; exit 1; }
+  [ -f "$SOURCE_MP4" ] || { echo "the flow didn't leave ${SLUG}.mp4 — is the startRecording named differently?" >&2; exit 1; }
 else
   KEEP_SOURCE=1
-  [ -f "$SOURCE_MP4" ] || { echo "no encontré $SOURCE_MP4" >&2; exit 1; }
+  [ -f "$SOURCE_MP4" ] || { echo "$SOURCE_MP4 not found" >&2; exit 1; }
 fi
 
-echo "Encodeando..."
-# yuv420p + faststart: sin el primero Safari no reproduce nada, sin el
-# segundo el video no arranca hasta bajar el archivo entero.
+echo "Encoding..."
+# yuv420p + faststart: without the first Safari plays nothing, without the
+# second the video doesn't start until the whole file is downloaded.
 ffmpeg -y -i "$SOURCE_MP4" -an \
   -vf "fps=${FPS},scale=${WIDTH}:-2:flags=lanczos" \
   -c:v libx264 -profile:v main -crf 28 -preset slow -pix_fmt yuv420p \
   -movflags +faststart "${OUT_DIR}/${SLUG}.mp4" >/dev/null 2>&1
 
-# Poster = primer frame. Es lo que se ve antes de que el video cargue (y lo
-# único que se ve si el visitante pidió menos movimiento), así que sale del
-# mismo clip y no puede desincronizarse.
+# Poster = first frame. It's what's seen before the video loads (and the only
+# thing seen if the visitor asked for reduced motion), so it comes from the
+# same clip and can't get out of sync.
 ffmpeg -y -i "$SOURCE_MP4" -frames:v 1 \
   -vf "scale=${WIDTH}:-2:flags=lanczos" -q:v 4 \
   "${OUT_DIR}/${SLUG}.jpg" >/dev/null 2>&1
@@ -122,11 +122,11 @@ for f in "${OUT_DIR}/${SLUG}.mp4" "${OUT_DIR}/${SLUG}.jpg"; do
   echo "  $(du -h "$f" | cut -f1)	${f#${DOCS_DIR}/}"
 done
 
-# Un clip largo casi nunca es un demo largo: es Maestro esperando a que se
-# aquiete una pantalla que anima sin parar (Spinner, Skeleton, Slides). Se
-# avisa en vez de fallar —el archivo sirve igual— pero conviene mirar si esa
-# demo necesita recortar variantes en CLIP_VARIANTS.
+# A long clip is almost never a long demo: it's Maestro waiting for a screen
+# that animates nonstop (Spinner, Skeleton, Slides) to settle. It warns instead
+# of failing —the file works anyway— but it's worth checking whether that
+# demo needs to trim variants in CLIP_VARIANTS.
 DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "${OUT_DIR}/${SLUG}.mp4" 2>/dev/null | cut -d. -f1)
 if [ -n "$DURATION" ] && [ "$DURATION" -gt 35 ]; then
-  echo "  ⚠ ${DURATION}s — largo para un loop de doc; revisá CLIP_VARIANTS para ${SLUG}"
+  echo "  ⚠ ${DURATION}s — long for a docs loop; check CLIP_VARIANTS for ${SLUG}"
 fi

@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Graba y encodea el clip de cada flow de .maestro/demos/ del repo hermano.
-# Un componente que falla no corta la corrida: se anota y sigue, y al final
-# imprime el resumen. Son ~45 grabaciones contra un simulador real, así que
-# abortar en el primer error significaría perder media hora de corrida por un
-# selector.
+# Records and encodes the clip for each flow in the sibling repo's .maestro/demos/.
+# A component that fails doesn't stop the run: it's noted and the run goes on,
+# and at the end the summary is printed. It's ~45 recordings against a real
+# simulator, so aborting on the first error would mean losing half an hour of
+# run time over one selector.
 #
-# Uso:
-#   scripts/record-all-demos.sh              # todos
-#   scripts/record-all-demos.sh button card  # sólo esos slugs
+# Usage:
+#   scripts/record-all-demos.sh              # all
+#   scripts/record-all-demos.sh button card  # only those slugs
 set -uo pipefail
 
 DOCS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
@@ -18,17 +18,17 @@ if [ -z "$APP_DIR" ]; then
     [ -d "$candidate" ] && { APP_DIR="$(cd "$candidate" && pwd)"; break; }
   done
 fi
-[ -n "$APP_DIR" ] || { echo "no encontré apps/example — exportá EXAMPLE_APP_DIR" >&2; exit 1; }
+[ -n "$APP_DIR" ] || { echo "apps/example not found — export EXAMPLE_APP_DIR" >&2; exit 1; }
 
 ONLY=("$@")
 
 ok=(); failed=()
 for flow in "${APP_DIR}"/.maestro/demos/*.yaml; do
   name="$(basename "$flow" .yaml)"
-  # _beat.yaml y cualquier otro subflow: no son clips.
+  # _beat.yaml and any other subflow: they are not clips.
   case "$name" in _*) continue ;; esac
-  # El archivo se llama <categoría>-<slug>; el slug puede tener guiones, así
-  # que se recorta sólo el prefijo de categoría conocido.
+  # The file is named <category>-<slug>; the slug can contain hyphens, so
+  # only the known category prefix is trimmed.
   slug="${name#atoms-}"; slug="${slug#molecules-}"; slug="${slug#organisms-}"; slug="${slug#examples-}"
 
   if [ ${#ONLY[@]} -gt 0 ]; then
@@ -43,11 +43,11 @@ for flow in "${APP_DIR}"/.maestro/demos/*.yaml; do
     tail -2 "/tmp/record-${slug}.log"
   else
     failed+=("$slug")
-    echo "  ✗ falló — $(grep -m1 'FAILED' "/tmp/record-${slug}.log" || echo 'ver /tmp/record-'"${slug}"'.log')"
+    echo "  ✗ failed — $(grep -m1 'FAILED' "/tmp/record-${slug}.log" || echo 'see /tmp/record-'"${slug}"'.log')"
   fi
 done
 
 echo
-echo "════════ ${#ok[@]} ok, ${#failed[@]} fallaron"
-[ ${#failed[@]} -gt 0 ] && printf 'fallaron: %s\n' "${failed[*]}"
+echo "════════ ${#ok[@]} ok, ${#failed[@]} failed"
+[ ${#failed[@]} -gt 0 ] && printf 'failed: %s\n' "${failed[*]}"
 exit 0

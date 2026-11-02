@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Alert as OrnAlert, showConfirm, showToast } from 'orn-ui';
 import { VariantList, type VariantDef } from './VariantList';
 
-/** Sin hook, sin <OrnAlert> propio: showConfirm monta el AlertProvider del sitio. */
+/** No hook, no <OrnAlert> of its own: showConfirm mounts the site's AlertProvider. */
 async function deleteInvoice(id: string): Promise<void> {
   const confirmed = await showConfirm({
     title: 'Delete invoice?',

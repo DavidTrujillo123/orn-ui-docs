@@ -3,7 +3,7 @@ import components from '../data/components.json';
 import { getEntry } from 'astro:content';
 import { isMergedIntoGroupPage } from '../lib/groupedPages';
 
-// Índice del sitio en Markdown para agentes de lenguaje (llmstxt.org).
+// The site's index in Markdown for language agents (llmstxt.org).
 export const GET: APIRoute = async () => {
   const site = await getEntry('site', 'en');
   const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];

@@ -9,7 +9,7 @@ export function getStaticPaths() {
   return all.filter((c) => !isMergedIntoGroupPage(c)).map((c) => ({ params: { slug: c.slug }, props: { component: c } }));
 }
 
-// Misma página en Markdown, para crawlers y LLMs que no quieran parsear HTML.
+// The same page in Markdown, for crawlers and LLMs that don't want to parse HTML.
 export const GET: APIRoute = ({ props }) => {
   const t = useTranslations('en');
   const markdown = buildComponentMarkdown(props.component, t, 'en');

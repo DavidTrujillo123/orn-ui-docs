@@ -2,13 +2,13 @@ import type { APIRoute } from 'astro';
 import components from '../data/components.json';
 import { GROUP_PAGES } from '../lib/groupedPages';
 
-// Literal, no clave i18n: el índice es un solo archivo para ambos idiomas.
+// A literal, not an i18n key: the index is a single file for both languages.
 const GROUP_DISPLAY_NAME: Record<string, string> = { Text: 'Typography' };
 
 /**
- * Índice del buscador global. El cliente lo descarga una vez y filtra en
- * memoria. `haystack` incluye los tags JSX de cada variante además del
- * nombre, para que buscar "TextInput" encuentre Input.
+ * The global search index. The client downloads it once and filters in
+ * memory. `haystack` includes each variant's JSX tags besides the name, so
+ * searching "TextInput" finds Input.
  */
 export const GET: APIRoute = () => {
   const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
@@ -42,9 +42,9 @@ export const GET: APIRoute = () => {
   }
 
   entries.push(
-    // El haystack va bilingüe a propósito (el índice es uno solo para los dos
-    // idiomas). La tabla de compatibilidad vive en esta página, así que buscar
-    // "expo", "sdk 54" o "compatibilidad" tiene que traer acá.
+    // The haystack is bilingual on purpose (the index is a single one for both
+    // languages). The compatibility table lives on this page, so searching
+    // "expo", "sdk 54" or "compatibilidad" has to bring you here.
     { name: 'Getting Started', category: 'Guide', slug: 'getting-started', haystack: 'getting started install instalacion uiprovider setup safe area safe-area-context insets mountsafeareaprovider safeareauiprovider pod install compatibility compatibilidad expo expo go sdk 54 55 56 57 react-native 0.81 0.83 0.85 0.86 peer dependencies peerdependencies requisitos versiones versions' },
     { name: 'Atomic Design', category: 'Guide', slug: 'atomic-design', haystack: 'atomic design diseño atomico atoms molecules organisms atomos moleculas organismos methodology metodologia architecture arquitectura why orn-ui' },
     { name: 'Tokens', category: 'Guide', slug: 'tokens', haystack: 'tokens spacing radius font size duration' },

@@ -1,9 +1,9 @@
 ---
-// Un solo callout para todo el sitio. Antes había cuatro implementaciones
-// del mismo patrón visual con valores levemente distintos: .warning y
-// .warning-note en GettingStartedContent, .provider-note en
-// ComponentPageLayout, .callout en AtomicDesignContent. Misma señal
-// (advertencia/nota), un solo lugar donde cambiarla.
+// A single callout for the whole site. There used to be four implementations
+// of the same visual pattern with slightly different values: .warning and
+// .warning-note in GettingStartedContent, .provider-note in
+// ComponentPageLayout, .callout in AtomicDesignContent. Same signal
+// (warning/note), a single place to change it.
 interface Props {
   variant?: 'warn' | 'info';
   href?: string;
@@ -37,7 +37,7 @@ const Tag = href ? 'a' : 'div';
   .callout-body { margin: 0; }
   .callout-body :global(strong) { color: var(--text); }
 
-  /* warn: ámbar, para lo que puede romper algo (UIProvider faltante, etc). */
+  /* warn: amber, for what can break something (missing UIProvider, etc). */
   .callout-warn {
     background: color-mix(in srgb, #f59e0b 12%, var(--surface));
     border: 1px solid color-mix(in srgb, #f59e0b 40%, var(--border));
@@ -45,7 +45,7 @@ const Tag = href ? 'a' : 'div';
   .callout-warn .callout-icon { color: #f59e0b; }
   a.callout-warn:hover { border-color: #f59e0b; }
 
-  /* info: primary, para una nota que aclara pero no bloquea. */
+  /* info: primary, for a note that clarifies but doesn't block. */
   .callout-info {
     background: color-mix(in srgb, var(--primary) 10%, var(--surface));
     border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--border));

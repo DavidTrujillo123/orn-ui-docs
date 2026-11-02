@@ -2,9 +2,9 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 /**
- * Copy editorial del sitio, un archivo por idioma. El schema lo valida en
- * build: un campo faltante rompe el deploy en vez de publicarse roto.
- * Ver CONTENT.md.
+ * The site's editorial copy, one file per language. The schema validates it
+ * at build time: a missing field breaks the deploy instead of being published broken.
+ * See CONTENT.md.
  */
 const site = defineCollection({
   loader: glob({ pattern: '*.json', base: './src/content/site' }),

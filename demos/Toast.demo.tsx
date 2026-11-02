@@ -4,9 +4,9 @@ import { Body, Button, Toast, showAlert, showConfirm, showToast, useToast } from
 import { VariantList, type VariantDef } from './VariantList';
 
 /**
- * Módulo de negocio puro: sin hooks, sin árbol de React montado que le pase
- * props. Igual habla con el usuario porque showToast/showConfirm/showAlert
- * llaman al provider más cercano por afuera del árbol.
+ * Pure business module: no hooks, no mounted React tree passing it props. It
+ * still talks to the user because showToast/showConfirm/showAlert call the
+ * nearest provider from outside the tree.
  */
 async function deleteInvoice(id: string): Promise<boolean> {
   const confirmed = await showConfirm({

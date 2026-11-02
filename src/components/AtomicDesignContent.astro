@@ -18,9 +18,9 @@ const counts = {
   organisms: (components as any).organisms.length,
 };
 
-// Los tres nombres de capa son términos de la metodología y ya viven
-// traducidos como títulos de grupo en el sidebar (group.atoms, …), así
-// que se reutilizan en vez de duplicar la traducción acá.
+// The three layer names are terms from the methodology and already live
+// translated as group titles in the sidebar (group.atoms, …), so they're
+// reused instead of duplicating the translation here.
 const layers = [
   { key: 'atoms', label: t('group.atoms'), n: 1 },
   { key: 'molecules', label: t('group.molecules'), n: 2 },
@@ -31,8 +31,8 @@ const benefits = [1, 2, 3, 4, 5] as const;
 const steps = [1, 2, 3, 4, 5] as const;
 const mistakes = [1, 2, 3] as const;
 
-// Títulos en el idioma original de cada fuente: son referencias
-// bibliográficas, no copy del sitio. Solo la nota se traduce.
+// Titles in each source's original language: they're bibliographic
+// references, not site copy. Only the note is translated.
 const sources = [
   { n: 1, title: 'Brad Frost — “Atomic Design”', meta: 'bradfrost.com, 10 Jun 2013', href: 'https://bradfrost.com/blog/post/atomic-web-design/' },
   { n: 2, title: 'Brad Frost — Atomic Design, ch. 2: “Atomic Design Methodology”', meta: 'atomicdesign.bradfrost.com', href: 'https://atomicdesign.bradfrost.com/chapter-2/' },
@@ -61,11 +61,11 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
 
 <h1>{t('ad.h1')}</h1>
 
-<!-- Flota a la derecha del lede y de "Por qué se creó orn-ui": con flex,
-     una fila obligaba a la sección siguiente a empezar recién debajo del
-     punto más bajo entre imagen y texto, dejando un hueco enorme cuando el
-     lede era corto. Con float el texto de "why" sube y llena ese espacio;
-     la sección siguiente limpia el float (ver .why-block + .block). -->
+<!-- Floats to the right of the lede and of "Why orn-ui was created": with flex,
+     a row forced the next section to start only below the lowest point
+     between image and text, leaving a huge gap when the lede was short.
+     With float the "why" text moves up and fills that space; the next
+     section clears the float (see .why-block + .block). -->
 <figure class="diagram">
   <img src="/media/atomic-design-diagram.jpeg" alt="Atom, molecule and organism represented as circles that nest into progressively larger clusters" loading="lazy" width="1200" height="1968" />
   <figcaption>
@@ -182,20 +182,20 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
   h1 { font-size: 32px; margin: 0 0 var(--space-md); }
   .lede { color: var(--text-light); font-size: 16px; line-height: 1.6; margin-bottom: var(--space-section); }
 
-  /* Flota a la derecha del lede y sigue flotando dentro de .why-block: el
-     texto sube y ocupa el espacio al costado de la imagen en vez de que la
-     sección entera espere a que termine la imagen (ver comentario en el
-     markup). .why-block limpia el float al cerrar para no arrastrarlo a
-     "Las tres capas". */
+  /* Floats to the right of the lede and keeps floating inside .why-block:
+     the text moves up and takes the space beside the image instead of the
+     whole section waiting for the image to end (see the comment in the
+     markup). .why-block clears the float when it closes so it isn't dragged
+     into "The three layers". */
   .diagram { float: right; width: 200px; margin: 0 0 var(--space-lg) var(--space-xxxl); text-align: center; }
   @media (max-width: 720px) {
     .diagram { float: none; width: 160px; margin: 0 auto var(--space-xl); }
   }
 
   .block { margin-bottom: var(--space-section); }
-  /* Limpia el float acá, no en .why-block: el punto es que el texto de
-     "Por qué se creó orn-ui" SÍ suba y quede al costado de la imagen — solo
-     la sección siguiente necesita arrancar en su propio margen izquierdo. */
+  /* Clears the float here, not in .why-block: the point is that the text of
+     "Why orn-ui was created" DOES move up and sit beside the image — only
+     the next section needs to start at its own left margin. */
   .why-block + .block { clear: both; }
   .block h2 { font-size: 20px; margin: 0 0 var(--space-md); }
   .block > p { line-height: 1.7; color: var(--text-light); }
@@ -235,8 +235,8 @@ import { InfoRow } from '../molecules/InfoRow'; // never`;
 
   :global(.block .callout) { margin-bottom: var(--space-lg); }
 
-  /* Círculo del número centrado sobre el borde izquierdo de 1px: el offset
-     es -mitad del diámetro del círculo, no un número copiado a ojo. */
+  /* Number circle centered on the 1px left border: the offset is minus half
+     the circle's diameter, not a number copied by eye. */
   .steps { margin: var(--space-xl) 0 0; padding: 0 0 0 var(--space-xs); list-style: none; counter-reset: step; }
   .steps > li {
     counter-increment: step;

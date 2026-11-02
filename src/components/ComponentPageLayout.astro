@@ -1,19 +1,19 @@
 ---
-// Layout único de las páginas de componente. Todas —las individuales y las
-// de grupo, como Typography— pasan por aquí, así que comparten el mismo
-// orden de secciones y los mismos estilos:
+// The single layout for component pages. All of them —individual ones and
+// group ones, like Typography— go through here, so they share the same
+// section order and the same styles:
 //
-//   1. acciones de página (volver + markdown)
-//   2. cabecera (categoría + nombre)
-//   3. hero: contenido a la izquierda (lede, provider, instalación, uso)
-//      y el gif a la derecha
-//   4. ejemplo combinado
-//   5. variantes
-//   6. código fuente completo
+//   1. page actions (back + markdown)
+//   2. header (category + name)
+//   3. hero: content on the left (lede, provider, installation, usage)
+//      and the gif on the right
+//   4. combined example
+//   5. variants
+//   6. full source code
 //   7. props
-//   8. paginación
+//   8. pagination
 //
-// Las secciones sin datos no se renderizan; el orden nunca cambia.
+// Sections with no data aren't rendered; the order never changes.
 import fs from 'node:fs';
 import path from 'node:path';
 import { Code } from 'astro:components';
@@ -36,15 +36,15 @@ interface Props {
   markdownUrl?: string;
   markdown?: string;
   providerHref: string;
-  // Nombres de los componentes que ship juntos en esta página (Title,
-  // Subtitle, Body, Caption). Sin esto no se muestra la fila de chips.
+  // Names of the components that ship together on this page (Title,
+  // Subtitle, Body, Caption). Without this the chips row isn't shown.
   groupMembers?: string[];
   installSlug?: string;
   installImport?: string;
   installNote?: string;
-  // Override de las etiquetas de instalación; por defecto t('install.cli')/
-  // t('install.package'), pensadas para un solo componente. Las páginas de
-  // grupo (Typography) pasan su propio texto porque instalan varios a la vez.
+  // Override for the installation labels; by default t('install.cli')/
+  // t('install.package'), meant for a single component. Group pages
+  // (Typography) pass their own text because they install several at once.
   installCliLabel?: string;
   installPackageLabel?: string;
   deps?: DepChip[];
@@ -55,11 +55,11 @@ interface Props {
   snippet?: string;
   props?: any[];
   propsNote?: string;
-  // El componente reenvía `testID`. No se lista en la tabla (es un gancho para
-  // los tests E2E, no API de diseño) pero conviene decir que existe.
+  // The component forwards `testID`. It isn't listed in the table (it's a hook
+  // for E2E tests, not design API) but it's worth saying it exists.
   forwardsTestID?: boolean;
-  // Nombre del tipo dueño de las props, para buscar sus descripciones
-  // traducidas. Por defecto, el nombre del componente.
+  // Name of the type that owns the props, to look up their translated
+  // descriptions. Defaults to the component's name.
   propsOwner?: string;
   prevItem?: PagerEntry | null;
   nextItem?: PagerEntry | null;
@@ -98,30 +98,30 @@ const {
 const t = useTranslations(lang);
 const codeThemes = { light: 'github-light' as const, dark: 'github-dark' as const };
 
-// Video si el componente tiene clip grabado (scripts/record-demo.sh). La
-// decisión se toma en build, mirando el archivo: no hay bandera que mantener
-// en components.json ni fallback en el navegador que dependa de un 404.
-// Ver MEDIA.md.
-// process.cwd(), no import.meta.url: en build este archivo ya es un chunk
-// compilado fuera de src/, así que una ruta relativa al módulo apunta a
-// cualquier lado. Astro corre siempre desde la raíz del proyecto.
+// Video if the component has a recorded clip (scripts/record-demo.sh). The
+// decision is made at build time, by looking at the file: there's no flag to
+// maintain in components.json nor a browser fallback that depends on a 404.
+// See MEDIA.md.
+// process.cwd(), not import.meta.url: at build time this file is already a
+// chunk compiled outside src/, so a path relative to the module points
+// anywhere. Astro always runs from the project root.
 const MEDIA_DIR = path.join(process.cwd(), 'public/media');
 const hasVideo = fs.existsSync(path.join(MEDIA_DIR, `${mediaSlug}.mp4`));
-// Sin clip pero con poster: el componente se documenta con una imagen fija.
-// Es la salida para lo que no tiene nada que mostrar en movimiento —- borrar
-// el .mp4 y dejar el .jpg alcanza, sin tocar código ni datos.
+// No clip but with a poster: the component is documented with a still image.
+// It's the way out for what has nothing to show in motion —- deleting the
+// .mp4 and keeping the .jpg is enough, without touching code or data.
 const hasPoster = !hasVideo && fs.existsSync(path.join(MEDIA_DIR, `${mediaSlug}.jpg`));
-// Aspect ratio del simulador con el que se graban todos los clips (iPhone 17,
-// 1206x2622). Es constante a propósito: un ratio por clip obligaría a
-// ffprobear en build, y clips de distintos device serían inconsistentes en
-// la grilla del home.
+// Aspect ratio of the simulator all clips are recorded with (iPhone 17,
+// 1206x2622). It's constant on purpose: a ratio per clip would force
+// ffprobing at build time, and clips from different devices would be
+// inconsistent in the home grid.
 const VIDEO_ASPECT = '1206 / 2622';
-// Captura por variante (scripts/capture-variants.sh): public/media/variants/
-// <slug>/<N>-light.jpg y -dark.jpg, N = posición de la variante en el demo
-// (1-based). Una variante sin captura muestra solo su código.
-// Medida real de cada captura, leída del .jpg (cabecera SOF, sin
-// dependencias): width/height en el <img>/<video> reservan el alto antes de
-// que llegue el archivo, así cambiar de tema o cargar la página no mueve nada.
+// Per-variant screenshot (scripts/capture-variants.sh): public/media/variants/
+// <slug>/<N>-light.jpg and -dark.jpg, N = the variant's position in the demo
+// (1-based). A variant without a screenshot shows only its code.
+// Real size of each screenshot, read from the .jpg (SOF header, no
+// dependencies): width/height on the <img>/<video> reserve the height before
+// the file arrives, so switching theme or loading the page moves nothing.
 function jpegSize(file: string): { w: number; h: number } | null {
   const b = fs.readFileSync(file);
   let o = 2;
@@ -136,14 +136,14 @@ function jpegSize(file: string): { w: number; h: number } | null {
   }
   return null;
 }
-// `index` es la posición real en el demo (= nombre de la captura); el array
-// `variants` puede venir filtrado, así que `i + 1` solo sirve de respaldo.
+// `index` is the real position in the demo (= the screenshot's name); the
+// `variants` array may come filtered, so `i + 1` only serves as a fallback.
 const variantShots = variants.map((v: { index?: number }, i: number) => {
   const base = `variants/${mediaSlug}/${v.index ?? i + 1}`;
   const has = fs.existsSync(path.join(MEDIA_DIR, `${base}-light.jpg`))
     && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.jpg`));
   if (!has) return null;
-  // Con clip (componentes con movimiento) el .jpg queda de poster.
+  // With a clip (components with motion) the .jpg stays as the poster.
   const video =
     fs.existsSync(path.join(MEDIA_DIR, `${base}-light.mp4`)) && fs.existsSync(path.join(MEDIA_DIR, `${base}-dark.mp4`));
   const size = jpegSize(path.join(MEDIA_DIR, `${base}-light.jpg`));
@@ -357,8 +357,8 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   .kicker { letter-spacing: 0.06em; color: var(--primary); }
   h1 { margin: var(--space-xs) 0 0; font-size: 32px; }
   .group-chips { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-md); }
-  /* Etiqueta estática: superficie hundida, sin borde, radio chico. Reserva
-     la píldora con borde (999px) para lo interactivo — ver .dep-chip. */
+  /* Static label: sunken surface, no border, small radius. Reserves the
+     bordered pill (999px) for what's interactive — see .dep-chip. */
   .group-chip {
     font-size: var(--text-sm); font-weight: 600; padding: 3px var(--space-md);
     border-radius: var(--radius-xs);
@@ -368,16 +368,16 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   .lede { color: var(--text-light); font-size: 15px; max-width: var(--measure); line-height: 1.6; margin-bottom: var(--space-xl); }
   .hero-left :global(.callout) { margin-bottom: var(--space-xl); }
 
-  /* Contenido a la izquierda, gif a la derecha con un ancho mínimo propio. */
+  /* Content on the left, gif on the right with its own minimum width. */
   .hero-row { display: grid; grid-template-columns: 3fr minmax(240px, 1fr); align-items: start; gap: var(--space-xxxl); }
   .hero-left { min-width: 0; }
-  /* Alto derivado del aspect-ratio real de los GIF (320x647, retrato de
-     teléfono) y no de un min-height fijo: si el lede es corto, la columna
-     de media ya no deja un hueco de cientos de px debajo. */
+  /* Height derived from the GIFs' real aspect-ratio (320x647, phone
+     portrait) and not from a fixed min-height: if the lede is short, the
+     media column no longer leaves a gap of hundreds of px below. */
   .media-col { width: 100%; max-width: 280px; margin-left: auto; }
   .media-frame {
-    /* 320/647 es el ratio de los GIF; los clips de video pasan el suyo por
-       --media-aspect (ver el frontmatter). */
+    /* 320/647 is the GIFs' ratio; video clips pass their own through
+       --media-aspect (see the frontmatter). */
     aspect-ratio: var(--media-aspect, 320 / 647);
     overflow: hidden;
     display: flex; align-items: center; justify-content: center;
@@ -393,9 +393,9 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   .media-frame.media-missing .media-placeholder { display: block; }
   @media (max-width: 800px) {
     .hero-row { grid-template-columns: 1fr; }
-    /* margin-left:auto (de desktop) le gana a justify-self si no se resetea
-       el margin acá: con auto en un solo lado, el gif queda pegado a la
-       derecha en vez de centrado. */
+    /* margin-left:auto (from desktop) beats justify-self unless the margin
+       is reset here: with auto on a single side, the gif sticks to the
+       right instead of being centered. */
     .media-col { justify-self: center; max-width: 200px; margin: 0 auto; }
   }
 
@@ -405,10 +405,10 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   .install-label { margin: 0; }
   .install-note { font-size: 13px; color: var(--text-light); margin: var(--space-xs) 0 0; }
   .install-deps { display: flex; align-items: center; gap: var(--space-sm); flex-wrap: wrap; margin-top: var(--space-lg); }
-  /* Píldora interactiva: superficie normal + borde, la afordancia de link
-     (no solo en hover) es el color primary del texto cuando dep.href
-     existe — sin eso, un chip-link y un chip-texto se ven idénticos hasta
-     que el mouse pasa por encima. */
+  /* Interactive pill: normal surface + border, the link affordance (not
+     only on hover) is the text's primary color when dep.href exists —
+     without that, a chip-link and a chip-text look identical until the
+     mouse passes over them. */
   .dep-chip {
     font-size: var(--text-sm); font-weight: 600; padding: var(--space-xs) var(--space-md);
     border-radius: var(--radius-full);
@@ -431,12 +431,12 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   .variant { margin-bottom: var(--space-xxl); }
   .variant h3 { margin: 0 0 var(--space-sm); }
   .variant :global(pre) { margin: 0; }
-  /* Captura de la variante encima de su código: misma tarjeta, la imagen
-     arriba (qué se ve) y el código abajo (cómo se escribe). Proximidad. */
-  /* Imagen (qué se ve) y código (cómo se escribe) de una variante forman un
-     grupo. Gestalt, región común + proximidad: en pantallas anchas van lado a
-     lado con la misma altura, separados por menos aire (sm) que el que hay
-     entre variantes (xxl); en móvil se apilan. */
+  /* The variant's screenshot above its code: same card, the image on top
+     (what you see) and the code below (how you write it). Proximity. */
+  /* A variant's image (what you see) and code (how you write it) form a
+     group. Gestalt, common region + proximity: on wide screens they sit side
+     by side at the same height, separated by less room (sm) than there is
+     between variants (xxl); on mobile they stack. */
   .variant-body.has-shot { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
   @media (min-width: 700px) {
     .variant-body.has-shot { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: stretch; }
@@ -444,23 +444,23 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
     .variant-body.has-shot :global(pre) { height: 100%; box-sizing: border-box; display: flex; align-items: center; }
   }
   .variant-shot {
-    /* 360px = la tarjeta del demo en un iPhone a 1x (las capturas son @3x):
-       el texto se ve al tamaño real del teléfono, no ampliado. */
+    /* 360px = the demo's card on an iPhone at 1x (the screenshots are @3x):
+       the text is seen at the phone's real size, not enlarged. */
     max-width: 360px;
     margin: 0;
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
   }
-  /* Las dos versiones (claro y oscuro) van apiladas en la misma celda y el
-     tema solo cambia cuál se ve. Nunca display:none: un <video> oculto así no
-     tiene caja, el IntersectionObserver del autoplay lo da por fuera de
-     pantalla y lo pausa, y al cambiar de tema el que entra arranca desde su
-     poster y vuelve a cargar — el parpadeo. Con visibility los dos conservan
-     su caja, siguen cargados y reproduciéndose, y el cambio es instantáneo.
-     Centrados en vertical: en pantallas anchas la tarjeta se estira al alto
-     del código y el clip no debe quedar pegado arriba. El fondo es el de la
-     tarjeta del demo (--shot-bg), así el aire extra continúa la captura. */
+  /* Both versions (light and dark) are stacked in the same cell and the
+     theme only changes which one is visible. Never display:none: a <video>
+     hidden that way has no box, the autoplay IntersectionObserver considers
+     it off screen and pauses it, and on theme switch the incoming one starts
+     from its poster and reloads — the flicker. With visibility both keep
+     their box, stay loaded and playing, and the switch is instant.
+     Vertically centered: on wide screens the card stretches to the code's
+     height and the clip must not stick to the top. The background is the
+     demo card's (--shot-bg), so the extra room continues the screenshot. */
   .variant-shot {
     --shot-bg: #ffffff;
     display: grid;

@@ -53,9 +53,9 @@ function isActive(href: string) {
 </nav>
 
 <script is:inline>
-  // El <aside> persiste entre navegaciones para conservar el scroll, así
-  // que su HTML no se re-renderiza y el aria-current del build queda
-  // congelado. Hay que recalcularlo en cada navegación.
+  // The <aside> persists across navigations to keep the scroll, so its HTML
+  // isn't re-rendered and the build's aria-current stays frozen. It has to
+  // be recomputed on every navigation.
   (function () {
     function syncActiveLink() {
       var current = window.location.pathname.replace(/\/$/, '') || '/';

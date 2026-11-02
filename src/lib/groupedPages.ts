@@ -1,7 +1,7 @@
-// Archivos fuente con más de un export documentado que NO tienen página
-// individual: viven juntos en una página de grupo. Consultarlo en
-// getStaticPaths y en cualquier lugar que arme un link a un componente,
-// para no generar ni enlazar rutas que no existen.
+// Source files with more than one documented export that do NOT have an
+// individual page: they live together on a group page. Check it in
+// getStaticPaths and anywhere that builds a link to a component, so as not
+// to generate or link routes that don't exist.
 export const GROUP_PAGES: Record<string, string> = {
   Text: '/typography',
 };
@@ -18,9 +18,9 @@ export function groupPageFor(sourceFile: string): string | undefined {
   return GROUP_PAGES[sourceFile];
 }
 
-// registryDependencies viene del registry de orn-ui, que no sabe que esta
-// doc fusionó páginas: Modal y DateField declaran dependencia de "title".
-// Redirige esos slugs al destino del grupo.
+// registryDependencies comes from orn-ui's registry, which doesn't know this
+// docs site merged pages: Modal and DateField declare a dependency on "title".
+// Redirects those slugs to the group's destination.
 export const GROUP_SLUG_REDIRECTS: Record<string, { href: string; label: string }> = {
   title: { href: '/typography', label: 'Typography' },
 };

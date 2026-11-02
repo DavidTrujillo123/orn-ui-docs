@@ -1,6 +1,6 @@
 ---
-// Página de grupo: Title, Subtitle, Body y Caption salen del mismo Text.tsx.
-// Usa el mismo layout que las páginas individuales, solo cambian los datos.
+// Group page: Title, Subtitle, Body and Caption come from the same Text.tsx.
+// Uses the same layout as the individual pages, only the data changes.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import components from '../data/components.json';
 import { useTranslations, type Lang } from '../i18n/ui';
@@ -11,11 +11,11 @@ interface Props { lang: Lang }
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Se agrupan por sourceFile en vez de hardcodear los 4 nombres.
+// Grouped by sourceFile instead of hardcoding the 4 names.
 const all = [...(components as any).atoms, ...(components as any).molecules, ...(components as any).organisms];
 const members = all.filter((c: any) => c.sourceFile === 'Text');
 const primary = members.find((m: any) => m.registry) ?? members[0];
-// groupVariants: las variantes del demo compartido, sin filtrar por componente.
+// groupVariants: the shared demo's variants, not filtered by component.
 const allVariants: { label: string; code: string }[] = primary?.groupVariants ?? [];
 
 const usageKeys: Record<string, string> = {
@@ -27,8 +27,8 @@ const usageKeys: Record<string, string> = {
 
 const usage = members.map((m: any) => ({ term: m.name, desc: t(usageKeys[m.name] as any) }));
 
-// Los 4 apilados, como se usarían en una pantalla real. Sale del demo
-// real, no está escrito a mano.
+// The 4 stacked, as they'd be used on a real screen. It comes from the real
+// demo, it isn't hand-written.
 const combinedExample = members
   .map((m: any) => allVariants.find((v) => v.label === m.name)?.code)
   .filter(Boolean)

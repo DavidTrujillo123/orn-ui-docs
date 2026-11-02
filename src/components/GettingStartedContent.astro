@@ -21,9 +21,9 @@ export default function App() {
 const bareInstall = `pnpm add react-native-safe-area-context
 cd ios && pod install`;
 
-// Versiones exactas que publica cada SDK soportado. Las mismas que corre la
-// matriz de compatibilidad del repo (packages/ui/scripts/compat-matrix.mjs):
-// si esa tabla se mueve, esta tiene que moverse con ella.
+// Exact versions each supported SDK publishes. The same ones the repo's
+// compatibility matrix runs (packages/ui/scripts/compat-matrix.mjs): if that
+// table moves, this one has to move with it.
 const supportedSdks = [
   { sdk: '54', reactNative: '0.81.5', react: '19.1.0' },
   { sdk: '55', reactNative: '0.83.10', react: '19.2.0' },

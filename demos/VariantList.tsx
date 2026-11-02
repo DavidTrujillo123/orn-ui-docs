@@ -10,19 +10,19 @@ export interface VariantDef {
 export interface VariantListProps {
   variants: VariantDef[];
   /**
-   * Sólo la primera variante se muestra, ocupando todo el alto disponible.
-   * Para demos que traen su propia lista virtualizada (List/SearchList): no
-   * pueden apilarse varias en un scroll sin anidar VirtualizedLists.
+   * Only the first variant is shown, taking all the available height.
+   * For demos that bring their own virtualized list (List/SearchList): several
+   * can't be stacked in a scroll without nesting VirtualizedLists.
    */
   fill?: boolean;
 }
 
 /**
  * VariantList
- * Todas las variantes apiladas verticalmente, cada una rotulada y sobre su
- * propio stage. Reemplazó a un selector de pills: con tabs arriba había que
- * volver a subir para cambiar de variante, y no se podían comparar dos de un
- * vistazo — que es justamente para lo que se mira un catálogo.
+ * All variants stacked vertically, each one labeled and on its own stage.
+ * It replaced a pill selector: with tabs on top you had to scroll back up to
+ * change variant, and you couldn't compare two at a glance — which is
+ * precisely what a catalog is looked at for.
  */
 export function VariantList({ variants, fill = false }: VariantListProps) {
   const colors = useColors();
@@ -57,7 +57,7 @@ export function VariantList({ variants, fill = false }: VariantListProps) {
   );
 }
 
-/** Fila de ejemplos chicos lado a lado dentro de un mismo `content`. */
+/** Row of small examples side by side within the same `content`. */
 export function VariantRow({ children }: { children: React.ReactNode }) {
   return <View style={styles.row}>{children}</View>;
 }

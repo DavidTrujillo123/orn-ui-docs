@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * Copia node_modules/orn-ui/registry/*.json a public/r/. Astro publica todo
- * lo que hay bajo public/ tal cual, así que esto convierte al sitio estático
- * en el endpoint que consume el CLI (`orn-ui add button --registry
- * https://orn-ui.dev/r`) sin backend: los mismos archivos que ya usa
- * extract-docs.mjs para la sección "Installation" de cada página, servidos
- * también en crudo para quien no instaló el paquete npm.
+ * Copies node_modules/orn-ui/registry/*.json to public/r/. Astro publishes
+ * everything under public/ as is, so this turns the static site into the
+ * endpoint the CLI consumes (`orn-ui add button --registry
+ * https://orn-ui.dev/r`) without a backend: the same files extract-docs.mjs
+ * already uses for each page's "Installation" section, also served raw for
+ * those who didn't install the npm package.
  *
- * Corre en `dev` y `build`, antes de `extract` (mismo requisito: necesita
- * "pnpm install" hecho, orn-ui genera registry/ en su script prepare/build).
+ * Runs in `dev` and `build`, before `extract` (same requirement: it needs
+ * "pnpm install" done, orn-ui generates registry/ in its prepare/build script).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -23,8 +23,8 @@ const OUT_DIR = path.resolve(ROOT, 'public/r');
 function main() {
   if (!fs.existsSync(SRC_DIR)) {
     console.error(
-      `[sync-registry] no encontré ${SRC_DIR}. Corré "pnpm install" primero ` +
-        `(orn-ui genera registry/ en su script "prepare"/"build").`
+      `[sync-registry] ${SRC_DIR} not found. Run "pnpm install" first ` +
+        `(orn-ui generates registry/ in its "prepare"/"build" script).`
     );
     process.exit(1);
   }
@@ -37,7 +37,7 @@ function main() {
     fs.copyFileSync(path.join(SRC_DIR, file), path.join(OUT_DIR, file));
   }
 
-  console.log(`[sync-registry] ${files.length} archivos -> public/r/`);
+  console.log(`[sync-registry] ${files.length} files -> public/r/`);
 }
 
 main();

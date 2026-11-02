@@ -1,10 +1,10 @@
-/* Escala de espaciado del sitio. Los valores de spacing/radius/fontSize/
-   duration son un espejo manual de src/data/tokens.json (la escala de
-   orn-ui misma) — si esos números cambian en la librería, actualizar acá
-   también. --space-section/--space-block/--measure son de ritmo de
-   página, no existen en la librería: no hay "sección" en un component kit.
-   Ver docs/atomic-design para la explicación de por qué la doc de una
-   librería atomic-design debería comer sus propios tokens. */
+/* The site's spacing scale. The spacing/radius/fontSize/duration values are
+   a manual mirror of src/data/tokens.json (orn-ui's own scale) — if those
+   numbers change in the library, update them here too.
+   --space-section/--space-block/--measure are for page rhythm, they don't
+   exist in the library: there's no "section" in a component kit.
+   See docs/atomic-design for the explanation of why an atomic-design
+   library's docs should eat their own tokens. */
 :root {
   --space-xxs: 2px;
   --space-xs: 4px;
@@ -15,8 +15,8 @@
   --space-xxl: 24px;
   --space-xxxl: 32px;
 
-  /* Ritmo de página: separación entre bloques grandes y entre un h2 y su
-     contenido. Múltiplos de --space-xxxl, no valores nuevos al azar. */
+  /* Page rhythm: separation between large blocks and between an h2 and its
+     content. Multiples of --space-xxxl, not new random values. */
   --space-block: 32px;
   --space-section: 48px;
 
@@ -40,7 +40,7 @@
   --duration-base: 200ms;
   --duration-slow: 250ms;
 
-  /* Ancho de lectura cómodo (~75ch); único valor de max-width para prosa
-     en todo el sitio, en vez de 560/640/680/720px sueltos por archivo. */
+  /* Comfortable reading width (~75ch); the only max-width value for prose
+     across the whole site, instead of loose 560/640/680/720px per file. */
   --measure: 68ch;
 }

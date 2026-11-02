@@ -41,8 +41,8 @@ export function StepsDemo() {
       content: <Steps steps={STEPS} current={3} />,
     },
     {
-      // Cada paso tiene ancho mínimo: la fila scrollea antes que apretar las
-      // columnas y dejar que RN parta las etiquetas a la mitad.
+      // Each step has a minimum width: the row scrolls rather than squeezing
+      // the columns and letting RN break the labels in half.
       label: 'Long labels — the row scrolls instead of breaking words',
       content: <Steps steps={LONG_STEPS} current={3} />,
     },

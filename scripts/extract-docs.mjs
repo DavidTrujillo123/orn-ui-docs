@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * Genera src/data/components.json y tokens.json.
+ * Generates src/data/components.json and tokens.json.
  *
- * Props: react-docgen-typescript sobre orn-ui/src. De dónde sale orn-ui (el
- * repo hermano o el paquete de npm) lo decide scripts/orn-ui-path.mjs.
+ * Props: react-docgen-typescript over orn-ui/src. Where orn-ui comes from (the
+ * sibling repo or the npm package) is decided by scripts/orn-ui-path.mjs.
  *
- * Snippets: el bloque entre `// #region demo` y `// #endregion demo` de
- * cada demos/*.demo.tsx, que además se typecheckea en el build.
+ * Snippets: the block between `// #region demo` and `// #endregion demo` of
+ * each demos/*.demo.tsx, which is also typechecked in the build.
  */
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -19,7 +19,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const UI_SRC = path.resolve(ORN_UI_DIR, 'src');
 const REGISTRY_DIR = path.resolve(ORN_UI_DIR, 'registry');
-console.log(`[extract-docs] orn-ui desde ${ORN_UI_IS_LOCAL ? 'el repo local' : 'npm'}: ${ORN_UI_DIR}`);
+console.log(`[extract-docs] orn-ui from ${ORN_UI_IS_LOCAL ? 'the local repo' : 'npm'}: ${ORN_UI_DIR}`);
 const DEMOS_DIR = path.resolve(ROOT, 'demos');
 const OUT_DIR = path.resolve(ROOT, 'src/data');
 const UNKNOWN_TAGS = [];
@@ -30,9 +30,9 @@ const CATEGORIES = {
   organisms: 'Organism',
 };
 
-// Qué exports tienen página propia y en qué orden. category/file salen de
-// registry/manifest.json; acá solo se decide CUÁLES entran (AlertProvider y
-// ToastProvider, por ejemplo, se documentan dentro de Alert/Toast).
+// Which exports get their own page and in what order. category/file come from
+// registry/manifest.json; here we only decide WHICH ones go in (AlertProvider
+// and ToastProvider, for example, are documented inside Alert/Toast).
 const DOC_PAGES = [
   'Title', 'Button', 'IconButton', 'Input', 'Checkbox', 'Badge', 'Card', 'Divider',
   'Avatar', 'Image', 'Gradient', 'Spinner', 'Skeleton', 'Transition', 'ShinyText', 'EmptyState', 'KeyValueRow', 'Fab', 'PressableScale',
@@ -41,15 +41,15 @@ const DOC_PAGES = [
   'DatePicker', 'DateField', 'Wizard', 'NavigationBar', 'ReorderableList', 'Slides', 'Chart',
 ];
 
-// Archivos fuente distintos que comparten un mismo demo. Las variantes se
-// separan por tag JSX en filterVariantsForComponent().
+// Different source files that share the same demo. The variants are split
+// by JSX tag in filterVariantsForComponent().
 const DEMO_FILE_OVERRIDES = { DateField: 'DatePicker' };
 
-// El clip se graba por demo, no por export: varios exports comparten pantalla
-// y por lo tanto comparten media. Title/Subtitle/Body/Caption son la misma
-// página (/typography), y DateField se demuestra dentro del demo de DatePicker
-// (ver DEMO_FILE_OVERRIDES) — sin esto quedaban pidiendo un archivo que ningún
-// flow graba, y mostraban el placeholder de "todavía no grabado".
+// The clip is recorded per demo, not per export: several exports share a
+// screen and therefore share media. Title/Subtitle/Body/Caption are the same
+// page (/typography), and DateField is shown inside DatePicker's demo
+// (see DEMO_FILE_OVERRIDES) — without this they kept asking for a file no
+// flow records, and showed the "not recorded yet" placeholder.
 const MEDIA_SLUG_OVERRIDES = {
   Title: 'typography',
   Subtitle: 'typography',
@@ -59,16 +59,16 @@ const MEDIA_SLUG_OVERRIDES = {
 };
 
 /**
- * [name, category, file, demoFileOverride?] a partir del manifest y
- * DOC_PAGES. Expande los siblings PascalCase de un mismo archivo (Text.tsx
- * -> Title/Subtitle/Body/Caption) y descarta hooks y constantes.
+ * [name, category, file, demoFileOverride?] from the manifest and
+ * DOC_PAGES. Expands the PascalCase siblings of the same file (Text.tsx
+ * -> Title/Subtitle/Body/Caption) and drops hooks and constants.
  */
 function buildComponentList() {
   const manifestPath = path.join(REGISTRY_DIR, 'manifest.json');
   if (!fs.existsSync(manifestPath)) {
     console.error(
-      `[extract-docs] no encontré ${manifestPath}. Corré "pnpm install" (orn-ui genera` +
-        ` registry/ en su script "prepare"/"build") antes de extraer la doc.`
+      `[extract-docs] ${manifestPath} not found. Run "pnpm install" (orn-ui generates` +
+        ` registry/ in its "prepare"/"build" script) before extracting the docs.`
     );
     process.exit(1);
   }
@@ -80,7 +80,7 @@ function buildComponentList() {
   for (const primary of DOC_PAGES) {
     const c = byPrimary.get(primary);
     if (!c) {
-      console.warn(`[extract-docs] "${primary}" está en DOC_PAGES pero no existe en registry/manifest.json.`);
+      console.warn(`[extract-docs] "${primary}" is in DOC_PAGES but doesn't exist in registry/manifest.json.`);
       continue;
     }
     const fileBase = path.basename(c.file, path.extname(c.file));
@@ -96,7 +96,7 @@ function buildComponentList() {
 
 const COMPONENTS = buildComponentList();
 
-/** Deps y tamaño del cierre transitivo, para la sección "Installation". */
+/** Deps and size of the transitive closure, for the "Installation" section. */
 function loadRegistryEntry(slug) {
   const entryPath = path.join(REGISTRY_DIR, `${slug}.json`);
   if (!fs.existsSync(entryPath)) return null;
@@ -110,17 +110,17 @@ function loadRegistryEntry(slug) {
 const parserOptions = {
   savePropValueAsString: true,
   shouldExtractLiteralValuesFromEnum: true,
-  // Solo props propias, sin las heredadas de ViewProps/TextProps. No sirve
-  // el filtro habitual por "no node_modules": orn-ui vive dentro de
-  // node_modules y quedaría excluido también. Se compara por substring
-  // porque `parent.fileName` llega como ruta relativa.
+  // Only own props, without those inherited from ViewProps/TextProps. The
+  // usual "no node_modules" filter doesn't work: orn-ui lives inside
+  // node_modules and would be excluded too. It's compared by substring
+  // because `parent.fileName` arrives as a relative path.
   propFilter: (prop) => !prop.parent || prop.parent.fileName.includes('orn-ui/src/'),
 };
 
 /**
- * Los defaults llegan de tres fuentes con formatos distintos: docgen los
- * devuelve sin comillas ("primary"), el destructuring tal cual está escrito
- * ("'primary'"). Se normalizan para que la columna Default no mezcle estilos.
+ * The defaults come from three sources with different formats: docgen
+ * returns them unquoted ("primary"), the destructuring exactly as written
+ * ("'primary'"). They're normalized so the Default column doesn't mix styles.
  */
 function normalizeDefault(raw) {
   if (raw == null) return null;
@@ -130,9 +130,9 @@ function normalizeDefault(raw) {
 }
 
 /**
- * docgen resuelve las uniones de literales como "enum", que en la tabla no
- * dice nada. Se muestran los valores (`'sm' | 'md' | 'lg'`) salvo cuando son
- * demasiados —IconName tiene decenas—: ahí gana el nombre del alias.
+ * docgen resolves literal unions as "enum", which says nothing in the table.
+ * The values are shown (`'sm' | 'md' | 'lg'`) unless there are too many
+ * —IconName has dozens—: then the alias name wins.
  */
 const MAX_UNION_MEMBERS = 8;
 
@@ -157,13 +157,13 @@ function parseSource(filePath) {
 }
 
 /**
- * Valores por defecto reales, leídos del destructuring del parámetro:
+ * Real default values, read from the parameter's destructuring:
  *
  *   export const Button = memo(({ variant = 'primary', ... }: ButtonProps) => …)
  *
- * react-docgen-typescript no los ve porque toda la librería envuelve la
- * implementación en memo()/forwardRef(), así que sin esto la columna
- * "Default" queda vacía en casi todas las props.
+ * react-docgen-typescript doesn't see them because the whole library wraps
+ * the implementation in memo()/forwardRef(), so without this the "Default"
+ * column stays empty for almost every prop.
  */
 function extractDefaultsFromSource(filePath, componentName) {
   const source = parseSource(filePath);
@@ -183,7 +183,7 @@ function extractDefaultsFromSource(filePath, componentName) {
     }
   });
 
-  // memo(fn), forwardRef(fn), memo(forwardRef(fn)) y también el patrón
+  // memo(fn), forwardRef(fn), memo(forwardRef(fn)) and also the pattern
   // `const Impl = (…) => …; export const X = memo(Impl)`.
   function unwrap(expr, depth = 0) {
     if (!expr || depth > 4) return null;
@@ -208,7 +208,7 @@ function extractDefaultsFromSource(filePath, componentName) {
     const param = fn.parameters?.[0];
     if (param && ts.isObjectBindingPattern(param.name)) collect(param.name);
 
-    // El otro patrón de la librería: `(props: XProps) => { const { a = 1 } = props; … }`
+    // The library's other pattern: `(props: XProps) => { const { a = 1 } = props; … }`
     const paramName = param && ts.isIdentifier(param.name) ? param.name.text : null;
     if (paramName && fn.body && ts.isBlock(fn.body)) {
       for (const statement of fn.body.statements) {
@@ -224,9 +224,9 @@ function extractDefaultsFromSource(filePath, componentName) {
 }
 
 /**
- * Props leídas de la interfaz por AST. Es la fuente del JSDoc (descripción y
- * @default) y el fallback completo cuando react-docgen-typescript devuelve
- * cero props pese a existir la interfaz (le pasa con DatePicker).
+ * Props read from the interface via AST. It's the source of the JSDoc
+ * (description and @default) and the full fallback when react-docgen-typescript
+ * returns zero props even though the interface exists (happens with DatePicker).
  */
 function extractPropsFromInterface(filePath, componentName) {
   const source = parseSource(filePath);
@@ -247,8 +247,8 @@ function extractPropsFromInterface(filePath, componentName) {
     const defaultTag = ts
       .getJSDocTags(m)
       .find((t) => t.tagName.text === 'default');
-    // `@default true. En false, no ocupa flex:1` — el tag a veces trae el
-    // valor y una aclaración; la aclaración es descripción, no valor.
+    // `@default true. When false, doesn't take flex:1` — the tag sometimes carries the
+    // value and a clarification; the clarification is description, not value.
     const tagText = String(defaultTag?.comment ?? '').trim();
     const [, tagValue = tagText, tagRest = ''] = /^(\S+?)\.\s+(\S[\s\S]*)$/.exec(tagText) ?? [];
     return {
@@ -267,8 +267,8 @@ function extractProps(category, file, componentName) {
     console.warn(`[extract-docs] missing source for ${componentName}: ${filePath}`);
     return [];
   }
-  // Las tres fuentes se complementan: docgen da tipos resueltos, la interfaz
-  // da el JSDoc y el destructuring da los defaults. Ninguna las tiene todas.
+  // The three sources complement each other: docgen gives resolved types, the
+  // interface gives the JSDoc and the destructuring gives the defaults. None has them all.
   const fromInterface = new Map(extractPropsFromInterface(filePath, componentName).map((p) => [p.name, p]));
   const defaults = extractDefaultsFromSource(filePath, componentName);
 
@@ -278,8 +278,8 @@ function extractProps(category, file, componentName) {
     name,
     type: resolveType(prop),
     required: !!prop.required,
-    // El destructuring es el valor real que corre; el JSDoc, lo declarado.
-    // docgen va último: devuelve el tag @default entero, prosa incluida.
+    // The destructuring is the real value that runs; the JSDoc, what's declared.
+    // docgen goes last: it returns the whole @default tag, prose included.
     defaultValue:
       defaults[name] ?? fromInterface.get(name)?.defaultValue ?? normalizeDefault(prop.defaultValue?.value) ?? null,
     description: prop.description || fromInterface.get(name)?.description || '',
@@ -303,8 +303,8 @@ function dedent(text) {
 }
 
 /**
- * Índice del cierre balanceado para el delimitador abierto en `start`.
- * Ignora los que aparecen dentro de strings, templates o comentarios.
+ * Index of the balanced closer for the delimiter opened at `start`.
+ * Ignores those that appear inside strings, templates or comments.
  */
 function matchDelimiter(source, start) {
   const OPEN = { '(': ')', '{': '}', '[': ']' };
@@ -343,9 +343,9 @@ function matchDelimiter(source, start) {
 }
 
 /**
- * A partir de un `<` en `source[start]`, salta el tag JSX completo
- * (nombre + atributos, respetando strings y `{expr}` anidados) y devuelve
- * dónde termina, si es de cierre (`</...>`) y si es autocontenido (`/>`).
+ * Starting from a `<` at `source[start]`, skips the whole JSX tag
+ * (name + attributes, respecting strings and nested `{expr}`) and returns
+ * where it ends, whether it's a closing tag (`</...>`) and whether it's self-closing (`/>`).
  */
 function scanJsxTagOpen(source, start) {
   let i = start + 1;
@@ -374,11 +374,11 @@ function scanJsxTagOpen(source, start) {
 }
 
 /**
- * Para un `content:` sin paréntesis (JSX de una línea), devuelve dónde
- * termina su expresión: la primera coma a profundidad 0, o el cierre del
- * objeto que lo contiene. Una coma dentro del *texto* de un JSX (p.ej.
- * `<Caption>Caption, used for...</Caption>`) NO cuenta como separador — se
- * rastrea `jsxDepth` aparte para no cortar la expresión ahí.
+ * For a `content:` without parentheses (single-line JSX), returns where its
+ * expression ends: the first comma at depth 0, or the closer of the object
+ * containing it. A comma inside a JSX's *text* (e.g.
+ * `<Caption>Caption, used for...</Caption>`) does NOT count as a separator —
+ * `jsxDepth` is tracked separately so the expression isn't cut there.
  */
 function findTopLevelEnd(source, start) {
   let depth = 0;
@@ -414,13 +414,13 @@ function findTopLevelEnd(source, start) {
 }
 
 /**
- * Cuando un demo file es compartido entre varios componentes (`demoFileOverride`,
- * p.ej. Text.tsx → Title/Subtitle/Body/Caption, o DatePicker.tsx → DatePicker/
- * DateField), el array `variants` trae ejemplos de TODOS ellos. Sin filtrar,
- * la página de Title termina mostrando también el código de Body y Caption.
- * Se filtra por el tag JSX de apertura del propio componente; si ningún
- * variant matchea (demo usa un alias de import, p.ej. `OrnAlert`), se
- * devuelve la lista sin filtrar en vez de vaciarla.
+ * When a demo file is shared between several components (`demoFileOverride`,
+ * e.g. Text.tsx → Title/Subtitle/Body/Caption, or DatePicker.tsx → DatePicker/
+ * DateField), the `variants` array carries examples of ALL of them. Without
+ * filtering, Title's page ends up also showing Body's and Caption's code.
+ * It's filtered by the component's own opening JSX tag; if no variant
+ * matches (the demo uses an import alias, e.g. `OrnAlert`), the unfiltered
+ * list is returned instead of emptying it.
  */
 function filterVariantsForComponent(variants, componentName) {
   const tag = new RegExp(`<${componentName}(?=[\\s/>])`);
@@ -429,10 +429,10 @@ function filterVariantsForComponent(variants, componentName) {
 }
 
 /**
- * Una variante cuyo contenido es solo `<Helper />` o `<Helper prop="x" />` (un componente definido en
- * el mismo demo) mostraba ese tag como código: no enseña nada y, sin el tag
- * del componente, el filtro la descartaba. Se reemplaza por el código del
- * helper completo.
+ * A variant whose content is just `<Helper />` or `<Helper prop="x" />` (a component defined in
+ * the same demo) showed that tag as code: it teaches nothing and, without the
+ * component's tag, the filter dropped it. It's replaced by the full helper's
+ * code.
  */
 function localHelperSource(source, name) {
   const start = source.search(new RegExp(`^function ${name}\\(`, 'm'));
@@ -445,7 +445,7 @@ function localHelperSource(source, name) {
 function localConstSource(source, name) {
   const start = source.search(new RegExp(`^const ${name}\\b`, 'm'));
   if (start === -1) return null;
-  // Hasta el `;` que cierra la sentencia, saltando corchetes y llaves.
+  // Up to the `;` that closes the statement, skipping brackets and braces.
   let i = source.indexOf('=', start) + 1;
   while (i < source.length && source[i] !== ';') {
     if ('[{('.includes(source[i])) i = matchDelimiter(source, i);
@@ -462,20 +462,20 @@ function inlineLocalComponent(source, code) {
   let out = code;
   if (m) {
     const helper = localHelperSource(source, m[1]);
-    // Con props (`<Toggle preset="fade" />`) el uso también importa: va debajo.
+    // With props (`<Toggle preset="fade" />`) the usage matters too: it goes below.
     if (helper) out = m[2]?.trim() ? `${helper}\n\n${code.trim()}` : helper;
   }
-  // Un auxiliar del demo usado DENTRO del código (`<Row>`, `<Panel>`) sin su
-  // definición a la vista no se entiende de dónde sale (pasó con `Frame` en
-  // Fab, 2026-11-02): se antepone su definición.
+  // A demo helper used INSIDE the code (`<Row>`, `<Panel>`) without its
+  // definition in view leaves you wondering where it comes from (happened
+  // with `Frame` in Fab, 2026-11-02): its definition is prepended.
   for (let guard = 0; guard < 5; guard++) {
     const defined = definedIn(out);
     const missing = [...new Set([...out.matchAll(/<([A-Z]\w*)/g)].map((x) => x[1]))]
       .filter((tag) => !defined.has(tag))
       .map((tag) => localHelperSource(source, tag))
       .filter(Boolean);
-    // Lo mismo con las constantes del demo (`ROWS`, `AUTO_TOGGLE_MS`): sin su
-    // definición a la vista no se sabe de dónde salen (pasó con `EMAIL`).
+    // Same with the demo's constants (`ROWS`, `AUTO_TOGGLE_MS`): without their
+    // definition in view you can't tell where they come from (happened with `EMAIL`).
     const constants = [...new Set([...out.matchAll(/\b([A-Z][A-Z0-9_]{2,})\b/g)].map((x) => x[1]))]
       .filter((name) => !defined.has(name))
       .map((name) => localConstSource(source, name))
@@ -487,9 +487,9 @@ function inlineLocalComponent(source, code) {
 }
 
 /**
- * Todo tag JSX del código mostrado tiene que venir de orn-ui o react-native
- * (importado en el demo) o estar definido en el mismo código. Un `<Frame>` o
- * `<VariantRow>` sin origen visible no se puede copiar ni entender: falla.
+ * Every JSX tag in the shown code has to come from orn-ui or react-native
+ * (imported in the demo) or be defined in the same code. A `<Frame>` or
+ * `<VariantRow>` with no visible origin can't be copied or understood: it fails.
  */
 function unknownTags(source, code) {
   const allowed = new Set();
@@ -511,9 +511,9 @@ function extractVariants(componentName, demoFileOverride) {
   if (!region) return { snippet: null, variants: [] };
   const snippet = dedent(region[1]);
 
-  // El `[` se busca DESPUÉS del `=`, no después de la palabra "variants":
-  // la anotación de tipo `VariantDef[]` trae su propio par de corchetes y es
-  // lo primero que aparece, con lo que se leería un array vacío.
+  // The `[` is searched AFTER the `=`, not after the word "variants":
+  // the `VariantDef[]` type annotation carries its own pair of brackets and
+  // is the first thing to appear, which would read as an empty array.
   const declIndex = region[1].indexOf('const variants');
   const eqIndex = declIndex === -1 ? -1 : region[1].indexOf('=', declIndex);
   const arrayStart = eqIndex === -1 ? -1 : region[1].indexOf('[', eqIndex);
@@ -522,10 +522,10 @@ function extractVariants(componentName, demoFileOverride) {
   const arrayBody = region[1].slice(arrayStart + 1, arrayEnd);
 
   const variants = [];
-  // Posición real en el array del demo (1-based): es el `?v=N` del deep link y
-  // el nombre de la captura (`variants/<slug>/<N>-light.jpg`). El filtro por
-  // componente descarta variantes, así que la página NO puede usar el índice
-  // del array filtrado — eso desfasaba las capturas (ShinyText, 2026-11-01).
+  // Real position in the demo's array (1-based): it's the deep link's `?v=N`
+  // and the screenshot's name (`variants/<slug>/<N>-light.jpg`). The per-component
+  // filter drops variants, so the page can NOT use the filtered array's
+  // index — that misaligned the screenshots (ShinyText, 2026-11-01).
   let position = 0;
   let cursor = 0;
   while (cursor < arrayBody.length) {
@@ -538,7 +538,7 @@ function extractVariants(componentName, demoFileOverride) {
     const labelMatch = obj.match(/label:\s*(['"`])([\s\S]*?)\1/);
     const contentIndex = obj.indexOf('content:');
     if (labelMatch && contentIndex !== -1) {
-      // `content` puede venir entre paréntesis (JSX multilínea) o suelto.
+      // `content` may come in parentheses (multiline JSX) or bare.
       const after = obj.slice(contentIndex + 'content:'.length);
       const firstNonSpace = after.search(/\S/);
       const open = contentIndex + 'content:'.length + firstNonSpace;
@@ -561,17 +561,17 @@ function extractVariants(componentName, demoFileOverride) {
   return {
     snippet,
     variants: filterVariantsForComponent(variants, componentName),
-    // Sin filtrar por componente: la usan las páginas de grupo (/typography)
-    // para mostrar juntos todos los siblings del archivo.
+    // Not filtered by component: group pages (/typography) use it to show
+    // all of the file's siblings together.
     groupVariants: variants,
   };
 }
 
-// `testID` no es API de diseño: existe para que Maestro pueda agarrar el nodo
-// en los tests E2E, y su fila en la tabla salía siempre vacía —- sin tipo útil,
-// sin default y sin descripción, porque no hay nada que describir. Se saca de
-// la tabla y la página lo menciona una sola vez, como nota, si el componente
-// lo reenvía.
+// `testID` isn't design API: it exists so Maestro can grab the node in the
+// E2E tests, and its row in the table always came out empty —- no useful
+// type, no default and no description, because there's nothing to describe.
+// It's removed from the table and the page mentions it once, as a note, if
+// the component forwards it.
 const TESTING_PROPS = new Set(['testID']);
 
 function splitTestingProps(props) {
@@ -598,7 +598,7 @@ function buildComponents() {
       groupVariants,
       mediaSlug: MEDIA_SLUG_OVERRIDES[name] ?? slug,
       registry: loadRegistryEntry(slug),
-      // Archivo fuente sin extensión. Permite agrupar siblings en la nav.
+      // Source file without extension. Lets siblings be grouped in the nav.
       sourceFile: path.basename(file, path.extname(file)),
     });
   }
@@ -647,16 +647,16 @@ function main() {
   console.log(`[extract-docs] ${total} components indexed, ${withSnippet} with a demo snippet.`);
   checkVariantMedia(components);
   if (UNKNOWN_TAGS.length) {
-    console.error('[extract-docs] el código de estas variantes usa tags que no vienen de orn-ui/react-native ni están definidos a la vista:\n  ' + [...new Set(UNKNOWN_TAGS)].join('\n  '));
+    console.error('[extract-docs] the code of these variants uses tags that neither come from orn-ui/react-native nor are defined in view:\n  ' + [...new Set(UNKNOWN_TAGS)].join('\n  '));
     process.exit(1);
   }
 }
 
 /**
- * Las capturas por variante (`public/media/variants/<slug>/<N>-light.jpg`)
- * tienen que coincidir 1:1 con las variantes del demo: si el demo ganó o
- * perdió una variante y no se volvió a capturar, cada tarjeta mostraría la
- * imagen de otra. Falla el build en vez de publicar ejemplos cruzados.
+ * The per-variant screenshots (`public/media/variants/<slug>/<N>-light.jpg`)
+ * have to match the demo's variants 1:1: if the demo gained or lost a variant
+ * and wasn't recaptured, each card would show another one's image. The build
+ * fails instead of publishing crossed examples.
  */
 function checkVariantMedia(components) {
   const problems = [];
@@ -667,14 +667,14 @@ function checkVariantMedia(components) {
     const all = c.groupVariants ?? c.variants;
     for (const theme of ['light', 'dark']) {
       const shots = files.filter((f) => f.endsWith(`-${theme}.jpg`)).length;
-      if (shots !== all.length) problems.push(`${c.name}: el demo tiene ${all.length} variantes y hay ${shots} capturas ${theme}`);
+      if (shots !== all.length) problems.push(`${c.name}: the demo has ${all.length} variants and there are ${shots} ${theme} screenshots`);
     }
     for (const v of c.variants) {
-      if (!files.includes(`${v.index}-light.jpg`)) problems.push(`${c.name}: falta la captura de la variante ${v.index} (${v.label})`);
+      if (!files.includes(`${v.index}-light.jpg`)) problems.push(`${c.name}: missing the screenshot for variant ${v.index} (${v.label})`);
     }
   }
   if (problems.length) {
-    console.error('[extract-docs] capturas desalineadas con los demos — volver a correr scripts/capture-variants.sh:\n  ' + [...new Set(problems)].join('\n  '));
+    console.error('[extract-docs] screenshots out of sync with the demos — rerun scripts/capture-variants.sh:\n  ' + [...new Set(problems)].join('\n  '));
     process.exit(1);
   }
 }

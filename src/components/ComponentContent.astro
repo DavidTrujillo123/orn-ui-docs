@@ -1,6 +1,6 @@
 ---
-// Página de un componente individual. Solo prepara los datos: el orden de las
-// secciones y los estilos viven en ComponentPageLayout.
+// Page for an individual component. It only prepares the data: the order of
+// the sections and the styles live in ComponentPageLayout.
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { useTranslations, getComponentUsage, type Lang } from '../i18n/ui';
 import { buildComponentMarkdown } from '../lib/markdown';
@@ -15,7 +15,7 @@ const t = useTranslations(lang);
 const markdown = buildComponentMarkdown(component, t, lang);
 const usage = getComponentUsage(lang, component.slug);
 
-// Orden del sidebar; da la vuelta al llegar a los extremos.
+// Sidebar order; wraps around at the ends.
 const flatList = getFlatNavList(components, lang, t);
 const ownHref = getRelativeLocaleUrl(lang, `/components/${component.slug}`);
 const ownIndex = flatList.findIndex((item) => item.href === ownHref);

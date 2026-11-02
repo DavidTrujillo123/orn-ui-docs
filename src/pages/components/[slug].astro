@@ -14,8 +14,8 @@ export function getStaticPaths() {
 const { component } = Astro.props as { component: any };
 const t = useTranslations('en');
 const description = t('component.metaDescription', component.name);
-// El <title> lleva "React Native component" en vez de solo el nombre: nadie
-// busca "Button orn-ui", pero sí "react native button component".
+// The <title> carries "React Native component" instead of just the name: nobody
+// searches "Button orn-ui", but people do search "react native button component".
 const title = `${component.name} — ${t('component.titleSuffix')}`;
 const markdownUrl = `/components/${component.slug}.md`;
 

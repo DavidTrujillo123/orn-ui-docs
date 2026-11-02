@@ -4,7 +4,7 @@ function escapeHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
-/** Solo `code` y **negrita**: lo único que usan las entradas del changelog. */
+/** Only `code` and **bold**: the only things the changelog entries use. */
 export function inlineMarkdown(s: string): string {
   return escapeHtml(s)
     .replace(/`([^`]+)`/g, '<code>$1</code>')
@@ -22,7 +22,7 @@ const KIND_LABELS: Record<ChangeKind, string> = {
   changed: 'Changed',
 };
 
-/** Versión Markdown de ChangelogContent.astro (y lo que un CHANGELOG.md del repo podría espejar). */
+/** Markdown version of ChangelogContent.astro (and what a CHANGELOG.md in the repo could mirror). */
 export function buildChangelogMarkdown(): string {
   const lines: string[] = [
     '# Changelog — orn-ui',

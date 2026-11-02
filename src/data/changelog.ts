@@ -227,8 +227,8 @@ export const releases: Release[] = [
           page: '/getting-started',
           items: [
             {
-              en: '`keyboardAvoidance` (default `true`): the focused Input — label and error included — always stays above the keyboard. The root provider moves the app up just enough and back when the keyboard closes; no Screen or ScrollView needed.',
-              es: '`keyboardAvoidance` (por defecto `true`): el Input enfocado — label y error incluidos — siempre queda por encima del teclado. El provider raíz sube la app lo justo y la devuelve al cerrarse el teclado; sin necesidad de Screen ni ScrollView.',
+              en: '`keyboardAvoidance` (default `true`): the focused Input — label and error included — always stays above the keyboard. Inside a Screen only its content moves; outside one, the root provider moves the app just enough as a fallback.',
+              es: '`keyboardAvoidance` (por defecto `true`): el Input enfocado — label y error incluidos — siempre queda por encima del teclado. Dentro de un Screen se mueve solo su contenido; fuera de uno, el provider raíz sube la app lo justo como respaldo.',
             },
           ],
         },
@@ -242,6 +242,24 @@ export const releases: Release[] = [
             {
               en: 'A shown error re-checks on every change and clears as soon as the value is fixed; new errors are announced to screen readers. Messages come from `labels`, so they translate with the app.',
               es: 'Un error visible se revalida en cada cambio y desaparece apenas se corrige; los errores nuevos se anuncian al lector de pantalla. Los mensajes salen de `labels`, así se traducen con la app.',
+            },
+          ],
+        },
+        {
+          component: 'Screen',
+          items: [
+            {
+              en: '`header` renders a fixed bar on top (back button, title): it stays put while the content scrolls or moves up for the keyboard.',
+              es: '`header` dibuja una barra fija arriba (volver, título): queda en su lugar mientras el contenido scrollea o sube por el teclado.',
+            },
+          ],
+        },
+        {
+          component: 'NavigationBar',
+          items: [
+            {
+              en: '`hideOnKeyboard` (default `true`) hides a bottom bar while the keyboard is open on Android, like native tab bars.',
+              es: '`hideOnKeyboard` (por defecto `true`) oculta la barra inferior mientras el teclado está abierto en Android, como las barras de pestañas nativas.',
             },
           ],
         },
@@ -504,8 +522,8 @@ export const releases: Release[] = [
           component: 'Screen',
           items: [
             {
-              en: 'While the root UIProvider handles the keyboard, Screen no longer wraps its content in a second KeyboardAvoidingView. With `keyboardAvoidance={false}` it keeps doing it.',
-              es: 'Mientras el UIProvider raíz maneja el teclado, Screen ya no envuelve su contenido en un segundo KeyboardAvoidingView. Con `keyboardAvoidance={false}` lo sigue haciendo.',
+              en: 'For the keyboard, Screen now moves only its content (clipped under `header`) instead of resizing with a KeyboardAvoidingView; the header and a tab bar outside the Screen stay put. With `keyboardAvoidance={false}` on the provider it keeps the old KeyboardAvoidingView.',
+              es: 'Para el teclado, Screen ahora mueve solo su contenido (recortado bajo `header`) en vez de redimensionarse con un KeyboardAvoidingView; el header y una barra de pestañas fuera del Screen no se mueven. Con `keyboardAvoidance={false}` en el provider sigue con el KeyboardAvoidingView de antes.',
             },
           ],
         },

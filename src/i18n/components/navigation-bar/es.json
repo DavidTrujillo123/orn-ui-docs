@@ -23,6 +23,10 @@
     },
     "safeArea": {
       "description": "Agrega el inset de safe area del borde donde vive la barra."
+    },
+    "hideOnKeyboard": {
+      "description": "Oculta una barra inferior mientras el teclado está abierto, como las barras de pestañas nativas, para que no quede entre el campo y el teclado. Solo hace falta en Android: en iOS el teclado ya la tapa.",
+      "default": "true"
     }
   }
 }

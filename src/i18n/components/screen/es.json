@@ -22,7 +22,11 @@
       "description": "Qué insets de safe area aplicar."
     },
     "keyboardAvoiding": {
-      "description": "Compensa el teclado: en iOS con scroll lo hace el propio ScrollView, en\notros casos un KeyboardAvoidingView. Ponlo en false cuando\nel contenido ya trae su propio scroller que maneja el teclado (Wizard,\nList, SearchList): las dos compensaciones se suman y el campo enfocado\ntermina empujado fuera de pantalla."
+      "description": "Mantiene el Input enfocado por encima del teclado moviendo solo el contenido (el `header` y una barra de pestañas fuera del Screen no se mueven). En iOS con scroll, el ScrollView hace scroll hasta el campo. Pasa false si el contenido maneja el teclado por su cuenta.",
+      "default": "true"
+    },
+    "header": {
+      "description": "Barra fija arriba (volver, título, acciones). Queda en su lugar mientras el contenido scrollea o sube por el teclado. El safe area superior va encima de ella."
     }
   }
 }

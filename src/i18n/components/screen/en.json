@@ -20,9 +20,6 @@
   "props": {
     "edges": {
       "description": "Which safe area insets to apply."
-    },
-    "keyboardAvoiding": {
-      "description": "Offsets the keyboard: on iOS with scroll the ScrollView itself does it, otherwise a KeyboardAvoidingView does. Set it to false when the content already brings its own scroller that handles the keyboard (Wizard, List, SearchList): both offsets add up and the focused field ends up pushed off screen."
     }
   }
 }

@@ -31,6 +31,30 @@
     },
     "size": {
       "description": "Escala del control: alto, botones, ícono y tipografía."
+    },
+    "accessibilityLabel": {
+      "description": "Nombre accesible del campo numérico.",
+      "default": "labels.quantity"
+    },
+    "incrementAccessibilityLabel": {
+      "description": "Nombre accesible del botón \"+\".",
+      "default": "labels.increment"
+    },
+    "decrementAccessibilityLabel": {
+      "description": "Nombre accesible del botón \"-\".",
+      "default": "labels.decrement"
+    },
+    "value": {
+      "description": "Valor actual, como texto (puede estar a medio escribir, p. ej. \"\" o \"1.\")."
+    },
+    "onChangeText": {
+      "description": "Recibe el texto ya limpio mientras se escribe, y el valor recortado al rango al salir del campo."
+    },
+    "onIncrement": {
+      "description": "Se tocó \"+\" (o se deslizó hacia arriba con lector de pantalla). La suma va acá."
+    },
+    "onDecrement": {
+      "description": "Se tocó \"-\" (o se deslizó hacia abajo con lector de pantalla)."
     }
   }
 }

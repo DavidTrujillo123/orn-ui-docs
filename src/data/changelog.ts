@@ -485,6 +485,23 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'Stepper',
+          items: [
+            {
+              en: 'Stays visible above the keyboard while typing, like Input.',
+              es: 'Queda visible por encima del teclado mientras se escribe, como Input.',
+            },
+            {
+              en: 'The field is an adjustable element: screen-reader users swipe up/down to step the value, within the range. Its name and the buttons\' names come from `labels` (`quantity`, `increment`, `decrement`), plus a new `accessibilityLabel` prop.',
+              es: 'El campo es un elemento ajustable: quien usa lector de pantalla desliza arriba/abajo para cambiar el valor, dentro del rango. Su nombre y el de los botones salen de `labels` (`quantity`, `increment`, `decrement`), y hay una prop nueva `accessibilityLabel`.',
+            },
+            {
+              en: '`size="sm"` buttons reach a 44pt touch target.',
+              es: 'Los botones de `size="sm"` alcanzan un área táctil de 44pt.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [
@@ -616,8 +633,8 @@ export const releases: Release[] = [
           page: '/tokens',
           items: [
             {
-              en: 'The `Labels` type has seven new keys (`showPassword`, `hidePassword`, `required` and the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
-              es: 'El tipo `Labels` tiene siete claves nuevas (`showPassword`, `hidePassword`, `required` y los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
+              en: 'The `Labels` type has ten new keys (`showPassword`, `hidePassword`, `required`, the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, and Stepper\'s `quantity`, `increment`, `decrement`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
+              es: 'El tipo `Labels` tiene diez claves nuevas (`showPassword`, `hidePassword`, `required`, los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, y las de Stepper `quantity`, `increment`, `decrement`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
             },
           ],
         },

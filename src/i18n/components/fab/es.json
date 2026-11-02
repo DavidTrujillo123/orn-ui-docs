@@ -13,5 +13,42 @@
       "desc": "Obligatoria: el botón es solo un ícono."
     }
   ],
-  "props": {}
+  "props": {
+    "onPress": {
+      "description": "Se llama al tocar el botón."
+    },
+    "iconName": {
+      "description": "Nombre de un ícono incluido o propio. Se ignora si pasas `icon`.",
+      "default": "'plus'"
+    },
+    "icon": {
+      "description": "Cualquier nodo en lugar del ícono."
+    },
+    "size": {
+      "description": "Diámetro en pt.",
+      "default": "60"
+    },
+    "bottom": {
+      "description": "Distancia al borde inferior, además del safe area.",
+      "default": "tokens.spacing.xl (20)"
+    },
+    "right": {
+      "description": "Distancia al borde derecho, además del safe area.",
+      "default": "tokens.spacing.xl (20)"
+    },
+    "safeArea": {
+      "description": "Suma los insets del safe area a `bottom`/`right`, así el botón no queda sobre la barra de inicio. Pasa false encima de un NavigationBar o tab bar, que ya cubre ese borde.",
+      "default": "true"
+    },
+    "color": {
+      "description": "Color de relleno. El ícono cambia a negro o blanco según el contraste.",
+      "default": "theme.colors.primary"
+    },
+    "style": {
+      "description": "Estilo del botón."
+    },
+    "accessibilityLabel": {
+      "description": "Obligatorio: el botón no tiene texto visible."
+    }
+  }
 }

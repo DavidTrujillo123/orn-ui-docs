@@ -63,6 +63,15 @@ export const releases: Release[] = [
     changes: {
       breaking: [
         {
+          component: 'Fab',
+          items: [
+            {
+              en: 'By default the button now sits above the safe area (`bottom` + `insets.bottom`). If you added the inset yourself, drop it; above a tab bar, pass `safeArea={false}`.',
+              es: 'Por defecto el botón ahora queda por encima del safe area (`bottom` + `insets.bottom`). Si sumabas el inset a mano, quítalo; encima de una tab bar, pasa `safeArea={false}`.',
+            },
+          ],
+        },
+        {
           component: 'Setup',
           page: '/getting-started',
           items: [
@@ -188,6 +197,19 @@ export const releases: Release[] = [
             {
               en: '`testID`, and `style` accepts style arrays.',
               es: '`testID`, y `style` acepta arrays de estilos.',
+            },
+          ],
+        },
+        {
+          component: 'Fab',
+          items: [
+            {
+              en: '`safeArea` (default `true`) adds the safe-area insets to `bottom`/`right`, so the button clears the home indicator. Pass `false` above a NavigationBar or tab bar.',
+              es: '`safeArea` (por defecto `true`) suma los insets del safe area a `bottom`/`right`, así el botón no queda sobre la barra de inicio. Pasa `false` encima de un NavigationBar o tab bar.',
+            },
+            {
+              en: 'Adds `testID`.',
+              es: 'Se agrega `testID`.',
             },
           ],
         },
@@ -395,6 +417,15 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'Fab',
+          items: [
+            {
+              en: 'With a custom `color`, the icon picks black or white for contrast (a light fill used to get a white, unreadable icon).',
+              es: 'Con un `color` propio, el ícono elige negro o blanco según el contraste (un relleno claro tenía un ícono blanco ilegible).',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [
@@ -568,6 +599,18 @@ cd ios && pod install`,
   <UIProvider mode="system" insets={insets}>{app}</UIProvider>
 </SafeAreaProvider>`,
         after: `<UIProvider defaultMode="system">{app}</UIProvider>`,
+      },
+      {
+        title: {
+          en: 'Stop adding the inset to Fab',
+          es: 'Deja de sumar el inset al Fab',
+        },
+        body: {
+          en: 'Fab now clears the safe area on its own. Remove `insets.bottom` from `bottom`; if the Fab sits above a tab bar, pass `safeArea={false}` so the inset is not counted twice.',
+          es: 'Fab ahora respeta el safe area por sí solo. Quita `insets.bottom` de `bottom`; si el Fab está encima de una tab bar, pasa `safeArea={false}` para no contar el inset dos veces.',
+        },
+        before: `<Fab bottom={insets.bottom + 20} onPress={add} accessibilityLabel="Add" />`,
+        after: `<Fab onPress={add} accessibilityLabel="Add" />`,
       },
     ],
   },

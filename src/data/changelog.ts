@@ -378,6 +378,23 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'KeyValueRow',
+          items: [
+            {
+              en: 'A long value wraps inside the row instead of pushing it off screen; the label keeps its width up to half the row and lines up with the first line of the value.',
+              es: 'Un valor largo se parte en líneas dentro de la fila en vez de sacarla de la pantalla; el label conserva su ancho hasta la mitad de la fila y se alinea con la primera línea del valor.',
+            },
+            {
+              en: 'Values use tabular digits, so amounts line up across rows.',
+              es: 'Los valores usan dígitos tabulares, así los montos quedan alineados entre filas.',
+            },
+            {
+              en: 'With a text label and value, screen readers read the row as one element ("Subtotal, $300.00"). Adds `testID`.',
+              es: 'Con label y valor de texto, el lector de pantalla lee la fila como un solo elemento ("Subtotal, $300.00"). Se agrega `testID`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

@@ -13,5 +13,21 @@
       "desc": "Destacar la última fila de un total sin armar un componente aparte."
     }
   ],
-  "props": {}
+  "props": {
+    "label": {
+      "description": "Lado izquierdo. Un string o número usa el estilo de label por defecto; cualquier otro nodo se muestra tal cual."
+    },
+    "value": {
+      "description": "Lado derecho. Un string o número usa el estilo de valor por defecto (dígitos tabulares); cualquier otro nodo se muestra tal cual."
+    },
+    "style": {
+      "description": "Estilo de la fila."
+    },
+    "labelStyle": {
+      "description": "Solo se aplica si `label` es string o número."
+    },
+    "valueStyle": {
+      "description": "Solo se aplica si `value` es string o número."
+    }
+  }
 }

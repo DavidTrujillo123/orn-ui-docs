@@ -10,15 +10,16 @@
     },
     {
       "term": "children",
-      "desc": "También acepta una render prop que recibe si está presionado, para cambiar el contenido mientras se mantiene."
+      "desc": "Cualquier contenido; escala entero, como un solo bloque. Para cambiar el estilo mientras se mantiene presionado, usa `onPressIn`/`onPressOut`."
     }
   ],
   "props": {
     "children": {
-      "description": "Los children, o una render prop que recibe un booleano indicando si el componente está presionado."
+      "description": "Contenido presionable."
     },
     "scaleTo": {
-      "description": "Escala objetivo al presionar."
+      "description": "Escala objetivo al presionar.",
+      "default": "0.96"
     }
   }
 }

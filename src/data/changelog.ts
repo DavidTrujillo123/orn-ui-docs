@@ -426,6 +426,15 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'PressableScale',
+          items: [
+            {
+              en: 'Announced as a button by default (`accessibilityRole` can be changed), and `disabled` reaches screen readers.',
+              es: 'Se anuncia como botón por defecto (`accessibilityRole` se puede cambiar) y `disabled` llega al lector de pantalla.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

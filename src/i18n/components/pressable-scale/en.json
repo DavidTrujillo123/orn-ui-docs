@@ -10,7 +10,7 @@
     },
     {
       "term": "children",
-      "desc": "Also accepts a render prop that receives whether it is pressed, to restyle the content while held."
+      "desc": "Any content; it scales as one block. To restyle it while held, use `onPressIn`/`onPressOut`."
     }
   ],
   "props": {

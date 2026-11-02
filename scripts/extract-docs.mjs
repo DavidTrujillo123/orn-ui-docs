@@ -442,6 +442,18 @@ function localHelperSource(source, name) {
   return source.slice(start, matchDelimiter(source, bodyStart) + 1);
 }
 
+function localConstSource(source, name) {
+  const start = source.search(new RegExp(`^const ${name}\\b`, 'm'));
+  if (start === -1) return null;
+  // Hasta el `;` que cierra la sentencia, saltando corchetes y llaves.
+  let i = source.indexOf('=', start) + 1;
+  while (i < source.length && source[i] !== ';') {
+    if ('[{('.includes(source[i])) i = matchDelimiter(source, i);
+    i++;
+  }
+  return source.slice(start, i + 1);
+}
+
 const definedIn = (code) =>
   new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*=/g)].map((m) => m[1] || m[2]));
 
@@ -462,8 +474,14 @@ function inlineLocalComponent(source, code) {
       .filter((tag) => !defined.has(tag))
       .map((tag) => localHelperSource(source, tag))
       .filter(Boolean);
-    if (!missing.length) break;
-    out = `${missing.join('\n\n')}\n\n${out}`;
+    // Lo mismo con las constantes del demo (`ROWS`, `AUTO_TOGGLE_MS`): sin su
+    // definición a la vista no se sabe de dónde salen (pasó con `EMAIL`).
+    const constants = [...new Set([...out.matchAll(/\b([A-Z][A-Z0-9_]{2,})\b/g)].map((x) => x[1]))]
+      .filter((name) => !defined.has(name))
+      .map((name) => localConstSource(source, name))
+      .filter(Boolean);
+    if (!missing.length && !constants.length) break;
+    out = `${[...constants, ...missing].join('\n\n')}\n\n${out}`;
   }
   return out;
 }

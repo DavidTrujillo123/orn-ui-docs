@@ -88,10 +88,12 @@ check_shot() { # shot.jpg
   rows=$(ffmpeg -v error -i "$1" -vf format=gray -f rawvideo - | node -e '
     const [W,H]=process.argv.slice(1).map(Number); const ch=[];
     process.stdin.on("data",d=>ch.push(d)).on("end",()=>{const b=Buffer.concat(ch);let r=0;
+      // Threshold 10 per pixel, more than 12 pixels per row: a dark Skeleton
+      // (#2c2c30 on #1e1e1e, 14 levels apart) used to count as empty.
       // r: rows with content. edge: content in the top or bottom 16 rows
       // means the band cuts something off (e.g. only the last line shows).
       let edge=0;
-      for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>24)n++;if(n>3){r++;if(y<16||y>=H-16)edge++;}}
+      for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>10)n++;if(n>12){r++;if(y<16||y>=H-16)edge++;}}
       console.log(r+" "+edge);});' $(sips -g pixelWidth -g pixelHeight "$1" | awk '/pixel/{printf "%s ", $2}'))
   set -- "$1" $rows
   if [ "$2" -lt 12 ]; then

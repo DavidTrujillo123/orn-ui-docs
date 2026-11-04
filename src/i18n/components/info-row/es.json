@@ -9,5 +9,18 @@
       "desc": "Obligatoria, porque el valor ausente es el caso común — deja el hueco explícito en vez de un espacio vacío."
     }
   ],
-  "props": {}
+  "props": {
+    "icon": {
+      "description": "Ícono que identifica el tipo de dato de un vistazo (decorativo para el lector de pantalla)."
+    },
+    "label": {
+      "description": "Qué es el valor (\"Email\", \"Dirección\")."
+    },
+    "value": {
+      "description": "El dato. Vacío, `null` o `undefined` muestra `placeholder`."
+    },
+    "placeholder": {
+      "description": "Texto que se muestra, en cursiva, cuando no hay valor (\"Sin teléfono\")."
+    }
+  }
 }

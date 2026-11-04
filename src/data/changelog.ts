@@ -519,6 +519,19 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'InfoRow',
+          items: [
+            {
+              en: 'Screen readers read the row as one element ("Email, jane@example.com", or the placeholder); the icon is decorative.',
+              es: 'El lector de pantalla lee la fila como un solo elemento ("Email, jane@example.com", o el placeholder); el ícono es decorativo.',
+            },
+            {
+              en: 'The value uses the type scale (14pt with its line height) and the placeholder drops the bold, so it is never mistaken for data. New `testID` prop.',
+              es: 'El valor usa la escala tipográfica (14pt con su interlineado) y el placeholder deja la negrita, así nunca se confunde con un dato. Prop nueva `testID`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

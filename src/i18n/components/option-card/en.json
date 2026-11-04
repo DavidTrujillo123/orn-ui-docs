@@ -2,20 +2,16 @@
   "usage": [
     {
       "term": "when to use",
-      "desc": "Choosing between a few options, each with an icon — a payment method, a shipping type."
+      "desc": "Choosing between a few options, each with an icon — a plan, a shipping type."
     },
     {
       "term": "layout",
-      "desc": "`horizontal` for a stacked list; `vertical` for a grid of two or three columns."
+      "desc": "`horizontal`: icon beside the text, for two options per row or a stacked list. `vertical`: icon on top, for three per row."
     },
     {
       "term": "isSelected / onPress",
       "desc": "Controlled selection: the parent decides which one is on."
     }
   ],
-  "props": {
-    "layout": {
-      "description": "'vertical': icon on top, text centered below. 'horizontal': icon and text in a row."
-    }
-  }
+  "props": {}
 }

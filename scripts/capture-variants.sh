@@ -88,8 +88,8 @@ check_shot() { # shot.jpg
   rows=$(ffmpeg -v error -i "$1" -vf format=gray -f rawvideo - | node -e '
     const [W,H]=process.argv.slice(1).map(Number); const ch=[];
     process.stdin.on("data",d=>ch.push(d)).on("end",()=>{const b=Buffer.concat(ch);let r=0;
-      // r: filas con contenido. edge: contenido en las 16 filas de arriba o de
-      // abajo = la banda corta algo (p. ej. solo se ve la última línea).
+      // r: rows with content. edge: content in the top or bottom 16 rows
+      // means the band cuts something off (e.g. only the last line shows).
       let edge=0;
       for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>24)n++;if(n>3){r++;if(y<16||y>=H-16)edge++;}}
       console.log(r+" "+edge);});' $(sips -g pixelWidth -g pixelHeight "$1" | awk '/pixel/{printf "%s ", $2}'))
@@ -126,19 +126,25 @@ center_band() { # screenshot.png -> sets CROP_Y/CROP_H
       const W=+process.argv[1], H=+process.argv[2], px=80; const ch=[];
       process.stdin.on("data", d => ch.push(d)).on("end", () => {
         const b = Buffer.concat(ch);
-        // Por fila: cuántos píxeles difieren del fondo de esa misma fila.
-        const diff = (y) => { const bg = b[y * W + px]; let n = 0;
+        // Per row: how many pixels differ from the background of that row. The
+        // background is the most common value in the row, not a fixed pixel: a
+        // filled card under that pixel (selected OptionCard) made every other
+        // pixel "content" and the row was dropped as full-width (2026-11-03).
+        const mode = (y) => { const h = new Uint32Array(256);
+          for (let x = px; x < W - px; x++) h[b[y * W + x]]++;
+          let m = 0; for (let v = 1; v < 256; v++) if (h[v] > h[m]) m = v; return m; };
+        const diff = (y) => { const bg = mode(y); let n = 0;
           for (let x = px; x < W - px; x++) if (Math.abs(b[y * W + x] - bg) > 12) n++; return n; };
         const full = (W - 2 * px) * 0.6;
-        // Filas con contenido, agrupadas en bloques separados por >= 60 px.
+        // Rows with content, grouped in blocks separated by >= 60 px.
         const blocks = []; let cur = null;
         for (let y = 24; y < H - 24; y++) {
           const n = diff(y); if (!(n > 0 && n < full)) continue;
           if (cur && y - cur.bot < 60) cur.bot = y; else { cur = { top: y, bot: y }; blocks.push(cur); }
         }
-        // Un label de dos líneas entra en CARD_Y: es un bloque pegado arriba
-        // (termina antes de 160 px), afuera de la tarjeta. No es contenido;
-        // contarlo corría el centro hacia arriba y la banda salía vacía
+        // A two-line label enters CARD_Y: it is a block stuck to the top
+        // (ends before 160 px), outside the card. It is not content; counting
+        // it moved the center up and the band came out empty
         // (ShinyText, 2026-11-01).
         const content = blocks.filter((k) => k.bot >= 160);
         const top = content.length ? content[0].top : -1, bot = content.length ? content[content.length - 1].bot : -1;

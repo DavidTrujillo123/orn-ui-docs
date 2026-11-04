@@ -2,11 +2,11 @@
   "usage": [
     {
       "term": "cuándo usarlo",
-      "desc": "Elegir entre pocas opciones, cada una con un ícono — un método de pago, un tipo de envío."
+      "desc": "Elegir entre pocas opciones, cada una con un ícono — un plan, un tipo de envío."
     },
     {
       "term": "layout",
-      "desc": "`horizontal` para una lista apilada; `vertical` para una grilla de dos o tres columnas."
+      "desc": "`horizontal`: ícono junto al texto, para dos opciones por fila o una lista apilada. `vertical`: ícono arriba, para tres por fila."
     },
     {
       "term": "isSelected / onPress",
@@ -14,8 +14,23 @@
     }
   ],
   "props": {
+    "label": {
+      "description": "Nombre de la opción. También es el comienzo de su nombre accesible."
+    },
     "description": {
-      "description": "Línea secundaria: el detalle que decide la elección (\"llega en 3 días\")."
+      "description": "Línea secundaria: el detalle que decide la elección (\"llega en 3 días\"). El lector de pantalla la lee justo después de la etiqueta, no como pista, porque las pistas se pueden desactivar y este detalle es parte de la elección."
+    },
+    "iconName": {
+      "description": "Ícono que ayuda a reconocer la opción. Evita `check`: se lee como \"seleccionado\"."
+    },
+    "isSelected": {
+      "description": "Si es la opción elegida de su grupo."
+    },
+    "onPress": {
+      "description": "Se llama al tocar; el grupo decide qué opción queda seleccionada."
+    },
+    "disabled": {
+      "description": "Atenúa la tarjeta e ignora los toques."
     },
     "layout": {
       "description": "'vertical': ícono arriba, texto centrado abajo. 'horizontal': en fila."

@@ -502,6 +502,23 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'OptionCard',
+          items: [
+            {
+              en: 'Screen readers read `description` as part of the name ("Express, Tomorrow, $8 more") instead of a hint, which users can turn off.',
+              es: 'El lector de pantalla lee `description` como parte del nombre ("Express, Mañana, $8 más") en lugar de como pista, que se puede desactivar.',
+            },
+            {
+              en: 'Unselected labels use the `text` color and the vertical layout no longer shrinks the label to 11pt: every option stays legible and only the selected one stands out.',
+              es: 'Las etiquetas no seleccionadas usan el color `text` y el layout vertical ya no achica la etiqueta a 11pt: todas las opciones se leen bien y solo la seleccionada resalta.',
+            },
+            {
+              en: 'Selecting a card no longer shifts its content by half a point (the thicker border is compensated in the padding).',
+              es: 'Seleccionar una tarjeta ya no mueve su contenido medio punto (el borde más grueso se compensa en el padding).',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

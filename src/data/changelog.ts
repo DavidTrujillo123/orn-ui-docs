@@ -121,6 +121,15 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'SegmentedControl',
+          items: [
+            {
+              en: 'The selection is one indicator that slides to the new option (native driver, 200 ms); with Reduce Motion it jumps.',
+              es: 'La selección es un indicador que se desliza hasta la opción nueva (driver nativo, 200 ms); con Reducir movimiento salta.',
+            },
+          ],
+        },
+        {
           component: 'UIProvider',
           page: '/getting-started',
           items: [

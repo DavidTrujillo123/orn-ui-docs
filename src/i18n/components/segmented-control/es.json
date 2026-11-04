@@ -13,5 +13,18 @@
       "desc": "Por opción o para todo el control."
     }
   ],
-  "props": {}
+  "props": {
+    "options": {
+      "description": "Las opciones, todas visibles a la vez. De dos a cuatro se leen mejor (Hick); más van en un Select."
+    },
+    "value": {
+      "description": "El valor de la opción seleccionada."
+    },
+    "onChange": {
+      "description": "Se llama con el valor nuevo; no se llama al tocar el segmento que ya está seleccionado."
+    },
+    "disabled": {
+      "description": "Deshabilita todo el control."
+    }
+  }
 }

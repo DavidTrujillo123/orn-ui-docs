@@ -576,6 +576,19 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'SegmentedControl',
+          items: [
+            {
+              en: 'In dark mode the selected segment takes the soft accent fill: before, it was darker than the track and looked sunken instead of selected.',
+              es: 'En modo oscuro el segmento seleccionado toma el relleno suave del acento: antes era más oscuro que el track y parecía hundido en vez de seleccionado.',
+            },
+            {
+              en: 'Every segment reaches a 44pt touch target, labels are 14pt on one line (long ones ellipsize, so segments stay equal), and pressing the selected segment no longer calls `onChange`.',
+              es: 'Cada segmento alcanza un área táctil de 44pt, las etiquetas son de 14pt en una línea (las largas se cortan con puntos suspensivos, así los segmentos quedan iguales), y tocar el segmento seleccionado ya no llama a `onChange`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

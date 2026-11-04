@@ -13,8 +13,17 @@
     "iconName": {
       "description": "Ícono a mostrar dentro del círculo. Si se omite, se usa `initials`."
     },
+    "iconColor": {
+      "description": "Color del ícono. Mantén contraste AA contra `primarySoft`, el relleno del círculo."
+    },
     "initials": {
-      "description": "Texto corto (ej. 2 letras) que se muestra cuando no se pasa `iconName`."
+      "description": "Texto corto (ej. 2 letras) que se muestra cuando no se pasa `iconName`. Sin ninguno de los dos, un ícono `user`."
+    },
+    "title": {
+      "description": "Título principal de la pantalla o modal; se anuncia como encabezado."
+    },
+    "subtitle": {
+      "description": "Línea de apoyo bajo el título. Un string toma el estilo atenuado; un nodo se renderiza tal cual."
     }
   }
 }

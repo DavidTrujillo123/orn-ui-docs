@@ -9,12 +9,5 @@
       "desc": "Initials when there is a name; the icon when there is not."
     }
   ],
-  "props": {
-    "iconName": {
-      "description": "Icon shown inside the circle. If omitted, `initials` are used."
-    },
-    "initials": {
-      "description": "Short text (e.g. 2 letters) shown when `iconName` is not passed."
-    }
-  }
+  "props": {}
 }

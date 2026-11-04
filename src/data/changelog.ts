@@ -545,6 +545,19 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'AvatarHeader',
+          items: [
+            {
+              en: 'The title is announced as a header and the circle is hidden from screen readers (the initials only repeated the title).',
+              es: 'El título se anuncia como encabezado y el círculo se oculta del lector de pantalla (las iniciales solo repetían el título).',
+            },
+            {
+              en: 'Without `iconName` or `initials` the circle shows a `user` icon instead of staying empty, and a long subtitle wraps centered. New `testID` prop.',
+              es: 'Sin `iconName` ni `initials` el círculo muestra un ícono `user` en lugar de quedar vacío, y un subtítulo largo se parte centrado. Prop nueva `testID`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

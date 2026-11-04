@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "when to use",
-      "desc": "The header of a profile or a detail screen: avatar, title and one supporting line."
+      "desc": "The header of a profile or a detail screen: avatar, title and up to two supporting lines (`subtitle`, `caption`) — three lines of text at most."
     },
     {
       "term": "iconName / initials",

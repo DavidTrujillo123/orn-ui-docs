@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "cuándo usarlo",
-      "desc": "La cabecera de un perfil o una pantalla de detalle: avatar, título y una línea de apoyo."
+      "desc": "La cabecera de un perfil o una pantalla de detalle: avatar, título y hasta dos líneas de apoyo (`subtitle`, `caption`) — tres líneas de texto como máximo."
     },
     {
       "term": "iconName / initials",
@@ -24,6 +24,9 @@
     },
     "subtitle": {
       "description": "Línea de apoyo bajo el título. Un string toma el estilo atenuado; un nodo se renderiza tal cual."
+    },
+    "caption": {
+      "description": "Tercera y última línea, el detalle menos importante (\"Se unió en marzo de 2023\"). Tres líneas es el límite: más allá, la cabecera deja de leerse de un vistazo."
     }
   }
 }

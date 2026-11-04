@@ -63,6 +63,15 @@ export const releases: Release[] = [
     changes: {
       breaking: [
         {
+          component: 'AvatarHeader',
+          items: [
+            {
+              en: 'No more built-in bottom margin (it was `spacing.xl`, 20pt): the space below belongs to the parent. If you relied on it, add `style={{ marginBottom: 20 }}` or a `gap` in the container.',
+              es: 'Ya no trae margen inferior propio (era `spacing.xl`, 20pt): el espacio de abajo lo pone el padre. Si dependías de él, agrega `style={{ marginBottom: 20 }}` o un `gap` en el contenedor.',
+            },
+          ],
+        },
+        {
           component: 'Input',
           items: [
             {
@@ -102,6 +111,15 @@ export const releases: Release[] = [
         },
       ],
       added: [
+        {
+          component: 'AvatarHeader',
+          items: [
+            {
+              en: '`caption`: a third, smallest line under the subtitle. Three lines is the limit, so the header stays scannable.',
+              es: '`caption`: una tercera línea, la más pequeña, bajo el subtítulo. Tres líneas es el límite, así la cabecera se lee de un vistazo.',
+            },
+          ],
+        },
         {
           component: 'UIProvider',
           page: '/getting-started',

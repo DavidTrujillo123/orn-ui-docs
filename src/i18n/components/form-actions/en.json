@@ -13,9 +13,5 @@
       "desc": "`primaryLoading` while the submit runs, `primaryDisabled` while the form is invalid."
     }
   ],
-  "props": {
-    "primaryLabel": {
-      "description": "If omitted, only the secondary button is shown."
-    }
-  }
+  "props": {}
 }

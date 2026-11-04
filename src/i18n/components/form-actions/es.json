@@ -15,7 +15,25 @@
   ],
   "props": {
     "primaryLabel": {
-      "description": "Si se omite, solo se muestra el botón secundario."
+      "description": "Etiqueta de la acción principal (\"Guardar\"). El botón primario aparece solo con esta prop y `onPrimaryPress`."
+    },
+    "onPrimaryPress": {
+      "description": "Acción principal."
+    },
+    "primaryDisabled": {
+      "description": "Bloquea la acción principal, p. ej. mientras el formulario no es válido."
+    },
+    "primaryLoading": {
+      "description": "La acción principal está en curso: muestra un spinner e ignora toques, así no se envía dos veces. El botón secundario sigue usable."
+    },
+    "primaryLeftIconName": {
+      "description": "Ícono antes de la etiqueta primaria."
+    },
+    "secondaryLabel": {
+      "description": "Etiqueta del botón ghost."
+    },
+    "onSecondaryPress": {
+      "description": "Acción de cerrar / cancelar."
     }
   }
 }

@@ -532,6 +532,19 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'FormActions',
+          items: [
+            {
+              en: 'New `testID` prop; the buttons get `<testID>-primary` and `<testID>-secondary`.',
+              es: 'Prop nueva `testID`; los botones reciben `<testID>-primary` y `<testID>-secondary`.',
+            },
+            {
+              en: 'The gap between buttons comes from the theme (`spacing.md`), and an empty `primaryLabel` no longer risks rendering a stray string.',
+              es: 'El espacio entre botones sale del tema (`spacing.md`), y un `primaryLabel` vacío ya no arriesga renderizar un texto suelto.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

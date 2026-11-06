@@ -598,6 +598,23 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'Steps',
+          items: [
+            {
+              en: 'Each step announces its position and state ("Step 2 of 3: Payment, current"), with the words from `labels` (`stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`); it used to be a hard-coded English "Step 2: Payment".',
+              es: 'Cada paso anuncia su posición y estado ("Paso 2 de 3: Pago, actual"), con las palabras de `labels` (`stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`); antes era un "Step 2: Payment" fijo en inglés.',
+            },
+            {
+              en: 'Only the current step label takes the accent color, pending ones are lighter, and the last vertical step no longer leaves empty space below.',
+              es: 'Solo la etiqueta del paso actual toma el color de acento, las pendientes son más livianas, y el último paso vertical ya no deja espacio vacío abajo.',
+            },
+            {
+              en: 'New `testID` prop (steps get `<testID>-<index>`); the hard-coded `testID="steps-row"` on the horizontal row is gone.',
+              es: 'Prop nueva `testID` (los pasos reciben `<testID>-<índice>`); se quitó el `testID="steps-row"` fijo de la fila horizontal.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [
@@ -729,8 +746,8 @@ export const releases: Release[] = [
           page: '/tokens',
           items: [
             {
-              en: 'The `Labels` type has ten new keys (`showPassword`, `hidePassword`, `required`, the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, and Stepper\'s `quantity`, `increment`, `decrement`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
-              es: 'El tipo `Labels` tiene diez claves nuevas (`showPassword`, `hidePassword`, `required`, los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, y las de Stepper `quantity`, `increment`, `decrement`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
+              en: 'The `Labels` type has fourteen new keys (`showPassword`, `hidePassword`, `required`, the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, and Stepper\'s `quantity`, `increment`, `decrement`, and Steps\' `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
+              es: 'El tipo `Labels` tiene catorce claves nuevas (`showPassword`, `hidePassword`, `required`, los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, las de Stepper `quantity`, `increment`, `decrement`, y las de Steps `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
             },
           ],
         },

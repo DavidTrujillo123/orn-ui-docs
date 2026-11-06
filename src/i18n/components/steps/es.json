@@ -26,6 +26,12 @@
     },
     "onStepPress": {
       "description": "Si se pasa, cada paso es tocable y reporta su índice."
+    },
+    "steps": {
+      "description": "La secuencia, en orden."
+    },
+    "testID": {
+      "description": "testID raíz; cada paso recibe `<testID>-<índice>`."
     }
   }
 }

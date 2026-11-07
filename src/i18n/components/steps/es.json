@@ -32,6 +32,9 @@
     },
     "testID": {
       "description": "testID raíz; cada paso recibe `<testID>-<índice>`."
+    },
+    "orientation": {
+      "description": "Dispone los pasos en fila o en columna."
     }
   }
 }

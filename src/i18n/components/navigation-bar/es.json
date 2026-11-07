@@ -27,6 +27,18 @@
     "hideOnKeyboard": {
       "description": "Oculta una barra inferior mientras el teclado está abierto, como las barras de pestañas nativas, para que no quede entre el campo y el teclado. Solo hace falta en Android: en iOS el teclado ya la tapa.",
       "default": "true"
+    },
+    "items": {
+      "description": "Los destinos: clave, etiqueta y, opcionalmente, un ícono y un badge."
+    },
+    "activeKey": {
+      "description": "Clave del elemento seleccionado (controlado)."
+    },
+    "onChange": {
+      "description": "Se llama con la clave del elemento tocado."
+    },
+    "showLabels": {
+      "description": "Muestra la etiqueta bajo cada ícono."
     }
   }
 }

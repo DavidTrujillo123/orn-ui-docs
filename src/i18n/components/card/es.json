@@ -13,5 +13,9 @@
       "desc": "Los ajustes de espaciado o ancho van aquí, no en un View que envuelva la Card."
     }
   ],
-  "props": {}
+  "props": {
+    "children": {
+      "description": "Contenido de la tarjeta, dentro de su relleno, fondo y borde."
+    }
+  }
 }

@@ -17,5 +17,36 @@
       "desc": "Activo por defecto. Se apaga cuando el contenido ya trae su propia lista."
     }
   ],
-  "props": {}
+  "props": {
+    "visible": {
+      "description": "Muestra u oculta el modal. Las variantes animadas reproducen su salida antes de desmontarse."
+    },
+    "onClose": {
+      "description": "Muestra el botón de cerrar en el encabezado y se llama desde él, al tocar el fondo (`overlay`) y con el botón atrás de Android."
+    },
+    "title": {
+      "description": "Título del encabezado, en una sola línea."
+    },
+    "closeAccessibilityLabel": {
+      "description": "Nombre accesible del botón de cerrar."
+    },
+    "children": {
+      "description": "Cuerpo del modal."
+    },
+    "footer": {
+      "description": "Zona fija bajo el contenido (por ejemplo, acciones); no se desplaza."
+    },
+    "containerStyle": {
+      "description": "Estilo de la tarjeta (`overlay`) o del contenedor a pantalla completa."
+    },
+    "contentStyle": {
+      "description": "Estilo de la zona de contenido (el contenedor del scroll si es `scrollable`)."
+    },
+    "variant": {
+      "description": "'full' sube una página completa, 'overlay' una tarjeta centrada sobre un fondo atenuado y 'fullScreen' usa la presentación nativa a pantalla completa."
+    },
+    "scrollable": {
+      "description": "Envuelve el contenido en un ScrollView."
+    }
+  }
 }

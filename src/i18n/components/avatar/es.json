@@ -31,6 +31,12 @@
     },
     "children": {
       "description": "Contenido propio; tiene prioridad sobre source/name/iconName."
+    },
+    "backgroundColor": {
+      "description": "Relleno del círculo."
+    },
+    "accessibilityLabel": {
+      "description": "Nombre accesible. Sin esta prop (y sin `name`) el avatar es decorativo."
     }
   }
 }

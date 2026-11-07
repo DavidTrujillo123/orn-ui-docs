@@ -16,6 +16,15 @@
   "props": {
     "backgroundColor": {
       "description": "Override manual, tiene precedencia sobre `variant`."
+    },
+    "label": {
+      "description": "Texto de la píldora, en una sola línea (se corta con \"…\")."
+    },
+    "variant": {
+      "description": "Juego de colores semántico: success, error, warning, info o neutral."
+    },
+    "textColor": {
+      "description": "Color de texto manual; tiene prioridad sobre `variant`."
     }
   }
 }

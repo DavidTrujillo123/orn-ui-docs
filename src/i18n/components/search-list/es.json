@@ -45,6 +45,87 @@
     },
     "skeletonCount": {
       "description": "Filas fantasma de la carga inicial."
+    },
+    "searchValue": {
+      "description": "Texto de la caja de búsqueda (controlado)."
+    },
+    "onSearchChange": {
+      "description": "Se llama con el nuevo texto; el botón de borrar la llama con un texto vacío."
+    },
+    "searchPlaceholder": {
+      "description": "Placeholder de la caja de búsqueda."
+    },
+    "searchIsLoading": {
+      "description": "Muestra un spinner dentro de la caja de búsqueda."
+    },
+    "onScanPress": {
+      "description": "Muestra un botón junto a la caja de búsqueda y se llama al tocarlo."
+    },
+    "scanAccessibilityLabel": {
+      "description": "Nombre accesible del botón de `onScanPress`."
+    },
+    "extraActions": {
+      "description": "Nodos extra al final de la fila de búsqueda."
+    },
+    "data": {
+      "description": "Elementos a mostrar."
+    },
+    "keyExtractor": {
+      "description": "Clave estable por elemento."
+    },
+    "renderItem": {
+      "description": "Dibuja cada fila (igual que `renderItem` de FlatList)."
+    },
+    "isLoadingMore": {
+      "description": "Muestra un spinner en el pie mientras carga la página siguiente."
+    },
+    "loadingText": {
+      "description": "Texto del spinner que se muestra mientras `isReady` es false y de la carga en modo `overlay`."
+    },
+    "loadingMoreText": {
+      "description": "Texto del spinner del pie que se muestra con `isLoadingMore`."
+    },
+    "hasMore": {
+      "description": "Si quedan más páginas. Mientras es false, `noMoreText` aparece al final de una lista con datos."
+    },
+    "noMoreText": {
+      "description": "Texto que aparece al final de la lista cuando `hasMore` es false."
+    },
+    "onEndReached": {
+      "description": "Se llama al acercarse al final del scroll. Se ignora si se pasa `onLoadMore`."
+    },
+    "onLoadMore": {
+      "description": "Se llama al acercarse al final del scroll. Tiene prioridad sobre `onEndReached`."
+    },
+    "onEndReachedThreshold": {
+      "description": "Qué tan cerca del final se dispara `onEndReached`, en largos visibles de la lista."
+    },
+    "onRefresh": {
+      "description": "Activa el pull-to-refresh y se llama cuando el usuario tira de la lista."
+    },
+    "emptyTitle": {
+      "description": "Título del estado vacío."
+    },
+    "emptyDescription": {
+      "description": "Línea de apoyo del estado vacío."
+    },
+    "emptyIconName": {
+      "description": "Ícono del estado vacío."
+    },
+    "ListHeaderComponent": {
+      "description": "Se dibuja sobre los elementos, dentro del scroll."
+    },
+    "ListFooterComponent": {
+      "description": "Se dibuja bajo los elementos, antes del indicador de paginación y de `noMoreText`."
+    },
+    "contentContainerStyle": {
+      "description": "Estilo del contenedor de contenido de la lista (también lo usa el skeleton)."
+    },
+    "containerStyle": {
+      "description": "Estilo del contenedor exterior."
+    },
+    "listProps": {
+      "description": "Props extra que se pasan a `ListComponent`; pisan las que fija este componente."
     }
   }
 }

@@ -74,6 +74,9 @@
     },
     "maxDate": {
       "description": "Último día elegible; los posteriores se atenúan y la flecha hacia adelante se detiene ahí."
+    },
+    "containerStyle": {
+      "description": "Estilo del contenedor exterior (etiqueta, campo y error)."
     }
   }
 }

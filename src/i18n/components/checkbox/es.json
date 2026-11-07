@@ -20,6 +20,21 @@
   "props": {
     "accessibilityLabel": {
       "description": "En la práctica es obligatorio si no hay `label`: es lo único que anuncia un lector de pantalla."
+    },
+    "value": {
+      "description": "Si la casilla está marcada (controlado)."
+    },
+    "onValueChange": {
+      "description": "Se llama con el nuevo valor al tocar la fila."
+    },
+    "label": {
+      "description": "Texto junto a la casilla; toda la fila es táctil. También es el nombre accesible."
+    },
+    "color": {
+      "description": "Color del relleno y del borde al marcar. El check pasa a negro o blanco según el contraste."
+    },
+    "disabled": {
+      "description": "Atenúa la casilla y la etiqueta e ignora los toques."
     }
   }
 }

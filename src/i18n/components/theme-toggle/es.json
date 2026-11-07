@@ -9,5 +9,9 @@
       "desc": "Reemplaza los tres textos incluidos cuando el producto los nombra distinto."
     }
   ],
-  "props": {}
+  "props": {
+    "labels": {
+      "description": "Texto de cada segmento; los modos que falten conservan el suyo (Auto, Light, Dark)."
+    }
+  }
 }

@@ -33,6 +33,30 @@
     },
     "scrollableContent": {
       "description": "El contenido del paso scrollea cuando no entra. Ponlo en false solo si\nun paso renderiza su propia lista virtualizada (anidar una\nVirtualizedList dentro de un ScrollView rompe la virtualización)."
+    },
+    "steps": {
+      "description": "Los pasos, en orden: etiqueta, descripción opcional, contenido y `canGoNext`."
+    },
+    "onStepChange": {
+      "description": "Se llama con el nuevo índice al cambiar de paso (Atrás, Siguiente o un toque en el indicador)."
+    },
+    "onFinish": {
+      "description": "Se llama al tocar el botón de finalizar en el último paso."
+    },
+    "orientation": {
+      "description": "Disposición del indicador de pasos: en fila o en columna."
+    },
+    "completedIndicator": {
+      "description": "Lo que muestra el círculo de un paso completado: un check o su número."
+    },
+    "backLabel": {
+      "description": "Texto del botón de volver (oculto en el primer paso)."
+    },
+    "nextLabel": {
+      "description": "Texto del botón de siguiente."
+    },
+    "finishLabel": {
+      "description": "Texto del botón de siguiente en el último paso."
     }
   }
 }

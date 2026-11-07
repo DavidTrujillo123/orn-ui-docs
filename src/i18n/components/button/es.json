@@ -29,5 +29,45 @@
       "desc": "Usar `loading` mientras corre una acción asíncrona y `disabled` cuando la acción todavía no está disponible."
     }
   ],
-  "props": {}
+  "props": {
+    "title": {
+      "description": "Texto visible. También es el nombre accesible, salvo que se pase `accessibilityLabel`."
+    },
+    "onPress": {
+      "description": "Se llama al tocar. No se llama mientras está `disabled` o `loading`."
+    },
+    "variant": {
+      "description": "Estilo semántico: `primary` es la acción focal rellena; las demás bajan el peso visual."
+    },
+    "size": {
+      "description": "Densidad: relleno y tamaño de letra. `sm` gana área táctil extra con `hitSlop`."
+    },
+    "loading": {
+      "description": "Muestra un spinner sobre el texto oculto (el ancho no cambia) y bloquea los toques."
+    },
+    "disabled": {
+      "description": "Pinta los colores de deshabilitado e ignora los toques."
+    },
+    "textStyle": {
+      "description": "Estilo extra para el texto."
+    },
+    "leftIcon": {
+      "description": "Nodo propio a la izquierda del texto. Tiene prioridad sobre `leftIconName`."
+    },
+    "rightIcon": {
+      "description": "Nodo propio a la derecha del texto. Tiene prioridad sobre `rightIconName`."
+    },
+    "leftIconName": {
+      "description": "Ícono del set de la librería a la izquierda del texto, con el tamaño acorde a `size`."
+    },
+    "rightIconName": {
+      "description": "Ícono del set de la librería a la derecha del texto, con el tamaño acorde a `size`."
+    },
+    "iconColor": {
+      "description": "Color de `leftIconName`/`rightIconName`. Por defecto, el color del texto de la variante."
+    },
+    "accessibilityLabel": {
+      "description": "Lo que anuncian los lectores de pantalla."
+    }
+  }
 }

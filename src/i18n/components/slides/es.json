@@ -66,6 +66,24 @@
     },
     "slideStyle": {
       "description": "Estilos de la caja visible de cada slide: padding, alineación, radio."
+    },
+    "data": {
+      "description": "Un elemento por slide."
+    },
+    "keyExtractor": {
+      "description": "Clave estable por elemento."
+    },
+    "orientation": {
+      "description": "Dirección del deslizamiento."
+    },
+    "defaultIndex": {
+      "description": "Slide inicial cuando el índice no es controlado."
+    },
+    "onIndexChange": {
+      "description": "Se llama con el nuevo índice al cambiar el slide activo."
+    },
+    "swipeEnabled": {
+      "description": "Permite deslizar entre slides. Si es false, solo cambian con los indicadores, `autoPlay` o `index`."
     }
   }
 }

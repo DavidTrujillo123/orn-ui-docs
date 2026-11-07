@@ -27,6 +27,15 @@
     },
     "header": {
       "description": "Barra fija arriba (volver, título, acciones). Queda en su lugar mientras el contenido scrollea o sube por el teclado. El safe area superior va encima de ella."
+    },
+    "children": {
+      "description": "Contenido de la pantalla."
+    },
+    "scrollable": {
+      "description": "Envuelve el contenido en un ScrollView."
+    },
+    "contentContainerStyle": {
+      "description": "Estilo del contenedor de contenido del ScrollView. Solo aplica con `scrollable`."
     }
   }
 }

@@ -23,6 +23,42 @@
     },
     "searchable": {
       "description": "Agrega un buscador dentro del desplegable."
+    },
+    "label": {
+      "description": "Texto sobre el campo; también es su nombre accesible."
+    },
+    "required": {
+      "description": "Muestra un asterisco junto a la etiqueta."
+    },
+    "options": {
+      "description": "Opciones del desplegable: etiqueta, valor y, opcionalmente, ícono, emoji o deshabilitada."
+    },
+    "selectedValue": {
+      "description": "Valor de la opción seleccionada (controlado). `undefined` muestra el placeholder."
+    },
+    "onSelect": {
+      "description": "Se llama con el valor de la opción elegida; luego el desplegable se cierra."
+    },
+    "placeholder": {
+      "description": "Texto mientras no hay nada seleccionado."
+    },
+    "error": {
+      "description": "Error que se muestra bajo el campo."
+    },
+    "isLoading": {
+      "description": "Muestra un spinner en lugar de la flecha e impide abrir."
+    },
+    "disabled": {
+      "description": "Atenúa el campo e impide abrir."
+    },
+    "searchPlaceholder": {
+      "description": "Placeholder de la caja de búsqueda (con `searchable`)."
+    },
+    "onOpenChange": {
+      "description": "Se llama con `true` al abrir el desplegable y con `false` al cerrarlo."
+    },
+    "containerStyle": {
+      "description": "Estilo del contenedor exterior (etiqueta, campo y error)."
     }
   }
 }

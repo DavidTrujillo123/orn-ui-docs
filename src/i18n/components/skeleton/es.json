@@ -29,6 +29,15 @@
     },
     "animated": {
       "description": "Pulsa mientras espera. Se desactiva cuando el sistema tiene activado Reducir movimiento."
+    },
+    "width": {
+      "description": "Ancho del marcador."
+    },
+    "height": {
+      "description": "Alto del marcador."
+    },
+    "variant": {
+      "description": "Forma: un bloque, una línea de texto o un círculo."
     }
   }
 }

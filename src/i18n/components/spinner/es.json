@@ -32,6 +32,15 @@
     },
     "accessibilityLabel": {
       "description": "Lo que anuncian los lectores de pantalla."
+    },
+    "size": {
+      "description": "Tamaño del indicador; también escala las variantes `dots` y `ring`."
+    },
+    "color": {
+      "description": "Color del indicador."
+    },
+    "text": {
+      "description": "Mensaje bajo el indicador. También es lo que anuncian los lectores de pantalla."
     }
   }
 }

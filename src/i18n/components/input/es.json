@@ -48,6 +48,27 @@
     },
     "onValidate": {
       "description": "Se llama con el error (o undefined) cada vez que corren las reglas."
+    },
+    "label": {
+      "description": "Texto sobre el campo; también es su nombre accesible (si falta, se usa `placeholder`)."
+    },
+    "containerStyle": {
+      "description": "Estilo del contenedor exterior (etiqueta, campo y error)."
+    },
+    "leftIconName": {
+      "description": "Ícono dentro del campo, a la izquierda del texto."
+    },
+    "rightIconName": {
+      "description": "Botón con ícono dentro del campo, a la derecha. Se ignora con `isPassword` o `isLoading`."
+    },
+    "onRightIconPress": {
+      "description": "Se llama al tocar el botón de `rightIconName`. Sin esta prop el botón queda deshabilitado."
+    },
+    "isPassword": {
+      "description": "Oculta el texto y agrega un botón de ojo para mostrarlo u ocultarlo."
+    },
+    "isLoading": {
+      "description": "Muestra un spinner pequeño a la derecha, en lugar del ícono derecho."
     }
   }
 }

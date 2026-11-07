@@ -36,6 +36,21 @@
     },
     "accessibilityLabel": {
       "description": "Describe la imagen para los lectores de pantalla. Sin él, la imagen es decorativa."
+    },
+    "source": {
+      "description": "Imagen a cargar (igual que `source` de React Native)."
+    },
+    "width": {
+      "description": "Ancho del espacio de la imagen, en pt."
+    },
+    "height": {
+      "description": "Alto del espacio de la imagen, en pt."
+    },
+    "resizeMode": {
+      "description": "Cómo se ajusta la imagen a su espacio (igual que en React Native)."
+    },
+    "onError": {
+      "description": "Se llama si falla la carga; se muestra el `fallback`."
     }
   }
 }

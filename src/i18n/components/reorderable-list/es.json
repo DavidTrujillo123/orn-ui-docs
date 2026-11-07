@@ -29,6 +29,18 @@
     },
     "onReorder": {
       "description": "Se llama al soltar, con el array ya reordenado. No muta `data`."
+    },
+    "data": {
+      "description": "Elementos, en su orden actual."
+    },
+    "keyExtractor": {
+      "description": "Clave estable por elemento."
+    },
+    "renderItem": {
+      "description": "Dibuja cada fila; el tercer argumento es true mientras esa fila se arrastra."
+    },
+    "disabled": {
+      "description": "Desactiva el arrastre."
     }
   }
 }

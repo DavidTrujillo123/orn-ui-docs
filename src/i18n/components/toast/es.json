@@ -27,6 +27,18 @@
     },
     "onPress": {
       "description": "Se dispara al tocar el toast (además de cerrarlo)."
+    },
+    "title": {
+      "description": "Línea principal."
+    },
+    "message": {
+      "description": "Segunda línea opcional."
+    },
+    "variant": {
+      "description": "Define el ícono y el color de la barra lateral."
+    },
+    "onDismiss": {
+      "description": "Muestra la X de cerrar (salvo con `hideCloseButton`) y se llama al tocarla."
     }
   }
 }

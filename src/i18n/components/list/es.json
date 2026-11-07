@@ -39,6 +39,57 @@
     },
     "skeletonCount": {
       "description": "Filas fantasma de la carga inicial."
+    },
+    "data": {
+      "description": "Elementos a mostrar."
+    },
+    "keyExtractor": {
+      "description": "Clave estable por elemento."
+    },
+    "renderItem": {
+      "description": "Dibuja cada fila (igual que `renderItem` de FlatList)."
+    },
+    "isLoadingMore": {
+      "description": "Muestra un spinner en el pie mientras carga la página siguiente."
+    },
+    "loadingText": {
+      "description": "Texto del spinner a pantalla completa que se muestra mientras `isReady` es false."
+    },
+    "loadingMoreText": {
+      "description": "Texto del spinner del pie que se muestra con `isLoadingMore`."
+    },
+    "onEndReached": {
+      "description": "Se llama al acercarse al final del scroll (para cargar la página siguiente)."
+    },
+    "onEndReachedThreshold": {
+      "description": "Qué tan cerca del final se dispara `onEndReached`, en largos visibles de la lista."
+    },
+    "onRefresh": {
+      "description": "Activa el pull-to-refresh y se llama cuando el usuario tira de la lista."
+    },
+    "emptyTitle": {
+      "description": "Título del estado vacío."
+    },
+    "emptyDescription": {
+      "description": "Línea de apoyo del estado vacío."
+    },
+    "emptyIconName": {
+      "description": "Ícono del estado vacío."
+    },
+    "ListHeaderComponent": {
+      "description": "Se dibuja sobre los elementos, dentro del scroll."
+    },
+    "ListFooterComponent": {
+      "description": "Se dibuja bajo los elementos, antes del indicador de paginación."
+    },
+    "contentContainerStyle": {
+      "description": "Estilo del contenedor de contenido de la lista (también lo usa el skeleton)."
+    },
+    "containerStyle": {
+      "description": "Estilo del contenedor exterior."
+    },
+    "listProps": {
+      "description": "Props extra que se pasan a `ListComponent`; pisan las que fija este componente."
     }
   }
 }

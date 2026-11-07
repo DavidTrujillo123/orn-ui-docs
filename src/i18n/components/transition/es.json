@@ -48,6 +48,15 @@
     },
     "visible": {
       "description": "Entra cuando es true, sale (y desmonta) cuando es false."
+    },
+    "children": {
+      "description": "Contenido que entra y sale."
+    },
+    "onEntered": {
+      "description": "Se llama al terminar la animación de entrada. No se llama si la controla `value`."
+    },
+    "onExited": {
+      "description": "Se llama al terminar la animación de salida, antes de desmontar. No se llama si la controla `value`."
     }
   }
 }

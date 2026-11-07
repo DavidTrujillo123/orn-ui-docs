@@ -17,5 +17,27 @@
       "desc": "Obligatoria, y con razón: no hay texto visible, así que es lo único que anuncia un lector de pantalla."
     }
   ],
-  "props": {}
+  "props": {
+    "iconName": {
+      "description": "Ícono del set de la librería. Se ignora si se pasa `icon`."
+    },
+    "icon": {
+      "description": "Nodo propio en lugar del ícono. Tiene prioridad sobre `iconName`."
+    },
+    "onPress": {
+      "description": "Se llama al tocar. No se llama mientras está `disabled`."
+    },
+    "size": {
+      "description": "Tamaño del ícono en pt. El área táctil se completa hasta 44pt con `hitSlop`."
+    },
+    "color": {
+      "description": "Color del ícono. Por defecto, `colors.text`."
+    },
+    "disabled": {
+      "description": "Atenúa el botón a la mitad e ignora los toques."
+    },
+    "accessibilityLabel": {
+      "description": "Obligatorio: el botón no tiene texto visible, así que es lo único que anuncia un lector de pantalla."
+    }
+  }
 }

@@ -19,13 +19,22 @@
   ],
   "props": {
     "balanceLastRow": {
-      "description": "Última fila incompleta: centrada (simétrica) en vez de pegada a la\nizquierda con un hueco a la derecha."
+      "description": "Última fila incompleta: centrada (simétrica) en vez de pegada a la izquierda con un hueco a la derecha."
     },
     "columns": {
       "description": "Columnas por fila."
     },
     "gap": {
       "description": "Separación entre celdas, en ambos ejes."
+    },
+    "data": {
+      "description": "Elementos a ubicar, en orden de lectura."
+    },
+    "renderItem": {
+      "description": "Renderiza una celda; recibe todo el ancho de la celda."
+    },
+    "keyExtractor": {
+      "description": "Key estable por elemento."
     }
   }
 }

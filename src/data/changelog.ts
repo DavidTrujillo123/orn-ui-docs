@@ -615,6 +615,15 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'SymmetricGrid',
+          items: [
+            {
+              en: 'Rows no longer overflow the container: each cell was `100 / columns %` wide plus the gap, so the right column stuck out (cut off with 3 columns). The gap now lives inside the cells and the outer edges stay flush. New `testID` prop.',
+              es: 'Las filas ya no se salen del contenedor: cada celda medía `100 / columns %` más el gap, así la columna derecha sobresalía (cortada con 3 columnas). Ahora el gap va dentro de las celdas y los bordes exteriores quedan alineados. Prop nueva `testID`.',
+            },
+          ],
+        },
+        {
           component: 'Icons',
           page: '/components/icon-button',
           items: [

@@ -228,6 +228,38 @@ function extractDefaultsFromSource(filePath, componentName) {
  * (description and @default) and the full fallback when react-docgen-typescript
  * returns zero props even though the interface exists (happens with DatePicker).
  */
+const interfaceCache = new Map();
+/** An interface by name: in `fromFile` first, then anywhere in orn-ui/src. */
+function findInterface(name, fromFile) {
+  const look = (sf) => {
+    let found = null;
+    sf.forEachChild((node) => {
+      if (ts.isInterfaceDeclaration(node) && node.name.text === name) found = node;
+    });
+    return found;
+  };
+  const local = look(fromFile);
+  if (local) return local;
+  if (interfaceCache.has(name)) return interfaceCache.get(name);
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (entry.name === '__tests__') continue;
+        const hit = walk(full);
+        if (hit) return hit;
+      } else if (/\.tsx?$/.test(entry.name)) {
+        const hit = look(parseSource(full));
+        if (hit) return hit;
+      }
+    }
+    return null;
+  };
+  const found = walk(UI_SRC);
+  interfaceCache.set(name, found);
+  return found;
+}
+
 function extractPropsFromInterface(filePath, componentName) {
   const source = parseSource(filePath);
 
@@ -244,17 +276,40 @@ function extractPropsFromInterface(filePath, componentName) {
   // `type: 'bar'` only applies to that variant; that is recorded so the table
   // can say so.
   const collected = [];
+  const inherited = [];
   const visit = (name, variant) => {
     const decl = interfaces.get(name);
     if (decl) {
       const literal = decl.members.find(
-        (m) => ts.isPropertySignature(m) && m.name.getText(source) === 'type' && m.type && ts.isLiteralTypeNode(m.type)
+        (m) => ts.isPropertySignature(m) && m.name.getText(m.getSourceFile()) === 'type' && m.type && ts.isLiteralTypeNode(m.type)
       );
       const own = literal ? literal.type.literal.text : variant;
       for (const clause of decl.heritageClauses ?? []) {
-        for (const t of clause.types) visit(t.expression.getText(source), own);
+        for (const t of clause.types) {
+          const base = t.expression.getText(t.getSourceFile());
+          // `extends Pick<DatePickerProps, 'minDate' | 'maxDate'>` (DateField):
+          // the picked members of that interface, which may live in another file.
+          if (base === 'Pick' && t.typeArguments?.length === 2) {
+            const [target, keys] = t.typeArguments;
+            const picked = new Set(
+              (ts.isUnionTypeNode(keys) ? keys.types : [keys])
+                .filter((k) => ts.isLiteralTypeNode(k) && ts.isStringLiteral(k.literal))
+                .map((k) => k.literal.text)
+            );
+            const external = findInterface(target.getText(t.getSourceFile()), decl.getSourceFile());
+            if (external) {
+              for (const m of external.members) {
+                if (ts.isPropertySignature(m) && picked.has(m.name.getText(m.getSourceFile()))) inherited.push({ m, variant: own });
+              }
+            }
+            continue;
+          }
+          visit(base, own);
+        }
       }
       for (const m of decl.members) if (ts.isPropertySignature(m)) collected.push({ m, variant: own });
+      // Picked members go after the component's own props.
+      collected.push(...inherited.splice(0));
       return;
     }
     const alias = aliases.get(name);
@@ -274,7 +329,7 @@ function extractPropsFromInterface(filePath, componentName) {
   const byName = new Map();
   const variants = [];
   for (const { m, variant } of collected) {
-    const name = m.name.getText(source);
+    const name = m.name.getText(m.getSourceFile());
     if (variant && !variants.includes(variant)) variants.push(variant);
     const entry = byName.get(name);
     if (entry) {
@@ -288,7 +343,7 @@ function extractPropsFromInterface(filePath, componentName) {
   const members = [...byName.values()];
 
   return members.map(({ m, appliesTo }) => {
-    const isDiscriminant = m.name.getText(source) === 'type' && variants.length > 1;
+    const isDiscriminant = m.name.getText(m.getSourceFile()) === 'type' && variants.length > 1;
     const docs = ts.getJSDocCommentsAndTags(m);
     const comment = docs
       .map((d) => (typeof d.comment === 'string' ? d.comment : ''))
@@ -302,8 +357,8 @@ function extractPropsFromInterface(filePath, componentName) {
     const tagText = String(defaultTag?.comment ?? '').trim();
     const [, tagValue = tagText, tagRest = ''] = /^(\S+?)\.\s+(\S[\s\S]*)$/.exec(tagText) ?? [];
     return {
-      name: m.name.getText(source),
-      type: isDiscriminant ? variants.map((v) => `'${v}'`).join(' | ') : m.type ? m.type.getText(source) : 'unknown',
+      name: m.name.getText(m.getSourceFile()),
+      type: isDiscriminant ? variants.map((v) => `'${v}'`).join(' | ') : m.type ? m.type.getText(m.getSourceFile()) : 'unknown',
       required: !m.questionToken,
       defaultValue: normalizeDefault(tagValue),
       description: comment || tagRest.trim(),
@@ -346,6 +401,11 @@ function extractProps(category, file, componentName) {
     const own = list.find((p) => p.name === 'type');
     return [{ ...(own ?? discriminant), type: discriminant.type }, ...rest];
   };
+  // docgen drops members that come through `Pick<OtherProps, …>` (DateField's
+  // minDate/maxDate/…): the interface walk has them, so they're appended.
+  for (const [name, prop] of fromInterface) {
+    if (!props.some((p) => p.name === name)) props.push({ ...prop, defaultValue: prop.defaultValue ?? defaults[name] ?? null });
+  }
   if (props.length > 0) return discriminantFirst(props);
   return discriminantFirst(
     [...fromInterface.values()].map((prop) => ({

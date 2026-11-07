@@ -750,6 +750,15 @@ export const releases: Release[] = [
       ],
       changed: [
         {
+          component: 'Docs',
+          items: [
+            {
+              en: 'Every public prop now has a description (158 were undocumented), in English and Spanish, and props a component takes from another one (`Pick<…>`) show in its table.',
+              es: 'Toda prop pública ahora tiene descripción (158 no la tenían), en inglés y español, y las props que un componente toma de otro (`Pick<…>`) aparecen en su tabla.',
+            },
+          ],
+        },
+        {
           component: 'Theme',
           page: '/tokens',
           items: [

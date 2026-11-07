@@ -96,7 +96,8 @@ check_shot() { # shot.jpg
       for(let y=0;y<H;y++){const bg=b[y*W+8];let n=0;for(let x=8;x<W-8;x++)if(Math.abs(b[y*W+x]-bg)>10)n++;if(n>12){r++;if(y<16||y>=H-16)edge++;}}
       console.log(r+" "+edge);});' $(sips -g pixelWidth -g pixelHeight "$1" | awk '/pixel/{printf "%s ", $2}'))
   set -- "$1" $rows
-  if [ "$2" -lt 12 ]; then
+  # 4 rows: a lone 2pt divider is 6 px tall and is real content.
+  if [ "$2" -lt 4 ]; then
     # soft: called by shot_content, which retries (an animated demo may be
     # right in its hidden phase). Without soft, an empty capture aborts.
     [ "${SOFT:-0}" = 1 ] && return 1

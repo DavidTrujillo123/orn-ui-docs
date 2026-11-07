@@ -112,6 +112,16 @@ export const releases: Release[] = [
       ],
       added: [
         {
+          component: 'Theme',
+          page: '/tokens',
+          items: [
+            {
+              en: '`surfaceRaised`: fill for a surface that sits on another surface (Card). Equal to `surface` in light, lighter in dark. If you build a complete palette yourself, add it.',
+              es: '`surfaceRaised`: relleno de una superficie que va sobre otra (Card). Igual a `surface` en claro, más claro en oscuro. Si armas una paleta completa a mano, agrégalo.',
+            },
+          ],
+        },
+        {
           component: 'AvatarHeader',
           items: [
             {
@@ -640,6 +650,29 @@ export const releases: Release[] = [
       ],
       changed: [
         {
+          component: 'Theme',
+          page: '/tokens',
+          items: [
+            {
+              en: 'The dark `border` color is lighter (`#2a2a2e` → `#3a3a40`): at 1.17:1 against `surface` it was invisible, so cards, inputs, dividers and steppers lost their outline in dark mode.',
+              es: 'El color `border` oscuro es más claro (`#2a2a2e` → `#3a3a40`): con 1,17:1 contra `surface` era invisible, así tarjetas, inputs, divisores y steppers perdían el contorno en modo oscuro.',
+            },
+          ],
+        },
+        {
+          component: 'Card',
+          items: [
+            {
+              en: 'In dark mode the card is a lighter tile (new `surfaceRaised` color, `#303036`) with a 1pt border: before, it had the same fill as the surface under it and only a hairline, so on a sheet or a grid only its text showed.',
+              es: 'En modo oscuro la tarjeta es un tile más claro (nuevo color `surfaceRaised`, `#303036`) con borde de 1pt: antes tenía el mismo relleno que la superficie de abajo y solo un hairline, así sobre un sheet o una grilla solo se veía su texto.',
+            },
+            {
+              en: 'OptionCard, the Timeline pills, the Chart tooltip, the Select dropdown and Toast use the same raised fill, so in dark they also read as tiles over the surface below.',
+              es: 'OptionCard, las píldoras de Timeline, el tooltip de Chart, el desplegable de Select y Toast usan el mismo relleno elevado, así en oscuro también se leen como tiles sobre la superficie de abajo.',
+            },
+          ],
+        },
+        {
           component: 'UIProvider',
           page: '/getting-started',
           items: [
@@ -732,8 +765,8 @@ export const releases: Release[] = [
           component: 'Skeleton',
           items: [
             {
-              en: 'Stronger placeholder color so it stands out from cards: `#e3e5e8` in light (was `#eceef1`), `#2c2c30` in dark (was `#26262a`).',
-              es: 'Color más marcado para que se distinga de las tarjetas: `#e3e5e8` en claro (antes `#eceef1`) y `#2c2c30` en oscuro (antes `#26262a`).',
+              en: 'Stronger placeholder color so it stands out from cards: `#e3e5e8` in light (was `#eceef1`), `#44444b` in dark (was `#26262a`), lighter than the dark card fill so it shows inside cards too.',
+              es: 'Color más marcado para que se distinga de las tarjetas: `#e3e5e8` en claro (antes `#eceef1`) y `#44444b` en oscuro (antes `#26262a`), más claro que el relleno de las tarjetas oscuras para que también se vea dentro de ellas.',
             },
           ],
         },

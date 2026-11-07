@@ -337,6 +337,10 @@ export const releases: Release[] = [
               en: 'iOS: an overlay opened while another is open now shows. `showAlert()`/`showConfirm()` over an open BottomSheet or Modal, an Alert opened right after closing a sheet, or a sheet right after a Modal were silently dropped, because iOS presents one native modal at a time. Alert, BottomSheet, Modal and Select now share a coordinator: the new one is drawn inside the one on top, or waits until a closing one is gone. Android was not affected.',
               es: 'iOS: un overlay abierto mientras otro está abierto ahora se muestra. `showAlert()`/`showConfirm()` sobre un BottomSheet o Modal abierto, un Alert abierto justo después de cerrar un sheet, o un sheet justo después de un Modal se perdían en silencio, porque iOS presenta un solo modal nativo a la vez. Alert, BottomSheet, Modal y Select ahora comparten un coordinador: el nuevo se dibuja dentro del que está arriba, o espera a que termine de cerrarse el anterior. Android no estaba afectado.',
             },
+            {
+              en: 'iOS: an Alert always ends up on top. An Alert opened before, together with or after a BottomSheet or Modal is no longer covered by it.',
+              es: 'iOS: un Alert siempre queda arriba. Un Alert abierto antes, junto con o después de un BottomSheet o Modal ya no queda tapado por él.',
+            },
           ],
         },
         {

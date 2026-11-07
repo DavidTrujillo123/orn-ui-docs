@@ -14,14 +14,14 @@ const PLANS = [
   { label: 'Pro', value: 'pro' },
 ];
 
-export function WizardDemo() {
+function SignupWizardExample() {
   const [email, setEmail] = useState('');
   const [plan, setPlan] = useState<string | undefined>();
   const [accepted, setAccepted] = useState(false);
 
   // Real per-step validation: Next stays disabled until the current step
   // is complete.
-  const validated: WizardStep[] = [
+  const steps: WizardStep[] = [
     {
       label: 'Account',
       description: 'Email',
@@ -55,10 +55,18 @@ export function WizardDemo() {
     },
   ];
 
+  return (
+    <View style={{ height: 340 }}>
+      <Wizard steps={steps} nextLabel="Continue" finishLabel="Create account" onFinish={() => {}} />
+    </View>
+  );
+}
+
+export function WizardDemo() {
   // #region demo
   const variants: VariantDef[] = [
     {
-      label: 'A simple 3-step flow — Wizard tracks the current step itself',
+      label: 'Basic — three steps, uncontrolled',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} onFinish={() => {}} />
@@ -66,7 +74,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'orientation="vertical" — the step list runs down the side',
+      label: 'Vertical indicator',
       content: (
         <View style={{ height: 380 }}>
           <Wizard steps={SIMPLE} orientation="vertical" onFinish={() => {}} />
@@ -74,7 +82,7 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'completedIndicator="number" — count instead of a check',
+      label: 'Numbers instead of checks',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} completedIndicator="number" onFinish={() => {}} />
@@ -82,15 +90,11 @@ export function WizardDemo() {
       ),
     },
     {
-      label: 'A real signup — Next stays disabled until the step is valid',
-      content: (
-        <View style={{ height: 340 }}>
-          <Wizard steps={validated} nextLabel="Continue" finishLabel="Create account" onFinish={() => {}} />
-        </View>
-      ),
+      label: 'Per-step validation (canGoNext)',
+      content: <SignupWizardExample />,
     },
     {
-      label: 'Custom labels — rename Back / Next / Finish',
+      label: 'Custom labels',
       content: (
         <View style={{ height: 280 }}>
           <Wizard steps={SIMPLE} backLabel="Previous" nextLabel="Continue" finishLabel="Done" onFinish={() => {}} />

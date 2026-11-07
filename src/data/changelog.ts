@@ -684,6 +684,26 @@ export const releases: Release[] = [
           ],
         },
         {
+          component: 'DatePicker',
+          page: '/components/date-picker',
+          items: [
+            {
+              en: 'The month arrows are named from `labels` (`previousMonth`, `nextMonth`); they were fixed English. Every day reaches a 44pt touch target, and in dark the calendar is a raised panel (`surfaceRaised`).',
+              es: 'Las flechas de mes toman su nombre de `labels` (`previousMonth`, `nextMonth`); estaban fijas en inglés. Cada día alcanza un área táctil de 44pt, y en oscuro el calendario es un panel elevado (`surfaceRaised`).',
+            },
+          ],
+        },
+        {
+          component: 'DateField',
+          page: '/components/date-picker',
+          items: [
+            {
+              en: 'The placeholder defaults to `labels.selectDate` (it was a fixed "Select a date"), the field says "required" and announces its error like Input, and it uses the same chevron icon as Select instead of a "▾" character.',
+              es: 'El placeholder por defecto es `labels.selectDate` (era un "Select a date" fijo), el campo dice "obligatorio" y anuncia su error como Input, y usa el mismo ícono de chevron que Select en vez de un carácter "▾".',
+            },
+          ],
+        },
+        {
           component: 'BottomSheet',
           items: [
             {
@@ -864,8 +884,8 @@ export const releases: Release[] = [
           page: '/tokens',
           items: [
             {
-              en: 'The `Labels` type has fourteen new keys (`showPassword`, `hidePassword`, `required`, the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, and Stepper\'s `quantity`, `increment`, `decrement`, and Steps\' `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
-              es: 'El tipo `Labels` tiene catorce claves nuevas (`showPassword`, `hidePassword`, `required`, los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, las de Stepper `quantity`, `increment`, `decrement`, y las de Steps `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
+              en: 'The `Labels` type has sixteen new keys (`showPassword`, `hidePassword`, `required`, the validation messages `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, and Stepper\'s `quantity`, `increment`, `decrement`, Steps\' `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`, and DatePicker\'s `previousMonth`, `nextMonth`). If you build a complete `Labels` object yourself, add them; partial overrides through `labels` need no change.',
+              es: 'El tipo `Labels` tiene dieciséis claves nuevas (`showPassword`, `hidePassword`, `required`, los mensajes de validación `requiredError`, `minLengthError`, `maxLengthError`, `patternError`, las de Stepper `quantity`, `increment`, `decrement`, las de Steps `stepOf`, `stepCompleted`, `stepCurrent`, `stepPending`, y las de DatePicker `previousMonth`, `nextMonth`). Si armas un objeto `Labels` completo a mano, agrégalas; los reemplazos parciales con `labels` no necesitan cambios.',
             },
           ],
         },

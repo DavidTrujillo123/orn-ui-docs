@@ -51,6 +51,12 @@
     },
     "weekdayNames": {
       "description": "Iniciales de los días, índice 0 = domingo."
+    },
+    "minDate": {
+      "description": "Primer día elegible; los anteriores se atenúan y la flecha hacia atrás se detiene ahí."
+    },
+    "maxDate": {
+      "description": "Último día elegible; los posteriores se atenúan y la flecha hacia adelante se detiene ahí."
     }
   }
 }

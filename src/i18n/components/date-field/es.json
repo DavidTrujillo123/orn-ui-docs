@@ -53,6 +53,27 @@
     },
     "weekdayNames": {
       "description": "Iniciales de los días, índice 0 = domingo."
+    },
+    "label": {
+      "description": "Texto sobre el campo; también es su nombre accesible."
+    },
+    "required": {
+      "description": "Muestra un asterisco y dice \"obligatorio\" al lector de pantalla."
+    },
+    "placeholder": {
+      "description": "Texto mientras está vacío."
+    },
+    "error": {
+      "description": "Error bajo el campo (borde rojo); se anuncia al lector de pantalla."
+    },
+    "disabled": {
+      "description": "Atenúa el campo e ignora los toques."
+    },
+    "minDate": {
+      "description": "Primer día elegible; los anteriores se atenúan y la flecha hacia atrás se detiene ahí."
+    },
+    "maxDate": {
+      "description": "Último día elegible; los posteriores se atenúan y la flecha hacia adelante se detiene ahí."
     }
   }
 }

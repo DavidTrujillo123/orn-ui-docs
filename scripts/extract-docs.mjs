@@ -523,6 +523,11 @@ function localConstSource(source, name) {
 const definedIn = (code) =>
   new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*(?::[^=]+)?=/g)].map((m) => m[1] || m[2]));
 
+// A JSX tag, not a TypeScript generic: `useState<Date | undefined>` has an
+// identifier right before the `<` and is not a <Date> element (DatePicker,
+// 2026-11-07).
+const JSX_TAG = /(?<![\w.])<([A-Z]\w*)/g;
+
 function inlineLocalComponent(source, code) {
   const m = code.trim().match(/^<([A-Z]\w*)(\s[^<>]*)?\/>$/);
   let out = code;
@@ -536,7 +541,7 @@ function inlineLocalComponent(source, code) {
   // with `Frame` in Fab, 2026-11-02): its definition is prepended.
   for (let guard = 0; guard < 5; guard++) {
     const defined = definedIn(out);
-    const missing = [...new Set([...out.matchAll(/<([A-Z]\w*)/g)].map((x) => x[1]))]
+    const missing = [...new Set([...out.matchAll(JSX_TAG)].map((x) => x[1]))]
       .filter((tag) => !defined.has(tag))
       .map((tag) => localHelperSource(source, tag))
       .filter(Boolean);
@@ -563,7 +568,7 @@ function unknownTags(source, code) {
     for (const name of m[1].split(',')) allowed.add(name.trim().replace(/^type\s+/, '').split(/\s+as\s+/).pop());
   }
   const defined = definedIn(code);
-  return [...new Set([...code.matchAll(/<([A-Z]\w*)/g)].map((x) => x[1]))].filter(
+  return [...new Set([...code.matchAll(JSX_TAG)].map((x) => x[1]))].filter(
     (tag) => !allowed.has(tag) && !defined.has(tag)
   );
 }

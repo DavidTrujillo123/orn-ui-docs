@@ -112,6 +112,15 @@ export const releases: Release[] = [
       ],
       added: [
         {
+          component: 'Icon',
+          items: [
+            {
+              en: 'New built-in `scan` glyph (a viewfinder). SearchList uses it on its `onScanPress` button, which used to show a magnifying glass next to the search box.',
+              es: 'Nuevo glifo incluido `scan` (un visor). SearchList lo usa en su botón `onScanPress`, que antes mostraba una lupa al lado del buscador.',
+            },
+          ],
+        },
+        {
           component: 'Chart',
           items: [
             {

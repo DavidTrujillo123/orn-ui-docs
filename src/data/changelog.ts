@@ -112,6 +112,15 @@ export const releases: Release[] = [
       ],
       added: [
         {
+          component: 'BottomSheet',
+          items: [
+            {
+              en: '`inline`: draws the sheet inside its parent instead of over the screen, for docs and previews (like Alert).',
+              es: '`inline`: dibuja la hoja dentro de su padre en vez de sobre la pantalla, para docs y previews (como Alert).',
+            },
+          ],
+        },
+        {
           component: 'Alert',
           items: [
             {
@@ -639,6 +648,23 @@ export const releases: Release[] = [
             {
               en: 'The title is announced as a header and the VoiceOver escape gesture calls `onClose`.',
               es: 'El título se anuncia como encabezado y el gesto de escape de VoiceOver llama a `onClose`.',
+            },
+          ],
+        },
+        {
+          component: 'BottomSheet',
+          items: [
+            {
+              en: 'The close button\'s accessible name comes from `labels.close` (it was a fixed English "Close").',
+              es: 'El nombre accesible del botón de cerrar sale de `labels.close` (era un "Close" fijo en inglés).',
+            },
+            {
+              en: 'A short downward flick closes it, not only a 100pt drag; with Reduce Motion it appears and leaves without sliding; the height follows rotation.',
+              es: 'Un deslizamiento corto y rápido hacia abajo la cierra, no solo un arrastre de 100pt; con Reducir movimiento aparece y se va sin deslizarse; la altura sigue la rotación.',
+            },
+            {
+              en: 'The drag handle is visible on a light sheet (it used the near-white `border` color).',
+              es: 'El handle de arrastre se ve sobre una hoja clara (usaba el color `border`, casi blanco).',
             },
           ],
         },

@@ -35,6 +35,27 @@
     },
     "title": {
       "description": "Con título aparece el header, con su botón de cerrar."
+    },
+    "visible": {
+      "description": "Muestra u oculta la hoja (entra y sale deslizándose)."
+    },
+    "onClose": {
+      "description": "Lo llaman el fondo, el botón de cerrar, el arrastre y el botón atrás de Android."
+    },
+    "children": {
+      "description": "Contenido de la hoja."
+    },
+    "closeAccessibilityLabel": {
+      "description": "Nombre accesible del botón de cerrar y del fondo."
+    },
+    "containerStyle": {
+      "description": "Estilo de la hoja en sí (fondo, radio)."
+    },
+    "contentStyle": {
+      "description": "Estilo del área de contenido (padding)."
+    },
+    "inline": {
+      "description": "Dibuja la hoja dentro de su padre en vez de sobre la pantalla (docs, previews)."
     }
   }
 }

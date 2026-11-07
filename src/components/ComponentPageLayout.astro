@@ -315,10 +315,10 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
       <tbody>
         {props.map((p: any) => (
           <tr>
-            <td><code>{p.name}{p.required ? '' : '?'}</code></td>
-            <td><code>{p.type}</code></td>
-            <td>{getPropDefault(lang, propsOwner ?? title, p.name, p.defaultValue) ?? '—'}</td>
-            <td>{getPropDescription(lang, propsOwner ?? title, p.name, p.description) || '—'}</td>
+            <td class="prop-name"><code>{p.name}{p.required ? '' : '?'}</code></td>
+            <td class="prop-type"><code>{p.type}</code></td>
+            <td class="prop-default" data-label={t('props.default')}>{getPropDefault(lang, propsOwner ?? title, p.name, p.defaultValue) ?? '—'}</td>
+            <td class="prop-desc">{getPropDescription(lang, propsOwner ?? title, p.name, p.description) || '—'}</td>
           </tr>
         ))}
       </tbody>
@@ -492,6 +492,23 @@ const variantShots = variants.map((v: { index?: number }, i: number) => {
   th, td { text-align: left; padding: 10px var(--space-lg); border-bottom: 1px solid var(--border); vertical-align: top; }
   th { color: var(--text-light); font-weight: 600; background: var(--code-bg); }
   tr:last-child td { border-bottom: none; }
+  /* Phones: four columns don't fit, and the description (the column that
+     matters) ended up off-screen behind a horizontal scroll. Each prop becomes
+     a stacked block: name and type, then default and description. */
+  @media (max-width: 640px) {
+    .props-table { overflow-x: visible; }
+    table, tbody, tr, td { display: block; width: auto; }
+    thead { display: none; }
+    tr { padding: 12px var(--space-lg); border-bottom: 1px solid var(--border); }
+    tr:last-child { border-bottom: none; }
+    td { border: none; padding: 2px 0; }
+    td.prop-name, td.prop-type { display: inline; }
+    td.prop-type { margin-left: 8px; color: var(--text-light); }
+    td.prop-type code { white-space: normal; word-break: break-word; }
+    td.prop-default { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+    td.prop-default::before { content: attr(data-label) ': '; }
+    td.prop-desc { margin-top: 4px; }
+  }
 
   .pager-row { display: flex; gap: var(--space-lg); margin-top: var(--space-section); flex-wrap: wrap; }
   @media (max-width: 480px) { .pager-row { flex-direction: column; } }

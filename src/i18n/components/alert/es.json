@@ -14,12 +14,49 @@
     },
     {
       "term": "inline",
-      "desc": "Lo renderiza dentro del layout en vez de sobre la pantalla — para documentación y demos."
+      "desc": "Dibuja el diálogo dentro de su contenedor en vez de sobre la pantalla — para documentación y previews. En tu app, omítelo."
     },
     {
       "term": "showAlert / showConfirm",
       "desc": "Imperativo, desde afuera del árbol de componentes — un módulo de negocio, un interceptor. Necesita un `AlertProvider` montado una vez cerca de la raíz. `showConfirm` resuelve `true`/`false`."
     }
   ],
-  "props": {}
+  "props": {
+    "visible": {
+      "description": "Muestra u oculta el diálogo."
+    },
+    "title": {
+      "description": "Encabezado corto; el lector de pantalla lo anuncia como encabezado."
+    },
+    "message": {
+      "description": "Explicación opcional bajo el título."
+    },
+    "type": {
+      "description": "Ícono y color del diálogo."
+    },
+    "onClose": {
+      "description": "Toque en el fondo, botón atrás de Android, gesto de escape de VoiceOver. Sin él, el fondo no hace nada."
+    },
+    "buttons": {
+      "description": "Botones propios; tres o más se apilan en vertical."
+    },
+    "confirmText": {
+      "description": "Atajo: etiqueta del botón de confirmar."
+    },
+    "cancelText": {
+      "description": "Atajo: etiqueta del botón de cancelar (aparece con `onCancel` o `cancelText`)."
+    },
+    "onConfirm": {
+      "description": "Atajo: acción de confirmar."
+    },
+    "onCancel": {
+      "description": "Atajo: acción de cancelar (si falta, usa `onClose`)."
+    },
+    "destructive": {
+      "description": "El botón de confirmar usa el color destructivo (borrar, descartar)."
+    },
+    "inline": {
+      "description": "Dibuja el diálogo dentro de su padre en vez de sobre la pantalla (docs, previews)."
+    }
+  }
 }

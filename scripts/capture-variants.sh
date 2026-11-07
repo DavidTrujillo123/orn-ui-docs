@@ -138,10 +138,14 @@ center_band() { # screenshot.png -> sets CROP_Y/CROP_H
         const diff = (y) => { const bg = mode(y); let n = 0;
           for (let x = px; x < W - px; x++) if (Math.abs(b[y * W + x] - bg) > 12) n++; return n; };
         const full = (W - 2 * px) * 0.6;
+        const keepFull = process.argv[3] === "1";
         // Rows with content, grouped in blocks separated by >= 60 px.
         const blocks = []; let cur = null;
         for (let y = 24; y < H - 24; y++) {
-          const n = diff(y); if (!(n > 0 && n < full)) continue;
+          // KEEP_FULL=1: full-width rows are content too (an Alert overlay
+          // fills the demo box edge to edge); by default they are the card
+          // frame and get skipped.
+          const n = diff(y); if (!(n > 0 && (keepFull || n < full))) continue;
           if (cur && y - cur.bot < 60) cur.bot = y; else { cur = { top: y, bot: y }; blocks.push(cur); }
         }
         // A two-line label enters CARD_Y: it is a block stuck to the top
@@ -151,7 +155,7 @@ center_band() { # screenshot.png -> sets CROP_Y/CROP_H
         const content = blocks.filter((k) => k.bot >= 160);
         const top = content.length ? content[0].top : -1, bot = content.length ? content[content.length - 1].bot : -1;
         console.log(top < 0 ? Math.floor(H / 2) : Math.round((top + bot) / 2));
-      });' "$CROP_W" "$CARD_H")
+      });' "$CROP_W" "$CARD_H" "${KEEP_FULL:-0}")
   CROP_H=$BAND_H
   CROP_Y=$((CARD_Y + c - BAND_H / 2))
   echo "  band: center $((CARD_Y + c)), cropY $CROP_Y"

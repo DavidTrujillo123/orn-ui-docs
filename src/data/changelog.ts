@@ -112,6 +112,15 @@ export const releases: Release[] = [
       ],
       added: [
         {
+          component: 'Alert',
+          items: [
+            {
+              en: '`destructive`: the confirm button of the `confirmText`/`onConfirm` shorthand uses the error color (delete, discard).',
+              es: '`destructive`: el botón de confirmar del atajo `confirmText`/`onConfirm` usa el color de error (borrar, descartar).',
+            },
+          ],
+        },
+        {
           component: 'Theme',
           page: '/tokens',
           items: [
@@ -621,6 +630,15 @@ export const releases: Release[] = [
             {
               en: 'New `testID` prop (steps get `<testID>-<index>`); the hard-coded `testID="steps-row"` on the horizontal row is gone.',
               es: 'Prop nueva `testID` (los pasos reciben `<testID>-<índice>`); se quitó el `testID="steps-row"` fijo de la fila horizontal.',
+            },
+          ],
+        },
+        {
+          component: 'Alert',
+          items: [
+            {
+              en: 'The title is announced as a header and the VoiceOver escape gesture calls `onClose`.',
+              es: 'El título se anuncia como encabezado y el gesto de escape de VoiceOver llama a `onClose`.',
             },
           ],
         },

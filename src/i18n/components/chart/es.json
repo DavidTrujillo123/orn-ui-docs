@@ -42,14 +42,128 @@
     }
   ],
   "props": {
-    "height": { "default": "220" },
-    "legend": { "default": "'auto' — toggle con dos o más series, none con una" },
-    "formatValue": { "default": "compacto — 1.2k, 3.4M" },
-    "duration": { "default": "500" },
-    "stacked": { "default": "false" },
-    "barRadius": { "default": "4" },
-    "decimate": { "default": "el ancho medido — un punto cada dos píxeles" },
-    "dots": { "default": "true en 'line', false en 'area'" },
-    "innerRadius": { "default": "0 en 'pie', 0.6 en 'donut'" }
+    "height": {
+      "default": "220",
+      "description": "Alto del área del gráfico, sin contar filtros ni leyenda."
+    },
+    "legend": {
+      "default": "'auto' — toggle con dos o más series, none con una",
+      "description": "'toggle' convierte la leyenda en el filtro más barato de un gráfico: tocar una serie la oculta."
+    },
+    "formatValue": {
+      "default": "compacto — 1.2k, 3.4M",
+      "description": "Formatea los valores del eje, el tooltip y las porciones."
+    },
+    "duration": {
+      "default": "500",
+      "description": "Duración en ms de la animación de las marcas."
+    },
+    "stacked": {
+      "default": "false",
+      "description": "Apila las series en vez de ponerlas lado a lado."
+    },
+    "barRadius": {
+      "default": "4",
+      "description": "Radio del extremo libre de cada barra."
+    },
+    "decimate": {
+      "default": "el ancho medido — un punto cada dos píxeles",
+      "description": "Cantidad máxima de puntos a dibujar, elegidos con LTTB. Por defecto sale del ancho medido: más de un punto cada dos píxeles no se ve pero cuesta. `false` los dibuja todos."
+    },
+    "dots": {
+      "default": "true en 'line', false en 'area'",
+      "description": "Un punto en cada dato."
+    },
+    "innerRadius": {
+      "default": "0 en 'pie', 0.6 en 'donut'",
+      "description": "Agujero como fracción del radio, 0–0,9."
+    },
+    "type": {
+      "description": "Tipo de gráfico. Las props marcadas \"Solo con type\" dependen de él."
+    },
+    "data": {
+      "description": "Filas: una por categoría, con la etiqueta en `xKey` y una columna por serie."
+    },
+    "series": {
+      "description": "Series a dibujar. 'pie'/'donut' solo usan la primera: las categorías de una torta son las filas, no las columnas."
+    },
+    "xKey": {
+      "description": "Columna con la etiqueta de cada fila."
+    },
+    "selectBy": {
+      "description": "Identidad estable de una fila. Sin ella la selección se guarda por índice, y en una ventana deslizante el índice cambia: el punto resaltado termina apuntando a otro dato sin que nadie lo toque. Con ella el resaltado sigue al dato y desaparece solo cuando sale de la ventana."
+    },
+    "window": {
+      "description": "Dibuja solo las últimas N filas. Es la ventana deslizante de un gráfico en vivo: el código que empuja datos no tiene que recortarlos en cada tick."
+    },
+    "hiddenKeys": {
+      "description": "Series ocultas (controlado). Sin ella, Chart las lleva por su cuenta."
+    },
+    "defaultHiddenKeys": {
+      "description": "Series ocultas al inicio (no controlado)."
+    },
+    "onHiddenKeysChange": {
+      "description": "Se llama cuando la leyenda muestra u oculta una serie."
+    },
+    "filters": {
+      "description": "Controles sobre el gráfico, uno por filtro."
+    },
+    "selected": {
+      "description": "Punto resaltado (controlado). `null` significa ninguno."
+    },
+    "onSelect": {
+      "description": "Se llama al tocar una categoría, con `null` cuando se suelta."
+    },
+    "tooltip": {
+      "description": "Burbuja con los valores de la categoría tocada."
+    },
+    "animate": {
+      "description": "Las marcas crecen al montarse y se transforman al cambiar los datos (apagado con Reducir movimiento)."
+    },
+    "emptyText": {
+      "description": "Texto que se muestra cuando no queda nada que dibujar."
+    },
+    "accessibilityLabel": {
+      "description": "Obligatorio: un gráfico no tiene texto que lo describa."
+    },
+    "surfaceColor": {
+      "description": "Color detrás del gráfico. El agujero del donut y el anillo de los puntos se pintan con él, así que debe coincidir con lo que hay debajo."
+    },
+    "domain": {
+      "description": "Fija el eje de valores. Por defecto se recalcula con cada dato, lo correcto para un gráfico estático y lo peor para uno en vivo: llega un valor más alto, toda la escala se mueve y la línea salta aunque los datos no se movieron. `[min, max]`: exacto, sin redondear. `'sticky'`: parte de los datos y crece cuando algo no entra, pero nunca se achica."
+    },
+    "grid": {
+      "description": "Líneas de referencia en el eje de valores."
+    },
+    "ticks": {
+      "description": "Cantidad objetivo de marcas en el eje de valores; el redondeo puede dar una más o una menos."
+    },
+    "xAxis": {
+      "description": "Etiquetas en el eje horizontal."
+    },
+    "yAxis": {
+      "description": "Etiquetas en el eje vertical."
+    },
+    "orientation": {
+      "description": "'horizontal' pone las categorías en el eje vertical."
+    },
+    "smooth": {
+      "description": "Curvas Catmull-Rom en vez de segmentos rectos."
+    },
+    "thickness": {
+      "description": "Grosor de la línea en pt."
+    },
+    "fillOpacity": {
+      "description": "Opacidad del relleno bajo la línea."
+    },
+    "sliceLabels": {
+      "description": "Qué escribir en cada porción."
+    },
+    "levels": {
+      "description": "Anillos de la telaraña."
+    },
+    "fill": {
+      "description": "Rellena el polígono además de dibujar su contorno."
+    }
   }
 }

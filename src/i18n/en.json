@@ -176,6 +176,7 @@
     "changelog.kind.changed": "Changed",
     "changelog.migration": "Migrating from",
     "changelog.before": "Before",
-    "changelog.after": "After"
+    "changelog.after": "After",
+    "props.onlyFor": "Only with type"
   }
 }

@@ -58,7 +58,9 @@ export function buildComponentMarkdown(component: any, t: T, lang: Lang = DEFAUL
     );
     for (const p of component.props) {
       const name = p.name + (p.required ? '' : '?');
-      const desc = getPropDescription(lang, component.name, p.name, p.description);
+      const only = (p as { appliesTo?: string[] }).appliesTo;
+      const base = getPropDescription(lang, component.name, p.name, p.description);
+      const desc = only ? `${t('props.onlyFor')}: ${only.map((v) => `'${v}'`).join(' | ')}. ${base}`.trim() : base;
       const def = getPropDefault(lang, component.name, p.name, p.defaultValue);
       lines.push(
         `| \`${escCell(name)}\` | \`${escCell(p.type)}\` | ${escCell(def ?? '—')} | ${escCell(desc || '—')} |`

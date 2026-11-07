@@ -232,13 +232,63 @@ function extractPropsFromInterface(filePath, componentName) {
   const source = parseSource(filePath);
 
   const wanted = `${componentName}Props`;
-  let members = null;
+  const interfaces = new Map();
+  const aliases = new Map();
   source.forEachChild((node) => {
-    if (ts.isInterfaceDeclaration(node) && node.name.text === wanted) members = node.members;
+    if (ts.isInterfaceDeclaration(node)) interfaces.set(node.name.text, node);
+    if (ts.isTypeAliasDeclaration(node)) aliases.set(node.name.text, node);
   });
-  if (!members) return [];
 
-  return members.filter(ts.isPropertySignature).map((m) => {
+  // `type XProps = Base & (A | B)` (Chart): walk every interface it is built
+  // from, plus what they extend. A member of an interface with a literal
+  // `type: 'bar'` only applies to that variant; that is recorded so the table
+  // can say so.
+  const collected = [];
+  const visit = (name, variant) => {
+    const decl = interfaces.get(name);
+    if (decl) {
+      const literal = decl.members.find(
+        (m) => ts.isPropertySignature(m) && m.name.getText(source) === 'type' && m.type && ts.isLiteralTypeNode(m.type)
+      );
+      const own = literal ? literal.type.literal.text : variant;
+      for (const clause of decl.heritageClauses ?? []) {
+        for (const t of clause.types) visit(t.expression.getText(source), own);
+      }
+      for (const m of decl.members) if (ts.isPropertySignature(m)) collected.push({ m, variant: own });
+      return;
+    }
+    const alias = aliases.get(name);
+    if (alias) walkType(alias.type, variant);
+  };
+  const walkType = (node, variant) => {
+    if (ts.isIntersectionTypeNode(node) || ts.isUnionTypeNode(node)) node.types.forEach((t) => walkType(t, variant));
+    else if (ts.isParenthesizedTypeNode(node)) walkType(node.type, variant);
+    else if (ts.isTypeReferenceNode(node)) visit(node.typeName.getText(source), variant);
+  };
+  visit(wanted, undefined);
+  if (collected.length === 0) return [];
+
+  // One row per prop name: the first declaration gives type and JSDoc; the
+  // variants it appears in are merged. The `type` discriminant becomes one
+  // row listing every variant.
+  const byName = new Map();
+  const variants = [];
+  for (const { m, variant } of collected) {
+    const name = m.name.getText(source);
+    if (variant && !variants.includes(variant)) variants.push(variant);
+    const entry = byName.get(name);
+    if (entry) {
+      if (variant && entry.appliesTo && !entry.appliesTo.includes(variant)) entry.appliesTo.push(variant);
+      if (!variant) entry.appliesTo = null;
+      if (!entry.m.jsDoc?.length && m.jsDoc?.length) entry.m = m;
+      continue;
+    }
+    byName.set(name, { m, appliesTo: variant ? [variant] : null });
+  }
+  const members = [...byName.values()];
+
+  return members.map(({ m, appliesTo }) => {
+    const isDiscriminant = m.name.getText(source) === 'type' && variants.length > 1;
     const docs = ts.getJSDocCommentsAndTags(m);
     const comment = docs
       .map((d) => (typeof d.comment === 'string' ? d.comment : ''))
@@ -253,10 +303,11 @@ function extractPropsFromInterface(filePath, componentName) {
     const [, tagValue = tagText, tagRest = ''] = /^(\S+?)\.\s+(\S[\s\S]*)$/.exec(tagText) ?? [];
     return {
       name: m.name.getText(source),
-      type: m.type ? m.type.getText(source) : 'unknown',
+      type: isDiscriminant ? variants.map((v) => `'${v}'`).join(' | ') : m.type ? m.type.getText(source) : 'unknown',
       required: !m.questionToken,
       defaultValue: normalizeDefault(tagValue),
       description: comment || tagRest.trim(),
+      ...(appliesTo && !isDiscriminant && appliesTo.length < variants.length ? { appliesTo } : {}),
     };
   });
 }
@@ -283,13 +334,25 @@ function extractProps(category, file, componentName) {
     defaultValue:
       defaults[name] ?? fromInterface.get(name)?.defaultValue ?? normalizeDefault(prop.defaultValue?.value) ?? null,
     description: prop.description || fromInterface.get(name)?.description || '',
+    ...(fromInterface.get(name)?.appliesTo ? { appliesTo: fromInterface.get(name).appliesTo } : {}),
   }));
 
-  if (props.length > 0) return props;
-  return [...fromInterface.values()].map((prop) => ({
-    ...prop,
-    defaultValue: prop.defaultValue ?? defaults[prop.name] ?? null,
-  }));
+  // The discriminant first: in a `type`-driven component (Chart) it's what the
+  // rest of the table depends on.
+  const discriminant = fromInterface.get('type');
+  const discriminantFirst = (list) => {
+    if (!discriminant?.type?.includes('|')) return list;
+    const rest = list.filter((p) => p.name !== 'type');
+    const own = list.find((p) => p.name === 'type');
+    return [{ ...(own ?? discriminant), type: discriminant.type }, ...rest];
+  };
+  if (props.length > 0) return discriminantFirst(props);
+  return discriminantFirst(
+    [...fromInterface.values()].map((prop) => ({
+      ...prop,
+      defaultValue: prop.defaultValue ?? defaults[prop.name] ?? null,
+    }))
+  );
 }
 
 function dedent(text) {
@@ -454,8 +517,11 @@ function localConstSource(source, name) {
   return source.slice(start, i + 1);
 }
 
+// `const MONTHS: ChartRow[] = …` counts too: without the type annotation in the
+// pattern, a typed constant was never "defined" and got prepended again on
+// every pass (Chart showed MONTHS four times, 2026-11-07).
 const definedIn = (code) =>
-  new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*=/g)].map((m) => m[1] || m[2]));
+  new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*(?::[^=]+)?=/g)].map((m) => m[1] || m[2]));
 
 function inlineLocalComponent(source, code) {
   const m = code.trim().match(/^<([A-Z]\w*)(\s[^<>]*)?\/>$/);

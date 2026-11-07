@@ -112,6 +112,15 @@ export const releases: Release[] = [
       ],
       added: [
         {
+          component: 'Chart',
+          items: [
+            {
+              en: '`surfaceColor`: the color behind the chart, used for the donut hole and the ring around points. Defaults to `surfaceRaised`, since a Chart usually sits in a Card (in dark the hole used to be a darker disc).',
+              es: '`surfaceColor`: el color detrás del gráfico, usado para el agujero del donut y el anillo de los puntos. Por defecto `surfaceRaised`, porque un Chart suele ir dentro de una Card (en oscuro el agujero era un disco más oscuro).',
+            },
+          ],
+        },
+        {
           component: 'BottomSheet',
           items: [
             {
@@ -658,6 +667,19 @@ export const releases: Release[] = [
             {
               en: 'The title is announced as a header and the VoiceOver escape gesture calls `onClose`.',
               es: 'El título se anuncia como encabezado y el gesto de escape de VoiceOver llama a `onClose`.',
+            },
+          ],
+        },
+        {
+          component: 'Chart',
+          items: [
+            {
+              en: 'With Reduce Motion the marks appear in their final shape instead of growing in.',
+              es: 'Con Reducir movimiento las marcas aparecen en su forma final en vez de crecer.',
+            },
+            {
+              en: 'Docs: the props table lists every prop (it was empty), with the ones that only apply to some chart types marked.',
+              es: 'Docs: la tabla de props lista todas las props (estaba vacía), marcando las que solo aplican a algunos tipos de gráfico.',
             },
           ],
         },

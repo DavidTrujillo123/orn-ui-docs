@@ -581,7 +581,25 @@ function localConstSource(source, name) {
 // pattern, a typed constant was never "defined" and got prepended again on
 // every pass (Chart showed MONTHS four times, 2026-11-07).
 const definedIn = (code) =>
-  new Set([...code.matchAll(/function\s+([A-Z]\w*)|const\s+([A-Z]\w*)\s*(?::[^=]+)?=/g)].map((m) => m[1] || m[2]));
+  new Set(
+    [
+      ...code.matchAll(/function\s+(\w+)|const\s+([A-Z]\w*)\s*(?::[^=]+)?=|(?:interface|type)\s+([A-Z]\w*)/g),
+    ].map((m) => m[1] || m[2] || m[3])
+  );
+
+/** `interface Item { … }` or `type Item = …;` declared at the top of the demo. */
+function localTypeSource(source, name) {
+  const iface = source.search(new RegExp(`^(?:export )?interface ${name}\\b`, 'm'));
+  if (iface !== -1) return source.slice(iface, matchDelimiter(source, source.indexOf('{', iface)) + 1);
+  const alias = source.search(new RegExp(`^(?:export )?type ${name}\\b`, 'm'));
+  if (alias === -1) return null;
+  let i = source.indexOf('=', alias) + 1;
+  while (i < source.length && source[i] !== ';') {
+    if ('[{('.includes(source[i])) i = matchDelimiter(source, i);
+    i++;
+  }
+  return source.slice(alias, i + 1);
+}
 
 // A JSX tag, not a TypeScript generic: `useState<Date | undefined>` has an
 // identifier right before the `<` and is not a <Date> element (DatePicker,
@@ -611,8 +629,19 @@ function inlineLocalComponent(source, code) {
       .filter((name) => !defined.has(name))
       .map((name) => localConstSource(source, name))
       .filter(Boolean);
-    if (!missing.length && !constants.length) break;
-    out = `${[...constants, ...missing].join('\n\n')}\n\n${out}`;
+    // Plain functions the code calls (`fetchPage(page)`, a stand-in for the
+    // app's API) and the types it names (`Item`): the List feed example
+    // showed neither and could not be copied (2026-11-13).
+    const functions = [...new Set([...out.matchAll(/(?<![\w.])([a-z]\w*)\(/g)].map((x) => x[1]))]
+      .filter((name) => !defined.has(name))
+      .map((name) => localHelperSource(source, name))
+      .filter(Boolean);
+    const types = [...new Set([...out.matchAll(/\b([A-Z]\w*)\b/g)].map((x) => x[1]))]
+      .filter((name) => !defined.has(name))
+      .map((name) => localTypeSource(source, name))
+      .filter(Boolean);
+    if (!missing.length && !constants.length && !functions.length && !types.length) break;
+    out = `${[...types, ...constants, ...functions, ...missing].join('\n\n')}\n\n${out}`;
   }
   return out;
 }

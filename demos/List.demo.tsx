@@ -1,56 +1,141 @@
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import { List, Card, Body, Button } from 'orn-ui';
+import { List, Card, Body, Caption, Skeleton } from 'orn-ui';
 import { VariantList, type VariantDef } from './VariantList';
 
-const DATA = Array.from({ length: 20 }, (_, i) => ({ id: String(i), name: `Item ${i + 1}` }));
+interface Item {
+  id: string;
+  name: string;
+}
+
+const PAGE_SIZE = 15;
+const ITEMS: Item[] = Array.from({ length: PAGE_SIZE }, (_, i) => ({ id: String(i), name: `Item ${i + 1}` }));
+
+// Stands in for your API: page N of the feed, after a network delay.
+function fetchPage(page: number): Promise<Item[]> {
+  const items = Array.from({ length: PAGE_SIZE }, (_, i) => {
+    const n = page * PAGE_SIZE + i + 1;
+    return { id: String(n), name: `Item ${n}` };
+  });
+  return new Promise((resolve) => setTimeout(() => resolve(items), 1200));
+}
+
+function ItemCard({ item }: { item: Item }) {
+  return (
+    <Card style={{ marginBottom: 8 }}>
+      <Body>{item.name}</Body>
+    </Card>
+  );
+}
+
+function FeedExample() {
+  const [items, setItems] = useState(ITEMS);
+  const [page, setPage] = useState(0);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const refresh = async () => {
+    setRefreshing(true);
+    setItems(await fetchPage(0));
+    setPage(0);
+    setRefreshing(false);
+  };
+
+  const loadMore = async () => {
+    if (loadingMore) return;
+    setLoadingMore(true);
+    const next = await fetchPage(page + 1);
+    setItems((current) => [...current, ...next]);
+    setPage(page + 1);
+    setLoadingMore(false);
+  };
+
+  return (
+    <List
+      data={items}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <ItemCard item={item} />}
+      isLoading={false}
+      isRefreshing={refreshing}
+      onRefresh={refresh}
+      isLoadingMore={loadingMore}
+      onEndReached={loadMore}
+    />
+  );
+}
 
 export function ListDemo() {
-  const [showEmpty, setShowEmpty] = useState(false);
   // #region demo
   const variants: VariantDef[] = [
+    { label: 'Pull to refresh · infinite scroll', content: <FeedExample /> },
     {
-      label: 'Loaded',
+      label: 'First load · default placeholders',
       content: (
         <List
-          data={DATA}
-          keyExtractor={(item) => item.id}
-          isLoading={false}
-          renderItem={({ item }) => (
+          data={[]}
+          keyExtractor={(item: Item) => item.id}
+          renderItem={() => null}
+          isLoading
+        />
+      ),
+    },
+    {
+      label: 'renderSkeletonItem · custom placeholders',
+      content: (
+        <List
+          data={[]}
+          keyExtractor={(item: Item) => item.id}
+          renderItem={() => null}
+          isLoading
+          skeletonCount={5}
+          renderSkeletonItem={() => (
             <Card style={{ marginBottom: 8 }}>
-              <Body>{item.name}</Body>
+              <Skeleton variant="text" width="40%" />
             </Card>
           )}
         />
       ),
     },
     {
-      label: 'Loading',
-      content: <List data={[]} keyExtractor={(i: any) => i.id} isLoading loadingText="Fetching items..." renderItem={() => null} />,
+      label: 'isLoadingMore · loading the next page',
+      content: (
+        <List
+          data={ITEMS.slice(0, 4)}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => <ItemCard item={item} />}
+          isLoading={false}
+          isLoadingMore
+        />
+      ),
     },
     {
-      label: 'Empty',
+      label: 'Empty state',
       content: (
-        <View style={{ flex: 1 }}>
-          <Button
-            title={showEmpty ? 'Reset' : 'Simulate empty result'}
-            variant="outline"
-            onPress={() => setShowEmpty((v) => !v)}
-            style={{ marginBottom: 12 }}
-          />
-          <List
-            data={showEmpty ? [] : DATA.slice(0, 3)}
-            keyExtractor={(item: any) => item.id}
-            isLoading={false}
-            emptyTitle="No items"
-            emptyDescription="Try a different filter"
-            renderItem={({ item }: any) => (
-              <Card style={{ marginBottom: 8 }}>
-                <Body>{item.name}</Body>
-              </Card>
-            )}
-          />
-        </View>
+        <List
+          data={[]}
+          keyExtractor={(item: Item) => item.id}
+          renderItem={() => null}
+          isLoading={false}
+          emptyTitle="No items"
+          emptyDescription="Try a different filter"
+        />
+      ),
+    },
+    {
+      label: 'ListHeaderComponent · stays while loading',
+      content: (
+        <List
+          data={[]}
+          keyExtractor={(item: Item) => item.id}
+          renderItem={() => null}
+          isLoading
+          skeletonCount={3}
+          ListHeaderComponent={
+            <View style={{ marginBottom: 8 }}>
+              <Caption>Recent orders</Caption>
+            </View>
+          }
+        />
       ),
     },
   ];

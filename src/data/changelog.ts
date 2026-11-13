@@ -339,6 +339,24 @@ export const releases: Release[] = [
       ],
       fixed: [
         {
+          component: 'List',
+          page: '/components/list',
+          items: [
+            {
+              en: 'The first load is announced to screen readers ("Loading..." as a busy progress bar); the placeholders were hidden and the list was silent.',
+              es: 'La primera carga se anuncia a los lectores de pantalla ("Loading..." como barra de progreso ocupada); los placeholders estaban ocultos y la lista quedaba en silencio.',
+            },
+            {
+              en: '`ListHeaderComponent` stays on screen during the first load, with the same padding as the loaded list, so a header or search field no longer disappears and jumps back in.',
+              es: '`ListHeaderComponent` sigue en pantalla durante la primera carga, con el mismo padding que la lista cargada, así un encabezado o buscador ya no desaparece y vuelve de golpe.',
+            },
+            {
+              en: 'Default placeholder rows match a real row: a 44pt avatar (Avatar\'s default) and two Body-height lines. `containerStyle` also applies while `isReady` is false, and the empty state\'s top margin comes from the spacing scale.',
+              es: 'Las filas de placeholder por defecto coinciden con una fila real: avatar de 44pt (el de Avatar) y dos líneas del alto de Body. `containerStyle` también se aplica mientras `isReady` es false, y el margen superior del estado vacío sale de la escala de espaciado.',
+            },
+          ],
+        },
+        {
           component: 'Overlays',
           page: '/components/alert',
           items: [

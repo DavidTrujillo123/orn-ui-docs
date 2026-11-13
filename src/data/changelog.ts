@@ -339,6 +339,20 @@ export const releases: Release[] = [
       ],
       fixed: [
         {
+          component: 'Modal',
+          page: '/components/modal',
+          items: [
+            {
+              en: 'Screen readers stay inside the modal and the VoiceOver escape gesture closes it (`accessibilityViewIsModal`, `onAccessibilityEscape`); drawn inside another open overlay on iOS, VoiceOver could reach what was behind it.',
+              es: 'Los lectores de pantalla quedan dentro del modal y el gesto de escape de VoiceOver lo cierra (`accessibilityViewIsModal`, `onAccessibilityEscape`); dibujado dentro de otro overlay abierto en iOS, VoiceOver podía llegar a lo de atrás.',
+            },
+            {
+              en: 'The close button\'s accessible name defaults to `labels.close` (it was a fixed English "Close"), and the `full` slide uses the current window height, so it still starts off screen after a rotation.',
+              es: 'El nombre accesible del botón de cerrar sale por defecto de `labels.close` (era "Close" fijo en inglés), y el deslizamiento de `full` usa el alto actual de la ventana, así sigue arrancando fuera de pantalla tras rotar.',
+            },
+          ],
+        },
+        {
           component: 'List',
           page: '/components/list',
           items: [
@@ -776,6 +790,20 @@ export const releases: Release[] = [
         },
       ],
       changed: [
+        {
+          component: 'Overlays',
+          page: '/components/alert',
+          items: [
+            {
+              en: 'Alert, the Modal `overlay` card and BottomSheet use the raised surface (`surfaceRaised`): in dark mode the plain surface sank into the dimmed backdrop.',
+              es: 'Alert, la tarjeta `overlay` de Modal y BottomSheet usan la superficie elevada (`surfaceRaised`): en modo oscuro la superficie normal se perdía contra el fondo oscurecido.',
+            },
+            {
+              en: 'The docs show each overlay as it really opens, dimming the whole screen; the examples were drawn inside a box and only that box darkened.',
+              es: 'La documentación muestra cada overlay como se abre de verdad, oscureciendo toda la pantalla; los ejemplos se dibujaban dentro de una caja y solo esa caja se oscurecía.',
+            },
+          ],
+        },
         {
           component: 'Docs',
           items: [

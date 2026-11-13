@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "variant",
-      "desc": "`full` and `fullScreen` for a whole task; `overlay` for a short confirmation; `bottomSheet` for actions on the current context."
+      "desc": "`full` and `fullScreen` for a whole task; `overlay` for a short confirmation; for actions on the current context, use BottomSheet instead."
     },
     {
       "term": "onClose",

@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "variant",
-      "desc": "`full` y `fullScreen` para una tarea completa; `overlay` para una confirmación corta; `bottomSheet` para acciones sobre el contexto actual."
+      "desc": "`full` y `fullScreen` para una tarea completa; `overlay` para una confirmación corta; para acciones sobre el contexto actual, mejor BottomSheet."
     },
     {
       "term": "onClose",

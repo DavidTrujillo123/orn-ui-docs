@@ -5,6 +5,7 @@
 #   scripts/capture-variants.sh <layer> <slug> <count> [cropY cropH]
 #   VIDEO=1 BAND_H=560 scripts/capture-variants.sh atoms spinner 8   # with motion
 #   scripts/capture-variants.sh atoms typography 9 1300 320
+#   TAPS="Send invoice|Pay" scripts/capture-variants.sh organisms alert 2  # opens each first
 #
 # Opens each variant via deep link (`ornui:///<layer>/<slug>?v=N`, resolved by
 # the example app's VariantList), so it doesn't depend on Maestro or swipes.
@@ -38,6 +39,10 @@ CROP_H=${5:-1732}
 # The demo's card without its side borders.
 CROP_X=64
 CROP_W=1078
+# FULL_SCREEN=1: the whole screen (iPhone 17, 1206x2622). For overlays
+# (Alert, Modal, BottomSheet): what matters is that they cover and dim the
+# whole screen, which a crop of the demo's card hides.
+if [ "${FULL_SCREEN:-0}" = 1 ]; then CROP_X=0; CROP_W=1206; CROP_Y=0; CROP_H=2622; fi
 
 APP=com.anonymous.orn-ui-example
 ROOT=$(cd "$(dirname "$0")/.." && pwd)
@@ -103,7 +108,7 @@ check_shot() { # shot.jpg
     [ "${SOFT:-0}" = 1 ] && return 1
     echo "capture $1: no visible content ($2 rows) — re-record" >&2; exit 1
   fi
-  if [ "$3" -gt 0 ]; then echo "capture $1: content cut off at the band edge — raise BAND_H or check the centering" >&2; exit 1; fi
+  if [ "$3" -gt 0 ] && [ "${FULL_SCREEN:-0}" != 1 ]; then echo "capture $1: content cut off at the band edge — raise BAND_H or check the centering" >&2; exit 1; fi
 }
 check_clip() { # clip.mp4 poster.jpg
   local p a b f; p=$(corner_luma "$2"); a=$(corner_luma "$1"); b=$(last_luma "$1")
@@ -171,6 +176,8 @@ HERO_PARTS=()
 
 to_jpg() { # in out
   sips -c "$CROP_H" "$CROP_W" --cropOffset "$CROP_Y" "$CROP_X" "$1" --out "$TMP/crop.png" >/dev/null
+  # A whole screen is shown phone-sized in the docs: half resolution is plenty.
+  [ "${FULL_SCREEN:-0}" = 1 ] && sips -Z 1311 "$TMP/crop.png" >/dev/null
   sips -s format jpeg -s formatOptions 80 "$TMP/crop.png" --out "$2" >/dev/null
 }
 
@@ -184,7 +191,7 @@ shot_content() { # png jpg [center]
   local i
   for i in 1 2 3 4 5 6 7 8; do
     shot "$1"
-    [ "${3:-}" = center ] && center_band "$1"
+    [ "${3:-}" = center ] && [ "${FULL_SCREEN:-0}" != 1 ] && center_band "$1"
     to_jpg "$1" "$2"
     SOFT=1 check_shot "$2" && return 0
     sleep 0.4
@@ -192,8 +199,22 @@ shot_content() { # png jpg [center]
   check_shot "$2"
 }
 
+# TAPS="Send invoice|Pay|…": before the shots, taps that text in variant N
+# (the Nth entry, empty = no tap), through Maestro. For overlays the demo
+# opens with a button: the shot shows the real dialog over the whole screen,
+# not a stand-in drawn inside the demo box.
+tap_open() { # N
+  [ -z "${TAPS:-}" ] && return 0
+  local label
+  label=$(printf '%s' "$TAPS" | cut -d'|' -f"$1")
+  [ -z "$label" ] && return 0
+  printf 'appId: com.anonymous.orn-ui-example\n---\n- tapOn: "%s"\n- waitForAnimationToEnd\n' "$label" > "$TMP/tap.yaml"
+  maestro test "$TMP/tap.yaml" >/dev/null 2>&1 || { echo "tap \"$label\" failed in variant $1" >&2; exit 1; }
+}
+
 for N in $(seq "$FROM" "$COUNT"); do
   open_variant "$N"
+  tap_open "$N"
   xcrun simctl ui booted appearance light; sleep 2
   shot_content "$TMP/l.png" "$OUT/$N-light.jpg" center
   xcrun simctl ui booted appearance dark; sleep 2

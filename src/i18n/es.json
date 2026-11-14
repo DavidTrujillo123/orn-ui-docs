@@ -46,7 +46,7 @@
     "component.noProps": "No se extrajeron props para este componente.",
     "component.testID": "Además acepta <code>testID</code>, que se reenvía al nodo raíz. Existe para los tests end-to-end (Maestro maneja la app por el árbol de accesibilidad) y no cambia en nada cómo se ve ni cómo se comporta el componente.",
     "component.titleSuffix": "componente React Native",
-    "component.metaDescription": "Componente {name} para React Native y Expo. Tabla de props, ejemplos de código e instalación. Funciona en Expo SDK 54–57 sin dependencias en runtime.",
+    "component.metaDescription": "Componente {name} para React Native y Expo. Tabla de props, ejemplos de código e instalación. Funciona en Expo SDK 54–58 sin dependencias en runtime.",
     "props.name": "Nombre",
     "props.type": "Tipo",
     "props.default": "Por defecto",

@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "cuándo usarlo",
-      "desc": "Seis familias de gráfico en un solo componente, sin dependencia nativa. React Native no trae lienzo vectorial en el rango soportado (Expo SDK 54–57), así que acá todo se compone con View: barras, un rectángulo rotado por tramo de línea y un medio disco recortado por porción."
+      "desc": "Seis familias de gráfico en un solo componente, sin dependencia nativa. React Native no trae lienzo vectorial en el rango soportado (Expo SDK 54–58), así que acá todo se compone con View: barras, un rectángulo rotado por tramo de línea y un medio disco recortado por porción."
     },
     {
       "term": "type",

@@ -46,7 +46,7 @@
     "component.noProps": "No props extracted for this component.",
     "component.testID": "Also accepts <code>testID</code>, forwarded to the root node. It exists for end-to-end tests (Maestro drives the app by the accessibility tree) and has no effect on how the component looks or behaves.",
     "component.titleSuffix": "React Native component",
-    "component.metaDescription": "{name} component for React Native and Expo. Props table, code examples and install instructions. Works on Expo SDK 54–57 with zero runtime dependencies.",
+    "component.metaDescription": "{name} component for React Native and Expo. Props table, code examples and install instructions. Works on Expo SDK 54–58 with zero runtime dependencies.",
     "props.name": "Name",
     "props.type": "Type",
     "props.default": "Default",

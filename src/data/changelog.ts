@@ -57,8 +57,8 @@ export const releases: Release[] = [
     version: '0.3.0',
     since: '0.2.10',
     summary: {
-      en: 'The safe area now works with no setup: `UIProvider` measures it itself, so `react-native-safe-area-context` becomes a required peer. Alongside it, a full accessibility and touch-target pass over the atoms, a richer Avatar, a Spinner logo slot and ten new built-in icons.',
-      es: 'El safe area ahora funciona sin configurar nada: `UIProvider` lo mide solo, así que `react-native-safe-area-context` pasa a ser una peer dependency obligatoria. Además: una revisión completa de accesibilidad y áreas táctiles en los átomos, un Avatar más completo, un espacio para logo en Spinner y diez íconos nuevos incluidos.',
+      en: 'Expo SDK 58 (React Native 0.88, React 19.3) is supported and verified, on top of 54–57. The safe area now works with no setup: `UIProvider` measures it itself, so `react-native-safe-area-context` becomes a required peer. Alongside it, a full accessibility and touch-target pass over the atoms, a richer Avatar, a Spinner logo slot and ten new built-in icons.',
+      es: 'Expo SDK 58 (React Native 0.88, React 19.3) queda soportado y verificado, además de 54–57. El safe area ahora funciona sin configurar nada: `UIProvider` lo mide solo, así que `react-native-safe-area-context` pasa a ser una peer dependency obligatoria. Además: una revisión completa de accesibilidad y áreas táctiles en los átomos, un Avatar más completo, un espacio para logo en Spinner y diez íconos nuevos incluidos.',
     },
     changes: {
       breaking: [
@@ -111,6 +111,26 @@ export const releases: Release[] = [
         },
       ],
       added: [
+        {
+          component: 'Expo SDK 58',
+          page: '/getting-started',
+          items: [
+            {
+              en: 'Expo SDK 58 (React Native 0.88.1, React 19.3.0, react-native-safe-area-context 5.11) passes the same typecheck and full test suite as SDK 54–57. The source also compiles against React Native 0.88\'s new generated (strict) types, so `npx orn-ui add` drops components into an SDK 58 app without type errors.',
+              es: 'Expo SDK 58 (React Native 0.88.1, React 19.3.0, react-native-safe-area-context 5.11) pasa el mismo typecheck y la suite completa de tests que SDK 54–57. El código fuente también compila contra los nuevos tipos generados (estrictos) de React Native 0.88, así `npx orn-ui add` deja componentes en una app SDK 58 sin errores de tipos.',
+            },
+          ],
+        },
+        {
+          component: 'Labels',
+          page: '/getting-started',
+          items: [
+            {
+              en: 'New `labels` keys: `moveUp`, `moveDown`, `scan`, `slideOf`, `pauseSlides`, `resumeSlides`, `themeSystem`, `themeLight`, `themeDark`, `back`, `next`, `finish`.',
+              es: 'Nuevas claves de `labels`: `moveUp`, `moveDown`, `scan`, `slideOf`, `pauseSlides`, `resumeSlides`, `themeSystem`, `themeLight`, `themeDark`, `back`, `next`, `finish`.',
+            },
+          ],
+        },
         {
           component: 'Icon',
           items: [
@@ -338,6 +358,94 @@ export const releases: Release[] = [
         },
       ],
       fixed: [
+        {
+          component: 'Slides',
+          page: '/components/slides',
+          items: [
+            {
+              en: 'Tapping an indicator while the previous slide change was still animating could leave the carousel on the old slide: on iOS the touch stops the animation and its end was committed. The requested slide is now reached unless the finger actually swipes.',
+              es: 'Tocar un indicador mientras el cambio anterior aún se animaba podía dejar el carrusel en la slide vieja: en iOS el toque detiene la animación y su final se confirmaba. Ahora se llega a la slide pedida salvo que el dedo realmente deslice.',
+            },
+            {
+              en: 'Screen-reader texts ("Slide n of total", pause/resume autoPlay) come from `labels` (`slideOf`, `pauseSlides`, `resumeSlides`); they were fixed English.',
+              es: 'Los textos para lectores de pantalla ("Slide n de total", pausar/reanudar autoPlay) salen de `labels` (`slideOf`, `pauseSlides`, `resumeSlides`); eran inglés fijo.',
+            },
+          ],
+        },
+        {
+          component: 'ReorderableList',
+          page: '/components/reorderable-list',
+          items: [
+            {
+              en: 'Screen readers can reorder: each row offers "Move up" / "Move down" actions (`labels.moveUp` / `moveDown`) that call `onReorder` like a drop. Before, reordering was drag-only.',
+              es: 'Los lectores de pantalla pueden reordenar: cada fila ofrece las acciones "Move up" / "Move down" (`labels.moveUp` / `moveDown`) que llaman a `onReorder` igual que soltar. Antes solo se podía arrastrando.',
+            },
+          ],
+        },
+        {
+          component: 'Toast',
+          page: '/components/toast',
+          items: [
+            {
+              en: '`ToastProvider` announces each toast to screen readers as it appears; iOS ignored `accessibilityRole="alert"` on its own and toasts were silent.',
+              es: '`ToastProvider` anuncia cada toast a los lectores de pantalla al aparecer; iOS ignoraba `accessibilityRole="alert"` por sí solo y los toasts eran mudos.',
+            },
+            {
+              en: 'A pressable toast reads title and message, and offers Close as an action (the X inside it wasn\'t reachable). The close button is named `labels.close` (was a fixed "Dismiss") and is a 44pt target.',
+              es: 'Un toast presionable lee título y mensaje, y ofrece Cerrar como acción (la X de adentro no se alcanzaba). El botón de cerrar se llama `labels.close` (era "Dismiss" fijo) y mide 44pt.',
+            },
+          ],
+        },
+        {
+          component: 'Wizard',
+          page: '/components/wizard',
+          items: [
+            {
+              en: 'Each step change is announced to screen readers ("Step 2 of 3: Plan"); focus stays on Next/Back, so the change went unnoticed. Back/Next/Finish default to `labels.back` / `next` / `finish`.',
+              es: 'Cada cambio de paso se anuncia a los lectores de pantalla ("Paso 2 de 3: Plan"); el foco se queda en Siguiente/Atrás y el cambio pasaba desapercibido. Atrás/Siguiente/Finalizar salen por defecto de `labels.back` / `next` / `finish`.',
+            },
+          ],
+        },
+        {
+          component: 'Select',
+          page: '/components/select',
+          items: [
+            {
+              en: 'With `error` the field gets a red border, like Input and DateField. Screen readers hear "required" and the error (as hint), and stay inside the open list.',
+              es: 'Con `error` el campo lleva borde rojo, como Input y DateField. Los lectores de pantalla oyen "required" y el error (como hint), y se quedan dentro de la lista abierta.',
+            },
+          ],
+        },
+        {
+          component: 'SearchList',
+          page: '/components/search-list',
+          items: [
+            {
+              en: 'The first load is announced ("Loading..." as a busy progress bar) instead of silent placeholders; the scan button is named `labels.scan`; placeholder rows match a real row; spacing tokens instead of `lg - 1` / `sm + 2` / `marginTop: 50`.',
+              es: 'La primera carga se anuncia ("Loading..." como barra de progreso ocupada) en vez de placeholders mudos; el botón de escanear se llama `labels.scan`; las filas de carga coinciden con una fila real; tokens de espaciado en vez de `lg - 1` / `sm + 2` / `marginTop: 50`.',
+            },
+          ],
+        },
+        {
+          component: 'NavigationBar',
+          page: '/components/navigation-bar',
+          items: [
+            {
+              en: 'A tab\'s badge count is read by screen readers (as the tab\'s value); the indicator moves without sliding under Reduce Motion.',
+              es: 'El número del badge de una pestaña lo leen los lectores de pantalla (como valor de la pestaña); el indicador se mueve sin deslizar con Reducir movimiento.',
+            },
+          ],
+        },
+        {
+          component: 'ThemeToggle',
+          page: '/components/theme-toggle',
+          items: [
+            {
+              en: 'Default segment texts come from `labels` (`themeSystem`, `themeLight`, `themeDark`), so they follow the app language.',
+              es: 'Los textos por defecto de los segmentos salen de `labels` (`themeSystem`, `themeLight`, `themeDark`), así siguen el idioma de la app.',
+            },
+          ],
+        },
         {
           component: 'Modal',
           page: '/components/modal',
@@ -790,6 +898,16 @@ export const releases: Release[] = [
         },
       ],
       changed: [
+        {
+          component: 'Docs',
+          page: '/components',
+          items: [
+            {
+              en: 'Every organism example is copy-paste: one concrete component per variant (no wrappers with props, no state in the demo body, no app-only helpers).',
+              es: 'Todos los ejemplos de organismos se pueden copiar y pegar: un componente concreto por variante (sin wrappers con props, sin estado en el cuerpo del demo, sin helpers propios de la app).',
+            },
+          ],
+        },
         {
           component: 'Overlays',
           page: '/components/alert',

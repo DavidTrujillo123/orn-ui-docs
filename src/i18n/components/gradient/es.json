@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "cuándo usarlo",
-      "desc": "Un degradado lineal sin dependencia nativa. React Native no trae uno en el rango soportado (Expo SDK 54–57), así que este lo compone con bandas."
+      "desc": "Un degradado lineal sin dependencia nativa. React Native no trae uno en el rango soportado (Expo SDK 54–58), así que este lo compone con bandas."
     },
     {
       "term": "colors",

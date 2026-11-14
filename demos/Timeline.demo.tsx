@@ -9,9 +9,9 @@ import { VariantList, type VariantDef } from './VariantList';
  */
 const ROADMAP: TimelineItem[] = [
   { label: 'Zero dependencies', emoji: '📦' },
-  { label: 'Expo SDK 54–57', emoji: '📱' },
+  { label: 'Expo SDK', emoji: '📱' },
   { label: 'WCAG AA palettes', emoji: '🎨' },
-  { label: 'Android device runs', emoji: '🤖', status: 'pending' },
+  { label: 'Android runs', emoji: '🤖', status: 'pending' },
   { label: 'v1.0 release', emoji: '🏁', status: 'pending' },
 ];
 
@@ -24,7 +24,6 @@ const PIPELINE: TimelineItem[] = [
 ];
 
 /** Marks up to `reached` and leaves the rest pending. */
-// #region demo
 function upTo(items: TimelineItem[], reached: number): TimelineItem[] {
   return items.map((item, index) => ({ ...item, status: index <= reached ? undefined : 'pending' }));
 }
@@ -34,7 +33,7 @@ function upTo(items: TimelineItem[], reached: number): TimelineItem[] {
  * there. Tapping the one already reached goes back, so you can watch the
  * animation in both directions without reloading.
  */
-function TappableTimeline() {
+function TapToReachExample() {
   const [reached, setReached] = useState(1);
 
   return (
@@ -42,6 +41,7 @@ function TappableTimeline() {
       <Timeline
         items={upTo(ROADMAP, reached)}
         onItemPress={(index) => setReached(index === reached ? index - 1 : index)}
+        testID="timeline-tap"
       />
       {/* The echo exists for the Maestro flow: the node filling up and the
           traveling line are pixels, and an assert can't see them. Text it can. */}
@@ -57,7 +57,7 @@ function TappableTimeline() {
  * VariantList's pager starts its swipe (80% of the screen): the button kept
  * the gesture and you couldn't move to the next variant.
  */
-function AutoTimeline() {
+function AutoAdvanceExample() {
   const [reached, setReached] = useState(-1);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function AutoTimeline() {
 
   return (
     <View style={{ gap: 8 }}>
-      <Timeline items={upTo(ROADMAP, reached)} duration={700} />
+      <Timeline items={upTo(ROADMAP, reached)} duration={700} testID="timeline-auto" />
       <Body>Now at: {ROADMAP[reached]?.label ?? 'the start'}</Body>
     </View>
   );
@@ -79,7 +79,7 @@ function AutoTimeline() {
  * Strict progression: only the next milestone responds, and what was reached
  * isn't given back. It's the onboarding that doesn't let you skip steps.
  */
-function SequentialTimeline() {
+function SequentialExample() {
   const [reached, setReached] = useState(0);
 
   return (
@@ -88,6 +88,7 @@ function SequentialTimeline() {
         items={upTo(ROADMAP, reached)}
         advance="sequential"
         onItemPress={setReached}
+        testID="timeline-seq"
       />
       <Body>
         {reached >= ROADMAP.length - 1
@@ -103,7 +104,7 @@ function SequentialTimeline() {
  * what I'm looking at, not how far I've gone. The line stays where it got to
  * and the border marks where I'm standing.
  */
-function RevisitTimeline() {
+function RevisitExample() {
   const [reached, setReached] = useState(2);
   const [looking, setLooking] = useState(2);
 
@@ -119,6 +120,7 @@ function RevisitTimeline() {
           // are a visit.
           if (index > reached) setReached(index);
         }}
+        testID="timeline-revisit"
       />
       <Body>Looking at: {ROADMAP[looking]?.label}</Body>
       <Body>Progress stays at: {ROADMAP[reached]?.label}</Body>
@@ -127,44 +129,45 @@ function RevisitTimeline() {
 }
 
 export function TimelineDemo() {
+  // #region demo
   const variants: VariantDef[] = [
     {
       label: 'default — the line bows, the pills alternate sides',
-      content: <Timeline items={ROADMAP} />,
+      content: <Timeline items={ROADMAP} testID="timeline-roadmap" />,
     },
     {
       label: 'onItemPress — tap a milestone and the line travels there',
-      content: <TappableTimeline />,
+      content: <TapToReachExample />,
     },
     {
       label: 'advance="sequential" — only the next milestone answers, no going back',
-      content: <SequentialTimeline />,
+      content: <SequentialExample />,
     },
     {
       label: 'advance="revisit" — revisit the past, keep the progress',
-      content: <RevisitTimeline />,
+      content: <RevisitExample />,
     },
     {
       label: 'advancing on its own — the line draws itself, gap by gap',
-      content: <AutoTimeline />,
+      content: <AutoAdvanceExample />,
     },
     {
       label: 'curve={0} — a straight spine',
-      content: <Timeline items={PIPELINE} curve={0} />,
+      content: <Timeline items={PIPELINE} curve={0} testID="timeline-straight" />,
     },
     {
       label: 'startSide="left" and a wider curve',
-      content: <Timeline items={PIPELINE} startSide="left" curve={44} />,
+      content: <Timeline items={PIPELINE} startSide="left" curve={44} testID="timeline-left" />,
     },
     {
       label: 'glow={false} — just the pills',
-      content: <Timeline items={ROADMAP} glow={false} />,
+      content: <Timeline items={ROADMAP} glow={false} testID="timeline-flat" />,
     },
     {
       label: 'spacing={60} — tighter, inside a Card',
       content: (
         <Card>
-          <Timeline items={PIPELINE} spacing={60} curve={20} />
+          <Timeline items={PIPELINE} spacing={60} curve={20} testID="timeline-card" />
         </Card>
       ),
     },
@@ -172,7 +175,7 @@ export function TimelineDemo() {
       label: 'a single item — no line to draw',
       content: (
         <View>
-          <Timeline items={[{ label: 'Atomic design', emoji: '⚛️' }]} />
+          <Timeline items={[{ label: 'Atomic design', emoji: '⚛️' }]} testID="timeline-one" />
         </View>
       ),
     },

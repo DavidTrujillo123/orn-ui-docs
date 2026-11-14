@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "when to use",
-      "desc": "Six chart families in one component, with no native dependency. React Native has no vector canvas across Expo SDK 54–57, so everything here is composed out of View: bars, a rotated rectangle per line segment, and a clipped half-disc per slice."
+      "desc": "Six chart families in one component, with no native dependency. React Native has no vector canvas across Expo SDK 54–58, so everything here is composed out of View: bars, a rotated rectangle per line segment, and a clipped half-disc per slice."
     },
     {
       "term": "type",

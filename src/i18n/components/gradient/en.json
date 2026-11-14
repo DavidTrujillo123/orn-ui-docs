@@ -2,7 +2,7 @@
   "usage": [
     {
       "term": "when to use",
-      "desc": "A linear gradient with no native dependency. React Native has none across Expo SDK 54–57, so this composes one out of bands."
+      "desc": "A linear gradient with no native dependency. React Native has none across Expo SDK 54–58, so this composes one out of bands."
     },
     {
       "term": "colors",

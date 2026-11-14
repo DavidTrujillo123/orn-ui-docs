@@ -11,7 +11,7 @@
   ],
   "props": {
     "labels": {
-      "description": "Texto de cada segmento; los modos que falten conservan el suyo (Auto, Light, Dark)."
+      "description": "Texto de cada segmento; los modos que falten conservan el suyo (`labels.themeSystem`, `themeLight`, `themeDark`)."
     }
   }
 }

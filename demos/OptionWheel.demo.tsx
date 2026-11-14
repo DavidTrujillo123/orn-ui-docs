@@ -61,8 +61,7 @@ const CURVE = ROWS * ROW * 0.7;
  * It goes without `perspective`: tilting on two axes at once muddies the arc
  * instead of reinforcing it.
  */
-// #region demo
-function PortfolioWheel() {
+function PortfolioExample() {
   const [bucket, setBucket] = useState('stocks');
   const colors = useColors();
   const current = PORTFOLIO.find((option) => option.value === bucket);
@@ -71,7 +70,7 @@ function PortfolioWheel() {
     <View style={{ gap: 8 }}>
       <View
         style={{
-          backgroundColor: colors.surface,
+          backgroundColor: colors.surfaceRaised,
           borderRadius: 24,
           borderWidth: 1,
           borderColor: colors.border,
@@ -90,6 +89,7 @@ function PortfolioWheel() {
           perspective={false}
           visibleCount={ROWS}
           itemHeight={ROW}
+          testID="wheel-bucket"
         />
       </View>
       <Body>Allocating to: {current?.label ?? '—'}</Body>
@@ -97,19 +97,31 @@ function PortfolioWheel() {
   );
 }
 
-function SizeWheel({ label, options }: { label: string; options: OptionWheelOption<string>[] }) {
+function SizeExample() {
   const [size, setSize] = useState('m');
-  const current = options.find((option) => option.value === size);
+  const current = SIZES.find((option) => option.value === size);
 
   return (
     <View style={{ gap: 8 }}>
-      <OptionWheel label={label} options={options} selectedValue={size} onSelect={setSize} />
+      <OptionWheel label="Size" options={SIZES} selectedValue={size} onSelect={setSize} testID="wheel-size" />
       <Body>Picked: {current?.label ?? '—'}</Body>
     </View>
   );
 }
 
-function MinuteWheel() {
+function InStockExample() {
+  const [size, setSize] = useState('m');
+  const current = STOCK.find((option) => option.value === size);
+
+  return (
+    <View style={{ gap: 8 }}>
+      <OptionWheel label="In stock" options={STOCK} selectedValue={size} onSelect={setSize} testID="wheel-stock" />
+      <Body>Picked: {current?.label ?? '—'}</Body>
+    </View>
+  );
+}
+
+function MinutesExample() {
   const [minutes, setMinutes] = useState(15);
 
   return (
@@ -121,13 +133,14 @@ function MinuteWheel() {
         onSelect={setMinutes}
         unit="min"
         visibleCount={3}
+        testID="wheel-minutes"
       />
       <Body>Reminder in {minutes} minutes</Body>
     </View>
   );
 }
 
-function FlatWheel() {
+function NoTiltExample() {
   const [size, setSize] = useState('l');
   const current = SIZES.find((option) => option.value === size);
 
@@ -139,13 +152,14 @@ function FlatWheel() {
         selectedValue={size}
         onSelect={setSize}
         perspective={false}
+        testID="wheel-flat"
       />
       <Body>Flat pick: {current?.label ?? '—'}</Body>
     </View>
   );
 }
 
-function LockedWheel() {
+function LockedExample() {
   const [size, setSize] = useState('m');
   const current = SIZES.find((option) => option.value === size);
 
@@ -157,13 +171,14 @@ function LockedWheel() {
         selectedValue={size}
         onSelect={setSize}
         disabled
+        testID="wheel-locked"
       />
       <Body>Locked on: {current?.label ?? '—'}</Body>
     </View>
   );
 }
 
-function InCard() {
+function InCardExample() {
   const [size, setSize] = useState('s');
   const current = SIZES.find((option) => option.value === size);
 
@@ -177,6 +192,7 @@ function InCard() {
         selectedValue={size}
         onSelect={setSize}
         visibleCount={3}
+        testID="wheel-bag"
       />
       <Body style={{ marginTop: 8 }}>Bag: {current?.label ?? '—'}</Body>
     </Card>
@@ -184,34 +200,35 @@ function InCard() {
 }
 
 export function OptionWheelDemo() {
+  // #region demo
   const variants: VariantDef[] = [
     {
       label: 'default — five rows, the centre one is the pick',
-      content: <SizeWheel label="Size" options={SIZES} />,
+      content: <SizeExample />,
     },
     {
       label: 'disabled options — the wheel slides off them on its own',
-      content: <SizeWheel label="In stock" options={STOCK} />,
+      content: <InStockExample />,
     },
     {
       label: 'unit and visibleCount={3} — a compact wheel',
-      content: <MinuteWheel />,
+      content: <MinutesExample />,
     },
     {
       label: 'perspective={false} — size and fade, no tilt',
-      content: <FlatWheel />,
+      content: <NoTiltExample />,
     },
     {
       label: 'disabled — the whole wheel is frozen',
-      content: <LockedWheel />,
+      content: <LockedExample />,
     },
     {
       label: 'inside a Card, named for screen readers',
-      content: <InCard />,
+      content: <InCardExample />,
     },
     {
       label: "variant='spotlight' — no band, the sharp row is the pick",
-      content: <PortfolioWheel />,
+      content: <PortfolioExample />,
     },
   ];
   return <VariantList variants={variants} />;

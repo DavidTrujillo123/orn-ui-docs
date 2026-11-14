@@ -1,53 +1,74 @@
 import React, { useState } from 'react';
-import { ReorderableList, Card, Body, Caption } from 'orn-ui';
+import { Body, Caption, Card, ReorderableList, useColors } from 'orn-ui';
 import { VariantList, type VariantDef } from './VariantList';
 
-const INITIAL = Array.from({ length: 5 }, (_, i) => ({ id: String(i), name: `Item ${i + 1}` }));
-const ITEM_HEIGHT = 56;
+interface Task {
+  id: string;
+  title: string;
+}
 
-function Row({ name, dragging }: { name: string; dragging: boolean }) {
+const TASKS: Task[] = [
+  { id: '1', title: 'Design review' },
+  { id: '2', title: 'Write tests' },
+  { id: '3', title: 'Ship release' },
+  { id: '4', title: 'Update docs' },
+];
+
+const ROW_HEIGHT = 60;
+
+function TaskRow({ task, dragging }: { task: Task; dragging: boolean }) {
+  const colors = useColors();
   return (
-    <Card style={{ marginBottom: 8, opacity: dragging ? 0.85 : 1 }}>
-      <Body>{name}</Body>
+    <Card
+      style={{
+        height: ROW_HEIGHT - 8,
+        marginBottom: 8,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 12,
+        // The row being dragged lifts off the list.
+        borderColor: dragging ? colors.primary : colors.border,
+      }}
+    >
+      <Caption style={{ color: colors.textLight, fontSize: 18 }}>⠿</Caption>
+      <Body style={{ flex: 1 }}>{task.title}</Body>
     </Card>
   );
 }
 
+function TaskListExample() {
+  const [tasks, setTasks] = useState(TASKS);
+  return (
+    <ReorderableList
+      data={tasks}
+      itemHeight={ROW_HEIGHT}
+      keyExtractor={(task) => task.id}
+      onReorder={setTasks}
+      renderItem={(task, _index, dragging) => <TaskRow task={task} dragging={dragging} />}
+    />
+  );
+}
+
+function LockedListExample() {
+  return (
+    <ReorderableList
+      data={TASKS}
+      itemHeight={ROW_HEIGHT}
+      keyExtractor={(task) => task.id}
+      onReorder={() => {}}
+      renderItem={(task) => <TaskRow task={task} dragging={false} />}
+      disabled
+    />
+  );
+}
+
 export function ReorderableListDemo() {
-  const [data, setData] = useState(INITIAL);
   // #region demo
   const variants: VariantDef[] = [
-    {
-      label: 'Long-press a row and drag — the rows in between shift out of the way',
-      content: (
-        <ReorderableList
-          data={data}
-          keyExtractor={(item) => item.id}
-          itemHeight={ITEM_HEIGHT}
-          onReorder={setData}
-          renderItem={(item, _index, dragging) => <Row name={item.name} dragging={dragging} />}
-        />
-      ),
-    },
-    {
-      label: 'disabled — rows render but can’t be dragged',
-      content: (
-        <ReorderableList
-          data={INITIAL}
-          keyExtractor={(item) => item.id}
-          itemHeight={ITEM_HEIGHT}
-          disabled
-          onReorder={() => {}}
-          renderItem={(item, _index, dragging) => <Row name={item.name} dragging={dragging} />}
-        />
-      ),
-    },
+    { label: 'drag any row — the rows in between shift together', content: <TaskListExample /> },
+    { label: 'disabled — the order is fixed', content: <LockedListExample /> },
   ];
-  return (
-    <>
-      <Caption style={{ marginBottom: 8 }}>Web preview doesn’t simulate touch drag — see the gif on this page.</Caption>
-      <VariantList variants={variants} />
-    </>
-  );
+  // `fill`: the demo has no vertical pager competing with the drag.
+  return <VariantList variants={variants} fill />;
   // #endregion demo
 }

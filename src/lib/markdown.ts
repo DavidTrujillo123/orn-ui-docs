@@ -99,7 +99,7 @@ export function buildTypographyMarkdown(members: any[]): string {
     '> ⚠️ Requires <UIProvider>: like every orn-ui component, these must',
     '> render inside a <UIProvider> ancestor. See https://orn-ui-docs.vercel.app/getting-started.md',
     '',
-    '> Runs on Expo SDK 54, 55, 56 and 57, and on bare React Native >=0.81',
+    '> Runs on Expo SDK 54, 55, 56, 57 and 58, and on bare React Native >=0.81',
     '> with react >=19.1. No native modules — works in Expo Go, no prebuild.',
     '',
     '## Installation',
@@ -183,6 +183,7 @@ const SUPPORTED_SDKS: Array<[string, string, string]> = [
   ['55', '0.83.10', '19.2.0'],
   ['56', '0.85.3', '19.2.3'],
   ['57', '0.86.2', '19.2.3'],
+  ['58', '0.88.1', '19.3.0'],
 ];
 
 // Markdown version of GettingStartedContent.astro.
@@ -192,7 +193,7 @@ export function buildGettingStartedMarkdown(): string {
     '',
     '## Compatibility',
     '',
-    'Verified on Expo SDK 54, 55, 56 and 57 — every one of them, not just the',
+    'Verified on Expo SDK 54, 55, 56, 57 and 58 — every one of them, not just the',
     "newest. Each SDK gets its own sandbox with that release's exact",
     'react-native and react, and both the type check and the full test suite',
     'run against it in CI. Bare React Native works the same way: nothing in',

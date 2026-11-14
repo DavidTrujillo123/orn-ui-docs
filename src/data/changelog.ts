@@ -55,6 +55,7 @@ export const CHANGE_KIND_ORDER: ChangeKind[] = ['breaking', 'added', 'fixed', 'c
 export const releases: Release[] = [
   {
     version: '0.3.0',
+    date: '2026-11-14',
     since: '0.2.10',
     summary: {
       en: 'Expo SDK 58 (React Native 0.88, React 19.3) is supported and verified, on top of 54–57. The safe area now works with no setup: `UIProvider` measures it itself, so `react-native-safe-area-context` becomes a required peer. Alongside it, a full accessibility and touch-target pass over the atoms, a richer Avatar, a Spinner logo slot and ten new built-in icons.',

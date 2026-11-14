@@ -19,8 +19,8 @@ importers:
         specifier: ~19.2.14
         version: 19.2.18
       orn-ui:
-        specifier: ^0.2.10
-        version: 0.2.10(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
+        specifier: ^0.3.0
+        version: 0.3.0(react-native-safe-area-context@5.11.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3))(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
       react:
         specifier: 19.2.3
         version: 19.2.3
@@ -1730,16 +1730,13 @@ packages:
     resolution: {integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==}
     engines: {node: '>=8'}
 
-  orn-ui@0.2.10:
-    resolution: {integrity: sha512-ueVaqbOt27bgeuNyuq3ufKDmIBvke/TulE1gUwWNYQFuPAXyyhBBZJVlobDYo4uHszFfJ4CpdRrXmUnSmIoGQg==}
+  orn-ui@0.3.0:
+    resolution: {integrity: sha512-7tqNXorps2t/dhaGk7gbyVI5We/jRhHWw9Psx5b9wAQckEL4PEC/0+57b84g7wIsgqR8hiDIR3Bx/3vDvxaqtw==}
     hasBin: true
     peerDependencies:
       react: '>=19.1.0'
       react-native: '>=0.81.0'
       react-native-safe-area-context: '>=5.4.0'
-    peerDependenciesMeta:
-      react-native-safe-area-context:
-        optional: true
 
   p-limit@7.3.1:
     resolution: {integrity: sha512-0trZaiG7Y7kN/Egy9a8j47t9osC0Tch4PaIWd9yGF6bvmlk7muExRvGNYb8sXBwEKMoNKsbNN9P8EefuQekE4Q==}
@@ -1823,6 +1820,12 @@ packages:
 
   react-is@18.3.1:
     resolution: {integrity: sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==}
+
+  react-native-safe-area-context@5.11.1:
+    resolution: {integrity: sha512-yCltXXwhwp42vMqfhAsH5BWgAysbLNgwfn3PDwNpOn/CgwfM+eMWgScZIbHbMzJYNLi5bKJEOIUEG4RwKNiECA==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   react-native@0.86.2:
     resolution: {integrity: sha512-zbJXGZpwfZGA79Z9ob6Atvfx4nAQL8yJBa35s58E4Oo+khPykfQP2sTeumkKbjwajFYfVayg8pj7Il9nIfTk7A==}
@@ -4037,10 +4040,11 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  orn-ui@0.2.10(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
+  orn-ui@0.3.0(react-native-safe-area-context@5.11.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3))(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
     dependencies:
       react: 19.2.3
       react-native: 0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3)
+      react-native-safe-area-context: 5.11.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
 
   p-limit@7.3.1:
     dependencies:
@@ -4114,6 +4118,11 @@ snapshots:
       typescript: 5.9.3
 
   react-is@18.3.1: {}
+
+  react-native-safe-area-context@5.11.1(react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3))(react@19.2.3):
+    dependencies:
+      react: 19.2.3
+      react-native: 0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3)
 
   react-native@0.86.2(@babel/core@7.29.7)(@types/react@19.2.18)(react@19.2.3):
     dependencies:

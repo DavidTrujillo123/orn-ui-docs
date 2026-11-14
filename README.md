@@ -14,7 +14,7 @@ This repo is separate from the `orn-ui` monorepo on purpose (independent
 release cycle, independent deploy) and depends on the **published package**:
 
 ```json
-"orn-ui": "^0.2.8"
+"orn-ui": "^0.3.0"
 ```
 
 Everything the docs need is read out of `node_modules/orn-ui`: the props

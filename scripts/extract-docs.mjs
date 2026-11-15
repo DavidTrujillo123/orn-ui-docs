@@ -544,8 +544,20 @@ function findTopLevelEnd(source, start) {
  * It's filtered by the component's own opening JSX tag; if no variant
  * matches (the demo uses an import alias, e.g. `OrnAlert`), the unfiltered
  * list is returned instead of emptying it.
+ *
+ * A demo used by a single page isn't filtered: its variants are all its own,
+ * even the ones that call a hook or a function instead of rendering the tag
+ * (Toast: `useToast().show()`, `showToast()` — the filter kept only the static
+ * variant and the page lost three of four, 2026-11-15).
  */
-function filterVariantsForComponent(variants, componentName) {
+const DEMO_FILE_PAGES = COMPONENTS.reduce((count, [name, , , override]) => {
+  const file = override ?? name;
+  count.set(file, (count.get(file) ?? 0) + 1);
+  return count;
+}, new Map());
+
+function filterVariantsForComponent(variants, componentName, demoFile) {
+  if ((DEMO_FILE_PAGES.get(demoFile) ?? 0) < 2) return variants;
   const tag = new RegExp(`<${componentName}(?=[\\s/>])`);
   const own = variants.filter((v) => tag.test(v.code));
   return own.length > 0 ? own : variants;
@@ -720,7 +732,7 @@ function extractVariants(componentName, demoFileOverride) {
 
   return {
     snippet,
-    variants: filterVariantsForComponent(variants, componentName),
+    variants: filterVariantsForComponent(variants, componentName, demoFileOverride ?? componentName),
     // Not filtered by component: group pages (/typography) use it to show
     // all of the file's siblings together.
     groupVariants: variants,
